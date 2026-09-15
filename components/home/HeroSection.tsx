@@ -6,14 +6,14 @@ import { Compass, Sparkles, ArrowRight, MapPin, Award, Map, Heart } from 'lucide
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-6 pb-14 lg:pt-10 lg:pb-20 bg-gradient-to-b from-dopaper-100 via-dopaper-50 to-dopaper-100">
+    <section className="relative overflow-hidden pt-4 pb-12 lg:pt-6 lg:pb-16 bg-gradient-to-b from-dopaper-100 via-dopaper-50 to-dopaper-100">
       {/* Background traditional wave & cloud motifs */}
-      <div className="absolute inset-0 pointer-events-none opacity-40 bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:20px_20px]" />
+      <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:20px_20px]" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Top Header Badge */}
-        <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-2">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-terracotta-200 text-xs sm:text-sm text-terracotta-800 font-semibold shadow-sm">
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-terracotta-200 text-xs sm:text-sm text-terracotta-800 font-semibold shadow-sm">
             <span className="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse" />
             <span>Nền tảng Di sản Văn hóa & Du lịch Số Thủ Đô</span>
           </div>
@@ -23,66 +23,64 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* MAIN SHOWPIECE: Lang Thang Illustrated Banner with Embedded Slogan */}
+        {/* MAIN SHOWPIECE: Lang Thang Illustrated Banner (Completely Unobscured Artwork) */}
         <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-terracotta-300/80 bg-white group">
           {/* Main Illustration Image */}
           <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-dopaper-200">
             <img
               src="/images/lang-thang-banner.png"
               alt="Lang Thang Làng Nghề Hà Nội - Ghé một ngôi làng, theo chân văn hóa, mở ngàn điều hay"
-              className="w-full h-full object-cover object-center group-hover:scale-[1.01] transition-transform duration-700"
+              className="w-full h-full object-cover object-center group-hover:scale-[1.008] transition-transform duration-700"
             />
 
-            {/* Subtle gradient vignette at bottom to enhance overlay readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-            {/* FLOATING SLOGAN OVERLAY (Inside the Artwork) */}
-            <div className="absolute bottom-4 left-4 right-4 sm:bottom-8 sm:left-8 sm:right-auto max-w-2xl">
-              <div className="bg-white/95 backdrop-blur-md p-4 sm:p-6 rounded-2xl sm:rounded-3xl border-2 border-terracotta-300 shadow-2xl space-y-2 animate-fadeIn">
-                <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-terracotta-500 text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider shadow-sm">
-                    Thông điệp di sản
-                  </span>
-                  <span className="text-[11px] font-semibold text-terracotta-700 hidden sm:inline">
-                    • Dự án Làng Nghề Hà Nội
-                  </span>
-                </div>
-
-                {/* The Requested Slogan */}
-                <h2 className="font-serif text-xl sm:text-2xl md:text-3xl font-extrabold text-lacquer-900 tracking-tight leading-tight">
-                  <span className="text-terracotta-600">Lang Thang</span> ghé một ngôi làng
+            {/* MINIMALIST POETIC SLOGAN BADGE (Tucked in bottom-right corner, non-intrusive) */}
+            <div className="absolute bottom-3 right-3 sm:bottom-5 sm:right-6 z-20 pointer-events-auto max-w-xs sm:max-w-md">
+              <div className="bg-black/50 hover:bg-black/60 backdrop-blur-md px-3.5 py-2 sm:px-5 sm:py-3 rounded-2xl border border-white/25 shadow-xl text-right transition-all">
+                <p className="font-serif text-xs sm:text-sm md:text-base font-bold text-white tracking-wide leading-snug drop-shadow">
+                  “Lang Thang ghé một ngôi làng
                   <br />
-                  <span className="text-emerald-700 italic">Theo chân văn hóa</span>, mở ngàn điều hay
-                </h2>
-
-                <p className="text-xs sm:text-sm text-lacquer-800/80 line-clamp-2 leading-relaxed font-medium">
-                  Cùng chàng lữ khách trẻ rong ruổi qua những nếp nhà cổ, dòng sông quê và lắng nghe câu chuyện nghìn năm đúc kết trong từng nhịp búa, đường thoi, thớ đất làng nghề.
+                  <span className="text-gold-300 font-normal italic">
+                    Theo chân văn hóa, mở ngàn điều hay”
+                  </span>
                 </p>
-
-                {/* Quick Action CTA inside the banner */}
-                <div className="pt-2 flex items-center gap-3">
-                  <Link
-                    href="/lang-nghe"
-                    className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold shadow-md shadow-terracotta-500/20 transition-all hover:translate-x-0.5"
-                  >
-                    <span>Khám phá 327 làng nghề</span>
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
-                  <Link
-                    href="/ban-do"
-                    className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl bg-dopaper-100 hover:bg-dopaper-200 text-lacquer-900 text-xs sm:text-sm font-bold border border-terracotta-200 transition-colors"
-                  >
-                    <Map className="w-3.5 h-3.5 text-terracotta-600" />
-                    <span>Bản đồ ranh giới</span>
-                  </Link>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
+        {/* Action Button Row below the Artwork */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
+          <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <Link
+              href="/lang-nghe"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-terracotta-500/25 hover:-translate-y-0.5 transition-all"
+            >
+              <span>Khám phá 327 làng nghề</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/ban-do"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-terracotta-50 text-lacquer-900 text-xs sm:text-sm font-bold border border-terracotta-200 shadow-sm transition-all"
+            >
+              <Map className="w-4 h-4 text-terracotta-600" />
+              <span>Bản đồ ranh giới</span>
+            </Link>
+            <Link
+              href="/trai-nghiem"
+              className="hidden md:inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gold-400/20 hover:bg-gold-400/30 text-lacquer-900 text-xs sm:text-sm font-bold border border-gold-300 shadow-sm transition-all"
+            >
+              <Sparkles className="w-4 h-4 text-gold-600" />
+              <span>Trải nghiệm làm nghề</span>
+            </Link>
+          </div>
+
+          <div className="text-xs text-lacquer-800/70 italic font-medium hidden sm:block text-right">
+            Hành trình kết nối văn hóa & du lịch số thủ đô Hà Nội
+          </div>
+        </div>
+
         {/* Bottom Feature Columns & Quick Navigation Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
           {/* Card 1: Bản đồ phân vùng */}
           <Link
             href="/lang-nghe"
