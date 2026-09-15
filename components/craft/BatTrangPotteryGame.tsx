@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Sparkles, Flame, Volume2, VolumeX, RotateCcw, Download, Plus, Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Sparkles, Flame, Volume2, VolumeX, RotateCcw, Download, Plus, Check, ArrowRight, ArrowLeft, Zap } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 interface Preset {
@@ -34,14 +34,14 @@ const MOTIFS = [
 ];
 
 const GLAZES = [
-  { key: 'trang', label: 'Men trắng', hex: '#F4EFE4' },
-  { key: 'xanh',  label: 'Men xanh',  hex: '#5D7C68' },
-  { key: 'nau',   label: 'Men nâu',   hex: '#7A4B2A' },
-  { key: 'vang',  label: 'Men vàng',  hex: '#C79A46' },
-  { key: 'ngoc',  label: 'Men ngọc', hex: '#3E8E7E' },
-  { key: 'lam',   label: 'Men lam',   hex: '#33455E' },
-  { key: 'do',    label: 'Men đỏ đất', hex: '#9A4B36' },
-  { key: 'den',   label: 'Men đen',   hex: '#2B2620' }
+  { key: 'lam',   label: 'Men lam Bát Tràng', hex: '#33455E' },
+  { key: 'ngoc',  label: 'Men xanh ngọc (Celadon)', hex: '#3E8E7E' },
+  { key: 'trang', label: 'Men trắng ngà',     hex: '#F4EFE4' },
+  { key: 'xanh',  label: 'Men rêu cổ',        hex: '#5D7C68' },
+  { key: 'nau',   label: 'Men nâu da lươn',   hex: '#7A4B2A' },
+  { key: 'vang',  label: 'Men hoàng thổ',     hex: '#C79A46' },
+  { key: 'do',    label: 'Men đỏ chu sa',     hex: '#9A4B36' },
+  { key: 'den',   label: 'Men đen tuyền',     hex: '#2B2620' }
 ];
 
 const TIPS: Record<number, string> = {
@@ -52,17 +52,27 @@ const TIPS: Record<number, string> = {
   5: '💡 Bạn có biết? Gốm Bát Tràng được nung đạt mức nhiệt từ 1.200°C đến 1.300°C. Ngọn lửa làm đất sét chuyển hóa thành gốm sứ cứng chắc như chuông.'
 };
 
-const STEP_LABELS = ['THẤU ĐẤT', 'CHUỐT GỐM', 'TRANG TRÍ', 'TRÁNG MEN', 'NUNG'];
+const STEP_LABELS = ['1. THẤU ĐẤT', '2. CHUỐT GỐM', '3. TRANG TRÍ', '4. TRÁNG MEN', '5. NUNG LÒ'];
 
 const POT_W = 380;
 const POT_H = 460;
 
+// Safe canvas round rectangle function that works across all browsers
+function safeRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
 export default function BatTrangPotteryGame() {
-  // Game Navigation State
-  const [currentStep, setCurrentStep] = useState<number>(0); // 0: Intro, 1-5: Steps, 6: Result
-  const [unlockedStep, setUnlockedStep] = useState<number>(1);
+  // Game Navigation: Start directly at step 1 for immediate playability!
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [soundOn, setSoundOn] = useState<boolean>(true);
-  const [startTime, setStartTime] = useState<number | null>(null);
+  const [startTime] = useState<number>(Date.now());
 
   // Step 1: Kneading
   const [kneadProgress, setKneadProgress] = useState<number>(0);
@@ -73,8 +83,7 @@ export default function BatTrangPotteryGame() {
     height: 100,
     hOff: [0, 0, 0, 0, 0, 0]
   });
-  const [selectedPreset, setSelectedPreset] = useState<string | null>(null);
-  const [shapeTouched, setShapeTouched] = useState<boolean>(false);
+  const [selectedPreset, setSelectedPreset] = useState<string | null>('binh');
 
   // Step 3: Decoration
   const [patternTool, setPatternTool] = useState<'stamp' | 'draw'>('stamp');
@@ -85,17 +94,17 @@ export default function BatTrangPotteryGame() {
 
   // Step 4: Glazing
   const [glazeColorKey, setGlazeColorKey] = useState<string | null>('lam');
-  const [glazeIntensity, setGlazeIntensity] = useState<number>(0.55);
+  const [glazeIntensity, setGlazeIntensity] = useState<number>(0.6);
   const [glazeStrokes, setGlazeStrokes] = useState<{ x: number; y: number; r: number }[]>([]);
-  const [glazeFullCover, setGlazeFullCover] = useState<boolean>(false);
-  const [glazePct, setGlazePct] = useState<number>(0);
+  const [glazeFullCover, setGlazeFullCover] = useState<boolean>(true);
+  const [glazePct, setGlazePct] = useState<number>(100);
 
   // Step 5: Kiln Firing
   const [isFiringActive, setIsFiringActive] = useState<boolean>(false);
   const [doorClosed, setDoorClosed] = useState<boolean>(false);
   const [glowOn, setGlowOn] = useState<boolean>(false);
-  const [kilnTemp, setKilnTemp] = useState<number>(20);
-  const [kilnStatus, setKilnStatus] = useState<string>('Sẵn sàng đưa sản phẩm vào lò');
+  const [kilnTemp, setKilnTemp] = useState<number>(25);
+  const [kilnStatus, setKilnStatus] = useState<string>('Sẵn sàng đưa sản phẩm vào lò nung');
   const [fired, setFired] = useState<boolean>(false);
   const [tempGameActive, setTempGameActive] = useState<boolean>(false);
   const [tempRound, setTempRound] = useState<number>(0);
@@ -113,8 +122,6 @@ export default function BatTrangPotteryGame() {
 
   // Audio Context Ref
   const audioCtxRef = useRef<AudioContext | null>(null);
-  const humOscRef = useRef<OscillatorNode | null>(null);
-  const humGainRef = useRef<GainNode | null>(null);
 
   // Wheel animation
   const wheelAngleRef = useRef<number>(0);
@@ -126,24 +133,12 @@ export default function BatTrangPotteryGame() {
   const heightDragStartRef = useRef<{ y: number; h: number } | null>(null);
   const isKneadHoldingRef = useRef<boolean>(false);
   const kneadLastPosRef = useRef<{ x: number; y: number } | null>(null);
+  const kneadLoopIdRef = useRef<number | null>(null);
   const drawingStrokeRef = useRef<any>(null);
   const isGlazingPaintingRef = useRef<boolean>(false);
-  const tempGameRef = useRef<{
-    active: boolean;
-    round: number;
-    barW: number;
-    barX: number;
-    barY: number;
-    barH: number;
-    markerX: number;
-    dir: number;
-    zoneStart: number;
-    zoneW: number;
-    speed: number;
-    flash: number;
-    flashColor: string;
-    busy: boolean;
-  }>({
+
+  // Temp Game ref
+  const tempGameRef = useRef({
     active: false,
     round: 0,
     barW: 260,
@@ -162,7 +157,7 @@ export default function BatTrangPotteryGame() {
   const tempAnimIdRef = useRef<number | null>(null);
 
   // Sound generator
-  const playSound = useCallback((type: 'thud' | 'tick' | 'swish' | 'crackle' | 'chime' | 'humStart' | 'humStop') => {
+  const playSound = useCallback((type: 'thud' | 'tick' | 'swish' | 'crackle' | 'chime') => {
     if (!soundOn) return;
     try {
       if (!audioCtxRef.current) {
@@ -171,10 +166,12 @@ export default function BatTrangPotteryGame() {
       }
       const ctx = audioCtxRef.current;
       if (!ctx) return;
-      if (ctx.state === 'suspended') ctx.resume();
+      if (ctx.state === 'suspended') {
+        ctx.resume().catch(() => {});
+      }
 
       if (type === 'thud') {
-        const dur = 0.15;
+        const dur = 0.12;
         const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
         const data = buf.getChannelData(0);
         for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
@@ -184,7 +181,7 @@ export default function BatTrangPotteryGame() {
         filt.type = 'lowpass';
         filt.frequency.value = 350;
         const g = ctx.createGain();
-        g.gain.value = 0.15;
+        g.gain.value = 0.12;
         src.connect(filt);
         filt.connect(g);
         g.connect(ctx.destination);
@@ -201,7 +198,7 @@ export default function BatTrangPotteryGame() {
         o.start();
         o.stop(ctx.currentTime + 0.09);
       } else if (type === 'swish') {
-        const dur = 0.1;
+        const dur = 0.09;
         const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
         const data = buf.getChannelData(0);
         for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
@@ -217,7 +214,7 @@ export default function BatTrangPotteryGame() {
         g.connect(ctx.destination);
         src.start();
       } else if (type === 'crackle') {
-        const dur = 0.1;
+        const dur = 0.08;
         const buf = ctx.createBuffer(1, Math.floor(ctx.sampleRate * dur), ctx.sampleRate);
         const data = buf.getChannelData(0);
         for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1);
@@ -241,40 +238,16 @@ export default function BatTrangPotteryGame() {
             o.frequency.value = freq;
             const g = ctx.createGain();
             g.gain.setValueAtTime(0.06, ctx.currentTime);
-            g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+            g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
             o.connect(g);
             g.connect(ctx.destination);
             o.start();
-            o.stop(ctx.currentTime + 0.42);
-          }, idx * 110);
+            o.stop(ctx.currentTime + 0.38);
+          }, idx * 100);
         });
-      } else if (type === 'humStart') {
-        if (humOscRef.current) return;
-        humOscRef.current = ctx.createOscillator();
-        humOscRef.current.type = 'sine';
-        humOscRef.current.frequency.value = 75;
-        humGainRef.current = ctx.createGain();
-        humGainRef.current.gain.setValueAtTime(0.02, ctx.currentTime);
-        humOscRef.current.connect(humGainRef.current);
-        humGainRef.current.connect(ctx.destination);
-        humOscRef.current.start();
-      } else if (type === 'humStop') {
-        if (humOscRef.current && humGainRef.current) {
-          try {
-            humGainRef.current.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.2);
-            setTimeout(() => {
-              humOscRef.current?.stop();
-              humOscRef.current = null;
-              humGainRef.current = null;
-            }, 250);
-          } catch (e) {
-            humOscRef.current = null;
-            humGainRef.current = null;
-          }
-        }
       }
     } catch (e) {
-      // Audio autoplay policy fallback
+      // safe fallback
     }
   }, [soundOn]);
 
@@ -401,12 +374,12 @@ export default function BatTrangPotteryGame() {
     // Clay Body Gradient
     const bodyGrad = ctx.createLinearGradient(geom.cx - 120, 0, geom.cx + 120, 0);
     if (opts.firedState) {
-      bodyGrad.addColorStop(0, '#C98A5C');
+      bodyGrad.addColorStop(0, '#D49265');
       bodyGrad.addColorStop(0.5, '#B4744A');
       bodyGrad.addColorStop(1, '#8A5834');
     } else {
-      bodyGrad.addColorStop(0, '#E4D6B8');
-      bodyGrad.addColorStop(0.5, '#D2BE96');
+      bodyGrad.addColorStop(0, '#EAE0C8');
+      bodyGrad.addColorStop(0.5, '#D4C29E');
       bodyGrad.addColorStop(1, '#AD9770');
     }
     ctx.fillStyle = bodyGrad;
@@ -477,17 +450,17 @@ export default function BatTrangPotteryGame() {
     // Glossy sheen when fired
     if (opts.firedState) {
       const sheen = ctx.createLinearGradient(geom.cx - 100, geom.topY, geom.cx + 40, geom.baseY);
-      sheen.addColorStop(0, 'rgba(255,255,255,.45)');
-      sheen.addColorStop(0.25, 'rgba(255,255,255,.08)');
+      sheen.addColorStop(0, 'rgba(255,255,255,.5)');
+      sheen.addColorStop(0.25, 'rgba(255,255,255,.1)');
       sheen.addColorStop(1, 'rgba(0,0,0,.08)');
       ctx.fillStyle = sheen;
       ctx.fill(path);
     }
     ctx.restore(); // end clip
 
-    // Delicate outer contour
+    // Outer contour
     ctx.save();
-    ctx.strokeStyle = 'rgba(43,38,32,.2)';
+    ctx.strokeStyle = 'rgba(43,38,32,.25)';
     ctx.lineWidth = 1.5;
     ctx.stroke(path);
     ctx.restore();
@@ -512,9 +485,9 @@ export default function BatTrangPotteryGame() {
       geom.rightPts.forEach((p, i) => {
         ctx.beginPath();
         ctx.arc(p.x, p.y, 7, 0, Math.PI * 2);
-        ctx.fillStyle = (opts.dragIndex === i) ? '#33455E' : '#ffffff';
+        ctx.fillStyle = (opts.dragIndex === i) ? '#B4744A' : '#ffffff';
         ctx.strokeStyle = '#33455E';
-        ctx.lineWidth = 2;
+        ctx.lineWidth = 2.5;
         ctx.fill();
         ctx.stroke();
       });
@@ -529,7 +502,7 @@ export default function BatTrangPotteryGame() {
     if (!ctx) return;
 
     ctx.clearRect(0, 0, 300, 300);
-    const prog = progress / 100;
+    const prog = Math.min(1, progress / 100);
     const cx = 150;
     const cy = 155;
     const baseR = 88;
@@ -549,8 +522,8 @@ export default function BatTrangPotteryGame() {
     ctx.closePath();
 
     const grad = ctx.createRadialGradient(cx - 30, cy - 40, 10, cx, cy, 110);
-    grad.addColorStop(0, '#E4D6B8');
-    grad.addColorStop(0.6, '#C98A5C');
+    grad.addColorStop(0, '#EAE0C8');
+    grad.addColorStop(0.5, '#C98A5C');
     grad.addColorStop(1, '#8A5834');
     ctx.fillStyle = grad;
     ctx.fill();
@@ -561,35 +534,36 @@ export default function BatTrangPotteryGame() {
     if (isKneadHoldingRef.current) {
       ctx.beginPath();
       ctx.ellipse(cx, cy, baseR * 0.5, baseR * 0.32, 0.3, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255,255,255,.4)';
+      ctx.strokeStyle = 'rgba(255,255,255,.5)';
       ctx.lineWidth = 6;
       ctx.stroke();
     }
   }, []);
 
-  // Update pottery canvas whenever relevant state changes
+  // Update canvas whenever step or state changes
   useEffect(() => {
     if (currentStep === 1) {
       drawKneadBlob(kneadProgress);
     } else if (currentStep >= 2 && currentStep <= 5) {
       const canvas = potCanvasRef.current;
-      if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-      renderPottery(ctx, {
-        showWheel: currentStep === 2,
-        wheelAngle: wheelAngleRef.current,
-        showHandles: currentStep === 2,
-        dragIndex: dragIndexRef.current,
-        firedState: fired
-      });
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          renderPottery(ctx, {
+            showWheel: currentStep === 2,
+            wheelAngle: wheelAngleRef.current,
+            showHandles: currentStep === 2,
+            dragIndex: dragIndexRef.current,
+            firedState: fired
+          });
+        }
+      }
     }
   }, [currentStep, kneadProgress, renderPottery, fired, drawKneadBlob]);
 
   // Wheel spinning animation loop for Step 2
   useEffect(() => {
     if (currentStep === 2) {
-      playSound('humStart');
       const loop = () => {
         wheelAngleRef.current += 0.02;
         const canvas = potCanvasRef.current;
@@ -610,37 +584,49 @@ export default function BatTrangPotteryGame() {
       wheelAnimIdRef.current = requestAnimationFrame(loop);
       return () => {
         if (wheelAnimIdRef.current) cancelAnimationFrame(wheelAnimIdRef.current);
-        playSound('humStop');
       };
-    } else {
-      playSound('humStop');
     }
-  }, [currentStep, renderPottery, playSound]);
+  }, [currentStep, renderPottery]);
 
-  // Validation logic
-  const isStepValid = (step: number) => {
-    switch (step) {
-      case 1: return kneadProgress >= 100;
-      case 2: return shapeTouched;
-      case 3: return patternStrokes.length >= 1;
-      case 4: return glazeFullCover || glazePct >= 50;
-      case 5: return fired;
-      default: return true;
-    }
-  };
+  // Window global mouse/touch release listener to prevent stuck dragging
+  useEffect(() => {
+    const handleGlobalUp = () => {
+      isKneadHoldingRef.current = false;
+      if (kneadLoopIdRef.current) {
+        cancelAnimationFrame(kneadLoopIdRef.current);
+        kneadLoopIdRef.current = null;
+      }
+      dragIndexRef.current = -1;
+      handleDragStartRef.current = null;
+      heightDragStartRef.current = null;
+      drawingStrokeRef.current = null;
+      isGlazingPaintingRef.current = false;
+      if (currentStep === 1) drawKneadBlob(kneadProgress);
+    };
+    window.addEventListener('mouseup', handleGlobalUp);
+    window.addEventListener('touchend', handleGlobalUp);
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalUp);
+      window.removeEventListener('touchend', handleGlobalUp);
+    };
+  }, [currentStep, kneadProgress, drawKneadBlob]);
 
-  // Step 1: Kneading interactions
-  const handleKneadDown = () => {
+  // Step 1: Knead interactions
+  const startKneading = () => {
     isKneadHoldingRef.current = true;
     playSound('thud');
-    setKneadProgress(p => Math.min(100, p + 1.5));
-    drawKneadBlob(kneadProgress);
-  };
 
-  const handleKneadUp = () => {
-    isKneadHoldingRef.current = false;
-    kneadLastPosRef.current = null;
-    drawKneadBlob(kneadProgress);
+    const loop = () => {
+      if (isKneadHoldingRef.current) {
+        setKneadProgress(prev => {
+          const next = Math.min(100, prev + 1.2);
+          drawKneadBlob(next);
+          return next;
+        });
+        kneadLoopIdRef.current = requestAnimationFrame(loop);
+      }
+    };
+    kneadLoopIdRef.current = requestAnimationFrame(loop);
   };
 
   const handleKneadMove = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
@@ -652,8 +638,8 @@ export default function BatTrangPotteryGame() {
 
     if (kneadLastPosRef.current) {
       const d = Math.hypot(pos.x - kneadLastPosRef.current.x, pos.y - kneadLastPosRef.current.y);
-      setKneadProgress(p => {
-        const next = Math.min(100, p + d * 0.08);
+      setKneadProgress(prev => {
+        const next = Math.min(100, prev + d * 0.1);
         drawKneadBlob(next);
         return next;
       });
@@ -675,7 +661,7 @@ export default function BatTrangPotteryGame() {
     if (currentStep === 2) {
       const geom = computeGeom();
       let hit = -1;
-      let best = 20;
+      let best = 24;
       geom.rightPts.forEach((p, i) => {
         const d = Math.hypot(pos.x - p.x, pos.y - p.y);
         if (d < best) {
@@ -751,12 +737,10 @@ export default function BatTrangPotteryGame() {
           nextOff[dragIndexRef.current] = newOff;
           return { ...prev, r: nextR, hOff: nextOff };
         });
-        setShapeTouched(true);
       } else if (heightDragStartRef.current) {
         const dy = heightDragStartRef.current.y - pos.y;
         const nextH = Math.max(55, Math.min(135, heightDragStartRef.current.h + dy * 0.4));
         setShape(prev => ({ ...prev, height: nextH }));
-        setShapeTouched(true);
       }
     } else if (currentStep === 3) {
       if (drawingStrokeRef.current) {
@@ -768,27 +752,12 @@ export default function BatTrangPotteryGame() {
     }
   };
 
-  const handlePotCanvasUp = () => {
-    if (currentStep === 2) {
-      if (dragIndexRef.current >= 0 || heightDragStartRef.current) {
-        playSound('tick');
-      }
-      dragIndexRef.current = -1;
-      handleDragStartRef.current = null;
-      heightDragStartRef.current = null;
-    } else if (currentStep === 3) {
-      drawingStrokeRef.current = null;
-    } else if (currentStep === 4) {
-      isGlazingPaintingRef.current = false;
-    }
-  };
-
   const paintGlaze = (pos: { x: number; y: number }) => {
     const geom = computeGeom();
     if (!pointInsideShape(pos.x, pos.y, geom)) return;
     setGlazeStrokes(prev => [...prev, { x: pos.x, y: pos.y, r: 28 }]);
     if (Math.random() < 0.25) playSound('swish');
-    setGlazePct(prev => Math.min(100, prev + 3));
+    setGlazePct(prev => Math.min(100, prev + 4));
   };
 
   // Step 5: Kiln Temperature Minigame Logic
@@ -819,14 +788,34 @@ export default function BatTrangPotteryGame() {
     setTimeout(() => {
       setDoorClosed(true);
       setKilnStatus('Đóng cửa lò, bắt đầu nhóm lửa...');
-    }, 900);
+    }, 700);
 
     setTimeout(() => {
       setGlowOn(true);
       setKilnStatus('Canh nhiệt độ chuẩn để giữ lửa đều tay!');
       setTempGameActive(true);
       initTempGameRound(0);
-    }, 1800);
+    }, 1400);
+  };
+
+  const quickFinishFiring = () => {
+    setIsFiringActive(true);
+    setDoorClosed(true);
+    setGlowOn(true);
+    setKilnTemp(1200);
+    setKilnStatus('Nung thành công 1.200°C!');
+    setTempGameActive(false);
+
+    setTimeout(() => {
+      setFired(true);
+      setGlowOn(false);
+      setDoorClosed(false);
+      setKilnStatus('Gốm đã nguội — sẵn sàng chiêm ngưỡng!');
+      playSound('chime');
+      try {
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+      } catch (e) {}
+    }, 800);
   };
 
   const initTempGameRound = (roundIdx: number) => {
@@ -865,12 +854,11 @@ export default function BatTrangPotteryGame() {
           }
           if (g.flash > 0) g.flash -= 0.05;
 
-          // Render Temp Bar
+          // Render Temp Bar safely
           ctx.clearRect(0, 0, 280, 64);
 
           // Bar Background
-          ctx.beginPath();
-          ctx.roundRect(g.barX, g.barY, g.barW, g.barH, 8);
+          safeRoundRect(ctx, g.barX, g.barY, g.barW, g.barH, 8);
           ctx.fillStyle = '#D8CEB2';
           ctx.fill();
           ctx.strokeStyle = 'rgba(43,38,32,.2)';
@@ -878,8 +866,7 @@ export default function BatTrangPotteryGame() {
           ctx.stroke();
 
           // Golden Zone
-          ctx.beginPath();
-          ctx.roundRect(g.zoneStart, g.barY, g.zoneW, g.barH, 6);
+          safeRoundRect(ctx, g.zoneStart, g.barY, g.zoneW, g.barH, 6);
           ctx.fillStyle = '#F2C94C';
           ctx.fill();
           ctx.strokeStyle = 'rgba(199,154,70,.8)';
@@ -945,12 +932,12 @@ export default function BatTrangPotteryGame() {
           try {
             confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
           } catch (e) {}
-        }, 1200);
+        }, 1000);
       } else {
         setTimeout(() => {
           initTempGameRound(nextRound);
           setKilnStatus('Canh nhiệt chuẩn để giữ lửa đều tay!');
-        }, 600);
+        }, 500);
       }
     } else {
       g.flash = 0.4;
@@ -985,48 +972,50 @@ export default function BatTrangPotteryGame() {
 
   const handleFullReset = () => {
     setCurrentStep(1);
-    setUnlockedStep(1);
     setKneadProgress(0);
     setShape({
       r: { base: 40, lower: 66, bulge: 88, upper: 70, neck: 52, mouth: 58 },
       height: 100,
       hOff: [0, 0, 0, 0, 0, 0]
     });
-    setSelectedPreset(null);
-    setShapeTouched(false);
+    setSelectedPreset('binh');
     setPatternStrokes([]);
     setGlazeStrokes([]);
-    setGlazeFullCover(false);
-    setGlazePct(0);
+    setGlazeFullCover(true);
+    setGlazePct(100);
     setGlazeColorKey('lam');
     setFired(false);
     setIsFiringActive(false);
     setDoorClosed(false);
     setGlowOn(false);
-    setKilnTemp(20);
-    setKilnStatus('Sẵn sàng đưa sản phẩm vào lò');
-    setStartTime(Date.now());
+    setKilnTemp(25);
+    setKilnStatus('Sẵn sàng đưa sản phẩm vào lò nung');
   };
 
   const nextStep = () => {
+    if (currentStep === 1 && kneadProgress < 100) {
+      setKneadProgress(100);
+    }
     if (currentStep === 5) {
-      setCurrentStep(6);
+      if (!fired) {
+        quickFinishFiring();
+        setTimeout(() => setCurrentStep(6), 1200);
+      } else {
+        setCurrentStep(6);
+      }
       return;
     }
-    const n = currentStep + 1;
-    setCurrentStep(n);
-    setUnlockedStep(prev => Math.max(prev, n));
+    setCurrentStep(prev => Math.min(6, prev + 1));
   };
 
   const prevStep = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      setCurrentStep(prev => prev - 1);
     }
   };
 
   // Crafting Duration
   const getCraftingDuration = () => {
-    if (!startTime) return '1 phút 30s';
     const totalSecs = Math.max(1, Math.round((Date.now() - startTime) / 1000));
     const mins = Math.floor(totalSecs / 60);
     const rem = totalSecs % 60;
@@ -1035,43 +1024,37 @@ export default function BatTrangPotteryGame() {
 
   return (
     <div className="w-full bg-[#F4EEDF] text-[#2B2620] rounded-3xl border-2 border-[#E4D9BE] shadow-2xl overflow-hidden font-sans relative">
-      {/* Top Header Bar */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-3.5 bg-white border-b border-[#E4D9BE]">
+      {/* Top Header Bar with Clickable Steps */}
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3.5 bg-white border-b border-[#E4D9BE]">
         <div className="flex items-center gap-2">
           <span className="font-serif font-black text-sm sm:text-base text-[#33455E] tracking-tight">
             Xưởng Nghệ Nhân · <span className="text-[#B4744A]">Gốm Bát Tràng</span>
           </span>
         </div>
 
-        {/* Step Progress Dots */}
-        {currentStep >= 1 && currentStep <= 5 && (
-          <div className="hidden sm:flex items-center gap-1">
-            {STEP_LABELS.map((label, idx) => {
-              const stepNum = idx + 1;
-              const isActive = currentStep === stepNum;
-              const isDone = currentStep > stepNum;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => stepNum <= unlockedStep && setCurrentStep(stepNum)}
-                  disabled={stepNum > unlockedStep}
-                  className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
-                    isActive
-                      ? 'bg-[#33455E] text-white shadow'
-                      : isDone
-                      ? 'bg-[#5D7C68] text-white'
-                      : 'bg-[#E9E0C9] text-[#8A7F6C] cursor-not-allowed'
-                  }`}
-                >
-                  <span className="w-4 h-4 rounded-full bg-white/25 flex items-center justify-center text-[10px]">
-                    {stepNum}
-                  </span>
-                  <span>{label}</span>
-                </button>
-              );
-            })}
-          </div>
-        )}
+        {/* Step Progress Buttons - Freely clickable anytime! */}
+        <div className="flex flex-wrap items-center gap-1">
+          {STEP_LABELS.map((label, idx) => {
+            const stepNum = idx + 1;
+            const isActive = currentStep === stepNum;
+            const isDone = currentStep > stepNum;
+            return (
+              <button
+                key={idx}
+                onClick={() => setCurrentStep(stepNum)}
+                className={`flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-xs font-bold transition-all ${
+                  isActive
+                    ? 'bg-[#33455E] text-white shadow'
+                    : isDone
+                    ? 'bg-[#5D7C68] text-white hover:opacity-90'
+                    : 'bg-[#EAE0C8] text-[#5A5348] hover:bg-[#d8ceb2]'
+                }`}
+              >
+                <span>{label}</span>
+              </button>
+            );
+          })}
+        </div>
 
         {/* Sound Toggle */}
         <button
@@ -1083,56 +1066,12 @@ export default function BatTrangPotteryGame() {
         </button>
       </div>
 
-      {/* SCREEN 0: INTRO */}
-      {currentStep === 0 && (
-        <div className="p-8 sm:p-14 text-center max-w-2xl mx-auto space-y-6">
-          <div className="w-24 h-24 mx-auto rounded-full bg-gradient-to-tr from-[#B4744A] via-[#D9A67C] to-[#8A5834] flex items-center justify-center shadow-xl animate-spin [animation-duration:8s]">
-            <div className="w-10 h-10 rounded-full bg-[#F4EEDF]" />
-          </div>
-
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#B4744A]/15 text-[#8A5834] text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Mini Game Trải Nghiệm Làng Nghề</span>
-          </div>
-
-          <h2 className="font-serif text-3xl sm:text-5xl font-bold text-[#2B2620] leading-tight">
-            Tự tay nặn nên <span className="text-[#33455E]">gốm Bát Tràng</span> của riêng bạn
-          </h2>
-
-          <p className="text-sm sm:text-base text-[#5A5348] leading-relaxed">
-            Không có khuôn mẫu, không có sản phẩm định sẵn. Bạn tự chọn đất, vuốt hình trên bàn xoay,
-            vẽ hoa văn phong thủy, phủ lớp men cổ và canh nhiệt lò nung 1.200°C.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-            {STEP_LABELS.map((lbl, idx) => (
-              <span key={idx} className="text-xs font-semibold px-3 py-1 bg-white border border-[#E4D9BE] rounded-full text-[#8A5834]">
-                {idx + 1}. {lbl}
-              </span>
-            ))}
-          </div>
-
-          <div className="pt-4">
-            <button
-              onClick={() => {
-                setStartTime(Date.now());
-                setCurrentStep(1);
-              }}
-              className="px-8 py-4 rounded-full bg-[#33455E] hover:bg-[#5B7599] text-white font-bold text-base shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-2 mx-auto"
-            >
-              <span>Bắt đầu nặn gốm ngay</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* SCREEN 1-5: MAIN WORKSHOP STAGE */}
+      {/* STEPS 1-5: WORKSHOP STAGE */}
       {currentStep >= 1 && currentStep <= 5 && (
-        <div className="flex flex-col lg:flex-row min-h-[580px]">
+        <div className="flex flex-col lg:flex-row min-h-[560px]">
           {/* Stage Area: Interactive Canvas */}
           <div className="flex-1 p-6 flex flex-col items-center justify-center relative bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:24px_24px]">
-            <div className="bg-white p-4 rounded-3xl border border-[#ECE2C8] shadow-xl flex flex-col items-center gap-3">
+            <div className="bg-white p-4 sm:p-5 rounded-3xl border border-[#ECE2C8] shadow-xl flex flex-col items-center gap-3">
               {/* Step 1: Kneading Canvas */}
               {currentStep === 1 && (
                 <div className="flex flex-col items-center gap-3">
@@ -1140,15 +1079,13 @@ export default function BatTrangPotteryGame() {
                     ref={kneadCanvasRef}
                     width={300}
                     height={300}
-                    onMouseDown={handleKneadDown}
-                    onMouseUp={handleKneadUp}
+                    onMouseDown={startKneading}
                     onMouseMove={handleKneadMove}
-                    onTouchStart={handleKneadDown}
-                    onTouchEnd={handleKneadUp}
+                    onTouchStart={startKneading}
                     onTouchMove={handleKneadMove}
-                    className="cursor-grab active:cursor-grabbing rounded-2xl touch-none bg-gradient-to-b from-[#EFE6D2] to-[#E4D6B8]"
+                    className="cursor-grab active:cursor-grabbing rounded-2xl touch-none bg-gradient-to-b from-[#EFE6D2] to-[#E4D6B8] border border-stone-200 shadow-inner"
                   />
-                  <div className="w-full max-w-xs space-y-1">
+                  <div className="w-full max-w-xs space-y-1.5">
                     <div className="flex justify-between text-xs font-bold text-[#8A7F6C]">
                       <span>Độ dẻo mịn của đất</span>
                       <span>{Math.floor(kneadProgress)}%</span>
@@ -1160,6 +1097,17 @@ export default function BatTrangPotteryGame() {
                       />
                     </div>
                   </div>
+                  <button
+                    onClick={() => {
+                      setKneadProgress(100);
+                      drawKneadBlob(100);
+                      playSound('chime');
+                    }}
+                    className="text-xs font-bold text-[#33455E] hover:underline flex items-center gap-1 mt-1"
+                  >
+                    <Zap className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Nhào nhanh đạt 100% độ dẻo</span>
+                  </button>
                 </div>
               )}
 
@@ -1172,11 +1120,9 @@ export default function BatTrangPotteryGame() {
                     height={POT_H}
                     onMouseDown={handlePotCanvasDown}
                     onMouseMove={handlePotCanvasMove}
-                    onMouseUp={handlePotCanvasUp}
                     onTouchStart={handlePotCanvasDown}
                     onTouchMove={handlePotCanvasMove}
-                    onTouchEnd={handlePotCanvasUp}
-                    className="rounded-2xl touch-none bg-white"
+                    className="rounded-2xl touch-none bg-white max-w-full"
                   />
                 </div>
               )}
@@ -1188,7 +1134,7 @@ export default function BatTrangPotteryGame() {
                     {/* Glowing Heat Background */}
                     <div
                       className={`absolute inset-0 bg-gradient-to-t from-[#d8480c] via-[#ffb15c] to-transparent transition-opacity duration-700 ${
-                        glowOn ? 'opacity-85 animate-pulse' : 'opacity-0'
+                        glowOn ? 'opacity-90 animate-pulse' : 'opacity-0'
                       }`}
                     />
 
@@ -1244,11 +1190,11 @@ export default function BatTrangPotteryGame() {
 
               {/* Step Instruction Hint */}
               <p className="text-xs text-[#8A7F6C] text-center max-w-sm">
-                {currentStep === 1 && 'Giữ chuột (hoặc chạm) và xoay tròn trên khối đất sét để nhào cho đến khi đạt 100% độ dẻo.'}
-                {currentStep === 2 && 'Kéo các chấm tròn trên mép gốm theo mọi hướng: kéo ngang để phình/thu, kéo dọc để nâng/hạ cổ hoặc eo bình.'}
-                {currentStep === 3 && (patternTool === 'stamp' ? 'Chọn họa tiết rồi chạm lên thân gốm để dán.' : 'Vẽ tự do bằng bút lông men lam lên cốt gốm mộc.')}
-                {currentStep === 4 && 'Chọn màu men bên phải rồi rê cọ lên thân gốm để tráng men.'}
-                {currentStep === 5 && !isFiringActive && 'Đưa gốm vào lò nung truyền thống và giữ lửa đạt chuẩn 1.200°C.'}
+                {currentStep === 1 && 'Nhấn giữ chuột hoặc chạm xoay trên khối đất sét để nhào dẻo mịn.'}
+                {currentStep === 2 && 'Kéo các chấm tròn trên thân gốm để chỉnh dáng, hoặc chọn mẫu bình bên phải.'}
+                {currentStep === 3 && (patternTool === 'stamp' ? 'Chọn họa tiết rồi chạm lên thân gốm để dán.' : 'Vẽ cọ tự do bằng men lam lên cốt gốm.')}
+                {currentStep === 4 && 'Chọn màu men bên phải rồi rê cọ hoặc bấm "Nhúng men nhanh".'}
+                {currentStep === 5 && !isFiringActive && 'Đưa gốm vào lò nung truyền thống và canh lửa đạt chuẩn 1.200°C.'}
               </p>
             </div>
           </div>
@@ -1262,9 +1208,20 @@ export default function BatTrangPotteryGame() {
                   <span className="text-xs font-bold text-[#B4744A] uppercase">Bước 1 · Thấu đất sét</span>
                   <h3 className="font-serif text-xl font-bold text-[#2B2620]">Nhào luyện đất</h3>
                   <p className="text-xs text-[#5A5348] leading-relaxed">
-                    Đất sét trắng cao lanh Bát Tràng được lấy từ phù sa sông Hồng. Thấu đất giúp bọt khí thoát ra ngoài,
-                    tạo khối đất mịn dẻo để sản phẩm không bị nứt vỡ khi vào lò nung.
+                    Đất sét trắng cao lanh Bát Tràng từ phù sa sông Hồng. Thấu đất giúp bọt khí thoát ra ngoài,
+                    tạo khối đất mịn dẻo để sản phẩm bền chắc không nứt vỡ khi vào lò nung.
                   </p>
+                  <button
+                    onClick={() => {
+                      setKneadProgress(100);
+                      drawKneadBlob(100);
+                      playSound('chime');
+                    }}
+                    className="w-full py-2.5 rounded-xl bg-[#5D7C68] text-white text-xs font-bold shadow flex items-center justify-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Hoàn thành nhào đất (100%)</span>
+                  </button>
                 </div>
               )}
 
@@ -1283,12 +1240,11 @@ export default function BatTrangPotteryGame() {
                           onClick={() => {
                             setShape({ r: { ...p.r }, height: p.height, hOff: [0, 0, 0, 0, 0, 0] });
                             setSelectedPreset(key);
-                            setShapeTouched(true);
                             playSound('tick');
                           }}
                           className={`p-2 rounded-xl text-xs font-bold border transition-all ${
                             selectedPreset === key
-                              ? 'bg-[#33455E] text-white border-[#33455E]'
+                              ? 'bg-[#33455E] text-white border-[#33455E] shadow'
                               : 'bg-[#F4EEDF] text-[#2B2620] border-[#E4D9BE] hover:border-[#33455E]'
                           }`}
                         >
@@ -1308,10 +1264,7 @@ export default function BatTrangPotteryGame() {
                       min={55}
                       max={135}
                       value={shape.height}
-                      onChange={(e) => {
-                        setShape(prev => ({ ...prev, height: parseFloat(e.target.value) }));
-                        setShapeTouched(true);
-                      }}
+                      onChange={(e) => setShape(prev => ({ ...prev, height: parseFloat(e.target.value) }))}
                       className="w-full accent-[#33455E]"
                     />
                   </div>
@@ -1319,13 +1272,13 @@ export default function BatTrangPotteryGame() {
                   <button
                     onClick={() => {
                       setShape({ r: { base: 40, lower: 66, bulge: 88, upper: 70, neck: 52, mouth: 58 }, height: 100, hOff: [0, 0, 0, 0, 0, 0] });
-                      setSelectedPreset(null);
+                      setSelectedPreset('binh');
                       playSound('tick');
                     }}
                     className="w-full py-2 rounded-xl bg-[#F4EEDF] hover:bg-[#EAE0C8] border border-[#E4D9BE] text-xs font-bold flex items-center justify-center gap-1.5"
                   >
                     <RotateCcw className="w-3.5 h-3.5" />
-                    <span>Đặt lại dáng gốm</span>
+                    <span>Đặt lại dáng chuẩn</span>
                   </button>
                 </div>
               )}
@@ -1341,7 +1294,7 @@ export default function BatTrangPotteryGame() {
                       onClick={() => setPatternTool('stamp')}
                       className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
                         patternTool === 'stamp'
-                          ? 'bg-[#5D7C68] text-white border-[#5D7C68]'
+                          ? 'bg-[#5D7C68] text-white border-[#5D7C68] shadow'
                           : 'bg-[#F4EEDF] border-[#E4D9BE]'
                       }`}
                     >
@@ -1351,7 +1304,7 @@ export default function BatTrangPotteryGame() {
                       onClick={() => setPatternTool('draw')}
                       className={`flex-1 py-2 rounded-xl text-xs font-bold border transition-all ${
                         patternTool === 'draw'
-                          ? 'bg-[#5D7C68] text-white border-[#5D7C68]'
+                          ? 'bg-[#5D7C68] text-white border-[#5D7C68] shadow'
                           : 'bg-[#F4EEDF] border-[#E4D9BE]'
                       }`}
                     >
@@ -1460,7 +1413,7 @@ export default function BatTrangPotteryGame() {
                     <input
                       type="range"
                       min={25}
-                      max={75}
+                      max={85}
                       value={Math.round(glazeIntensity * 100)}
                       onChange={(e) => setGlazeIntensity(parseInt(e.target.value, 10) / 100)}
                       className="w-full accent-[#33455E]"
@@ -1475,7 +1428,7 @@ export default function BatTrangPotteryGame() {
                     }}
                     className="w-full py-2.5 rounded-xl bg-[#5D7C68] hover:bg-[#4d6957] text-white text-xs font-bold shadow transition-all flex items-center justify-center gap-1.5"
                   >
-                    <span>🫗 Nhúng men nhanh (Phủ toàn bộ)</span>
+                    <span>🫗 Nhúng men nhanh (Phủ toàn bộ 100%)</span>
                   </button>
                 </div>
               )}
@@ -1486,19 +1439,29 @@ export default function BatTrangPotteryGame() {
                   <span className="text-xs font-bold text-[#B4744A] uppercase">Bước 5 · Hóa thân trong lửa</span>
                   <h3 className="font-serif text-xl font-bold text-[#2B2620]">Nung gốm 1.200°C</h3>
                   <p className="text-xs text-[#5A5348] leading-relaxed">
-                    Đưa sản phẩm vào lò và theo dõi sát màu lửa. Ở 1.200°C, các khoáng sét kết khối vĩnh cửu,
-                    men tan chảy tạo nên lớp áo bóng sâu thẳm.
+                    Đưa sản phẩm vào lò và giữ đều ngọn lửa. Ở 1.200°C, các khoáng sét kết khối vĩnh cửu,
+                    men tan chảy tạo nên cốt gốm đanh chắc như chuông.
                   </p>
 
-                  {!isFiringActive && (
-                    <button
-                      onClick={startFiring}
-                      className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#B4744A] to-[#8A5834] hover:opacity-95 text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2"
-                    >
-                      <Flame className="w-4 h-4 text-amber-300" />
-                      <span>Đưa gốm vào lò nung</span>
-                    </button>
-                  )}
+                  <div className="space-y-2 pt-1">
+                    {!isFiringActive ? (
+                      <button
+                        onClick={startFiring}
+                        className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#B4744A] to-[#8A5834] hover:opacity-95 text-white font-bold text-sm shadow-xl flex items-center justify-center gap-2"
+                      >
+                        <Flame className="w-4 h-4 text-amber-300" />
+                        <span>Đưa gốm vào lò nung</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={quickFinishFiring}
+                        className="w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5"
+                      >
+                        <Zap className="w-3.5 h-3.5" />
+                        <span>Nung nhanh đạt 1.200°C</span>
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
 
@@ -1521,8 +1484,7 @@ export default function BatTrangPotteryGame() {
 
               <button
                 onClick={nextStep}
-                disabled={!isStepValid(currentStep)}
-                className="px-6 py-2.5 rounded-xl bg-[#33455E] hover:bg-[#5B7599] text-white text-xs font-bold shadow disabled:bg-[#D8CEB2] disabled:text-[#9A9078] disabled:cursor-not-allowed flex items-center gap-1.5"
+                className="px-6 py-2.5 rounded-xl bg-[#33455E] hover:bg-[#5B7599] text-white text-xs font-bold shadow flex items-center gap-1.5"
               >
                 <span>{currentStep === 5 ? 'Xem tác phẩm →' : 'Tiếp tục →'}</span>
               </button>
@@ -1605,7 +1567,7 @@ export default function BatTrangPotteryGame() {
                 className="flex-1 py-3 px-4 rounded-xl bg-[#5D7C68] hover:bg-[#4b6654] text-white text-xs font-bold shadow flex items-center justify-center gap-1.5 transition-all"
               >
                 <Plus className="w-4 h-4" />
-                <span>Tạo sản phẩm mới</span>
+                <span>Nặn sản phẩm mới</span>
               </button>
             </div>
 

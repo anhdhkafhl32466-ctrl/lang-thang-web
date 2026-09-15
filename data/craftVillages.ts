@@ -80,10 +80,12 @@ export interface CraftVillage {
     title: string;
     description: string;
     icon?: string;
+    image?: string;
   }[];
   productCategoriesTable?: {
     category: string;
     features: string;
+    image?: string;
   }[];
 }
 
@@ -107,20 +109,52 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     heroImage: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1600&q=80',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Nghệ nhân tạo dáng gốm trên bàn xoay truyền thống'
+        url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Đôi bàn tay nghệ nhân Bát Tràng chuốt gốm mộc trên bàn xoay truyền thống'
       },
       {
-        url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Những chiếc bình gốm men lam Bát Tràng tinh xảo'
+        url: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Bảo tàng Gốm Bát Tràng (Trung tâm Tinh hoa Làng nghề Việt) với kiến trúc 7 cánh xoáy ốc khổng lồ'
       },
       {
-        url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Không gian phơi gốm mộc dưới nắng sớm ven sông Hồng'
+        url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Những chiếc bình gốm men lam và men rạn cổ truyền thời Lê tinh xảo'
       },
       {
-        url: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Bảo tàng Gốm Bát Tràng với kiến trúc xoáy ốc 7 cánh độc đáo'
+        url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Sân phơi hàng ngàn sản phẩm gốm mộc dưới nắng sớm ven triền đê sông Hồng'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Cổng Chợ Gốm Làng Cổ Bát Tràng - Không gian giao thương thủ công nhộn nhịp bốn mùa'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1584727638096-042c45049ebe?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Xưởng trải nghiệm nặn gốm - Du khách và bạn trẻ hào hứng tự tay tạo hình sản phẩm'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Lò Bầu Cổ Bát Tràng - Công trình lò nung thủ công cổ kính hơn 100 năm tuổi'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Bình hút tài lộc phong thủy đắp nổi mạ vàng kim 24K - Đỉnh cao nghệ thuật Bát Tràng'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Bộ ấm chén tử sa Bát Tràng dáng cổ thạch - Lưu giữ hương vị trà ngàn năm'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Nghệ nhân chạm khắc và tỉa gọt hoa văn rồng mây tinh xảo trên cốt gốm mộc'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Gốm sứ xây dựng & cảnh quan sân vườn - Thác nước phong thủy và chậu gốm đất đỏ'
+      },
+      {
+        url: 'https://images.unsplash.com/photo-1576020799627-aeac76d580dc?auto=format&fit=crop&w=1200&q=80',
+        caption: 'Bộ đồ thờ men lam vẽ rồng phượng cổ truyền - Không gian thờ cúng trang nghiêm'
       }
     ],
     history: {
@@ -158,35 +192,42 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         title: 'Kỹ thuật chế tác tinh xảo & Độ bền chắc bậc nhất',
         description: 'Từ thời xa xưa, người thợ Bát Tràng đã kết hợp xuất sắc các kỹ thuật chạm khắc, đắp nổi, vẽ tay và vẽ men lam. Sản phẩm gốm Bát Tràng có độ dày dặn bậc nhất, đảm bảo độ bền chắc, hạn chế nứt vỡ trong quá trình sử dụng.',
-        icon: 'sparkles'
+        icon: 'sparkles',
+        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
       },
       {
         title: 'Đa dạng dòng men cổ truyền thống quý hiếm',
         description: 'Làng nghề gìn giữ được nhiều loại men cổ có giá trị nghệ thuật cao: Men tro (dòng men cổ nhất từ tro trấu tự nhiên), Men lam, Men rạn, Men ngọc (celadon), và Men trắng ngà.',
-        icon: 'palette'
+        icon: 'palette',
+        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
       },
       {
         title: 'Hoa văn trang trí phong phú & Ý nghĩa phong thủy sâu sắc',
         description: 'Các hoa văn thường thấy trên gốm Bát Tràng gồm có rồng, phượng, tùng, trúc, cúc, mai, hoa sen, các điển tích cổ và họa tiết phong thủy (Thuận buồm xuôi gió, Bát mã truy phong...). Những họa tiết này mang đậm bản sắc văn hóa dân tộc và ý nghĩa về tài lộc, bình an.',
-        icon: 'shield'
+        icon: 'shield',
+        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80'
       }
     ],
     productCategoriesTable: [
       {
         category: 'Gốm sứ gia dụng',
-        features: 'Bao gồm ấm chén (tử sa, hỏa biến, men rạn, sứ trắng), bát đĩa, ly cốc các loại, chum đựng rượu. Sản phẩm an toàn, chất lượng cao, bền bỉ và đẹp mắt.'
+        features: 'Bao gồm ấm chén (tử sa, hỏa biến, men rạn, sứ trắng), bát đĩa, ly cốc các loại, chum đựng rượu. Sản phẩm an toàn, chất lượng cao, bền bỉ và đẹp mắt.',
+        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=600&q=80'
       },
       {
         category: 'Gốm sứ trang trí',
-        features: 'Gồm đĩa cảnh trưng bày, lọ hoa, lộc bình, bình hút lộc, mai bình, tượng gốm (tượng Phật, tượng thú, danh nhân). Thường được chế tác đắp nổi, dát vàng tinh xảo, dùng làm vật phẩm phong thủy.'
+        features: 'Gồm đĩa cảnh trưng bày, lọ hoa, lộc bình, bình hút lộc, mai bình, tượng gốm (tượng Phật, tượng thú, danh nhân). Thường được chế tác đắp nổi, dát vàng tinh xảo, dùng làm vật phẩm phong thủy.',
+        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80'
       },
       {
         category: 'Gốm sứ thờ cúng',
-        features: 'Bao gồm bát hương, chân nến, mâm bồng, lộc bình lớn. Ứng dụng nhiều dòng men truyền thống như men rạn, men lam để tạo vẻ đẹp trang nghiêm, cổ kính cho không gian phòng thờ.'
+        features: 'Bao gồm bát hương, chân nến, mâm bồng, lộc bình lớn. Ứng dụng nhiều dòng men truyền thống như men rạn, men lam để tạo vẻ đẹp trang nghiêm, cổ kính cho không gian phòng thờ.',
+        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'
       },
       {
-        category: 'Gốm sứ xây dựng',
-        features: 'Gồm chậu hoa gốm sứ kích thước lớn, thác nước phong thủy, các vật liệu gốm đất đỏ và sứ xương dùng trong trang trí kiến trúc và sân vườn.'
+        category: 'Gốm sứ xây dựng & cảnh quan',
+        features: 'Gồm chậu hoa gốm sứ kích thước lớn, thác nước phong thủy, các vật liệu gốm đất đỏ và sứ xương dùng trong trang trí kiến trúc và sân vườn.',
+        image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80'
       }
     ],
     process: [

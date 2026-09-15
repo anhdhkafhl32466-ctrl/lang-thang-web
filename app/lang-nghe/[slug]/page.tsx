@@ -248,24 +248,37 @@ export default function CraftVillageDetailPage() {
               {village.specialHighlights.map((hl, idx) => (
                 <div
                   key={idx}
-                  className="p-6 rounded-2xl bg-dopaper-50/80 border border-terracotta-200/90 hover:border-terracotta-400 transition-all space-y-3 shadow-sm hover:shadow-md"
+                  className="rounded-2xl bg-dopaper-50/80 border border-terracotta-200/90 overflow-hidden hover:border-terracotta-400 transition-all shadow-sm hover:shadow-md flex flex-col justify-between"
                 >
-                  <div className="w-10 h-10 rounded-xl bg-terracotta-100 text-terracotta-600 flex items-center justify-center font-bold text-lg font-serif">
-                    0{idx + 1}
+                  {hl.image && (
+                    <div className="aspect-[16/10] overflow-hidden bg-dopaper-200">
+                      <img
+                        src={hl.image}
+                        alt={hl.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  )}
+                  <div className="p-5 space-y-2 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="text-[11px] font-bold text-terracotta-600 uppercase mb-1">
+                        Đặc trưng 0{idx + 1}
+                      </div>
+                      <h3 className="font-serif text-lg font-bold text-lacquer-900 leading-snug">
+                        {hl.title}
+                      </h3>
+                    </div>
+                    <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed pt-2 border-t border-terracotta-100">
+                      {hl.description}
+                    </p>
                   </div>
-                  <h3 className="font-serif text-lg font-bold text-lacquer-900">
-                    {hl.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed">
-                    {hl.description}
-                  </p>
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        {/* 3.2 Bảng 4 dòng sản phẩm gốm sứ đặc trưng */}
+        {/* 3.2 Bảng 4 dòng sản phẩm gốm sứ đặc trưng kèm hình ảnh */}
         {village.productCategoriesTable && village.productCategoriesTable.length > 0 && (
           <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
             <div>
@@ -281,30 +294,32 @@ export default function CraftVillageDetailPage() {
               </p>
             </div>
 
-            <div className="overflow-x-auto rounded-2xl border border-terracotta-200">
-              <table className="w-full text-left text-xs sm:text-sm border-collapse">
-                <thead>
-                  <tr className="bg-terracotta-500 text-white font-serif">
-                    <th className="py-3.5 px-5 font-bold w-1/3">Dòng Sản Phẩm</th>
-                    <th className="py-3.5 px-5 font-bold w-2/3">Đặc Điểm & Ứng Dụng Nổi Bật</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-terracotta-100">
-                  {village.productCategoriesTable.map((row, idx) => (
-                    <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-dopaper-50/60'}>
-                      <td className="py-4 px-5 font-bold text-lacquer-950 align-top">
-                        <div className="flex items-center gap-2">
-                          <span className="w-2 h-2 rounded-full bg-terracotta-500 shrink-0" />
-                          <span>{row.category}</span>
-                        </div>
-                      </td>
-                      <td className="py-4 px-5 text-lacquer-800/85 leading-relaxed">
-                        {row.features}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {village.productCategoriesTable.map((row, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-2xl border border-terracotta-200 bg-dopaper-50/50 overflow-hidden flex flex-col justify-between hover:shadow-md transition-all"
+                >
+                  {row.image && (
+                    <div className="aspect-[4/3] overflow-hidden bg-dopaper-200">
+                      <img
+                        src={row.image}
+                        alt={row.category}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  )}
+                  <div className="p-4 flex-1 flex flex-col justify-between space-y-2">
+                    <h3 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-terracotta-500 shrink-0" />
+                      <span>{row.category}</span>
+                    </h3>
+                    <p className="text-xs text-lacquer-800/80 leading-relaxed">
+                      {row.features}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </section>
         )}
