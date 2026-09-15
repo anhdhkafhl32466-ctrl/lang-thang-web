@@ -23,20 +23,20 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* MAIN SHOWPIECE: Lang Thang Illustrated Banner (Completely Unobscured Artwork) */}
-        <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-terracotta-300/80 bg-white group">
-          {/* Main Illustration Image */}
-          <div className="relative aspect-[16/9] md:aspect-[21/9] w-full overflow-hidden bg-dopaper-200">
+        {/* MAIN SHOWPIECE: Lang Thang Illustrated Banner (Full artwork zoomed out, completely unobscured) */}
+        <div className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-2 border-terracotta-300/80 bg-white group">
+          {/* Main Illustration Image - Native 16:9 Aspect Ratio with Zero Cropping */}
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-dopaper-200">
             <img
               src="/images/lang-thang-banner.png"
               alt="Lang Thang Làng Nghề Hà Nội - Ghé một ngôi làng, theo chân văn hóa, mở ngàn điều hay"
-              className="w-full h-full object-cover object-center group-hover:scale-[1.008] transition-transform duration-700"
+              className="w-full h-full object-contain object-center"
             />
 
             {/* MINIMALIST POETIC SLOGAN BADGE (Tucked in bottom-right corner, non-intrusive) */}
-            <div className="absolute bottom-3 right-3 sm:bottom-5 sm:right-6 z-20 pointer-events-auto max-w-xs sm:max-w-md">
-              <div className="bg-black/50 hover:bg-black/60 backdrop-blur-md px-3.5 py-2 sm:px-5 sm:py-3 rounded-2xl border border-white/25 shadow-xl text-right transition-all">
-                <p className="font-serif text-xs sm:text-sm md:text-base font-bold text-white tracking-wide leading-snug drop-shadow">
+            <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-5 z-20 pointer-events-auto max-w-xs sm:max-w-sm">
+              <div className="bg-black/50 hover:bg-black/60 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-2xl border border-white/25 shadow-xl text-right transition-all">
+                <p className="font-serif text-[11px] sm:text-xs md:text-sm font-bold text-white tracking-wide leading-snug drop-shadow">
                   “Lang Thang ghé một ngôi làng
                   <br />
                   <span className="text-gold-300 font-normal italic">
@@ -49,7 +49,7 @@ export default function HeroSection() {
         </div>
 
         {/* Action Button Row below the Artwork */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-1">
           <div className="flex flex-wrap items-center gap-3 w-full sm:w-auto">
             <Link
               href="/lang-nghe"
