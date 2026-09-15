@@ -1,5 +1,5 @@
-# LÀNG NGHỀ HÀ NỘI (HANOI CRAFT VILLAGES PLATFORM)
-> **"Chạm vào truyền thống – Trải nghiệm tinh hoa"**
+# LANG THANG — LÀNG NGHỀ HÀ NỘI
+> **"Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay"**
 
 Nền tảng trải nghiệm văn hóa du lịch số và xúc tiến thương mại làng nghề truyền thống Hà Nội, kết nối 4 trụ cột cốt lõi:
 **Discover (Khám phá)** → **Experience (Trải nghiệm làm nghề ảo)** → **Connect (Kết nối tour & nghệ nhân)** → **Commerce (Thương mại điện tử tinh hoa)**.

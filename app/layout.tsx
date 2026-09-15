@@ -16,10 +16,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Làng Nghề Hà Nội | Chạm vào truyền thống – Trải nghiệm tinh hoa",
-  description: "Nền tảng du lịch trải nghiệm số và kết nối thương mại làng nghề truyền thống Hà Nội: Bát Tràng, Vạn Phúc, Phú Vinh, Chuông, Kiêu Kỵ, Đào Thục.",
-  keywords: ["Làng nghề Hà Nội", "Gốm Bát Tràng", "Lụa Vạn Phúc", "Nón Chuông", "Mây tre Phú Vinh", "Du lịch Hà Nội", "Trải nghiệm làng nghề", "Đồ thủ công mỹ nghệ"],
-  authors: [{ name: "Làng Nghề Hà Nội Team" }],
+  title: "Lang Thang — Làng Nghề Hà Nội | Ghé một ngôi làng, theo chân văn hóa, mở ngàn điều hay",
+  description: "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay. Nền tảng di sản số và bản đồ 327 làng nghề truyền thống Hà Nội.",
+  keywords: ["Lang Thang", "Làng nghề Hà Nội", "Gốm Bát Tràng", "Lụa Vạn Phúc", "Nón Chuông", "Mây tre Phú Vinh", "Du lịch Hà Nội", "Trải nghiệm làng nghề", "Đồ thủ công mỹ nghệ"],
+  authors: [{ name: "Lang Thang Team" }],
 };
 
 export default function RootLayout({

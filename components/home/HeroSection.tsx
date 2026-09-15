@@ -15,7 +15,7 @@ export default function HeroSection() {
         <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-terracotta-200 text-xs sm:text-sm text-terracotta-800 font-semibold shadow-sm">
             <span className="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse" />
-            <span>Nền tảng Di sản Văn hóa & Du lịch Số Thủ Đô</span>
+            <span>Lang Thang ghé một ngôi làng • Theo chân văn hóa, mở ngàn điều hay</span>
           </div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold-100 text-gold-900 text-xs font-bold border border-gold-300 shadow-sm">
             <Award className="w-3.5 h-3.5 text-gold-600" />
@@ -74,8 +74,8 @@ export default function HeroSection() {
             </Link>
           </div>
 
-          <div className="text-xs text-lacquer-800/70 italic font-medium hidden sm:block text-right">
-            Hành trình kết nối văn hóa & du lịch số thủ đô Hà Nội
+          <div className="text-xs sm:text-sm text-terracotta-700 italic font-medium hidden sm:block text-right">
+            “Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay”
           </div>
         </div>
 
