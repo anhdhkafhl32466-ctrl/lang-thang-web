@@ -72,6 +72,19 @@ export interface CraftVillage {
   openingHours: string;
   ticketPrice: string;
   tags: string[];
+  historicalQuote?: {
+    source: string;
+    quote: string;
+  };
+  specialHighlights?: {
+    title: string;
+    description: string;
+    icon?: string;
+  }[];
+  productCategoriesTable?: {
+    category: string;
+    features: string;
+  }[];
 }
 
 export const CRAFT_VILLAGES: CraftVillage[] = [
@@ -111,27 +124,71 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       }
     ],
     history: {
-      originPeriod: 'Thế kỷ XIV (Thời nhà Lý - Trần)',
-      founder: 'Dòng họ Hứa, Trần, Nguyễn, Lưu, Phạm từ Bồ Bát (Ninh Bình) di cư ra Thăng Long',
+      originPeriod: 'Khoảng thế kỷ XIV – XV',
+      founder: 'Các dòng họ làm gốm nổi tiếng từ làng Bồ Bát (Yên Mô, Ninh Bình) di cư sang từ thời vua Lý Thái Tổ dời đô ra Thăng Long',
       milestones: [
         {
+          period: 'Thế kỷ 10 - 11',
+          title: 'Khởi nguồn từ làng Bồ Bát (Ninh Bình) dời cư ra Thăng Long',
+          description: 'Từ thời vua Lý Thái Tổ dời đô ra Thăng Long, các dòng họ làm gốm nổi tiếng của làng Bồ Bát (Yên Mô, Ninh Bình) đã tìm đến vùng đất Bát Tràng (thuộc Gia Lâm, Hà Nội ngày nay) để lập nghiệp. Nơi đây có nguồn đất sét trắng dồi dào và nằm bên bờ sông Hồng thuận lợi giao thương, tạo điều kiện hoàn hảo để phát triển nghề gốm.'
+        },
+        {
           period: 'Thế kỷ 14 - 15',
-          title: 'Khởi dựng bên bến bãi sông Hồng',
-          description: 'Các nghệ nhân gốm xứ Ninh Bình chọn vùng gò đất sét trắng cao ráo ven sông Hồng lập lò nung phục vụ kinh thành Thăng Long.'
+          title: 'Ghi danh lịch sử trong "Dư địa chí" của Nguyễn Trãi',
+          description: 'Theo "Dư địa chí" của Nguyễn Trãi, ông đã từng ghi chép lại rằng: “Làng Bát Tràng làm đồ chén bát”. Sự ra đời và hưng thịnh của làng gốm được xác định vững chắc vào khoảng thế kỷ XIV – XV, trở thành trung tâm đồ gốm sứ tinh xảo bậc nhất nước Đại Việt.'
         },
         {
           period: 'Thế kỷ 16 - 17',
-          title: 'Thời kỳ hoàng kim xuất khẩu',
-          description: 'Gốm Bát Tràng vươn ra biển lớn qua thương cảng Phố Hiến và Hội An, được ưa chuộng tại Nhật Bản, Hà Lan và các nước Đông Nam Á.'
+          title: 'Thời kỳ hoàng kim & Vươn tầm quốc tế',
+          description: 'Gốm Bát Tràng vươn ra biển lớn qua thương cảng Phố Hiến và Hội An, được ưa chuộng tại Nhật Bản, Hà Lan và các nước Đông Nam Á với các dòng men lam, men rạn danh tiếng.'
         },
         {
           period: 'Thế kỷ 20 - Nay',
-          title: 'Bảo tồn di sản & Nghệ thuật đương đại',
-          description: 'Kết hợp kỹ nghệ vuốt tay gia truyền với công nghệ lò gas hiện đại, xuất khẩu toàn cầu và phát triển du lịch trải nghiệm.'
+          title: 'Bảo tồn di sản & Tinh hoa nghệ thuật đương đại',
+          description: 'Phát triển Trung tâm Tinh hoa Làng nghề Việt (Bảo tàng Gốm Bát Tràng 7 cánh xoáy ốc), kết hợp nghệ thuật thủ công truyền thống với du lịch trải nghiệm, workshop nặn gốm và vươn tầm toàn cầu.'
         }
       ],
-      culturalSignificance: 'Bát Tràng không chỉ lưu giữ tinh hoa gốm ngự dụng Thăng Long mà còn là bảo tàng sống về đời sống công xưởng thủ công cổ truyền Việt Nam.'
+      culturalSignificance: 'Gốm Bát Tràng không đơn thuần chỉ là những vật dụng vô tri mà còn là những di sản văn hóa, lưu giữ hồn cốt dân tộc Việt. Mỗi sản phẩm ra lò đều chứa đựng tâm huyết, sự kỳ công và đôi bàn tay tài hoa của người nghệ nhân, góp phần lan tỏa nét đẹp của thủ công mỹ nghệ Việt Nam ra thế giới.'
     },
+    historicalQuote: {
+      source: 'Dư địa chí — Nguyễn Trãi (1435)',
+      quote: '“Làng Bát Tràng làm đồ chén bát”'
+    },
+    specialHighlights: [
+      {
+        title: 'Kỹ thuật chế tác tinh xảo & Độ bền chắc bậc nhất',
+        description: 'Từ thời xa xưa, người thợ Bát Tràng đã kết hợp xuất sắc các kỹ thuật chạm khắc, đắp nổi, vẽ tay và vẽ men lam. Sản phẩm gốm Bát Tràng có độ dày dặn bậc nhất, đảm bảo độ bền chắc, hạn chế nứt vỡ trong quá trình sử dụng.',
+        icon: 'sparkles'
+      },
+      {
+        title: 'Đa dạng dòng men cổ truyền thống quý hiếm',
+        description: 'Làng nghề gìn giữ được nhiều loại men cổ có giá trị nghệ thuật cao: Men tro (dòng men cổ nhất từ tro trấu tự nhiên), Men lam, Men rạn, Men ngọc (celadon), và Men trắng ngà.',
+        icon: 'palette'
+      },
+      {
+        title: 'Hoa văn trang trí phong phú & Ý nghĩa phong thủy sâu sắc',
+        description: 'Các hoa văn thường thấy trên gốm Bát Tràng gồm có rồng, phượng, tùng, trúc, cúc, mai, hoa sen, các điển tích cổ và họa tiết phong thủy (Thuận buồm xuôi gió, Bát mã truy phong...). Những họa tiết này mang đậm bản sắc văn hóa dân tộc và ý nghĩa về tài lộc, bình an.',
+        icon: 'shield'
+      }
+    ],
+    productCategoriesTable: [
+      {
+        category: 'Gốm sứ gia dụng',
+        features: 'Bao gồm ấm chén (tử sa, hỏa biến, men rạn, sứ trắng), bát đĩa, ly cốc các loại, chum đựng rượu. Sản phẩm an toàn, chất lượng cao, bền bỉ và đẹp mắt.'
+      },
+      {
+        category: 'Gốm sứ trang trí',
+        features: 'Gồm đĩa cảnh trưng bày, lọ hoa, lộc bình, bình hút lộc, mai bình, tượng gốm (tượng Phật, tượng thú, danh nhân). Thường được chế tác đắp nổi, dát vàng tinh xảo, dùng làm vật phẩm phong thủy.'
+      },
+      {
+        category: 'Gốm sứ thờ cúng',
+        features: 'Bao gồm bát hương, chân nến, mâm bồng, lộc bình lớn. Ứng dụng nhiều dòng men truyền thống như men rạn, men lam để tạo vẻ đẹp trang nghiêm, cổ kính cho không gian phòng thờ.'
+      },
+      {
+        category: 'Gốm sứ xây dựng',
+        features: 'Gồm chậu hoa gốm sứ kích thước lớn, thác nước phong thủy, các vật liệu gốm đất đỏ và sứ xương dùng trong trang trí kiến trúc và sân vườn.'
+      }
+    ],
     process: [
       {
         step: 1,

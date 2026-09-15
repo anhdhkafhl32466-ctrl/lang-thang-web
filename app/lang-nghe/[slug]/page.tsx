@@ -10,8 +10,9 @@ import { recordVillageVisit } from '@/lib/passportStorage';
 import { formatCurrencyVND } from '@/lib/utils';
 import {
   MapPin, Clock, Calendar, Compass, Sparkles, ArrowRight, CheckCircle2,
-  Share2, Award, ChevronRight, Eye, ExternalLink, Info, Play, X
+  Share2, Award, ChevronRight, Eye, ExternalLink, Info, Play, X, Palette, Shield
 } from 'lucide-react';
+import BatTrangPotteryGame from '@/components/craft/BatTrangPotteryGame';
 
 export default function CraftVillageDetailPage() {
   const params = useParams();
@@ -128,7 +129,17 @@ export default function CraftVillageDetailPage() {
             </div>
 
             {/* Quick action button for mini-game */}
-            {village.gameUrl && (
+            {village.slug === 'bat-trang' ? (
+              <div className="shrink-0">
+                <a
+                  href="#tro-choi-nan-gom"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
+                >
+                  <Sparkles className="w-4 h-4 text-lacquer-950" />
+                  <span>Chơi mini game nặn gốm ngay</span>
+                </a>
+              </div>
+            ) : village.gameUrl ? (
               <div className="shrink-0">
                 <Link
                   href={village.gameUrl}
@@ -138,7 +149,7 @@ export default function CraftVillageDetailPage() {
                   <span>Trải nghiệm làm nghề ảo</span>
                 </Link>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </section>
@@ -183,6 +194,18 @@ export default function CraftVillageDetailPage() {
             {village.history.culturalSignificance}
           </p>
 
+          {/* Trích dẫn lịch sử Dư địa chí */}
+          {village.historicalQuote && (
+            <div className="p-5 rounded-2xl bg-gradient-to-r from-dopaper-100 via-white to-dopaper-100 border-l-4 border-terracotta-500 shadow-sm space-y-1">
+              <span className="text-[11px] font-bold text-terracotta-600 uppercase tracking-wider block">
+                Ghi chép lịch sử tiền nhân ({village.historicalQuote.source})
+              </span>
+              <blockquote className="font-serif text-xl sm:text-2xl font-bold text-terracotta-800 italic">
+                {village.historicalQuote.quote}
+              </blockquote>
+            </div>
+          )}
+
           {village.history.founder && (
             <div className="p-4 rounded-2xl bg-dopaper-100/80 border-l-4 border-gold-500 text-xs sm:text-sm text-lacquer-800/90 italic">
               <strong>Tổ nghề / Tiền nhân:</strong> {village.history.founder}
@@ -207,6 +230,111 @@ export default function CraftVillageDetailPage() {
             ))}
           </div>
         </section>
+
+        {/* 3.1 Đặc điểm nổi bật của làng nghề */}
+        {village.specialHighlights && village.specialHighlights.length > 0 && (
+          <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
+                <Sparkles className="w-4 h-4" />
+                <span>Giá Trị Tinh Hoa</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
+                Đặc điểm nổi bật của {village.name}
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {village.specialHighlights.map((hl, idx) => (
+                <div
+                  key={idx}
+                  className="p-6 rounded-2xl bg-dopaper-50/80 border border-terracotta-200/90 hover:border-terracotta-400 transition-all space-y-3 shadow-sm hover:shadow-md"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-terracotta-100 text-terracotta-600 flex items-center justify-center font-bold text-lg font-serif">
+                    0{idx + 1}
+                  </div>
+                  <h3 className="font-serif text-lg font-bold text-lacquer-900">
+                    {hl.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed">
+                    {hl.description}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 3.2 Bảng 4 dòng sản phẩm gốm sứ đặc trưng */}
+        {village.productCategoriesTable && village.productCategoriesTable.length > 0 && (
+          <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
+                <Award className="w-4 h-4" />
+                <span>Hệ Thống Sản Phẩm</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
+                Các dòng sản phẩm gốm sứ đặc trưng
+              </h2>
+              <p className="text-xs sm:text-sm text-lacquer-800/70 mt-1">
+                Phân loại 4 nhóm mặt hàng truyền thống và ứng dụng tiêu biểu theo tài liệu chính thức của làng nghề
+              </p>
+            </div>
+
+            <div className="overflow-x-auto rounded-2xl border border-terracotta-200">
+              <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                <thead>
+                  <tr className="bg-terracotta-500 text-white font-serif">
+                    <th className="py-3.5 px-5 font-bold w-1/3">Dòng Sản Phẩm</th>
+                    <th className="py-3.5 px-5 font-bold w-2/3">Đặc Điểm & Ứng Dụng Nổi Bật</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-terracotta-100">
+                  {village.productCategoriesTable.map((row, idx) => (
+                    <tr key={idx} className={idx % 2 === 0 ? 'bg-white' : 'bg-dopaper-50/60'}>
+                      <td className="py-4 px-5 font-bold text-lacquer-950 align-top">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-terracotta-500 shrink-0" />
+                          <span>{row.category}</span>
+                        </div>
+                      </td>
+                      <td className="py-4 px-5 text-lacquer-800/85 leading-relaxed">
+                        {row.features}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        )}
+
+        {/* 3.3 MỤC TRÒ CHƠI MÔ PHỎNG NẶN GỐM BÁT TRÀNG (Nhúng trực tiếp) */}
+        {village.slug === 'bat-trang' && (
+          <section id="tro-choi-nan-gom" className="space-y-6 pt-4 scroll-mt-24">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-terracotta-100 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-100 text-gold-900 text-xs font-bold uppercase tracking-wider mb-2 border border-gold-300">
+                  <Sparkles className="w-3.5 h-3.5 text-gold-600" />
+                  <span>Trải Nghiệm Trực Tuyến Tương Tác</span>
+                </div>
+                <h2 className="font-serif text-2xl sm:text-4xl font-bold text-lacquer-900">
+                  Trò chơi mô phỏng: Nặn Gốm Bát Tràng
+                </h2>
+                <p className="text-xs sm:text-sm text-lacquer-800/70 mt-1">
+                  Tự tay nặn gốm 5 bước: Thấu đất → Chuốt bàn xoay → Vẽ hoa văn → Tráng men cổ → Canh nhiệt nung lò 1.200°C
+                </p>
+              </div>
+
+              <div className="text-xs text-lacquer-800/60 italic hidden sm:block">
+                Có thể lưu ảnh thành phẩm về máy sau khi hoàn thành
+              </div>
+            </div>
+
+            {/* Embed BatTrangPotteryGame directly */}
+            <BatTrangPotteryGame />
+          </section>
+        )}
 
         {/* 4. Quy trình làm nghề (Step-by-step Interactive) */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
