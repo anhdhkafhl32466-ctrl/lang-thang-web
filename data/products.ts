@@ -1,0 +1,418 @@
+export interface Product {
+  id: string;
+  name: string;
+  villageId: string;
+  villageName: string;
+  category: string;
+  price: number;
+  originalPrice?: number;
+  rating: number;
+  reviewsCount: number;
+  artisanName: string;
+  image: string;
+  gallery: string[];
+  description: string;
+  craftDetails: string;
+  dimensions?: string;
+  material: string;
+  isFeatured?: boolean;
+  isBestSeller?: boolean;
+  shopeeUrl?: string;
+  tiktokShopUrl?: string;
+  artisanDirectUrl?: string;
+}
+
+export const PRODUCTS: Product[] = [
+  {
+    id: 'prod-bt-01',
+    name: 'Bình Gốm Hút Lộc Men Rạn Cổ Vẽ Vàng Kim',
+    villageId: 'bat-trang',
+    villageName: 'Làng gốm Bát Tràng',
+    category: 'Gốm sứ phong thủy',
+    price: 1850000,
+    originalPrice: 2200000,
+    rating: 4.9,
+    reviewsCount: 128,
+    artisanName: 'Nghệ nhân Trần Độ',
+    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Bình hút tài lộc dáng miệng loe thu hút vượng khí, bụng phình tích trữ của cải, cổ thon giữ tài lộc. Men rạn cổ phục dựng thời Lê kết hợp nét vẽ vàng kim 24K thanh quý.',
+    craftDetails: 'Cốt đất sét trắng lắng lọc 45 ngày, nung lò gas nhiệt độ 1.250°C, họa tiết vẽ tay thủ công 100%.',
+    dimensions: 'Cao 32cm, Đường kính bụng 24cm',
+    material: 'Đất sét cao lanh, men rạn tro trấu, vàng kim 24K',
+    isFeatured: true,
+    isBestSeller: true,
+    shopeeUrl: 'https://shopee.vn',
+    tiktokShopUrl: 'https://tiktok.com',
+    artisanDirectUrl: 'https://battrang.vn'
+  },
+  {
+    id: 'prod-bt-02',
+    name: 'Bộ Ấm Chén Tử Sa Bát Tràng Dáng Thạch Hạc',
+    villageId: 'bat-trang',
+    villageName: 'Làng gốm Bát Tràng',
+    category: 'Trà đạo & Gốm gia dụng',
+    price: 780000,
+    originalPrice: 950000,
+    rating: 4.8,
+    reviewsCount: 94,
+    artisanName: 'Nghệ nhân Vương Mạnh Tuấn',
+    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Bộ ấm chén gốm mộc tử sa giữ trọn hương vị trà sen Tây Hồ, dòng nước chảy tròn đều, ngắt nước dứt khoát không rỉ.',
+    craftDetails: 'Đất phù sa sông Hồng ủ kỹ 2 năm, nung khử oxy tạo màu nâu tím đanh chắc.',
+    dimensions: 'Dung tích ấm 280ml, 6 chén kèm đĩa lót',
+    material: 'Đất tử sa khoáng tự nhiên',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-vp-01',
+    name: 'Khăn Choàng Lụa Tơ Tằm Vạn Phúc Họa Tiết Mây Bay',
+    villageId: 'van-phuc',
+    villageName: 'Làng lụa Vạn Phúc',
+    category: 'Khăn lụa thời trang',
+    price: 650000,
+    originalPrice: 800000,
+    rating: 4.95,
+    reviewsCount: 215,
+    artisanName: 'Nghệ nhân Triệu Văn Mão x Hợp tác xã Vạn Phúc',
+    image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Dệt từ 100% sợi tơ tằm tự nhiên óng ả mềm rũ. Họa tiết vân mây cổ điển dệt chìm tinh tế, giữ ấm mùa đông và dịu mát mùa hè.',
+    craftDetails: 'Sợi tơ ươm thủ công, dệt khung cửi gỗ nhịp nhàng, nhuộm màu thảo mộc an toàn cho làn da nhạy cảm.',
+    dimensions: '180cm x 70cm',
+    material: '100% Tơ tằm tự nhiên Vạn Phúc',
+    isFeatured: true,
+    isBestSeller: true,
+    shopeeUrl: 'https://shopee.vn',
+    tiktokShopUrl: 'https://tiktok.com'
+  },
+  {
+    id: 'prod-vp-02',
+    name: 'Áo Dài Lụa Vân Vạn Phúc Dáng Suông Cổ Điển',
+    villageId: 'van-phuc',
+    villageName: 'Làng lụa Vạn Phúc',
+    category: 'Thời trang truyền thống',
+    price: 2450000,
+    rating: 5.0,
+    reviewsCount: 47,
+    artisanName: 'Nhà may di sản Lụa Hà Đông',
+    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Tác phẩm áo dài lụa may đo thủ công, chất vải lụa Vân danh tiếng mềm mượt tôn dáng vẻ đài các của phụ nữ Tràng An.',
+    craftDetails: 'May tay tỉ mỉ từng đường kim, khuy bọc ngọc bích.',
+    material: 'Lụa Vân tơ tằm thượng hạng',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-pv-01',
+    name: 'Đèn Thả Trần Mây Tre Đan Phú Vinh Dáng Búp Sen',
+    villageId: 'phu-vinh',
+    villageName: 'Làng mây tre đan Phú Vinh',
+    category: 'Nội thất & Trang trí',
+    price: 520000,
+    originalPrice: 650000,
+    rating: 4.85,
+    reviewsCount: 82,
+    artisanName: 'Nghệ nhân Nguyễn Văn Trung',
+    image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Tạo hình đóa sen hé nở mang ánh sáng ấm áp, thích hợp cho không gian phòng khách, quán cà phê hoặc resort cao cấp.',
+    craftDetails: 'Tre già hun khói chống mối mọt tự nhiên, đan tay hoa văn lóng đôi dẻo dai.',
+    dimensions: 'Đường kính 45cm, Chiều cao 35cm, Dây thả 1m',
+    material: 'Tre cật tự nhiên & mây nước Tây Bắc',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-pv-02',
+    name: 'Khay Trà Mây Nan Nhuyễn Khảm Xà Cừ',
+    villageId: 'phu-vinh',
+    villageName: 'Làng mây tre đan Phú Vinh',
+    category: 'Đồ gia dụng thủ công',
+    price: 340000,
+    rating: 4.7,
+    reviewsCount: 65,
+    artisanName: 'Hợp tác xã Mây tre Phú Vinh',
+    image: 'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Khay đựng ấm trà hoặc trái cây với nan mây chuốt sợi siêu mảnh, lòng khay sơn bóng an toàn đựng thực phẩm.',
+    craftDetails: 'Nan mây chuốt tay 0.5mm, đan khít kín đáy.',
+    dimensions: '30cm x 20cm x 5cm',
+    material: 'Sợi mây bánh tẻ tự nhiên',
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-ch-01',
+    name: 'Nón Lá Bài Thơ Làng Chuông Quai Lụa Tơ Tằm',
+    villageId: 'chuong',
+    villageName: 'Làng nón Chuông',
+    category: 'Nón thủ công truyền thống',
+    price: 180000,
+    originalPrice: 220000,
+    rating: 4.9,
+    reviewsCount: 156,
+    artisanName: 'Nghệ nhân Tạ Thu Hương',
+    image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
+      'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Chiếc nón lá trắng tinh khôi với 16 vành tre uốn tỉ mỉ. Khi soi dưới nắng sẽ hiện rõ bóng Chùa Một Cột và đôi câu thơ xứ Đoài thanh lịch.',
+    craftDetails: 'Lá lụi ủi phẳng bằng lưỡi cày gang nóng, khâu 3-4 mũi cước trên mỗi centimet.',
+    dimensions: 'Đường kính vành 41cm, Chiều cao 22cm',
+    material: 'Lá lụi Quảng Bình, vành tre rừng, quai lụa Vạn Phúc',
+    isFeatured: true,
+    isBestSeller: true,
+    shopeeUrl: 'https://shopee.vn',
+    tiktokShopUrl: 'https://tiktok.com'
+  },
+  {
+    id: 'prod-kk-01',
+    name: 'Tranh Sơn Mài Chùa Một Cột Dát Vàng Quỳ 24K',
+    villageId: 'kieu-ky',
+    villageName: 'Làng dát vàng quỳ Kiêu Kỵ',
+    category: 'Mỹ nghệ dát vàng',
+    price: 3200000,
+    rating: 5.0,
+    reviewsCount: 39,
+    artisanName: 'Nghệ nhân Lê Bá Chung',
+    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Bức tranh nghệ thuật biểu tượng ngàn năm Thăng Long dát thủ công bằng lá vàng quỳ thật 99.9%, khung gỗ sồi sang trọng làm quà biếu đối tác quốc tế.',
+    craftDetails: 'Nền vóc sơn mài ta ủ 12 lớp, thếp vàng quỳ mỏng bằng kẹp tre thủ công.',
+    dimensions: '40cm x 50cm (Cả khung gỗ)',
+    material: 'Gỗ tự nhiên, sơn ta, vàng quỳ thật Kiêu Kỵ',
+    isFeatured: true,
+    artisanDirectUrl: 'https://kieuky.vn'
+  },
+  {
+    id: 'prod-dt-01',
+    name: 'Quân Rối Nước Chú Tễu Bằng Gỗ Sung Sơn Ta',
+    villageId: 'dao-thuc',
+    villageName: 'Làng múa rối nước Đào Thục',
+    category: 'Quà tặng di sản dân gian',
+    price: 380000,
+    rating: 4.8,
+    reviewsCount: 71,
+    artisanName: 'Phường rối nước Đào Thục',
+    image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Quân rối thu nhỏ chú Tễu với nụ cười hóm hỉnh, quạt nan phe phẩy và dải thắt lưng đỏ biểu tượng cho sự vui tươi phóng khoáng của cư dân lúa nước.',
+    craftDetails: 'Đẽo tay từ gỗ sung kháng nước, quét 5 lớp sơn ta bóng đẹp.',
+    dimensions: 'Cao 25cm (Kèm đế trưng bày để bàn)',
+    material: 'Gỗ sung tự nhiên, sơn ta thực vật',
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-xl-01',
+    name: 'Bộ Tò He 12 Con Giáp Truyền Thống Hộp Gỗ Mỹ Nghệ',
+    villageId: 'xuan-la',
+    villageName: 'Làng tò he Xuân La',
+    category: 'Đồ chơi dân gian di sản',
+    price: 250000,
+    rating: 4.85,
+    reviewsCount: 112,
+    artisanName: 'Nghệ nhân Đặng Văn Hậu',
+    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Trọn bộ 12 con giáp nặn tay sống động từ bột nếp thơm phối màu tự nhiên từ củ nghệ, gấc, lá chàm; sấy khô bảo quản lâu dài trong hộp kính gỗ.',
+    craftDetails: 'Bột nếp cái hoa vàng phối mật ong dẻo, tạo hình tay hoàn toàn.',
+    dimensions: 'Hộp 35cm x 25cm, mỗi tượng cao 8cm',
+    material: 'Bột nếp sạch, màu thảo mộc thiên nhiên',
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-qpc-01',
+    name: 'Hộp Nụ Trầm Hương Thảo Mộc Tự Nhiên Quảng Phú Cầu',
+    villageId: 'quang-phu-cau',
+    villageName: 'Làng tăm hương Quảng Phú Cầu',
+    category: 'Hương & Thảo mộc',
+    price: 195000,
+    originalPrice: 240000,
+    rating: 4.9,
+    reviewsCount: 156,
+    artisanName: 'Nghệ nhân Nguyễn Hữu Long',
+    image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Nụ trầm hương khói ngược chiết xuất hoàn toàn từ bột trầm sánh kết hợp hồi quế tự nhiên, thanh lọc không gian, mùi hương ấm áp thư giãn.',
+    craftDetails: '100% thảo mộc thiên nhiên vùng cao, không tẩm hóa chất cuốn tàn.',
+    dimensions: 'Hộp 50 nụ trầm',
+    material: 'Bột trầm hương, quế, hồi, keo bời lời tự nhiên',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-cm-01',
+    name: 'Hộp Trà Gỗ Trắc Cẩn Xà Cừ Ngũ Sắc Chuôn Ngọ',
+    villageId: 'chuyen-my',
+    villageName: 'Làng khảm trai Chuôn Ngọ (Chuyên Mỹ)',
+    category: 'Sơn mài & Khảm trai',
+    price: 1450000,
+    originalPrice: 1800000,
+    rating: 4.95,
+    reviewsCount: 68,
+    artisanName: 'Nghệ nhân Nhân dân Nguyễn Đức Biết',
+    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Hộp đựng trà gỗ trắc quý hiếm cẩn ốc xà cừ ngũ sắc họa tiết hoa sen thanh tao. Khi đổi góc nhìn, ánh xà cừ chuyển biến 7 màu lấp lánh như ngọc.',
+    craftDetails: 'Vỏ trai vỏ ốc biển sâu tuyển chọn, cưa gọt và mài nước thủ công 30 ngày.',
+    dimensions: 'Dài 18cm x Rộng 12cm x Cao 10cm',
+    material: 'Gỗ trắc tự nhiên, vỏ ốc đỏ Singapore, xà cừ ngũ sắc',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-ht-01',
+    name: 'Khay Trà Sơn Mài Thếp Vàng Lá Sen Hạ Thái',
+    villageId: 'ha-thai',
+    villageName: 'Làng sơn mài Hạ Thái',
+    category: 'Sơn mài & Mỹ thuật',
+    price: 890000,
+    originalPrice: 1100000,
+    rating: 4.88,
+    reviewsCount: 94,
+    artisanName: 'Nghệ nhân Ưu tú Đỗ Văn Thái',
+    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Khay trà sơn mài cốt mộc phủ 12 lớp sơn ta mài nước, thếp lá vàng quỳ Kiêu Kỵ tạo hình chiếc lá sen bồng bềnh sang trọng.',
+    craftDetails: 'Sơn ta thực vật Phú Thọ, thếp quỳ vàng Kiêu Kỵ, đánh bóng thủ công bằng tay.',
+    dimensions: 'Đường kính 35cm',
+    material: 'Cốt mộc gỗ sấy, sơn ta, quỳ vàng',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-sd-01',
+    name: 'Tượng Phật Di Lặc Chúc Phúc Gỗ Mít Sơn Đồng',
+    villageId: 'son-dong',
+    villageName: 'Làng nghề tạc tượng & đồ thờ Sơn Đồng',
+    category: 'Điêu khắc & Gỗ mỹ nghệ',
+    price: 2400000,
+    rating: 4.92,
+    reviewsCount: 45,
+    artisanName: 'Nghệ nhân Nguyễn Viết Thắng',
+    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Tượng Đức Phật Di Lặc miệng cười hoan hỷ mang lại may mắn, bình an và tài lộc cho gia chủ. Đục kênh bong từ khúc gỗ mít già nguyên khối.',
+    craftDetails: 'Gỗ mít già lõi vàng không tâm, đục tỉa tay và phủ sơn lót bảo vệ chống ẩm mốc.',
+    dimensions: 'Cao 38cm x Rộng 28cm x Sâu 22cm',
+    material: 'Gỗ mít già nguyên khối tự nhiên',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-tx-01',
+    name: 'Áo Dài Tơ Tằm Cổ Điển Khâu Tay Kim Dọc Trạch Xá',
+    villageId: 'trach-xa',
+    villageName: 'Làng may áo dài Trạch Xá',
+    category: 'Thời trang di sản',
+    price: 1850000,
+    originalPrice: 2200000,
+    rating: 4.96,
+    reviewsCount: 138,
+    artisanName: 'Nghệ nhân Đỗ Minh Tám',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Chiếc áo dài may tay thủ công bằng phương pháp đâm kim dọc bí truyền làng Trạch Xá, đường chỉ giấu khéo léo, tà áo buông rủ thướt tha.',
+    craftDetails: 'May đo thủ công 100% bằng tay, khuy bướm tết ngũ hành tinh tế.',
+    dimensions: 'May đo theo số đo khách hàng (S, M, L, XL hoặc may riêng)',
+    material: 'Lụa tơ tằm Vạn Phúc cao cấp mềm mịn thoáng mát',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-thx-01',
+    name: 'Bộ 5 Chuồn Chuồn Tre Thăng Bằng Ngũ Sắc Thạch Xá',
+    villageId: 'thach-xa',
+    villageName: 'Làng chuồn chuồn tre Thạch Xá',
+    category: 'Đồ chơi dân gian di sản',
+    price: 120000,
+    rating: 4.9,
+    reviewsCount: 215,
+    artisanName: 'Nghệ nhân Nguyễn Văn Tái',
+    image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Bộ 5 chú chuồn chuồn tre có thể đậu thăng bằng kỳ diệu trên đầu ngón tay, bút viết hay chậu cây để bàn. Kèm theo chân đế tre phong thủy.',
+    craftDetails: 'Tre rừng bánh tẻ phơi nỏ, vót mỏng và sơn vẽ hoa văn chấm bi dân gian.',
+    dimensions: 'Sải cánh 14cm, kèm 1 cành tre đế cắm',
+    material: 'Tre tự nhiên, sơn vẽ an toàn không độc hại',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-cs-01',
+    name: 'Quạt Lụa Chàng Sơn Vẽ Tranh Thủy Mặc Hà Nội',
+    villageId: 'chang-son',
+    villageName: 'Làng quạt & mộc Chàng Sơn',
+    category: 'Nghệ thuật dân gian',
+    price: 320000,
+    rating: 4.87,
+    reviewsCount: 82,
+    artisanName: 'Nghệ nhân Dương Văn Mơ',
+    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Quạt lụa tơ tằm hai nan cái chạm trổ rồng mây, mặt quạt họa bức tranh Tháp Rùa Hồ Gươm thanh bình, món quà lưu niệm trang nhã đậm chất Thăng Long.',
+    craftDetails: 'Nan tre ngâm nước vôi chống mọt, lụa tơ tằm dán nhựa cậy, vẽ tay thủy mặc.',
+    dimensions: 'Đường kính mở rộng 45cm',
+    material: 'Nan tre ngâm, lụa tơ tằm, chốt đồng',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  },
+  {
+    id: 'prod-mt-01',
+    name: 'Hộp Quà Cốm Mộc Mùa Thu Gói Lá Sen Mễ Trì',
+    villageId: 'me-tri',
+    villageName: 'Làng cốm Mễ Trì',
+    category: 'Ẩm thực truyền thống',
+    price: 180000,
+    rating: 4.98,
+    reviewsCount: 320,
+    artisanName: 'Nghệ nhân Đỗ Thị Hảo',
+    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
+    gallery: [
+      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+    ],
+    description: 'Set quà gồm 500g cốm mộc nếp cái hoa vàng tươi mềm dẻo bọc trong 2 lớp lá sen già đượm hương, kèm trà sen Bách Diệp Tây Hồ thượng hạng.',
+    craftDetails: 'Lúa nếp non rang củi giã tay mộc nguyên bản, không dùng phẩm màu, gói lá sen tươi sáng sớm.',
+    dimensions: 'Hộp quà mây tre đan 25cm x 20cm',
+    material: 'Nếp cái hoa vàng non, lá sen tươi, rơm nếp',
+    isFeatured: true,
+    shopeeUrl: 'https://shopee.vn'
+  }
+];
