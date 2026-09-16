@@ -29,28 +29,28 @@ export default function TourismPage() {
 
   const virtualSpots = [
     {
-      title: 'Bảo tàng Gốm Bát Tràng (7 cánh xoáy ốc)',
+      title: 'Chợ Gốm Bát Tràng & Không gian Lò Bầu',
       village: 'Làng gốm Bát Tràng',
-      image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1000&q=80',
-      description: 'Kiến trúc 7 khối xoáy khổng lồ mô phỏng chuyển động bàn xoay vuốt gốm bên bến sông Hồng.'
+      image: '/images/villages/bat-trang/market.jpg',
+      description: 'Không gian giao thương sầm uất với hàng ngàn mẫu gốm sứ độc đáo bên triền đê sông Hồng.'
     },
     {
-      title: 'Phố Ô Lụa & Cổng Làng Cổ Vạn Phúc',
+      title: 'Khung Cửi & Xưởng Dệt Lụa Cổ Vạn Phúc',
       village: 'Làng lụa Vạn Phúc',
-      image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1000&q=80',
-      description: 'Con đường ô lụa rực rỡ sắc màu cùng các xưởng dệt cửi gõ nhịp rộn rã suốt nghìn năm.'
+      image: '/images/villages/van-phuc/loom.jpg',
+      description: 'Tiếng thoi đưa lách cách và đôi bàn tay nghệ nhân thoăn thoắt dệt nên những dải lụa Vân tinh tế.'
     },
     {
       title: 'Thủy Đình Múa Rối Nước Đào Thục',
       village: 'Làng rối nước Đào Thục',
-      image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80',
+      image: '/images/villages/dao-thuc/puppet_show.jpg',
       description: 'Sân khấu mái cong cổ kính giữa hồ sen làng Thụy Lâm, nơi diễn ra các tích trò rối nước mộc mạc.'
     },
     {
-      title: 'Phiên Chợ Nón Làng Chuông Rạng Đông',
+      title: 'Nón Lá Truyền Thống Làng Chuông',
       village: 'Làng nón Chuông',
-      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1000&q=80',
-      description: 'Biển nón trắng bồng bềnh trong sương sớm ven đê sông Đáy chỉ họp vào các ngày phiên đặc biệt.'
+      image: '/images/villages/chuong/non_la_museum.jpg',
+      description: 'Những chiếc nón lá trắng bồng bềnh xếp 16 vành tre thanh tao, di sản trăm năm ven bờ sông Đáy.'
     }
   ];
 

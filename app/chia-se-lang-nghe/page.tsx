@@ -25,7 +25,7 @@ export default function SubmitVillagePage() {
   });
 
   const [imagePreview, setImagePreview] = useState<string | null>(
-    'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
+    '/images/villages/bat-trang/artisan_wheel.jpg'
   );
 
   const handleSubmit = (e: React.FormEvent) => {

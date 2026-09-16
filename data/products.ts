@@ -34,11 +34,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 128,
     artisanName: 'Nghệ nhân Trần Độ',
-    image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/bat-trang/blue_glaze_vase.jpg',
+    gallery: ['/images/villages/bat-trang/blue_glaze_vase.jpg', '/images/villages/bat-trang/artisan_wheel.jpg'],
     description: 'Bình hút tài lộc dáng miệng loe thu hút vượng khí, bụng phình tích trữ của cải, cổ thon giữ tài lộc. Men rạn cổ phục dựng thời Lê kết hợp nét vẽ vàng kim 24K thanh quý.',
     craftDetails: 'Cốt đất sét trắng lắng lọc 45 ngày, nung lò gas nhiệt độ 1.250°C, họa tiết vẽ tay thủ công 100%.',
     dimensions: 'Cao 32cm, Đường kính bụng 24cm',
@@ -60,10 +57,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 94,
     artisanName: 'Nghệ nhân Vương Mạnh Tuấn',
-    image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/bat-trang/raw_teapots.jpg',
+    gallery: ['/images/villages/bat-trang/raw_teapots.jpg', '/images/villages/bat-trang/carved_pots.jpg'],
     description: 'Bộ ấm chén gốm mộc tử sa giữ trọn hương vị trà sen Tây Hồ, dòng nước chảy tròn đều, ngắt nước dứt khoát không rỉ.',
     craftDetails: 'Đất phù sa sông Hồng ủ kỹ 2 năm, nung khử oxy tạo màu nâu tím đanh chắc.',
     dimensions: 'Dung tích ấm 280ml, 6 chén kèm đĩa lót',
@@ -82,10 +77,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.95,
     reviewsCount: 215,
     artisanName: 'Nghệ nhân Triệu Văn Mão x Hợp tác xã Vạn Phúc',
-    image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/van-phuc/loom.jpg',
+    gallery: ['/images/villages/van-phuc/loom.jpg', '/images/villages/van-phuc/punch_cards.jpg'],
     description: 'Dệt từ 100% sợi tơ tằm tự nhiên óng ả mềm rũ. Họa tiết vân mây cổ điển dệt chìm tinh tế, giữ ấm mùa đông và dịu mát mùa hè.',
     craftDetails: 'Sợi tơ ươm thủ công, dệt khung cửi gỗ nhịp nhàng, nhuộm màu thảo mộc an toàn cho làn da nhạy cảm.',
     dimensions: '180cm x 70cm',
@@ -105,10 +98,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 47,
     artisanName: 'Nhà may di sản Lụa Hà Đông',
-    image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/trach-xa/ao_dai1.jpg',
+    gallery: ['/images/villages/trach-xa/ao_dai1.jpg', '/images/villages/trach-xa/ao_dai2.jpg'],
     description: 'Tác phẩm áo dài lụa may đo thủ công, chất vải lụa Vân danh tiếng mềm mượt tôn dáng vẻ đài các của phụ nữ Tràng An.',
     craftDetails: 'May tay tỉ mỉ từng đường kim, khuy bọc ngọc bích.',
     material: 'Lụa Vân tơ tằm thượng hạng',
@@ -126,10 +117,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.85,
     reviewsCount: 82,
     artisanName: 'Nghệ nhân Nguyễn Văn Trung',
-    image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/phu-vinh/bamboo_basket.jpg',
+    gallery: ['/images/villages/phu-vinh/bamboo_basket.jpg', '/images/villages/phu-vinh/hero.jpg'],
     description: 'Tạo hình đóa sen hé nở mang ánh sáng ấm áp, thích hợp cho không gian phòng khách, quán cà phê hoặc resort cao cấp.',
     craftDetails: 'Tre già hun khói chống mối mọt tự nhiên, đan tay hoa văn lóng đôi dẻo dai.',
     dimensions: 'Đường kính 45cm, Chiều cao 35cm, Dây thả 1m',
@@ -147,10 +136,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.7,
     reviewsCount: 65,
     artisanName: 'Hợp tác xã Mây tre Phú Vinh',
-    image: 'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/phu-vinh/hero.jpg',
+    gallery: ['/images/villages/phu-vinh/hero.jpg', '/images/villages/phu-vinh/bamboo_basket.jpg'],
     description: 'Khay đựng ấm trà hoặc trái cây với nan mây chuốt sợi siêu mảnh, lòng khay sơn bóng an toàn đựng thực phẩm.',
     craftDetails: 'Nan mây chuốt tay 0.5mm, đan khít kín đáy.',
     dimensions: '30cm x 20cm x 5cm',
@@ -168,11 +155,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 156,
     artisanName: 'Nghệ nhân Tạ Thu Hương',
-    image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/chuong/non_la_museum.jpg',
+    gallery: ['/images/villages/chuong/non_la_museum.jpg', '/images/villages/chuong/conical_hat1.jpg'],
     description: 'Chiếc nón lá trắng tinh khôi với 16 vành tre uốn tỉ mỉ. Khi soi dưới nắng sẽ hiện rõ bóng Chùa Một Cột và đôi câu thơ xứ Đoài thanh lịch.',
     craftDetails: 'Lá lụi ủi phẳng bằng lưỡi cày gang nóng, khâu 3-4 mũi cước trên mỗi centimet.',
     dimensions: 'Đường kính vành 41cm, Chiều cao 22cm',
@@ -192,10 +176,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 39,
     artisanName: 'Nghệ nhân Lê Bá Chung',
-    image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/kieu-ky/gilded_altar.jpg',
+    gallery: ['/images/villages/kieu-ky/gilded_altar.jpg', '/images/villages/kieu-ky/hero.jpg'],
     description: 'Bức tranh nghệ thuật biểu tượng ngàn năm Thăng Long dát thủ công bằng lá vàng quỳ thật 99.9%, khung gỗ sồi sang trọng làm quà biếu đối tác quốc tế.',
     craftDetails: 'Nền vóc sơn mài ta ủ 12 lớp, thếp vàng quỳ mỏng bằng kẹp tre thủ công.',
     dimensions: '40cm x 50cm (Cả khung gỗ)',
@@ -213,10 +195,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.8,
     reviewsCount: 71,
     artisanName: 'Phường rối nước Đào Thục',
-    image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/dao-thuc/hero.jpg',
+    gallery: ['/images/villages/dao-thuc/hero.jpg', '/images/villages/dao-thuc/puppet_show.jpg'],
     description: 'Quân rối thu nhỏ chú Tễu với nụ cười hóm hỉnh, quạt nan phe phẩy và dải thắt lưng đỏ biểu tượng cho sự vui tươi phóng khoáng của cư dân lúa nước.',
     craftDetails: 'Đẽo tay từ gỗ sung kháng nước, quét 5 lớp sơn ta bóng đẹp.',
     dimensions: 'Cao 25cm (Kèm đế trưng bày để bàn)',
@@ -233,10 +213,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.85,
     reviewsCount: 112,
     artisanName: 'Nghệ nhân Đặng Văn Hậu',
-    image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/xuan-la/to_he1.jpg',
+    gallery: ['/images/villages/xuan-la/to_he1.jpg', '/images/villages/xuan-la/to_he2.jpg'],
     description: 'Trọn bộ 12 con giáp nặn tay sống động từ bột nếp thơm phối màu tự nhiên từ củ nghệ, gấc, lá chàm; sấy khô bảo quản lâu dài trong hộp kính gỗ.',
     craftDetails: 'Bột nếp cái hoa vàng phối mật ong dẻo, tạo hình tay hoàn toàn.',
     dimensions: 'Hộp 35cm x 25cm, mỗi tượng cao 8cm',
@@ -254,10 +232,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 156,
     artisanName: 'Nghệ nhân Nguyễn Hữu Long',
-    image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/quang-phu-cau/incense_drying.jpg',
+    gallery: ['/images/villages/quang-phu-cau/incense_drying.jpg', '/images/villages/quang-phu-cau/hero.jpg'],
     description: 'Nụ trầm hương khói ngược chiết xuất hoàn toàn từ bột trầm sánh kết hợp hồi quế tự nhiên, thanh lọc không gian, mùi hương ấm áp thư giãn.',
     craftDetails: '100% thảo mộc thiên nhiên vùng cao, không tẩm hóa chất cuốn tàn.',
     dimensions: 'Hộp 50 nụ trầm',
@@ -276,10 +252,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.95,
     reviewsCount: 68,
     artisanName: 'Nghệ nhân Nhân dân Nguyễn Đức Biết',
-    image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/chuyen-my/inlay_screen.jpg',
+    gallery: ['/images/villages/chuyen-my/inlay_screen.jpg', '/images/villages/chuyen-my/inlay_picture.jpg'],
     description: 'Hộp đựng trà gỗ trắc quý hiếm cẩn ốc xà cừ ngũ sắc họa tiết hoa sen thanh tao. Khi đổi góc nhìn, ánh xà cừ chuyển biến 7 màu lấp lánh như ngọc.',
     craftDetails: 'Vỏ trai vỏ ốc biển sâu tuyển chọn, cưa gọt và mài nước thủ công 30 ngày.',
     dimensions: 'Dài 18cm x Rộng 12cm x Cao 10cm',
@@ -298,10 +272,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.88,
     reviewsCount: 94,
     artisanName: 'Nghệ nhân Ưu tú Đỗ Văn Thái',
-    image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/ha-thai/lacquer_box.jpg',
+    gallery: ['/images/villages/ha-thai/lacquer_box.jpg', '/images/villages/ha-thai/lacquer_ritual.jpg'],
     description: 'Khay trà sơn mài cốt mộc phủ 12 lớp sơn ta mài nước, thếp lá vàng quỳ Kiêu Kỵ tạo hình chiếc lá sen bồng bềnh sang trọng.',
     craftDetails: 'Sơn ta thực vật Phú Thọ, thếp quỳ vàng Kiêu Kỵ, đánh bóng thủ công bằng tay.',
     dimensions: 'Đường kính 35cm',
@@ -319,10 +291,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.92,
     reviewsCount: 45,
     artisanName: 'Nghệ nhân Nguyễn Viết Thắng',
-    image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/son-dong/buddha_statue.jpg',
+    gallery: ['/images/villages/son-dong/buddha_statue.jpg', '/images/villages/son-dong/gilded_wood.jpg'],
     description: 'Tượng Đức Phật Di Lặc miệng cười hoan hỷ mang lại may mắn, bình an và tài lộc cho gia chủ. Đục kênh bong từ khúc gỗ mít già nguyên khối.',
     craftDetails: 'Gỗ mít già lõi vàng không tâm, đục tỉa tay và phủ sơn lót bảo vệ chống ẩm mốc.',
     dimensions: 'Cao 38cm x Rộng 28cm x Sâu 22cm',
@@ -341,10 +311,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.96,
     reviewsCount: 138,
     artisanName: 'Nghệ nhân Đỗ Minh Tám',
-    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/trach-xa/ao_dai2.jpg',
+    gallery: ['/images/villages/trach-xa/ao_dai2.jpg', '/images/villages/trach-xa/ao_dai1.jpg'],
     description: 'Chiếc áo dài may tay thủ công bằng phương pháp đâm kim dọc bí truyền làng Trạch Xá, đường chỉ giấu khéo léo, tà áo buông rủ thướt tha.',
     craftDetails: 'May đo thủ công 100% bằng tay, khuy bướm tết ngũ hành tinh tế.',
     dimensions: 'May đo theo số đo khách hàng (S, M, L, XL hoặc may riêng)',
@@ -362,10 +330,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.9,
     reviewsCount: 215,
     artisanName: 'Nghệ nhân Nguyễn Văn Tái',
-    image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/thach-xa/bamboo_dragonfly.jpg',
+    gallery: ['/images/villages/thach-xa/bamboo_dragonfly.jpg', '/images/villages/thach-xa/hero.jpg'],
     description: 'Bộ 5 chú chuồn chuồn tre có thể đậu thăng bằng kỳ diệu trên đầu ngón tay, bút viết hay chậu cây để bàn. Kèm theo chân đế tre phong thủy.',
     craftDetails: 'Tre rừng bánh tẻ phơi nỏ, vót mỏng và sơn vẽ hoa văn chấm bi dân gian.',
     dimensions: 'Sải cánh 14cm, kèm 1 cành tre đế cắm',
@@ -383,10 +349,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.87,
     reviewsCount: 82,
     artisanName: 'Nghệ nhân Dương Văn Mơ',
-    image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/chang-son/traditional_fan.jpg',
+    gallery: ['/images/villages/chang-son/traditional_fan.jpg', '/images/villages/chang-son/hero.jpg'],
     description: 'Quạt lụa tơ tằm hai nan cái chạm trổ rồng mây, mặt quạt họa bức tranh Tháp Rùa Hồ Gươm thanh bình, món quà lưu niệm trang nhã đậm chất Thăng Long.',
     craftDetails: 'Nan tre ngâm nước vôi chống mọt, lụa tơ tằm dán nhựa cậy, vẽ tay thủy mặc.',
     dimensions: 'Đường kính mở rộng 45cm',
@@ -404,10 +368,8 @@ export const PRODUCTS: Product[] = [
     rating: 4.98,
     reviewsCount: 320,
     artisanName: 'Nghệ nhân Đỗ Thị Hảo',
-    image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80',
-    gallery: [
-      'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
-    ],
+    image: '/images/villages/me-tri/banh_com.jpg',
+    gallery: ['/images/villages/me-tri/banh_com.jpg', '/images/villages/me-tri/banh_com_box.jpg'],
     description: 'Set quà gồm 500g cốm mộc nếp cái hoa vàng tươi mềm dẻo bọc trong 2 lớp lá sen già đượm hương, kèm trà sen Bách Diệp Tây Hồ thượng hạng.',
     craftDetails: 'Lúa nếp non rang củi giã tay mộc nguyên bản, không dùng phẩm màu, gói lá sen tươi sáng sớm.',
     dimensions: 'Hộp quà mây tre đan 25cm x 20cm',

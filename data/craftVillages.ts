@@ -106,55 +106,55 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 14 km về phía Đông Nam',
       travelTime: '30 - 45 phút bằng xe máy / xe buýt số 47A'
     },
-    heroImage: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/bat-trang/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Đôi bàn tay nghệ nhân Bát Tràng chuốt gốm mộc trên bàn xoay truyền thống'
+        url: '/images/villages/bat-trang/market.jpg',
+        caption: 'Chợ Gốm Bát Tràng - Không gian giao thương sầm uất với hàng ngàn mẫu gốm sứ độc đáo'
       },
       {
-        url: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Bảo tàng Gốm Bát Tràng (Trung tâm Tinh hoa Làng nghề Việt) với kiến trúc 7 cánh xoáy ốc khổng lồ'
+        url: '/images/villages/bat-trang/artisan_wheel.jpg',
+        caption: 'Nghệ nhân chuốt gốm vuốt dáng bình hoa cỡ lớn trên bàn xoay truyền thống'
       },
       {
-        url: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Những chiếc bình gốm men lam và men rạn cổ truyền thời Lê tinh xảo'
+        url: '/images/villages/bat-trang/street_pottery.jpg',
+        caption: 'Phố nghề gốm sứ Bát Tràng với các gian hàng trưng bày gốm mỹ nghệ xuất khẩu'
       },
       {
-        url: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Sân phơi hàng ngàn sản phẩm gốm mộc dưới nắng sớm ven triền đê sông Hồng'
+        url: '/images/villages/bat-trang/painting_pots.jpg',
+        caption: 'Nghệ nhân vẽ men và tỉa hoa văn thủ công trên ấm chén gốm sứ'
       },
       {
-        url: 'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Cổng Chợ Gốm Làng Cổ Bát Tràng - Không gian giao thương thủ công nhộn nhịp bốn mùa'
+        url: '/images/villages/bat-trang/carved_pots.jpg',
+        caption: 'Cốt gốm ấm chén mộc khắc họa tiết hoa sen tinh xảo'
       },
       {
-        url: 'https://images.unsplash.com/photo-1584727638096-042c45049ebe?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Xưởng trải nghiệm nặn gốm - Du khách và bạn trẻ hào hứng tự tay tạo hình sản phẩm'
+        url: '/images/villages/bat-trang/raw_teapots.jpg',
+        caption: 'Dãy ấm chén gốm mộc tinh khiết xếp đều chờ đưa vào lò nung'
       },
       {
-        url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Lò Bầu Cổ Bát Tràng - Công trình lò nung thủ công cổ kính hơn 100 năm tuổi'
+        url: '/images/villages/bat-trang/transport_pots.jpg',
+        caption: 'Xe thồ chở gốm mộc - Nét sinh hoạt đời thường đặc trưng của làng Bát Tràng'
       },
       {
-        url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Bình hút tài lộc phong thủy đắp nổi mạ vàng kim 24K - Đỉnh cao nghệ thuật Bát Tràng'
+        url: '/images/villages/bat-trang/blue_glaze_vase.jpg',
+        caption: 'Bình gốm Bát Tràng men lam cổ truyền thời Nguyễn (Bảo tàng Mỹ thuật Việt Nam)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Bộ ấm chén tử sa Bát Tràng dáng cổ thạch - Lưu giữ hương vị trà ngàn năm'
+        url: '/images/villages/bat-trang/altar_incense_burner.jpg',
+        caption: 'Bát hương đồ thờ gốm Bát Tràng men rạn vẽ lam uy nghiêm (Bảo tàng Mỹ thuật Việt Nam)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Nghệ nhân chạm khắc và tỉa gọt hoa văn rồng mây tinh xảo trên cốt gốm mộc'
+        url: '/images/villages/bat-trang/crackle_glaze_qilin.jpg',
+        caption: 'Cặp tượng Kỳ Lân gốm men rạn Bát Tràng thời Nguyễn (Bảo tàng Lịch sử Quốc gia)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Gốm sứ xây dựng & cảnh quan sân vườn - Thác nước phong thủy và chậu gốm đất đỏ'
+        url: '/images/villages/bat-trang/village_kiln_pots.jpg',
+        caption: 'Sân phơi và không gian lò nung thủ công làng gốm Bát Tràng'
       },
       {
-        url: 'https://images.unsplash.com/photo-1576020799627-aeac76d580dc?auto=format&fit=crop&w=1200&q=80',
-        caption: 'Bộ đồ thờ men lam vẽ rồng phượng cổ truyền - Không gian thờ cúng trang nghiêm'
+        url: '/images/villages/bat-trang/village_workshop.jpg',
+        caption: 'Xưởng chế tác và tạo hình gốm thủ công bên tả ngạn sông Hồng'
       }
     ],
     history: {
@@ -190,44 +190,41 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     },
     specialHighlights: [
       {
-        title: 'Kỹ thuật chế tác tinh xảo & Độ bền chắc bậc nhất',
-        description: 'Từ thời xa xưa, người thợ Bát Tràng đã kết hợp xuất sắc các kỹ thuật chạm khắc, đắp nổi, vẽ tay và vẽ men lam. Sản phẩm gốm Bát Tràng có độ dày dặn bậc nhất, đảm bảo độ bền chắc, hạn chế nứt vỡ trong quá trình sử dụng.',
-        icon: 'sparkles',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
+        title: 'Kỹ thuật vuốt tay & gọt tỉa điêu luyện',
+        description: 'Từ đất sét trắng cao lanh, người thợ Bát Tràng kết hợp chạm khắc, đắp nổi và vẽ men lam với độ dày dặn và độ bền vượt trội.',
+        image: '/images/villages/bat-trang/artisan_wheel.jpg'
       },
       {
-        title: 'Đa dạng dòng men cổ truyền thống quý hiếm',
-        description: 'Làng nghề gìn giữ được nhiều loại men cổ có giá trị nghệ thuật cao: Men tro (dòng men cổ nhất từ tro trấu tự nhiên), Men lam, Men rạn, Men ngọc (celadon), và Men trắng ngà.',
-        icon: 'palette',
-        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
+        title: 'Đa dạng dòng men cổ truyền quý hiếm',
+        description: 'Làng nghề gìn giữ được nhiều loại men cổ có giá trị nghệ thuật cao: Men lam, Men tro, Men rạn, Men ngọc celadon và Men hỏa biến.',
+        image: '/images/villages/bat-trang/blue_glaze_vase.jpg'
       },
       {
-        title: 'Hoa văn trang trí phong phú & Ý nghĩa phong thủy sâu sắc',
-        description: 'Các hoa văn thường thấy trên gốm Bát Tràng gồm có rồng, phượng, tùng, trúc, cúc, mai, hoa sen, các điển tích cổ và họa tiết phong thủy (Thuận buồm xuôi gió, Bát mã truy phong...). Những họa tiết này mang đậm bản sắc văn hóa dân tộc và ý nghĩa về tài lộc, bình an.',
-        icon: 'shield',
-        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80'
+        title: 'Hoa văn trang trí đậm hồn cốt văn hóa',
+        description: 'Họa tiết rồng phượng, tùng cúc trúc mai, hoa sen và các tích cổ dân gian mang ý nghĩa phong thủy may mắn, hưng thịnh.',
+        image: '/images/villages/bat-trang/carved_pots.jpg'
       }
     ],
     productCategoriesTable: [
       {
         category: 'Gốm sứ gia dụng',
-        features: 'Bao gồm ấm chén (tử sa, hỏa biến, men rạn, sứ trắng), bát đĩa, ly cốc các loại, chum đựng rượu. Sản phẩm an toàn, chất lượng cao, bền bỉ và đẹp mắt.',
-        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=600&q=80'
+        features: 'Ấm chén tử sa, men rạn, bát đĩa, cốc chén gốm cao cấp phục vụ sinh hoạt hàng ngày.',
+        image: '/images/villages/bat-trang/raw_teapots.jpg'
       },
       {
         category: 'Gốm sứ trang trí',
-        features: 'Gồm đĩa cảnh trưng bày, lọ hoa, lộc bình, bình hút lộc, mai bình, tượng gốm (tượng Phật, tượng thú, danh nhân). Thường được chế tác đắp nổi, dát vàng tinh xảo, dùng làm vật phẩm phong thủy.',
-        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=600&q=80'
+        features: 'Bình hút lộc, lọ hoa mai bình, tượng gốm phong thủy đắp nổi men lam và dát vàng.',
+        image: '/images/villages/bat-trang/blue_glaze_vase.jpg'
       },
       {
         category: 'Gốm sứ thờ cúng',
-        features: 'Bao gồm bát hương, chân nến, mâm bồng, lộc bình lớn. Ứng dụng nhiều dòng men truyền thống như men rạn, men lam để tạo vẻ đẹp trang nghiêm, cổ kính cho không gian phòng thờ.',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=600&q=80'
+        features: 'Bát hương men rạn, mâm bồng, chân nến, lọ hoa thờ gia tiên tôn nghiêm, cổ kính.',
+        image: '/images/villages/bat-trang/altar_incense_burner.jpg'
       },
       {
-        category: 'Gốm sứ xây dựng & cảnh quan',
-        features: 'Gồm chậu hoa gốm sứ kích thước lớn, thác nước phong thủy, các vật liệu gốm đất đỏ và sứ xương dùng trong trang trí kiến trúc và sân vườn.',
-        image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600&q=80'
+        category: 'Gốm sứ cảnh quan & xây dựng',
+        features: 'Chậu gốm cây cảnh lớn, chum sành ngâm rượu, gạch gốm trang trí sân vườn.',
+        image: '/images/villages/bat-trang/transport_pots.jpg'
       }
     ],
     process: [
@@ -236,7 +233,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn và lắng lọc đất sét',
         summary: 'Đất sét trắng và sét nâu dẻo mịn được lấy từ vùng phù sa giàu khoáng chất.',
         description: 'Đất thô được ngâm ủ trong bể lọc nhiều tháng để loại bỏ tạp chất oxit sắt, chỉ giữ lại phần bùn mịn thuần khiết nhất.',
-        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/bat-trang/village_workshop.jpg',
         duration: '2 - 3 tuần lắng lọc'
       },
       {
@@ -244,7 +241,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chuốt gốm trên bàn xoay',
         summary: 'Dùng đôi tay khéo léo kết hợp lực xoay nhịp nhàng để tạo dáng cốt gốm.',
         description: 'Khối đất dẻo được đặt lên tâm bàn xoay. Nghệ nhân dùng lòng bàn tay và ngón trỏ đẩy vuốt để tạo cổ thon, bầu phình hoặc miệng loe cân đối.',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/bat-trang/artisan_wheel.jpg',
         duration: '15 - 45 phút mỗi sản phẩm'
       },
       {
@@ -252,28 +249,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Phơi gốm mộc và sửa tỉa',
         summary: 'Sấy khô tự nhiên trong bóng râm và gọt tỉa các chi tiết viền.',
         description: 'Sản phẩm mộc được hong gió dịu nhẹ tránh nứt nẻ, sau đó dùng dao tiện gỗ gọt nhẵn bề mặt và tạo chân đế vững chãi.',
-        image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/bat-trang/carved_pots.jpg'
       },
       {
         step: 4,
         title: 'Vẽ hoa văn & Trang trí men',
         summary: 'Vẽ bút lông men lam, men ngọc hoặc khắc chìm hoa văn rồng mây cổ.',
         description: 'Họa sĩ dân gian dùng cọ mềm vẽ thủ công từng nét sóng nước, hoa sen, chim hạc lên cốt gốm mộc với độ chuẩn xác tuyệt đối.',
-        image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/bat-trang/painting_pots.jpg'
       },
       {
         step: 5,
         title: 'Tráng men bí truyền',
         summary: 'Phủ lớp men tro trấu, men rạn hoặc men ngọc celadon độc bản.',
         description: 'Nước men được chế biến từ tro trấu sạch, bột đá thạch anh và cao lanh tự nhiên. Người thợ nhúng, dội hoặc phun men thật đều.',
-        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/bat-trang/raw_teapots.jpg'
       },
       {
         step: 6,
         title: 'Nung gốm ở nhiệt độ cao',
         summary: 'Đưa vào lò nung đạt mức nhiệt từ 1.200°C đến 1.300°C.',
         description: 'Quá trình nung liên tục hơn 24 giờ đòi hỏi theo dõi sát màu lửa qua mắt lò. Gốm chín hoàn toàn, cốt đanh như chuông, men bóng vĩnh cửu.',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/bat-trang/village_kiln_pots.jpg',
         duration: '24 - 36 giờ nung & 2 ngày làm nguội'
       }
     ],
@@ -283,14 +280,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bậc thầy phục dựng men cổ Bát Tràng',
         experience: 'Hơn 50 năm gắn bó với lò nung',
         quote: 'Đất là xương thịt, lửa là linh hồn, còn men là tấm áo văn hóa của dân tộc.',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/bat-trang/artisan_wheel.jpg'
       },
       {
         name: 'Nghệ nhân Ưu tú Vương Mạnh Tuấn',
         title: 'Chuyên gia gốm tử sa và gốm vuốt tay',
         experience: '40 năm giữ lửa nghề',
         quote: 'Mỗi ấm trà gốm mộc là một câu chuyện đối thoại giữa con người và đất mẹ phù sa.',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/bat-trang/painting_pots.jpg'
       }
     ],
     featuredProductIds: ['prod-bt-01', 'prod-bt-02', 'prod-bt-03'],
@@ -300,19 +297,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-bt-01',
         name: 'Bảo tàng Gốm Bát Tràng (Trung tâm Tinh hoa)',
         description: 'Công trình kiến trúc 7 cánh xoáy ốc mô phỏng bàn xoay vuốt gốm, trưng bày hiện vật gốm các triều đại.',
-        image: 'https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/bat-trang/market.jpg'
       },
       {
         id: 'hs-bt-02',
         name: 'Lò Bầu Cổ Bát Tràng',
         description: 'Lò nung thủ công cổ xưa duy nhất còn nguyên vẹn với 5 bầu nung liên hoàn có niên đại gần 100 năm.',
-        image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/bat-trang/village_kiln_pots.jpg'
       },
       {
         id: 'hs-bt-03',
         name: 'Chợ gốm Bát Tràng',
         description: 'Khu chợ sầm uất với hàng ngàn gian hàng trưng bày chén, ấm, bình hoa, tượng phong thủy.',
-        image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/bat-trang/street_pottery.jpg'
       }
     ],
     gameUrl: '/trai-nghiem/gom',
@@ -337,19 +334,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 10 km về phía Tây Nam',
       travelTime: '25 - 35 phút bằng tàu điện Cát Linh - Hà Đông (ga Vạn Phúc)'
     },
-    heroImage: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/van-phuc/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Những thoi tơ óng ả phơi rợp lối vào làng cổ Vạn Phúc'
+        url: '/images/villages/van-phuc/loom.jpg',
+        caption: 'Nghệ nhân dệt lụa Vạn Phúc thao tác trên khung cửi Jacquard cổ truyền'
       },
       {
-        url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Khung dệt gõ nhịp rộn rã trong các xưởng lụa gia truyền'
+        url: '/images/villages/van-phuc/punch_cards.jpg',
+        caption: 'Hệ thống thẻ đục lỗ tạo hoa văn vân mây trên khung dệt lụa Vạn Phúc'
       },
       {
-        url: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Con đường ô dù rực rỡ sắc màu thu hút khách du lịch'
+        url: '/images/villages/van-phuc/weaver.jpg',
+        caption: 'Thợ dệt bên khung cửi lụa tơ tằm truyền thống Hà Đông'
       }
     ],
     history: {
@@ -380,28 +377,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Ươm tơ và guồng tơ',
         summary: 'Kén tằm vàng óng được nấu nước sôi để kéo rút những sợi tơ mảnh dai.',
         description: 'Người thợ chọn kén tằm đạt độ già chuẩn, cho vào nồi ươm tơ, dùng đũa khuấy tìm mối tơ rồi quấn lên guồng tơ đều đặn.',
-        image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/van-phuc/weaver.jpg'
       },
       {
         step: 2,
         title: 'Mắc cửi và dệt lụa',
         summary: 'Lên khung cửi thủ công, gõ nhịp mắc các đường tơ ngang dọc.',
         description: 'Khâu mắc cửi đòi hỏi hàng ngàn sợi tơ dọc phải song song tăm tắp. Thoi đưa thoăn thoắt dệt nên các họa tiết vân mây, hoa cúc cổ truyền.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/van-phuc/loom.jpg'
       },
       {
         step: 3,
         title: 'Nhuộm màu thảo mộc thiên nhiên',
         summary: 'Dùng lá bàng, củ nâu, vỏ cây rừng tạo gam màu đằm thắm bền bỉ.',
         description: 'Lụa mộc được nhúng vào nồi nước nhuộm từ thảo mộc thiên nhiên, nhồi kỹ rồi xả nhiều lần bằng nước sạch để giữ độ óng tự nhiên.',
-        image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/van-phuc/punch_cards.jpg'
       },
       {
         step: 4,
         title: 'Phơi lụa & hoàn thiện',
         summary: 'Hong nắng sớm ven sông Nhuệ cho sợi tơ se lại mượt mà.',
         description: 'Dải lụa dài hàng chục mét được phơi trên giàn tre cao dưới nắng sớm, sợi tơ se khô tự nhiên mềm mại như làn mây.',
-        image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/van-phuc/silk_punch2.jpg'
       }
     ],
     artisans: [
@@ -410,7 +407,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Huyền thoại lụa Vân Vạn Phúc',
         experience: 'Cả một đời phục dựng lụa Vân hoàng triều',
         quote: 'Lụa Vạn Phúc mặc vào mát da mát thịt, bởi nó ấp ủ cả giọt mồ hôi và tấm lòng người thợ dệt.',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/van-phuc/weaver.jpg'
       }
     ],
     featuredProductIds: ['prod-vp-01', 'prod-vp-02'],
@@ -420,13 +417,13 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-vp-01',
         name: 'Con đường Ô Rực Rỡ & Cổng Làng Cổ',
         description: 'Tuyến phố đi bộ rợp bóng hàng trăm chiếc ô lụa sắc màu rực rỡ, điểm check-in biểu tượng của Vạn Phúc.',
-        image: 'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/van-phuc/hero.jpg'
       },
       {
         id: 'hs-vp-02',
         name: 'Miếu Bà Chúa Lụa A Lã Thị Nương',
         description: 'Di tích thờ Thành hoàng Làng lụa, nơi lưu giữ sắc phong triều Nguyễn và huyền thoại dệt tơ nghìn năm.',
-        image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/van-phuc/loom.jpg'
       }
     ],
     gameUrl: '/trai-nghiem',
@@ -451,15 +448,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 27 km về phía Tây Nam theo Quốc lộ 6',
       travelTime: '50 - 60 phút bằng ô tô hoặc xe buýt 57, 72'
     },
-    heroImage: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/phu-vinh/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Từng nan tre mảnh dẻ được đan cài tỉ mỉ thành đèn trang trí cao cấp'
+        url: '/images/villages/phu-vinh/hero.jpg',
+        caption: 'Nghệ nhân mây tre đan tỉ mỉ tạo hình từng nan tre uốn lượn'
       },
       {
-        url: 'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Bức tranh phong cảnh đan bằng mây sợi độc bản'
+        url: '/images/villages/phu-vinh/bamboo_basket.jpg',
+        caption: 'Chiếc giỏ mây tre đan hoa văn kỷ hà độc đáo'
       }
     ],
     history: {
@@ -490,28 +487,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn tre nứa và mây rừng',
         summary: 'Chọn những cây tre gióng thẳng, không mọt, mây bánh tẻ dẻo dai.',
         description: 'Vật liệu mây được nhập từ rừng Tây Bắc, rửa sạch đất cát và phơi se để giữ độ đàn hồi tối đa.',
-        image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/phu-vinh/hero.jpg'
       },
       {
         step: 2,
         title: 'Ra nan và chuốt sợi',
         summary: 'Chẻ nan bằng tay, chuốt mượt qua lưỡi dao sắc như sợi tơ.',
         description: 'Khâu quan trọng nhất đòi hỏi nghệ nhân có đôi tay khéo léo để chuốt sợi nan đều tăm tắp nghìn sợi như một.',
-        image: 'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/phu-vinh/bamboo_basket.jpg'
       },
       {
         step: 3,
         title: 'Tạo hình khung cốt và đan hoa',
         summary: 'Đan lóng mốt, lóng đôi, đan hoa thị, xương cá theo thiết kế.',
         description: 'Từng sợi mây được uốn lượn nhịp nhàng quanh khung cốt gỗ hoặc thép tạo dáng bình, giỏ, khay trà tinh mỹ.',
-        image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/phu-vinh/hero.jpg'
       },
       {
         step: 4,
         title: 'Xông diêm sinh & Sơn phủ tự nhiên',
         summary: 'Hun khói chống mốc ẩm và quét sơn bóng an toàn sinh học.',
         description: 'Sản phẩm sau khi đan được sấy khô bằng lò rơm trấu hoặc xông diêm sinh vừa đủ để giữ màu vàng óng tự nhiên suốt hàng chục năm.',
-        image: 'https://images.unsplash.com/photo-1584589167171-541ce45f1eea?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/phu-vinh/bamboo_basket.jpg'
       }
     ],
     artisans: [
@@ -520,7 +517,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bàn tay vàng mây tre đan Việt Nam',
         experience: '55 năm sáng tác tranh mây mỹ nghệ',
         quote: 'Sợi mây tuy dẻo dai nhưng có hồn. Phải yêu từng gióng tre cành mây thì tác phẩm mới cất lên tiếng nói.',
-        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/phu-vinh/hero.jpg'
       }
     ],
     featuredProductIds: ['prod-pv-01', 'prod-pv-02'],
@@ -530,7 +527,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-pv-01',
         name: 'Không gian Trưng bày Nghệ thuật Mây Tre Phú Vinh',
         description: 'Nơi hội tụ hơn 500 mẫu thiết kế nội thất mây tre đoạt giải thưởng thiết kế quốc tế.',
-        image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/phu-vinh/hero.jpg'
       }
     ],
     gameUrl: '/trai-nghiem',
@@ -555,15 +552,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 30 km về phía Tây Nam',
       travelTime: '55 phút theo Quốc lộ 21B'
     },
-    heroImage: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/chuong/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Hàng ngàn chiếc nón trắng nõn phơi rợp sân đình làng Chuông'
+        url: '/images/villages/chuong/non_la_museum.jpg',
+        caption: 'Nón lá Thanh Oai truyền thống đan từ lá cọ và khung tre uốn vòng (Bảo tàng Phụ nữ Việt Nam)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Nụ cười cô thôn nữ bên chiếc nón bài thơ che nghiêng nắng hạ'
+        url: '/images/villages/chuong/conical_hat1.jpg',
+        caption: 'Chiếc nón lá truyền thống phẳng phiu, thanh thoát'
+      },
+      {
+        url: '/images/villages/chuong/conical_hat2.jpg',
+        caption: 'Nón lá bài thơ làng Chuông - biểu tượng nét duyên phụ nữ Việt'
       }
     ],
     history: {
@@ -589,28 +590,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn lá lụi và ủi phẳng',
         summary: 'Lá nón xanh non được lấy từ vùng đồi Quảng Bình, vò trong cát rồi ủi bằng lưỡi cày nóng.',
         description: 'Lá được sấy trên than củi, dùng giẻ mềm và lưỡi cày gang nóng vuốt thật phẳng mà không làm cháy hay rách sợi gân lá.',
-        image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuong/non_la_museum.jpg'
       },
       {
         step: 2,
         title: 'Uốn 16 vành nón tre',
         summary: 'Tre rừng được chẻ vót tròn đều, uốn thành 16 vòng cung từ nhỏ đến lớn.',
         description: '16 vành nón tượng trưng cho sự trọn vẹn của tuổi thanh xuân được xếp ngay ngắn trên khuôn gỗ hình nón cân xứng.',
-        image: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuong/conical_hat1.jpg'
       },
       {
         step: 3,
         title: 'Xếp lá và lồng bài thơ',
         summary: 'Xếp hai lớp lá trắng đều tăm tắp, xen giữa là hoa văn cắt giấy hoặc câu thơ xứ Đoài.',
         description: 'Khi soi chiếc nón lên ánh nắng mặt trời, người xem sẽ thấy hình ảnh Chùa Một Cột hoặc hai câu thơ lục bát ẩn hiện lung linh.',
-        image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuong/conical_hat2.jpg'
       },
       {
         step: 4,
         title: 'Khâu nón từng mũi cước mảnh',
         summary: 'Dùng kim khâu mũi nhỏ li ti từ đỉnh nón xuống vành chân.',
         description: 'Người thợ khâu nón thoăn thoắt đưa đường kim mũi cước, mỗi centimet đều tăm tắp 3-4 mũi khâu chắc chắn không lộ vết chỉ.',
-        image: 'https://images.unsplash.com/photo-1508873696983-2df5293cb32b?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuong/hero.jpg'
       }
     ],
     artisans: [
@@ -619,7 +620,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Người thổi hồn hiện đại vào nón Chuông',
         experience: '35 năm làm nón và sáng tạo nón lụa xuất khẩu',
         quote: 'Chiếc nón lá che chở mưa nắng đời người, mang theo nét dịu dàng của người mẹ, người chị xứ Bắc.',
-        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/chuong/non_la_museum.jpg'
       }
     ],
     featuredProductIds: ['prod-ch-01', 'prod-ch-02'],
@@ -629,7 +630,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-ch-01',
         name: 'Chợ phiên Nón Làng Chuông (mùng 4, 10, 14, 20, 24, 30 âm lịch)',
         description: 'Phiên chợ độc đáo họp từ 5 giờ sáng với hàng vạn chiếc nón trắng lấp lánh trong sương sớm ven đê sông Đáy.',
-        image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/chuong/hero.jpg'
       }
     ],
     gameUrl: '/trai-nghiem/dan-non',
@@ -654,15 +655,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 16 km về phía Đông',
       travelTime: '35 phút theo hướng cầu Vĩnh Tuy - Vinhomes Ocean Park'
     },
-    heroImage: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/kieu-ky/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Lá vàng quỳ mỏng manh được nghệ nhân gắp bằng kẹp tre chuyên dụng'
+        url: '/images/villages/kieu-ky/hero.jpg',
+        caption: 'Tượng Phật gỗ thếp vàng quỳ lấp lánh thời Hậu Lê (Bảo tàng Lịch sử Quốc gia)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Bức hoành phi cổ sơn son thếp vàng lung linh ánh kim'
+        url: '/images/villages/kieu-ky/gilded_altar.jpg',
+        caption: 'Họa tiết đao mác thếp vàng quỳ Kiêu Kỵ tinh xảo'
       }
     ],
     history: {
@@ -688,21 +689,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Cán vàng và cắt vập',
         summary: 'Vàng ta 99.9% được nung chảy và cán mỏng thành dải dài.',
         description: 'Dải vàng được cắt thành từng mẩu nhỏ cỡ móng tay (gọi là vập vàng) để chuẩn bị vào quỳ.',
-        image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/kieu-ky/hero.jpg'
       },
       {
         step: 2,
         title: 'Vào quỳ và đập vàng',
         summary: 'Xếp từng mảnh vàng giữa các lớp giấy quỳ bôi mực tự chế, đập hàng ngàn nhát búa.',
         description: 'Người thợ dùng búa thép nặng 5kg đập liên tục và nhịp nhàng hơn 1 giờ đồng hồ để lá vàng dàn mỏng ra gấp hàng trăm lần diện tích ban đầu.',
-        image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/kieu-ky/gilded_altar.jpg'
       },
       {
         step: 3,
         title: 'Gắp vàng và hoàn thiện lá quỳ',
         summary: 'Dùng kẹp tre mỏng gắp lá vàng bay bổng như làn khói vào hộp cất giữ.',
         description: 'Lá vàng quỳ mỏng đến mức thở nhẹ cũng có thể bay mất, đòi hỏi phòng kín gió và đôi tay tĩnh tâm tuyệt đối.',
-        image: 'https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/kieu-ky/hero.jpg'
       }
     ],
     artisans: [
@@ -711,7 +712,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Truyền nhân đời thứ 5 dát vàng quỳ Kiêu Kỵ',
         experience: '45 năm cầm búa quỳ',
         quote: 'Một lượng vàng đập ra cả mẫu giấy quỳ, mỗi nhát búa là sự gom tụ khí lực và chữ tâm của người thợ.',
-        avatar: 'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/kieu-ky/hero.jpg'
       }
     ],
     featuredProductIds: ['prod-kk-01'],
@@ -721,7 +722,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-kk-01',
         name: 'Đền thờ Tổ nghề Tiến sĩ Nguyễn Quý Trị',
         description: 'Di tích lịch sử văn hóa cấp Quốc gia, nơi tổ chức lễ hội giỗ tổ nghề quỳ vàng vào ngày 17 tháng 8 âm lịch.',
-        image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/kieu-ky/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Quanh năm, đặc biệt dịp lễ giỗ Tổ nghề tháng 8 âm lịch',
@@ -745,15 +746,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 28 km về phía Bắc',
       travelTime: '50 phút qua cầu Nhật Tân hoặc cầu Đông Trù'
     },
-    heroImage: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/dao-thuc/puppet_show.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Tiết mục chú Tễu và rồng phun nước rộn rã tại thủy đình làng Đào Thục'
+        url: '/images/villages/dao-thuc/hero.jpg',
+        caption: 'Chú Tễu và các quân rối nước rực rỡ nổi trên mặt hồ'
       },
       {
-        url: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Những quân rối gỗ sung được gọt giũa và tô màu thủ công tinh xảo'
+        url: '/images/villages/dao-thuc/puppet_show.jpg',
+        caption: 'Sân khấu thủy đình với các tiết mục rối nước dân gian độc đáo'
+      },
+      {
+        url: '/images/villages/dao-thuc/water_stage.jpg',
+        caption: 'Không gian biểu diễn múa rối nước truyền thống'
       }
     ],
     history: {
@@ -779,21 +784,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Đẽo gọt quân rối từ gỗ sung',
         summary: 'Gỗ sung nhẹ, xốp, chịu ngâm nước lâu mà không bị nứt vỡ.',
         description: 'Nghệ nhân dùng đục tay tạo hình các nhân vật: chú Tễu hóm hỉnh, cô Tiên bay bổng, tướng quân cưỡi ngựa oai phong.',
-        image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/dao-thuc/hero.jpg'
       },
       {
         step: 2,
         title: 'Quét sơn ta và vẽ mặt',
         summary: 'Dùng nhựa sơn ta chống thấm nước, pha màu tự nhiên rực rỡ.',
         description: 'Quân rối được quét nhiều lớp sơn ta bóng bẩy, vẽ biểu cảm nét mặt sinh động, hài hước đậm chất trào lộng dân gian.',
-        image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/dao-thuc/puppet_show.jpg'
       },
       {
         step: 3,
         title: 'Lắp máy điều khiển sào và dây',
         summary: 'Hệ thống cần sào, dây kéo ngầm dưới nước tạo chuyển động mềm mại.',
         description: 'Máy sào bí truyền giúp con rối có thể lặn ngụp, nhào lộn, phun lửa và trao hoa cho khán giả một cách thần kỳ.',
-        image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/dao-thuc/water_stage.jpg'
       }
     ],
     artisans: [
@@ -802,7 +807,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Trưởng phường rối nước Đào Thục',
         experience: '40 năm lội nước sau mành buồm thủy đình',
         quote: 'Mỗi lần tiếng trống quân vang lên trên mặt hồ là tim chúng tôi lại đập cùng nhịp thở ngàn năm của cha ông.',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/dao-thuc/puppet_show.jpg'
       }
     ],
     featuredProductIds: ['prod-dt-01'],
@@ -812,7 +817,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-dt-01',
         name: 'Thủy đình Làng Đào Thục',
         description: 'Sân khấu mái cong cổ kính giữa hồ nước làng, nơi diễn ra các suất diễn múa rối nước mộc mạc và chân thực.',
-        image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/dao-thuc/water_stage.jpg'
       }
     ],
     bestTimeToVisit: 'Cuối tuần hoặc các dịp hội làng tháng Hai âm lịch',
@@ -836,11 +841,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 15 km về phía Tây Bắc',
       travelTime: '30 phút theo tuyến đường Hồ Tùng Mậu - Cầu Diễn'
     },
-    heroImage: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/tay-tuu/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Cánh đồng cúc vàng, hoa ly và thược dược bừng nở dưới nắng sớm'
+        url: '/images/villages/tay-tuu/flower_market.jpg',
+        caption: 'Sắc hoa rực rỡ của các loài cúc, hồng, ly từ ruộng hoa Tây Tựu'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_bus.jpg',
+        caption: 'Những chuyến xe chở đầy hoa tươi từ Tây Tựu về nội đô Hà Nội'
       }
     ],
     history: {
@@ -866,14 +875,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Cải tạo đất phù sa và ươm giống',
         summary: 'Đất được cày ải, bón phân hữu cơ và tạo luống cao ráo thoát nước tốt.',
         description: 'Chọn củ giống hoa ly, mầm hoa hồng khỏe mạnh gieo trồng đúng tiết trời se lạnh.',
-        image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/tay-tuu/flower_market.jpg'
       },
       {
         step: 2,
         title: 'Chong đèn ban đêm kích nở hoa',
         summary: 'Kỹ thuật thắp bóng điện xuyên đêm sưởi ấm giúp hoa nở đúng dịp Tết.',
         description: 'Cả cánh đồng Tây Tựu rực sáng lung linh như thành phố ánh sáng khi hàng vạn ngọn đèn được thắp sáng hàng đêm.',
-        image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/tay-tuu/hero.jpg'
       }
     ],
     artisans: [
@@ -882,7 +891,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chủ vườn hoa cúc thược dược 3 đời Tây Tựu',
         experience: '35 năm thắp đèn giữ hoa nở đúng độ xuân sang',
         quote: 'Chăm hoa cũng như chăm đứa trẻ, cần mưa thuận gió hòa và tình yêu đằm thắm của người làm vườn.',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/tay-tuu/flower_market.jpg'
       }
     ],
     featuredProductIds: ['prod-tt-01'],
@@ -892,7 +901,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-tt-01',
         name: 'Đồng hoa đêm thắp đèn Tây Tựu',
         description: 'Khung cảnh lung linh huyền ảo với hàng vạn ánh đèn vàng thắp sáng suốt đêm trên cánh đồng hoa bát ngát.',
-        image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/tay-tuu/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Tháng 11 đến tháng 2 âm lịch (đặc biệt những tuần giáp Tết Nguyên Đán)',
@@ -916,11 +925,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 40 km về phía Nam theo Quốc lộ 1A',
       travelTime: '60 phút bằng ô tô hoặc xe buýt'
     },
-    heroImage: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/xuan-la/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Thế giới Tôn Ngộ Không, công chúa và 12 con giáp ngộ nghĩnh từ tò he'
+        url: '/images/villages/xuan-la/to_he1.jpg',
+        caption: 'Các nhân vật tò he dân gian nặn từ bột gạo nhuộm màu tự nhiên'
+      },
+      {
+        url: '/images/villages/xuan-la/to_he2.jpg',
+        caption: 'Tò he hình các con giáp ngộ nghĩnh, gắn liền với tuổi thơ'
       }
     ],
     history: {
@@ -946,21 +959,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Xay bột gạo nếp và nhào chín',
         summary: 'Pha bột gạo tẻ và nếp cái hoa vàng theo tỷ lệ 10:1, luộc chín dẻo.',
         description: 'Bột được xay nhuyễn, nhào kỹ và luộc vừa độ chín để đạt độ dẻo kết dính hoàn hảo mà không bị dính tay.',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/xuan-la/to_he1.jpg'
       },
       {
         step: 2,
         title: 'Nhuộm 4 màu cơ bản từ rau quả',
         summary: 'Màu đỏ từ gấc, vàng từ nghệ, xanh từ lá chàm/lá dứa, đen từ tro rơm nếp.',
         description: 'Màu sắc hoàn toàn tự nhiên, an toàn cho trẻ em và giữ được hương thơm ngát của nếp đồng nội.',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/xuan-la/to_he2.jpg'
       },
       {
         step: 3,
         title: 'Vê bột, tạo hình trên que tre',
         summary: 'Dùng ngón tay thoăn thoắt bấm, vuốt, châm que tre chỉ trong vài phút.',
         description: 'Chỉ bằng chiếc lược răng cưa và bàn tay tài hoa, chú rồng uốn khúc, bông hoa hồng hay siêu anh hùng xuất hiện sinh động trên đầu que tre.',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/xuan-la/hero.jpg'
       }
     ],
     artisans: [
@@ -969,7 +982,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bàn tay vàng phục hưng con giống bột Phú Xuyên',
         experience: '20 năm sáng tạo tò he truyền thống và hiện đại',
         quote: 'Nặn tò he không chỉ là đồ chơi, đó là một tác phẩm điêu khắc mini gửi gắm nụ cười trẻ thơ.',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/xuan-la/to_he1.jpg'
       }
     ],
     featuredProductIds: ['prod-xl-01'],
@@ -979,7 +992,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-xl-01',
         name: 'Không gian Trải nghiệm Tò He Xuân La',
         description: 'Lớp học nặn tò he dành cho gia đình và du khách nhí vào mỗi dịp cuối tuần.',
-        image: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/xuan-la/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Dịp Trung thu hoặc các ngày hội làng rằm tháng Giêng',
@@ -1003,19 +1016,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 35 km về phía Tây Nam',
       travelTime: '50 - 60 phút theo trục QL21B hoặc xe buýt số 91'
     },
-    heroImage: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/quang-phu-cau/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Những bó tăm hương xòe rộng như đóa hoa khổng lồ phơi dưới nắng ấm'
+        url: '/images/villages/quang-phu-cau/incense_drying.jpg',
+        caption: 'Những bó chân hương xòe rộng như đóa hoa phơi nắng đỏ rực sân đình'
       },
       {
-        url: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Nghệ nhân se bột hương thảo mộc tự nhiên từ trầm, quế, hồi'
-      },
-      {
-        url: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Không gian phơi hương rực rỡ tại sân đình Đạo Tú'
+        url: '/images/villages/quang-phu-cau/hero.jpg',
+        caption: 'Không gian rực rỡ sắc màu của làng tăm hương Quảng Phú Cầu'
       }
     ],
     history: {
@@ -1046,7 +1055,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn vầu, nứa bánh tẻ',
         summary: 'Khai thác nứa rừng già dẻo dai',
         description: 'Cây vầu, tre nứa được nhập từ các tỉnh vùng cao Hòa Bình, Yên Bái, đảm bảo thân thẳng, đủ độ dẻo và không bị mọt.',
-        image: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/quang-phu-cau/hero.jpg',
         duration: '1 ngày phân loại'
       },
       {
@@ -1054,7 +1063,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chẻ nan và tuốt tăm tròn',
         summary: 'Chẻ nan mỏng đều tăm tắp',
         description: 'Tre được chẻ thành từng thanh nan nhỏ, sau đó đưa qua máy tuốt tròn đều đặn, kích thước chuẩn xác từng milimet.',
-        image: 'https://images.unsplash.com/photo-1508615039623-a25605d2b022?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/quang-phu-cau/incense_drying.jpg',
         duration: '2 - 3 giờ'
       },
       {
@@ -1062,7 +1071,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Nhuộm chân hương và xòe hoa phơi nắng',
         summary: 'Tạo màu đỏ thắm may mắn',
         description: 'Chân tăm hương được nhúng vào thùng màu hồng cánh sen hoặc đỏ tươi, sau đó xòe tròn như bông hoa khổng lồ phơi trên khắp các sân đình và con ngõ.',
-        image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/quang-phu-cau/hero.jpg',
         duration: 'Phơi nắng 1 - 2 ngày'
       },
       {
@@ -1070,7 +1079,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Se bột hương thảo mộc tự nhiên',
         summary: 'Phối trộn trầm hương, quế, đại hồi',
         description: 'Bột hương phối trộn từ hàng chục vị thảo mộc thiên nhiên được se đều quanh thân tăm, tạo nên làn khói thơm thanh tao, an lành cho sức khỏe.',
-        image: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=800&q=80',
+        image: '/images/villages/quang-phu-cau/incense_drying.jpg',
         duration: 'Bảo quản sấy khô'
       }
     ],
@@ -1080,7 +1089,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chủ cơ sở hương truyền thống Quảng Phú Cầu',
         experience: '40 năm giữ lửa nghề làm chân hương thảo mộc',
         quote: 'Mỗi nén hương thắp lên là lòng thành kính với trời đất và tổ tiên, vì vậy nguyên liệu phải hoàn toàn thanh sạch từ thảo mộc thiên nhiên.',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/quang-phu-cau/hero.jpg'
       }
     ],
     featuredProductIds: ['prod-qpc-01'],
@@ -1090,7 +1099,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-qpc-01',
         name: 'Sân hoa hương đình làng Đạo Tú',
         description: 'Không gian phơi hương xòe hoa nghệ thuật quy mô lớn bậc nhất làng nghề, điểm check-in hấp dẫn du khách trong và ngoài nước.',
-        image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/quang-phu-cau/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Tháng 10 đến tháng 1 âm lịch (mùa cao điểm làm hương Tết)',
@@ -1114,15 +1123,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 40 km về phía Nam',
       travelTime: '60 phút theo cao tốc Pháp Vân - Cầu Giẽ'
     },
-    heroImage: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/chuyen-my/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Bức tranh khảm trai xà cừ ngũ sắc óng ánh trên nền gỗ trắc'
+        url: '/images/villages/chuyen-my/inlay_screen.jpg',
+        caption: 'Bức bình phong gỗ khảm ốc xà cừ thời Nguyễn thế kỷ 19 lộng lẫy (Bảo tàng Lịch sử Quốc gia)'
       },
       {
-        url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Nghệ nhân tỉ mỉ đục chạm rãnh gỗ để gắn từng mảnh ốc'
+        url: '/images/villages/chuyen-my/inlay_picture.jpg',
+        caption: 'Tranh khảm trai Chuôn Ngọ với đường nét chạm khảm tinh xảo'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_panel.jpg',
+        caption: 'Bức hoành phi khảm rồng mây sơn son thếp vàng kết hợp khảm xà cừ'
       }
     ],
     history: {
@@ -1153,28 +1166,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Thiết kế bản vẽ đồ họa',
         summary: 'Vẽ phác thảo hoa văn trên giấy dó',
         description: 'Họa sĩ dân gian vẽ chi tiết họa tiết phong cảnh, chim hoa, điển tích lịch sử với độ chính xác cao.',
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuyen-my/inlay_picture.jpg'
       },
       {
         step: 2,
         title: 'Cắt cưa vỏ trai, vỏ ốc xà cừ',
         summary: 'Cắt gọt từng chi tiết nhỏ li ti',
         description: 'Dùng cưa tay thủ công tỉ mỉ cưa từng mảnh vỏ ốc đỏ, xà cừ mỏng tang theo đường nét bản vẽ mà không làm vỡ mảnh ngọc.',
-        image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuyen-my/inlay_screen.jpg'
       },
       {
         step: 3,
         title: 'Đục gỗ hạ mức nền',
         summary: 'Đục lòng gỗ khớp với hình vỏ trai',
         description: 'Đục rãnh gỗ nông sâu vừa đúng bằng độ dày của miếng trai để khi gắn vào mặt phẳng gỗ không bị gồ ghề.',
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuyen-my/inlay_panel.jpg'
       },
       {
         step: 4,
         title: 'Gắn trai, mài ráp và đánh bóng',
         summary: 'Mài phẳng bóng mịn như gương',
         description: 'Gắn keo sơn ta chuyên dụng, sau đó mài nước qua nhiều cấp độ giấy ráp và đánh bóng bằng lá chuối khô tự nhiên.',
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chuyen-my/hero.jpg'
       }
     ],
     artisans: [
@@ -1183,7 +1196,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bậc thầy khảm ốc đỏ xà cừ Chuôn Ngọ',
         experience: 'Hơn 55 năm cống hiến cho nghệ thuật khảm trai',
         quote: 'Vỏ trai vỏ ốc tưởng chừng vô tri, nhưng dưới bàn tay người thợ Chuôn Ngọ, chúng biết kể những câu chuyện ngàn năm của dân tộc.',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/chuyen-my/inlay_screen.jpg'
       }
     ],
     featuredProductIds: ['prod-cm-01'],
@@ -1193,7 +1206,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-cm-01',
         name: 'Đền thờ Tổ nghề Trương Công Thành',
         description: 'Ngôi đền cổ linh thiêng thờ vị khai sơn phá thạch truyền nghề khảm trai cho dân làng từ thế kỷ XI.',
-        image: 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/chuyen-my/inlay_screen.jpg'
       }
     ],
     bestTimeToVisit: 'Quanh năm, đặc biệt dịp lễ hội giỗ Tổ mùng 9 tháng Giêng âm lịch',
@@ -1217,11 +1230,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 17 km về phía Nam',
       travelTime: '30 - 35 phút theo Quốc lộ 1A'
     },
-    heroImage: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/ha-thai/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Bức tranh sơn mài vẽ vàng và vỏ trứng với chiều sâu huyền ảo'
+        url: '/images/villages/ha-thai/lacquer_box.jpg',
+        caption: 'Hộp gỗ sơn mài thế kỷ 19 phủ then bóng mịn (Bảo tàng Mỹ thuật Việt Nam)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_ritual.jpg',
+        caption: 'Hộp sơn mài dùng trong nghi lễ truyền thống Hà Nội đầu thế kỷ 20'
       }
     ],
     history: {
@@ -1247,28 +1264,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Tạo phôi cốt gỗ và gốm',
         summary: 'Gia công phôi mộc chuẩn xác',
         description: 'Cốt mộc được làm từ gỗ sấy khô hoặc composite, gốm không cong vênh.',
-        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/ha-thai/lacquer_box.jpg'
       },
       {
         step: 2,
         title: 'Hom bó và sơn lót nhiều lớp',
         summary: 'Bó vải màn chống rạn nứt',
         description: 'Dùng đất phù sa mịn trộn sơn ta hom kín phôi, bọc vải màn để cốt không bao giờ nứt nẻ.',
-        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/ha-thai/lacquer_ritual.jpg'
       },
       {
         step: 3,
         title: 'Vẽ họa tiết, cẩn vỏ trứng, thếp vàng',
         summary: 'Tạo hình nghệ thuật đa tầng',
         description: 'Nghệ nhân dùng sơn then, sơn cánh gián vẽ nét, rắc bột vàng, gắn vỏ trứng tạo hoa văn huyền diệu.',
-        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/ha-thai/hero.jpg'
       },
       {
         step: 4,
         title: 'Mài nước và đánh bóng hoàn thiện',
         summary: 'Mài dưới nước hé lộ lớp tranh sâu thẳm',
         description: 'Dùng giấy ráp mịn mài đều dưới làn nước chảy, sau đó dùng lòng bàn tay xoa bột than đánh bóng tới khi láng mịn như gương.',
-        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/ha-thai/lacquer_box.jpg'
       }
     ],
     artisans: [
@@ -1277,7 +1294,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bàn tay vàng làng nghề sơn mài Hạ Thái',
         experience: '45 năm sáng tác tranh sơn mài nghệ thuật',
         quote: 'Sơn mài là sự kỳ diệu của mài và tìm. Phải mài đi mới thấy được ánh sáng lung linh của vàng son ẩn sâu bên dưới.',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/ha-thai/lacquer_box.jpg'
       }
     ],
     featuredProductIds: ['prod-ht-01'],
@@ -1287,7 +1304,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-ht-01',
         name: 'Nhà trưng bày Không gian Sơn mài Hạ Thái',
         description: 'Nơi quy tụ hàng trăm tác phẩm sơn mài đỉnh cao từ bình hoa, đĩa decor đến tranh mỹ thuật khổ lớn.',
-        image: 'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/ha-thai/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Mùa thu và dịp cuối năm',
@@ -1311,11 +1328,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 18 km về phía Tây',
       travelTime: '30 - 40 phút theo Đại lộ Thăng Long hoặc đường 32'
     },
-    heroImage: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/son-dong/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Tượng Phật Di Lặc và Quan Âm thếp vàng nguy nga tráng lệ'
+        url: '/images/villages/son-dong/buddha_statue.jpg',
+        caption: 'Tượng Bồ Tát Quan Âm gỗ sơn son thếp vàng thời Mạc (Bảo tàng Lịch sử Quốc gia)'
+      },
+      {
+        url: '/images/villages/son-dong/carving_tools.jpg',
+        caption: 'Bộ dụng cụ đục trổ điêu khắc gỗ của nghệ nhân Việt truyền thống (Bảo tàng Dân tộc học)'
+      },
+      {
+        url: '/images/villages/son-dong/gilded_wood.jpg',
+        caption: 'Đồ thờ gỗ sơn son thếp vàng thời Nguyễn tinh xảo'
       }
     ],
     history: {
@@ -1341,28 +1366,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn gỗ mít già lõi vàng',
         summary: 'Loại gỗ tâm linh không mọt nứt',
         description: 'Chỉ chọn thân gỗ mít già tuổi, thớ mềm dẻo, ít cong vênh và mang ý nghĩa tâm linh tốt lành.',
-        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/son-dong/carving_tools.jpg'
       },
       {
         step: 2,
         title: 'Đục phá và tạo hình khối',
         summary: 'Định hình tỷ lệ diện tượng',
         description: 'Dùng búa và đục thô chặt bỏ phần gỗ thừa, định hình diện mạo, dáng ngồi, nếp áo theo quy chuẩn Phật học.',
-        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/son-dong/buddha_statue.jpg'
       },
       {
         step: 3,
         title: 'Đục chạm tỉa chi tiết tinh vi',
         summary: 'Thổi thần thái vào diện mạo tượng',
         description: 'Dùng đục bén tỉa từng sợi tóc, ánh mắt bao dung, khóe miệng từ bi và dải áo bồng bềnh.',
-        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/son-dong/gilded_wood.jpg'
       },
       {
         step: 4,
         title: 'Sơn hom và thếp quỳ vàng 9999',
         summary: 'Thếp vàng óng ánh uy nghi',
         description: 'Sơn phủ sơn ta chống mối mọt, sau đó thếp từng lá vàng quỳ Kiêu Kỵ mỏng manh lên bề mặt tượng tạo vẻ đẹp trang nghiêm.',
-        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/son-dong/hero.jpg'
       }
     ],
     artisans: [
@@ -1371,7 +1396,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Bàn tay vàng điêu khắc gỗ tâm linh Sơn Đồng',
         experience: '38 năm đục tượng Phật và phục chế di tích',
         quote: 'Tạc tượng Phật quan trọng nhất là chữ Tâm. Người thợ phải tĩnh tâm thì diện tượng mới tỏa rạng vẻ từ bi hỷ xả.',
-        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/son-dong/buddha_statue.jpg'
       }
     ],
     featuredProductIds: ['prod-sd-01'],
@@ -1381,7 +1406,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-sd-01',
         name: 'Phố nghề Điêu khắc tượng Sơn Đồng',
         description: 'Tuyến đường rực rỡ với hàng trăm xưởng mộc, mùi gỗ mít thơm nồng và thanh âm gõ đục rộn rã sớm chiều.',
-        image: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/son-dong/buddha_statue.jpg'
       }
     ],
     bestTimeToVisit: 'Tháng 8 đến tháng 12 âm lịch (chuẩn bị đồ thờ đón Tết)',
@@ -1405,11 +1430,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 45 km về phía Nam',
       travelTime: '60 - 70 phút theo QL21B'
     },
-    heroImage: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/trach-xa/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Tà áo dài tơ tằm mềm mại được khâu tay mũi kim dọc bí truyền'
+        url: '/images/villages/trach-xa/ao_dai1.jpg',
+        caption: 'Tà áo dài truyền thống thướt tha tôn vinh vẻ đẹp phụ nữ Việt'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai2.jpg',
+        caption: 'Áo dài lụa ngũ thân may tay thủ công Trạch Xá'
       }
     ],
     history: {
@@ -1435,28 +1464,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Lấy số đo thước tấc cổ truyền',
         summary: 'Đo phom dáng chính xác tới từng milimet',
         description: 'Nghệ nhân quan sát dáng người để căn chỉnh độ võng eo, góc tà sao cho khi mặc áo ôm khít nhưng vẫn bay bổng.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/trach-xa/ao_dai1.jpg'
       },
       {
         step: 2,
         title: 'Cắt tơ lụa theo canh sợi ngang dọc',
         summary: 'Kéo cắt không xơ sợi vải',
         description: 'Cắt vải lụa tơ tằm theo chiều sợi, tính toán độ co giãn của từng chất liệu lụa Vân, gấm, sa tơ.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/trach-xa/ao_dai2.jpg'
       },
       {
         step: 3,
         title: 'Kỹ thuật cầm kim dọc giấu chỉ',
         summary: 'Bí quyết may tay độc nhất vô nhị',
         description: 'Người thợ cầm kim thẳng đứng, đẩy bằng ngón tay trỏ. Mũi chỉ mặt ngoài giấu kín hoàn toàn, mặt trong đều tăm tắp như đường may máy.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/trach-xa/hero.jpg'
       },
       {
         step: 4,
         title: 'Tết khuy bướm và hoàn thiện tà áo',
         summary: 'Khuy tết thủ công ngũ hành',
         description: 'Tự tay tết nút khuy bướm mềm mại và là ủi bằng bàn ủi nhiệt truyền thống.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/trach-xa/ao_dai1.jpg'
       }
     ],
     artisans: [
@@ -1465,7 +1494,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chủ nhiệm CLB Nghề may áo dài Trạch Xá',
         experience: '42 năm cầm kim dọc gìn giữ quốc phục',
         quote: 'Đường kim của thợ Trạch Xá như nước chảy mây trôi. Áo dài may tay có linh hồn vì người thợ gửi cả tấm lòng vào từng mũi chỉ.',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/trach-xa/ao_dai1.jpg'
       }
     ],
     featuredProductIds: ['prod-tx-01'],
@@ -1475,7 +1504,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-tx-01',
         name: 'Đền thờ Đức Tổ nghề May Nguyễn Thị Sen',
         description: 'Nơi tri ân đức Thánh mẫu truyền nghề may áo dài cho muôn đời con cháu làng Trạch Xá.',
-        image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/trach-xa/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Mùa thu và dịp lễ hội Tổ nghề mùng 4 tháng Giêng',
@@ -1499,11 +1528,19 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 30 km về phía Tây',
       travelTime: '40 phút theo Đại lộ Thăng Long'
     },
-    heroImage: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/thach-xa/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Hàng trăm chú chuồn chuồn tre rực rỡ sắc màu đậu thăng bằng'
+        url: '/images/villages/thach-xa/bamboo_dragonfly.jpg',
+        caption: 'Chuồn chuồn tre Thạch Xá giữ thăng bằng kỳ diệu trên đầu ngón tay'
+      },
+      {
+        url: '/images/villages/thach-xa/pagoda.jpg',
+        caption: 'Chùa Tây Phương cổ kính nằm ngay trên ngọn núi cạnh làng Thạch Xá'
+      },
+      {
+        url: '/images/villages/thach-xa/pagoda2.jpg',
+        caption: 'Mái ngói cong vút Chùa Tây Phương - điểm tựa tâm linh của làng nghề'
       }
     ],
     history: {
@@ -1529,28 +1566,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn tre rừng bánh tẻ phơi nỏ',
         summary: 'Tre ngâm chống mối mọt tự nhiên',
         description: 'Tre rừng mua từ Hòa Bình, Phú Thọ được cạo sạch vỏ xanh, phơi nỏ tự nhiên để không bị cong vênh theo thời tiết.',
-        image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/thach-xa/bamboo_dragonfly.jpg'
       },
       {
         step: 2,
         title: 'Vót thân và cánh chuồn chuồn',
         summary: 'Tạo hình tỉ mỉ chính xác',
         description: 'Vót mỏng cánh và uốn cong phần đầu mỏ sao cho hai cánh có độ đối xứng tuyệt đối.',
-        image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/thach-xa/hero.jpg'
       },
       {
         step: 3,
         title: 'Căn chỉnh trọng tâm thăng bằng',
         summary: 'Bí quyết đậu thăng bằng kỳ diệu',
         description: 'Lắp cánh vào mộng thân, dùng ngón tay thử nghiệm để điều chỉnh trọng tâm dồn chính xác về chóp mỏ nhọn.',
-        image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/thach-xa/pagoda.jpg'
       },
       {
         step: 4,
         title: 'Sơn vẽ hoa văn dân gian rực rỡ',
         summary: 'Vẽ hoa văn hoa cỏ, chấm bi ngũ sắc',
         description: 'Dùng sơn dầu vẽ họa tiết truyền thống và phủ bóng để chuồn chuồn bền màu cùng năm tháng.',
-        image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/thach-xa/bamboo_dragonfly.jpg'
       }
     ],
     artisans: [
@@ -1559,7 +1596,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Người giữ lửa chuồn chuồn tre Thạch Xá',
         experience: 'Gần 30 năm sáng tạo đồ chơi tre dân gian',
         quote: 'Mỗi chú chuồn chuồn tre là bài học về sự cân bằng và bình yên, giúp các em nhỏ rời xa màn hình điện tử để yêu thiên nhiên làng quê.',
-        avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/thach-xa/bamboo_dragonfly.jpg'
       }
     ],
     featuredProductIds: ['prod-thx-01'],
@@ -1569,7 +1606,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-thx-01',
         name: 'Xưởng Chuồn chuồn tre chân chùa Tây Phương',
         description: 'Không gian workshop rực rỡ chuồn chuồn tre và thưởng thức bánh chè lam ấm nồng xứ Đoài.',
-        image: 'https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/thach-xa/pagoda.jpg'
       }
     ],
     bestTimeToVisit: 'Quanh năm, kết hợp trẩy hội chùa Tây Phương tháng 3 âm lịch',
@@ -1593,11 +1630,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 32 km về phía Tây',
       travelTime: '45 phút theo Đại lộ Thăng Long'
     },
-    heroImage: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/chang-son/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Chiếc quạt lụa Chàng Sơn vẽ tranh thủy mặc phố cổ Hà Nội'
+        url: '/images/villages/chang-son/traditional_fan.jpg',
+        caption: 'Chiếc quạt giấy xếp nan tre thanh nhã - sản phẩm nổi tiếng Chàng Sơn'
+      },
+      {
+        url: '/images/villages/chang-son/hero.jpg',
+        caption: 'Quê hương xứ Đoài hữu tình bên chân núi chùa Tây Phương'
       }
     ],
     history: {
@@ -1623,28 +1664,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Chọn tre ngâm nước vôi',
         summary: 'Chống mọt và dẻo dai',
         description: 'Tre được ngâm bùn hoặc nước vôi từ 3 đến 6 tháng để tre dẻo quánh, không bao giờ gãy nan.',
-        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chang-son/traditional_fan.jpg'
       },
       {
         step: 2,
         title: 'Chạm khắc hoa văn hai nan mẹ',
         summary: 'Chạm thủng rồng phượng tinh vi',
         description: 'Hai nan cái bằng sừng hoặc tre già được nghệ nhân chạm khắc rồng phượng, mai lan cúc trúc uốn lượn mềm mại.',
-        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chang-son/hero.jpg'
       },
       {
         step: 3,
         title: 'Cắt dán giấy dó và lụa tơ tằm',
         summary: 'Dùng nhựa cậy gắn dính tự nhiên',
         description: 'Dán giấy điệp hoặc lụa tơ tằm bằng nhựa cậy rừng nguyên chất, bền bỉ với thời tiết ẩm ướt.',
-        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chang-son/traditional_fan.jpg'
       },
       {
         step: 4,
         title: 'Vẽ tranh thủy mặc và vào chốt',
         summary: 'Họa nét tranh di sản',
         description: 'Họa sĩ dân gian vẽ cảnh Hồ Gươm, Chùa Một Cột, hoa sen rồi vào chốt đồng cổ điển chắc chắn.',
-        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/chang-son/hero.jpg'
       }
     ],
     artisans: [
@@ -1653,7 +1694,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Kỷ lục gia làm quạt mỹ nghệ Chàng Sơn',
         experience: 'Hơn 50 năm giữ nghề quạt truyền thống',
         quote: 'Chiếc quạt giấy Chàng Sơn không chỉ để xua đi oi ả, mà còn là vật phẩm phong nhã chở che vẻ đẹp tâm hồn văn hóa Việt.',
-        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/chang-son/traditional_fan.jpg'
       }
     ],
     featuredProductIds: ['prod-cs-01'],
@@ -1663,7 +1704,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-cs-01',
         name: 'Không gian Trưng bày Quạt Nghệ thuật Chàng Sơn',
         description: 'Bảo tàng thu nhỏ với hàng ngàn mẫu quạt cung đình, quạt thờ, quạt tranh thủy mặc độc bản.',
-        image: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/chang-son/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Mùa hè và dịp hội làng Chàng Sơn',
@@ -1687,11 +1728,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 8 km về phía Tây',
       travelTime: '20 phút từ trung tâm Hoàn Kiếm'
     },
-    heroImage: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1600&q=80',
+    heroImage: '/images/villages/me-tri/hero.jpg',
     gallery: [
       {
-        url: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=80',
-        caption: 'Hạt cốm xanh mộc lá me mềm dẻo bọc trong lá sen thơm dịu'
+        url: '/images/villages/me-tri/banh_com.jpg',
+        caption: 'Hạt cốm xanh non và bánh cốm nếp dẻo thơm hương lúa mới Mễ Trì'
+      },
+      {
+        url: '/images/villages/me-tri/banh_com_box.jpg',
+        caption: 'Hộp bánh cốm truyền thống quà tặng mùa thu Hà Nội'
       }
     ],
     history: {
@@ -1717,28 +1762,28 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Thu hoạch nếp cái hoa vàng ngậm sữa',
         summary: 'Chọn bông nếp sữa đầu mùa',
         description: 'Lúa nếp non khi hạt vừa đông sữa tròn mẩy được gặt sớm vào lúc sương mai chưa tan để giữ trọn vị ngọt tự nhiên.',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/me-tri/banh_com.jpg'
       },
       {
         step: 2,
         title: 'Rang thóc nếp trên chảo gang củi',
         summary: 'Lửa củi liu riu đảo đều tay',
         description: 'Thóc nếp được rang trên chảo gang dày bằng than củi, thợ đảo liên tục đều tay để hạt thóc chín tới, dậy hương thơm lừng mà không bị nứt vỡ.',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/me-tri/banh_com_box.jpg'
       },
       {
         step: 3,
         title: 'Giã cốm nhịp nhàng bằng cối đá',
         summary: 'Giã nhịp nhàng tách trấu',
         description: 'Hạt nếp rang xong còn ấm nóng được cho vào cối đá giã đều tay từ 5 đến 7 lượt, xen kẽ với những lần sảy trấu khéo léo.',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/me-tri/hero.jpg'
       },
       {
         step: 4,
         title: 'Gói hai lớp lá sen thơm ngát',
         summary: 'Bảo quản bằng lá ráy và lá sen',
         description: 'Lớp trong dùng lá ráy giữ cốm không bị khô, lớp ngoài gói lá sen già thơm ngát buộc sợi rơm nếp vàng óng ả.',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80'
+        image: '/images/villages/me-tri/banh_com.jpg'
       }
     ],
     artisans: [
@@ -1747,7 +1792,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         title: 'Thế hệ thứ 4 giữ nghề cốm mộc Mễ Trì',
         experience: '35 năm gắn bó bên cối giã cốm truyền thống',
         quote: 'Cốm Mễ Trì giữ trọn màu mộc tự nhiên của hạt lúa non, không pha phẩm nhuộm. Ăn một nhúm cốm tươi là cảm nhận trọn vẹn hồn thu Hà Nội.',
-        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=400&q=80'
+        avatar: '/images/villages/me-tri/banh_com.jpg'
       }
     ],
     featuredProductIds: ['prod-mt-01'],
@@ -1757,7 +1802,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         id: 'hs-mt-01',
         name: 'Cổng làng Cốm Mễ Trì Thượng',
         description: 'Địa điểm trải nghiệm giã cốm mộc và thưởng thức chả cốm, xôi cốm nóng hổi vào mỗi sớm mai.',
-        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1000&q=80'
+        image: '/images/villages/me-tri/hero.jpg'
       }
     ],
     bestTimeToVisit: 'Mùa thu từ tháng 8 đến tháng 11 dương lịch',

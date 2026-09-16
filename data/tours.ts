@@ -34,7 +34,7 @@ export const TOURS: Tour[] = [
     groupSize: 'Tối đa 15 người / nhóm',
     rating: 4.95,
     reviewsCount: 340,
-    image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80',
+    image: '/images/villages/bat-trang/market.jpg',
     shortDescription: 'Tự tay ngồi bên bàn xoay nắn vuốt chiếc bát hoặc bình hoa của riêng bạn dưới sự hướng dẫn 1-kèm-1 của nghệ nhân Bát Tràng, sau đó sấy nung mang về.',
     highlights: [
       'Trải nghiệm 2 giờ vuốt gốm thực tế trên bàn xoay điện & bàn xoay chân',
@@ -72,7 +72,7 @@ export const TOURS: Tour[] = [
     groupSize: 'Nhóm 6 - 20 người',
     rating: 4.88,
     reviewsCount: 180,
-    image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80',
+    image: '/images/villages/van-phuc/loom.jpg',
     shortDescription: 'Trải nghiệm đi tàu điện Metro hiện đại ngắm Hà Nội từ trên cao đến ga Vạn Phúc, dạo bước con đường ô dù rực rỡ và tự tay thử dệt lụa trên khung cửi cổ.',
     highlights: [
       'Vé tàu điện Cát Linh - Hà Đông khứ hồi',
@@ -103,7 +103,7 @@ export const TOURS: Tour[] = [
     groupSize: 'Nhóm 4 - 12 người',
     rating: 4.92,
     reviewsCount: 145,
-    image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80',
+    image: '/images/villages/chuong/non_la_museum.jpg',
     shortDescription: 'Hòa mình vào phiên chợ nón họp lúc rạng đông sương khói ven sông Đáy, nếm bánh cuốn nóng làng quê và tự tay khâu chiếc nón bài thơ lồng thơ riêng.',
     highlights: [
       'Trải nghiệm không khí chợ phiên nón lá độc nhất vô nhị chỉ họp vài giờ lúc hừng đông',
@@ -132,7 +132,7 @@ export const TOURS: Tour[] = [
     groupSize: 'Nhóm 4 - 15 người',
     rating: 4.86,
     reviewsCount: 95,
-    image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80',
+    image: '/images/villages/phu-vinh/hero.jpg',
     shortDescription: 'Thả mình vào không gian sáng tạo mây tre xanh thân thiện môi trường, học cách chuốt nan mây dẻo dai và đan chiếc khay trà hoặc giỏ xách vintage mang về.',
     highlights: [
       'Chiêm ngưỡng bảo tàng thu nhỏ các tác phẩm tranh mây tinh xảo kỷ lục',
@@ -159,7 +159,7 @@ export const TOURS: Tour[] = [
     groupSize: 'Nhóm từ 10 người',
     rating: 4.97,
     reviewsCount: 210,
-    image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80',
+    image: '/images/villages/dao-thuc/puppet_show.jpg',
     shortDescription: 'Thưởng thức trọn vẹn vở diễn múa rối nước mộc mạc bên hồ sen, sau đó bước vào sau mành buồm thử lội nước cầm sào điều khiển chú Tễu cùng nghệ nhân nông dân.',
     highlights: [
       'Suất diễn rối nước độc quyền 45 phút tại Thủy đình làng Đào Thục',

@@ -15,7 +15,7 @@ export default function StorytellingTimeline() {
       icon: Layers,
       description: 'Phù sa sông Hồng, đất sét trắng cao lanh, tre nứa ngàn năm xứ Đoài – tất cả bắt đầu từ món quà hào phóng của đất trời Thăng Long.',
       quote: 'Mỗi nắm đất, mỗi gióng tre đều mang theo hơi thở của ngàn năm lịch sử.',
-      image: 'https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/bat-trang/market.jpg'
     },
     {
       id: 'tay',
@@ -24,7 +24,7 @@ export default function StorytellingTimeline() {
       icon: Hand,
       description: 'Bàn tay chai sần qua năm tháng chuốt từng đường cong trên bàn xoay, se từng sợi tơ tằm óng ả, vuốt từng vành nón lá bài thơ.',
       quote: 'Không máy móc nào thay thế được sự nhạy cảm của những đầu ngón tay nghệ nhân.',
-      image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/bat-trang/artisan_wheel.jpg'
     },
     {
       id: 'nghe-nhan',
@@ -33,7 +33,7 @@ export default function StorytellingTimeline() {
       icon: UserCheck,
       description: 'Những người cả đời giữ lửa trong lò nung, thức trọn đêm cùng tiếng kén tằm và gìn giữ bí quyết gia truyền qua bao thế hệ.',
       quote: 'Giữ nghề không chỉ để mưu sinh, mà để dòng chảy tổ tiên không bao giờ ngắt đoạn.',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/van-phuc/weaver.jpg'
     },
     {
       id: 'san-pham',
@@ -42,7 +42,7 @@ export default function StorytellingTimeline() {
       icon: Package,
       description: 'Mỗi chiếc bình men rạn, tấc lụa Vân, chiếc đèn mây hay quân rối nước không chỉ là hàng hóa, mà là một tác phẩm mang linh hồn.',
       quote: 'Vẻ đẹp của sự bất toàn và tính độc bản trong từng vân gốm, thoi tơ.',
-      image: 'https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/bat-trang/blue_glaze_vase.jpg'
     },
     {
       id: 'van-hoa',
@@ -51,7 +51,7 @@ export default function StorytellingTimeline() {
       icon: Heart,
       description: 'Làng nghề là tấm gương phản chiếu nếp sống phong lưu, tao nhã và triết lý sống hòa hợp thiên nhiên của người Hà Nội xưa và nay.',
       quote: 'Chẳng thơm cũng thể hoa nhài, dẫu không thanh lịch cũng người Tràng An.',
-      image: 'https://images.unsplash.com/photo-1544441893-675973e31985?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/chuong/non_la_museum.jpg'
     },
     {
       id: 'trai-nghiem',
@@ -60,7 +60,7 @@ export default function StorytellingTimeline() {
       icon: Gamepad2,
       description: 'Bước vào xưởng nghề ảo trên website: vuốt gốm trên bàn xoay điện, chọn men, nung lò và khâu nón bài thơ ngay trên màn hình.',
       quote: 'Chỉ khi tự tay thử làm, ta mới thấu cảm được sự kỳ công của người thợ thủ công.',
-      image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/dao-thuc/puppet_show.jpg'
     },
     {
       id: 'du-lich',
@@ -69,7 +69,7 @@ export default function StorytellingTimeline() {
       icon: Compass,
       description: 'Rời màn hình để lên tàu điện đến Vạn Phúc, đạp xe ngắm đê sông Đáy làng Chuông và nghe tiếng cười rộn rã tại thủy đình Đào Thục.',
       quote: 'Mỗi chuyến đi là một lần chạm vào ký ức sống của tiền nhân.',
-      image: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/quang-phu-cau/hero.jpg'
     },
     {
       id: 'thuong-mai',
@@ -78,7 +78,7 @@ export default function StorytellingTimeline() {
       icon: ShoppingBag,
       description: 'Kết nối sản phẩm làng nghề trực tiếp tới người tiêu dùng trẻ và du khách, giúp các nghệ nhân sống thịnh vượng với di sản của mình.',
       quote: 'Di sản chỉ thực sự trường tồn khi nó tạo ra giá trị kinh tế cho cộng đồng nuôi dưỡng nó.',
-      image: 'https://images.unsplash.com/photo-1590402494682-cd3fb53b1f70?auto=format&fit=crop&w=800&q=80'
+      image: '/images/villages/chuyen-my/inlay_screen.jpg'
     }
   ];
 

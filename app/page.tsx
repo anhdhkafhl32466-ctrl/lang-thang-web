@@ -61,7 +61,7 @@ export default function HomePage() {
 
             <div className="lg:col-span-7 relative min-h-[300px] lg:min-h-[420px] bg-dopaper-200">
               <img
-                src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=1200&q=80"
+                src="/images/villages/bat-trang/market.jpg"
                 alt="Bản đồ làng nghề Hà Nội"
                 className="w-full h-full object-cover"
               />
@@ -114,7 +114,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
                   <img
-                    src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80"
+                    src="/images/villages/bat-trang/artisan_wheel.jpg"
                     alt="Vuốt gốm ảo"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
@@ -148,7 +148,7 @@ export default function HomePage() {
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
                   <img
-                    src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80"
+                    src="/images/villages/chuong/non_la_museum.jpg"
                     alt="Đan nón Chuông ảo"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                   />
