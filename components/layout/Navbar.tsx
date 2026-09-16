@@ -1,10 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Compass, Sparkles, Map, BookOpen, ShoppingBag, Award, Menu, X, ChevronRight, Palette } from 'lucide-react';
+import {
+  Compass, Sparkles, Map, BookOpen, ShoppingBag, Award, Menu, X,
+  ChevronRight, Palette, ChevronDown, User as UserIcon, History, LogOut, ShieldCheck
+} from 'lucide-react';
 import { getPassport } from '@/lib/passportStorage';
+import { getCurrentUser, logout, UserAccount } from '@/lib/authStorage';
+import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 
 interface NavbarProps {
   onOpenPassport?: () => void;
@@ -15,6 +20,10 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [badgeCount, setBadgeCount] = useState(1);
+  const [user, setUser] = useState<UserAccount | null>(null);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,11 +36,28 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
       setBadgeCount(Object.keys(p.badges).length);
     };
     updateBadgeCount();
+
+    const updateUser = () => {
+      setUser(getCurrentUser());
+    };
+    updateUser();
+
     window.addEventListener('passport_updated', updateBadgeCount);
+    window.addEventListener('auth_state_changed', updateUser);
+
+    // Close dropdown on outside click
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('passport_updated', updateBadgeCount);
+      window.removeEventListener('auth_state_changed', updateUser);
+      document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, []);
 
@@ -49,6 +75,11 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
     if (path === '/' && pathname === '/') return true;
     if (path !== '/' && pathname.startsWith(path)) return true;
     return false;
+  };
+
+  const handleLogoutClick = () => {
+    setUserDropdownOpen(false);
+    logout();
   };
 
   return (
@@ -108,7 +139,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             })}
           </nav>
 
-          {/* Right Action Icons & CTA */}
+          {/* Right Action Icons, Login & Passport */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Passport Button */}
             <button
@@ -123,14 +154,94 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
               </span>
             </button>
 
-            {/* Main CTA button */}
-            <Link
-              href="/lang-nghe"
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm font-medium shadow-md shadow-terracotta-500/20 hover:shadow-lg transition-all"
-            >
-              <span>Khám phá</span>
-              <ChevronRight className="w-4 h-4" />
-            </Link>
+            {/* GMAIL LOGIN / USER AVATAR BUTTON */}
+            {!user ? (
+              <button
+                onClick={() => setLoginModalOpen(true)}
+                className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-bold transition-all shadow-sm hover:shadow"
+                title="Đăng nhập Gmail"
+              >
+                {/* Google G logo SVG */}
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span>Đăng nhập Gmail</span>
+              </button>
+            ) : (
+              /* User Avatar Dropdown */
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                  className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full bg-white hover:bg-dopaper-100 border border-terracotta-200 shadow-sm transition-all"
+                >
+                  <img
+                    src={user.avatar}
+                    alt={user.name}
+                    className="w-7 h-7 rounded-full object-cover border border-terracotta-200"
+                  />
+                  <span className="text-xs font-bold text-lacquer-900 max-w-[100px] truncate hidden sm:inline-block">
+                    {user.name.split(' ')[user.name.split(' ').length - 1]}
+                  </span>
+                  <ChevronDown className="w-3.5 h-3.5 text-lacquer-800/60" />
+                </button>
+
+                {/* Dropdown Menu */}
+                {userDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl border border-terracotta-200 shadow-2xl py-2 z-50 animate-fadeIn text-xs">
+                    <div className="px-4 py-2.5 border-b border-terracotta-100">
+                      <span className="font-bold text-lacquer-900 block truncate">{user.name}</span>
+                      <span className="text-[11px] text-lacquer-800/60 block truncate">{user.email}</span>
+                      <span className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-semibold mt-1">
+                        <ShieldCheck className="w-3 h-3" />
+                        <span>Tài khoản Google đã xác thực</span>
+                      </span>
+                    </div>
+
+                    <Link
+                      href="/tai-khoan"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
+                    >
+                      <UserIcon className="w-4 h-4 text-terracotta-600" />
+                      <span>Hồ sơ & Tài khoản</span>
+                    </Link>
+
+                    <Link
+                      href="/tai-khoan#lich-su"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
+                    >
+                      <History className="w-4 h-4 text-gold-600" />
+                      <span>Lịch sử đăng nhập</span>
+                    </Link>
+
+                    <button
+                      onClick={() => {
+                        setUserDropdownOpen(false);
+                        onOpenPassport?.();
+                      }}
+                      className="w-full flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors text-left"
+                    >
+                      <Award className="w-4 h-4 text-terracotta-600" />
+                      <span>Hộ chiếu ({badgeCount} huy hiệu)</span>
+                    </button>
+
+                    <div className="pt-1 border-t border-terracotta-100">
+                      <button
+                        onClick={handleLogoutClick}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-rose-600 hover:bg-rose-50 font-semibold transition-colors text-left"
+                      >
+                        <LogOut className="w-3.5 h-3.5" />
+                        <span>Đăng xuất</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Mobile Hamburger */}
             <button
@@ -146,6 +257,42 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
         {/* Mobile Dropdown Menu */}
         {mobileMenuOpen && (
           <div className="lg:hidden bg-dopaper-50/98 border-b border-terracotta-200 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-xl">
+            {/* User info banner if logged in */}
+            {user ? (
+              <div className="p-3 bg-white rounded-2xl border border-terracotta-200 flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2.5">
+                  <img src={user.avatar} alt={user.name} className="w-9 h-9 rounded-full object-cover border border-terracotta-200" />
+                  <div>
+                    <span className="text-xs font-bold text-lacquer-900 block">{user.name}</span>
+                    <span className="text-[10px] text-lacquer-800/60 block truncate max-w-[180px]">{user.email}</span>
+                  </div>
+                </div>
+                <Link
+                  href="/tai-khoan"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="px-2.5 py-1 rounded-lg bg-terracotta-50 text-terracotta-700 text-xs font-bold border border-terracotta-200"
+                >
+                  Hồ sơ
+                </Link>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  setLoginModalOpen(true);
+                }}
+                className="w-full py-2.5 px-4 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 font-bold text-xs flex items-center justify-center gap-2 shadow-sm mb-2"
+              >
+                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+                  <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                  <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                  <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                </svg>
+                <span>Đăng nhập Gmail</span>
+              </button>
+            )}
+
             <div className="px-3 py-2.5 bg-terracotta-50 rounded-2xl border border-terracotta-200/80 mb-2">
               <span className="font-serif text-sm font-bold text-terracotta-700 block">
                 Lang Thang — Làng Nghề Hà Nội
@@ -154,6 +301,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                 "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay"
               </p>
             </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -194,10 +342,30 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
               >
                 Tìm làng nghề cho riêng bạn (AI)
               </Link>
+              {user && (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    logout();
+                  }}
+                  className="w-full py-2 px-4 rounded-xl border border-rose-200 text-rose-600 text-xs font-semibold text-center"
+                >
+                  Đăng xuất tài khoản
+                </button>
+              )}
             </div>
           </div>
         )}
       </header>
+
+      {/* Global Google Login Modal */}
+      <GoogleLoginModal
+        isOpen={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        onSuccess={(loggedUser) => {
+          setUser(loggedUser);
+        }}
+      />
     </>
   );
 }
