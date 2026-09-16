@@ -1,0 +1,1688 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nặn Gốm Bát Tràng — Tự tay làm nên tác phẩm của bạn</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS — bảng màu & kiểu chữ lấy cảm hứng từ gốm Bát Tràng
+   ============================================================ */
+:root{
+  --clay:        #B4744A;   /* đất nung / clay */
+  --clay-dark:   #8A5834;
+  --clay-light:  #D9A67C;
+  --celadon:     #5D7C68;   /* men ngọc */
+  --celadon-light:#A9C4AF;
+  --indigo:      #33455E;   /* men lam Bát Tràng */
+  --indigo-light:#5B7599;
+  --cream:       #F4EEDF;   /* nền giấy dó */
+  --cream-2:     #EAE0C8;
+  --ink:         #2B2620;   /* mực đen */
+  --gold:        #C79A46;
+  --ok:          #5D7C68;
+  --white:       #FFFCF6;
+  --radius-s:6px;
+  --radius-m:14px;
+  --shadow-soft: 0 8px 28px rgba(43,38,32,.14);
+  --font: 'Be Vietnam Pro', system-ui, sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--cream);
+  color:var(--ink);
+  overflow:hidden;
+}
+button{font-family:inherit;cursor:pointer;}
+input[type=range]{accent-color:var(--indigo);}
+::selection{background:var(--clay-light);}
+
+/* ============================================================
+   APP SHELL
+   ============================================================ */
+#app{position:relative;width:100%;height:100%;display:flex;flex-direction:column;}
+
+/* ---------- topbar / progress ---------- */
+#topbar{
+  display:none;
+  align-items:center;
+  gap:18px;
+  padding:12px 22px;
+  background:var(--white);
+  border-bottom:1px solid #E4D9BE;
+  flex-shrink:0;
+}
+#topbar.show{display:flex;}
+#brand{font-weight:800;font-size:15px;letter-spacing:.2px;color:var(--indigo);white-space:nowrap;}
+#brand b{color:var(--clay);}
+#progressbar{display:flex;align-items:center;flex:1;justify-content:center;gap:2px;}
+.pstep{
+  display:flex;align-items:center;gap:8px;
+  padding:6px 10px;border-radius:999px;
+  cursor:default; user-select:none;
+  color:#B9AE93; transition:color .25s;
+}
+.pstep .dot{
+  width:22px;height:22px;border-radius:50%;
+  background:#E9E0C9; color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700; flex-shrink:0;
+  transition:background .25s, transform .25s;
+}
+.pstep .lbl{font-size:12.5px;font-weight:600;white-space:nowrap;}
+.pstep.done .dot{background:var(--celadon);}
+.pstep.done{color:var(--celadon);}
+.pstep.active .dot{background:var(--indigo);transform:scale(1.12);}
+.pstep.active{color:var(--indigo);}
+.pstep.clickable{cursor:pointer;}
+.pconnector{width:20px;height:2px;background:#E9E0C9;flex-shrink:0;}
+.pconnector.done{background:var(--celadon);}
+#soundToggle{
+  width:38px;height:38px;border-radius:50%;border:1px solid #E4D9BE;background:var(--white);
+  font-size:16px;flex-shrink:0; transition:background .2s;
+}
+#soundToggle:hover{background:var(--cream-2);}
+
+/* ---------- generic screen ---------- */
+.screen{position:absolute;inset:0;display:none;}
+.screen.active{display:flex;}
+
+/* ============================================================
+   INTRO SCREEN
+   ============================================================ */
+#screen-intro{
+  align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(180,116,74,.16), transparent 45%),
+    radial-gradient(circle at 82% 78%, rgba(93,124,104,.18), transparent 50%),
+    var(--cream);
+  top:0;
+}
+#introInner{max-width:640px;padding:40px;text-align:center;}
+#introInner .eyebrow{
+  font-size:13px;font-weight:700;color:var(--clay);letter-spacing:.3px;margin-bottom:10px;
+}
+#introInner h1{
+  font-size:clamp(34px,5vw,54px);line-height:1.08;font-weight:800;margin:0 0 18px;color:var(--ink);
+}
+#introInner h1 span{color:var(--indigo);}
+#introInner p{font-size:16px;line-height:1.6;color:#5A5348;margin:0 0 30px;}
+#introWheel{
+  width:120px;height:120px;margin:0 auto 26px;border-radius:50%;
+  background:conic-gradient(from 0deg, var(--clay-light), var(--clay), var(--clay-dark), var(--clay));
+  position:relative;box-shadow:var(--shadow-soft);
+  animation:spinWheel 6s linear infinite;
+}
+#introWheel:before{
+  content:"";position:absolute;inset:34%;border-radius:50%;background:var(--cream);
+}
+@keyframes spinWheel{to{transform:rotate(360deg);}}
+#startBtn{
+  border:none;background:var(--indigo);color:#fff;font-weight:700;font-size:16px;
+  padding:15px 38px;border-radius:999px;box-shadow:var(--shadow-soft);
+  transition:transform .15s, background .2s;
+}
+#startBtn:hover{background:var(--indigo-light);transform:translateY(-2px);}
+#startBtn:active{transform:translateY(0);}
+#introSteps{display:flex;gap:10px;justify-content:center;margin-top:26px;flex-wrap:wrap;}
+#introSteps span{
+  font-size:11.5px;font-weight:600;color:var(--clay-dark);background:var(--white);
+  border:1px solid #E4D9BE;padding:5px 12px;border-radius:999px;
+}
+
+/* ============================================================
+   GAME SHELL (steps 1-5)
+   ============================================================ */
+#game-shell{flex:1;display:none;overflow:hidden;}
+#game-shell.active{display:flex;}
+#stageArea{
+  flex:1;display:flex;align-items:center;justify-content:center;
+  padding:20px;position:relative;
+  background:
+    radial-gradient(circle at 50% 100%, rgba(180,116,74,.10), transparent 55%),
+    var(--cream);
+}
+#canvasCard{
+  background:var(--white);border-radius:var(--radius-m);box-shadow:var(--shadow-soft);
+  padding:18px;display:flex;flex-direction:column;align-items:center;gap:10px;
+  border:1px solid #ECE2C8;
+}
+.canvas-wrap{position:relative;}
+canvas{display:block;border-radius:10px;touch-action:none;}
+#kneadCanvas{cursor:grab;background:radial-gradient(circle at 50% 40%, #EFE6D2, #E4D6B8);}
+#potCanvas{cursor:default;}
+#stepHint{font-size:12.5px;color:#8A7F6C;text-align:center;max-width:420px;}
+#stepBar{width:100%;max-width:420px;}
+.meter{height:8px;border-radius:99px;background:#EEE4CE;overflow:hidden;}
+.meter > i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--celadon),var(--indigo));transition:width .2s;}
+.meter-label{display:flex;justify-content:space-between;font-size:11px;color:#9A8F79;margin-top:4px;}
+
+/* ---------- control panel ---------- */
+#panel{
+  width:330px;flex-shrink:0;background:var(--white);border-left:1px solid #ECE2C8;
+  padding:22px 22px 90px;overflow-y:auto;
+}
+.control-block{display:none;}
+.control-block.show{display:block;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.panel-title{font-size:20px;font-weight:800;margin:0 0 3px;color:var(--ink);}
+.panel-sub{font-size:13px;color:var(--clay-dark);font-weight:600;margin:0 0 16px;}
+.field{margin-bottom:16px;}
+.field label{display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:#5A5348;margin-bottom:6px;}
+.field label b{color:var(--ink);font-weight:700;}
+input[type=range]{width:100%;}
+.presetGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.presetBtn{
+  border:1px solid #E4D9BE;background:var(--cream);border-radius:10px;padding:10px 6px;
+  font-size:12.5px;font-weight:700;color:var(--ink);text-align:center;transition:.15s;
+}
+.presetBtn:hover{border-color:var(--indigo);}
+.presetBtn.selected{background:var(--indigo);color:#fff;border-color:var(--indigo);}
+.motifGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.motifBtn{
+  aspect-ratio:1;border:1px solid #E4D9BE;background:var(--cream);border-radius:10px;
+  font-size:20px;display:flex;align-items:center;justify-content:center;transition:.15s;
+}
+.motifBtn.selected{background:var(--indigo);border-color:var(--indigo);}
+.toolRow{display:flex;gap:8px;margin-bottom:14px;}
+.toolBtn{
+  flex:1;border:1px solid #E4D9BE;background:var(--cream);border-radius:10px;padding:9px 4px;
+  font-size:12px;font-weight:700;color:var(--ink);
+}
+.toolBtn.selected{background:var(--celadon);color:#fff;border-color:var(--celadon);}
+.swatchGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.swatch{
+  aspect-ratio:1;border-radius:10px;border:2px solid transparent;position:relative;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08);
+}
+.swatch.selected{border-color:var(--ink);}
+.swatch span{
+  position:absolute;bottom:-16px;left:0;right:0;text-align:center;font-size:9.5px;font-weight:700;color:#5A5348;
+}
+input[type=color]{width:44px;height:32px;border:none;border-radius:8px;padding:0;background:none;cursor:pointer;}
+.rowflex{display:flex;align-items:center;gap:10px;}
+.smallbtn{
+  border:1px solid #E4D9BE;background:var(--cream);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;
+}
+.smallbtn.primary{background:var(--celadon);color:#fff;border-color:var(--celadon);}
+.tip{
+  margin-top:20px;background:var(--cream-2);border-radius:10px;padding:12px 14px;
+  font-size:12.5px;line-height:1.55;color:#5A5348;border-left:3px solid var(--gold);
+}
+.tip b{color:var(--ink);}
+
+/* kiln screen */
+#kilnStage{width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;}
+#kilnBody{
+  width:260px;height:220px;border-radius:16px;position:relative;
+  background:linear-gradient(180deg,#4a3a2c,#2c231a);
+  box-shadow:var(--shadow-soft);
+  overflow:hidden;
+}
+#kilnDoor{
+  position:absolute;inset:14px;border-radius:10px;background:#1b140d;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .8s cubic-bezier(.7,0,.3,1);
+  transform-origin:left center;
+}
+#kilnDoor.closed{transform:rotateY(0deg);}
+#kilnDoor.open{transform:rotateY(-80deg);}
+#kilnGlow{
+  position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 60%, #ffb15c, #d8480c 60%, transparent 80%);
+  transition:opacity .6s;
+}
+#kilnGlow.on{opacity:.85;animation:kilnFlicker 1.4s ease-in-out infinite;}
+@keyframes kilnFlicker{0%,100%{opacity:.7}50%{opacity:.95}}
+#kilnItem{
+  position:absolute;left:50%;bottom:-90px;transform:translateX(-50%);
+  transition:bottom 1s cubic-bezier(.6,.1,.3,1);
+  width:60px;
+}
+#kilnItem.inside{bottom:26px;}
+#tempReadout{font-size:34px;font-weight:800;color:var(--clay-dark);font-variant-numeric:tabular-nums;}
+#kilnStatus{font-size:13px;font-weight:700;color:var(--indigo);min-height:18px;}
+#kilnMeter{width:280px;}
+#tempGameWrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px;}
+#tempGameLabel{font-size:12.5px;font-weight:700;color:var(--indigo);text-align:center;max-width:280px;}
+#tempBarCanvas{cursor:pointer;touch-action:manipulation;border-radius:10px;}
+#tempGameRound{font-size:11.5px;font-weight:700;color:#9A8F79;}
+
+/* ---------- navbar ---------- */
+#navbar{
+  position:absolute;left:0;right:330px;bottom:0;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:14px 26px;background:linear-gradient(0deg, rgba(244,238,223,.98), rgba(244,238,223,0));
+  pointer-events:none;
+}
+#navbar > *{pointer-events:auto;}
+.navBtn{
+  border:none;border-radius:999px;padding:13px 26px;font-weight:700;font-size:14px;
+  box-shadow:var(--shadow-soft); transition:transform .15s, opacity .2s;
+}
+.navBtn:active{transform:translateY(1px);}
+#backBtn{background:var(--white);color:var(--ink);border:1px solid #E4D9BE;}
+#backBtn:disabled{opacity:0;pointer-events:none;}
+#continueBtn{background:var(--indigo);color:#fff;}
+#continueBtn:disabled{background:#D8CEB2;color:#9A9078;cursor:not-allowed;box-shadow:none;}
+
+/* ============================================================
+   RESULT SCREEN
+   ============================================================ */
+#screen-result{
+  align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(199,154,70,.18), transparent 45%),
+    var(--cream);
+  flex-direction:column;gap:0;padding:30px;overflow-y:auto;
+}
+#resultInner{
+  display:flex;gap:40px;max-width:900px;width:100%;align-items:center;flex-wrap:wrap;justify-content:center;
+}
+#resultLeft{background:var(--white);border-radius:var(--radius-m);box-shadow:var(--shadow-soft);padding:20px;border:1px solid #ECE2C8;}
+#resultRight{flex:1;min-width:280px;max-width:380px;}
+#resultRight .eyebrow{font-size:12.5px;font-weight:700;color:var(--clay);margin-bottom:6px;}
+#resultRight h2{font-size:30px;font-weight:800;margin:0 0 14px;line-height:1.15;}
+#nameInput{
+  width:100%;font-size:16px;font-weight:600;padding:11px 14px;border-radius:10px;
+  border:1px solid #E4D9BE;background:var(--cream);margin-bottom:18px;
+}
+.factRow{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #ECE2C8;font-size:13px;}
+.factRow b{color:var(--ink);}
+.factRow span:first-child{color:#8A7F6C;}
+#resultBtns{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+#resultQuote{margin-top:26px;font-size:13px;font-style:italic;color:#8A7F6C;text-align:center;max-width:640px;}
+
+/* ---------- responsive ---------- */
+@media (max-width: 880px){
+  #game-shell{flex-direction:column;overflow-y:auto;}
+  #panel{width:100%;border-left:none;border-top:1px solid #ECE2C8;padding-bottom:110px;}
+  #navbar{right:0;}
+  #stageArea{padding:14px;}
+  #resultInner{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ================= TOPBAR / PROGRESS ================= -->
+  <div id="topbar">
+    <div id="brand">Làng nghề <b>Bát Tràng</b></div>
+    <div id="progressbar"></div>
+    <button id="soundToggle" title="Bật/tắt âm thanh">🔊</button>
+  </div>
+
+  <!-- ================= INTRO SCREEN ================= -->
+  <div id="screen-intro" class="screen active">
+    <div id="introInner">
+      <div id="introWheel"></div>
+      <div class="eyebrow">MINI GAME TRẢI NGHIỆM LÀNG NGHỀ</div>
+      <h1>Tự tay nặn nên <span>gốm Bát Tràng</span> của riêng bạn</h1>
+      <p>Không có khuôn mẫu, không có sản phẩm định sẵn. Bạn chọn đất, tạo hình, vẽ hoa văn, phủ men và nung — mỗi lựa chọn đều để lại dấu ấn trên tác phẩm cuối cùng.</p>
+      <button id="startBtn">Bắt đầu nặn gốm →</button>
+      <div id="introSteps">
+        <span>1. Thấu đất</span><span>2. Chuốt gốm</span><span>3. Trang trí</span><span>4. Tráng men</span><span>5. Nung</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= GAME SHELL ================= -->
+  <div id="game-shell">
+    <div id="stageArea">
+
+      <!-- shared canvas card; inner content swapped by JS -->
+      <div id="canvasCard">
+        <div class="canvas-wrap" id="wrapKnead">
+          <canvas id="kneadCanvas" width="300" height="300"></canvas>
+        </div>
+        <div class="canvas-wrap" id="wrapPot" style="display:none;">
+          <canvas id="potCanvas" width="380" height="460"></canvas>
+        </div>
+        <div class="canvas-wrap" id="wrapKiln" style="display:none;">
+          <div id="kilnStage">
+            <div id="kilnBody">
+              <div id="kilnGlow"></div>
+              <canvas id="kilnItem" width="70" height="90"></canvas>
+              <div id="kilnDoor" class="open"></div>
+            </div>
+            <div id="tempReadout">20°C</div>
+            <div id="kilnStatus">Sẵn sàng đưa sản phẩm vào lò</div>
+            <div class="meter" id="kilnMeter"><i id="kilnMeterFill"></i></div>
+            <div id="tempGameWrap" style="display:none;">
+              <div id="tempGameLabel">Nhấn/chạm đúng lúc kim chạy vào vùng vàng!</div>
+              <canvas id="tempBarCanvas" width="280" height="64"></canvas>
+              <div id="tempGameRound"></div>
+            </div>
+          </div>
+        </div>
+
+        <div id="stepBar" style="display:none;">
+          <div class="meter"><i id="progressFill"></i></div>
+          <div class="meter-label"><span id="progressLeftLabel"></span><span id="progressRightLabel"></span></div>
+        </div>
+        <div id="stepHint"></div>
+      </div>
+    </div>
+
+    <!-- ============ SIDE PANEL ============ -->
+    <div id="panel">
+
+      <!-- STEP 1 -->
+      <div class="control-block" data-step="1">
+        <div class="panel-title">Bước 1 · Thấu đất</div>
+        <div class="panel-sub">Chọn và xử lý đất sét</div>
+        <p style="font-size:13px;color:#5A5348;line-height:1.6;">Giữ chuột (hoặc chạm) lên khối đất và di chuyển để nhào cho đất mịn, dẻo và đồng nhất trước khi lên bàn xoay.</p>
+        <button class="smallbtn primary" id="quickKneadBtn" style="margin: 6px 0 14px; width: 100%;">⚡ Nhào nhanh đạt 100%</button>
+        <div class="tip" id="tip1"></div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="control-block" data-step="2">
+        <div class="panel-title">Bước 2 · Chuốt gốm</div>
+        <div class="panel-sub">Tạo hình sản phẩm trên bàn xoay</div>
+        <div class="presetGrid" id="presetGrid"></div>
+        <div class="field"><label>Chiều cao <b id="valHeight"></b></label>
+          <input type="range" id="rHeight" min="55" max="135" value="100"></div>
+        <p style="font-size:11.5px;color:#9A8F79;margin:-8px 0 14px;">Kéo 6 chấm điều khiển theo BẤT KỲ hướng nào: ngang để phình/thu, dọc để nâng/hạ vị trí điểm đó. Kéo vào vùng trống trên gốm để đổi chiều cao tổng thể.</p>
+        <div class="rowflex" style="margin-bottom:6px;">
+          <button class="smallbtn" id="resetShapeBtn">↺ Đặt lại hình</button>
+        </div>
+        <div class="tip" id="tip2"></div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="control-block" data-step="3">
+        <div class="panel-title">Bước 3 · Trang trí hoa văn</div>
+        <div class="panel-sub">Thổi cá tính vào sản phẩm</div>
+        <div class="toolRow">
+          <button class="toolBtn selected" id="toolStamp" data-tool="stamp">🌸 Dán họa tiết</button>
+          <button class="toolBtn" id="toolDraw" data-tool="draw">✏️ Tự vẽ</button>
+        </div>
+        <div class="motifGrid" id="motifGrid"></div>
+        <div class="field" id="brushSizeField">
+          <label>Cỡ nét <b id="valBrush"></b></label>
+          <input type="range" id="rBrush" min="3" max="22" value="8">
+        </div>
+        <div class="rowflex" style="margin-bottom:14px;">
+          <span style="font-size:12.5px;font-weight:600;color:#5A5348;">Màu vẽ</span>
+          <input type="color" id="drawColor" value="#33455E">
+        </div>
+        <button class="smallbtn" id="undoDecoBtn">↺ Xoá nét gần nhất</button>
+        <div class="tip" id="tip3"></div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="control-block" data-step="4">
+        <div class="panel-title">Bước 4 · Tráng men</div>
+        <div class="panel-sub">Khoác màu áo mới cho sản phẩm</div>
+        <div class="swatchGrid" id="glazeGrid"></div>
+        <div class="field" style="margin-top:14px;"><label>Độ đậm men <b id="valIntensity"></b></label>
+          <input type="range" id="rIntensity" min="25" max="75" value="55"></div>
+        <p style="font-size:11.5px;color:#9A8F79;margin:0 0 4px;">Men luôn hơi trong để hoa văn bạn vẽ vẫn hiện rõ bên dưới lớp men.</p>
+        <p style="font-size:11.5px;color:#9A8F79;margin:0 0 10px;">Rê chuột lên thân gốm để quét men — quét càng đều, men càng phủ kín.</p>
+        <div class="meter" style="margin-bottom:6px;"><i id="glazeFill"></i></div>
+        <div class="meter-label" style="margin-bottom:14px;"><span>Độ phủ men</span><span id="glazePct">0%</span></div>
+        <button class="smallbtn primary" id="quickGlazeBtn" style="width: 100%;">🫗 Nhúng men nhanh (phủ toàn bộ)</button>
+        <div class="tip" id="tip4"></div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="control-block" data-step="5">
+        <div class="panel-title">Bước 5 · Nung sản phẩm</div>
+        <div class="panel-sub">Khoảnh khắc hoàn thiện</div>
+        <p style="font-size:13px;color:#5A5348;line-height:1.6;">Đưa sản phẩm vào lò và chờ nhiệt độ tăng dần. Đây là bước biến đất mềm thành gốm cứng, bền và bóng đẹp.</p>
+        <button class="smallbtn primary" id="fireBtn" style="width:100%;padding:13px;font-size:13.5px;">🔥 Đưa vào lò nung</button>
+        <button class="smallbtn" id="quickFireBtn" style="width:100%;margin-top:8px;font-size:12.5px;">⚡ Nung nhanh đạt 1.200°C</button>
+        <div class="tip" id="tip5"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= NAVBAR ================= -->
+  <div id="navbar">
+    <button class="navBtn" id="backBtn">← Quay lại</button>
+    <button class="navBtn" id="continueBtn" disabled>Tiếp tục →</button>
+  </div>
+
+  <!-- ================= RESULT SCREEN ================= -->
+  <div id="screen-result" class="screen">
+    <div id="resultInner">
+      <div id="resultLeft">
+        <canvas id="resultCanvas" width="360" height="440"></canvas>
+      </div>
+      <div id="resultRight">
+        <div class="eyebrow">🎉 TÁC PHẨM CỦA BẠN ĐÃ HOÀN THÀNH</div>
+        <h2 id="resultHeadline">Đặt tên cho tác phẩm</h2>
+        <input id="nameInput" type="text" placeholder="Ví dụ: Bình sen mùa hạ" maxlength="40">
+        <div class="factRow"><span>Hình dáng</span><b id="factShape">—</b></div>
+        <div class="factRow"><span>Hoa văn</span><b id="factPattern">—</b></div>
+        <div class="factRow"><span>Màu men</span><b id="factGlaze">—</b></div>
+        <div class="factRow"><span>Các bước hoàn thành</span><b id="factSteps">5/5</b></div>
+        <div class="factRow"><span>Thời gian chế tác</span><b id="factTime">—</b></div>
+        <div id="resultBtns">
+          <button class="navBtn" id="downloadBtn" style="background:var(--gold);color:#fff;">⬇ Lưu ảnh</button>
+          <button class="navBtn" id="newProductBtn" style="background:var(--celadon);color:#fff;">＋ Tạo sản phẩm mới</button>
+          <button class="navBtn" id="replayBtn" style="background:var(--white);border:1px solid #E4D9BE;">↺ Chơi lại</button>
+        </div>
+      </div>
+    </div>
+    <p id="resultQuote">"Không có sản phẩm nào giống sản phẩm nào — vì đây là tác phẩm của chính bạn."</p>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+/* =====================================================================
+   NẶN GỐM BÁT TRÀNG — mini game
+   Cấu trúc:
+     1. STATE & DỮ LIỆU TĨNH (presets, hoa văn, men, mẹo giáo dục)
+     2. ÂM THANH (Web Audio API, không cần file ngoài)
+     3. TIỆN ÍCH CANVAS (hi-dpi, toạ độ chuột, hình học ấm/bình)
+     4. BƯỚC 1 — THẤU ĐẤT
+     5. BƯỚC 2 — CHUỐT GỐM
+     6. BƯỚC 3 — TRANG TRÍ
+     7. BƯỚC 4 — TRÁNG MEN
+     8. BƯỚC 5 — NUNG
+     9. MÀN HÌNH KẾT QUẢ
+    10. ĐIỀU HƯỚNG / PROGRESS BAR / KHỞI TẠO
+   ===================================================================== */
+
+/* --------------------------------------------------------------
+   1. STATE & DỮ LIỆU TĨNH
+   -------------------------------------------------------------- */
+const state = {
+  currentStep: 0,          // 0 = intro, 1..5 = các bước, 6 = result
+  unlockedStep: 1,
+  soundOn: true,
+  startTime: null,
+
+  knead: { progress: 0 },
+
+  shape: null,              // set bởi resetShape()
+  shapePresetKey: null,
+  shapeTouched: false,
+
+  patternTool: 'stamp',
+  patternMotif: null,
+  brushSize: 8,
+  drawColor: '#33455E',
+  patternStrokes: [],       // {type:'stamp'|'draw', ...}
+
+  glazeColorKey: null,
+  glazeIntensity: 0.55,
+  glazeStrokes: [],         // {x,y,r,color,alpha}
+  glazeFullCover: false,
+
+  fired: false,
+  productName: ''
+};
+
+const PRESETS = {
+  binh: { label:'Bình', r:{base:36,lower:58,bulge:98,upper:74,neck:48,mouth:56}, height:118 },
+  coc:  { label:'Cốc',  r:{base:44,lower:52,bulge:58,upper:58,neck:58,mouth:62}, height:62 },
+  bat:  { label:'Bát',  r:{base:32,lower:54,bulge:82,upper:96,neck:100,mouth:104}, height:50 },
+  lo:   { label:'Lọ',   r:{base:40,lower:68,bulge:112,upper:66,neck:38,mouth:44}, height:104 },
+  dia:  { label:'Đĩa',  r:{base:58,lower:88,bulge:100,upper:106,neck:108,mouth:110}, height:26 },
+  tuong:{ label:'Tượng/Trang trí', r:{base:48,lower:62,bulge:66,upper:52,neck:34,mouth:20}, height:132 }
+};
+const RADIUS_KEYS = ['base','lower','bulge','upper','neck','mouth'];
+const HEIGHT_FRACS  = [0, 0.18, 0.42, 0.66, 0.86, 1.0];
+
+const MOTIFS = [
+  {key:'sen',  icon:'🌸', label:'Hoa sen'},
+  {key:'la',   icon:'🍃', label:'Lá'},
+  {key:'may',  icon:'☁️', label:'Mây'},
+  {key:'chim', icon:'🐦', label:'Chim'},
+  {key:'ca',   icon:'🐟', label:'Cá'},
+  {key:'hh',   icon:'◆',  label:'Hình học'},
+  {key:'song', icon:'〰️', label:'Sóng nước'},
+  {key:'xoay', icon:'✦',  label:'Truyền thống'}
+];
+
+const GLAZES = [
+  {key:'trang', label:'Men trắng', hex:'#F4EFE4'},
+  {key:'xanh',  label:'Men xanh',  hex:'#5D7C68'},
+  {key:'nau',   label:'Men nâu',   hex:'#7A4B2A'},
+  {key:'vang',  label:'Men vàng',  hex:'#C79A46'},
+  {key:'ngoc',  label:'Men xanh ngọc', hex:'#3E8E7E'},
+  {key:'lam',   label:'Men lam',   hex:'#33455E'},
+  {key:'do',    label:'Men đỏ đất', hex:'#9A4B36'},
+  {key:'den',   label:'Men đen',   hex:'#2B2620'}
+];
+
+const TIPS = {
+  1:'💡 Bạn có biết? Đất làm gốm cần được xử lý để loại bỏ tạp chất và đạt độ dẻo phù hợp trước khi tạo hình.',
+  2:'💡 Bạn có biết? "Chuốt" là công đoạn tạo hình sản phẩm ngay trên bàn xoay đang quay — người thợ dùng lực tay để kéo đất lên thành hình.',
+  3:'💡 Bạn có biết? Hoa văn không chỉ để trang trí mà còn giúp mỗi sản phẩm gốm mang một nét riêng, không sản phẩm nào giống sản phẩm nào.',
+  4:'💡 Bạn có biết? Men không chỉ tạo màu mà còn tạo lớp bề mặt bóng, chống thấm đặc trưng cho gốm sau khi nung.',
+  5:'💡 Bạn có biết? Gốm thường được nung ở nhiệt độ 900°C – 1.200°C. Nhiệt độ cao giúp đất sét biến đổi cấu trúc, trở nên cứng và bền vĩnh viễn.'
+};
+
+const STEP_LABELS = ['THẤU ĐẤT','CHUỐT GỐM','TRANG TRÍ','TRÁNG MEN','NUNG'];
+
+/* --------------------------------------------------------------
+   2. ÂM THANH — tổng hợp bằng Web Audio API (không cần file ngoài)
+   -------------------------------------------------------------- */
+const Sound = (() => {
+  let ctx = null;
+  let humOsc = null, humGain = null;
+
+  function ensureCtx(){
+    if(!ctx){
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if(ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function noiseBurst(dur, freq, gain){
+    if(!state.soundOn) return;
+    try {
+      const c = ensureCtx();
+      const bufSize = Math.floor(c.sampleRate * dur);
+      const buf = c.createBuffer(1, bufSize, c.sampleRate);
+      const data = buf.getChannelData(0);
+      for(let i=0;i<bufSize;i++) data[i] = (Math.random()*2-1) * (1 - i/bufSize);
+      const src = c.createBufferSource(); src.buffer = buf;
+      const filt = c.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value = freq;
+      const g = c.createGain(); g.gain.value = gain;
+      src.connect(filt); filt.connect(g); g.connect(c.destination);
+      src.start();
+    } catch(e){}
+  }
+  function tone(freq, dur, type, gain){
+    if(!state.soundOn) return;
+    try {
+      const c = ensureCtx();
+      const o = c.createOscillator(); o.type = type||'sine'; o.frequency.value = freq;
+      const g = c.createGain(); g.gain.value = 0;
+      o.connect(g); g.connect(c.destination);
+      const t0 = c.currentTime;
+      g.gain.linearRampToValueAtTime(gain||0.06, t0+0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, t0+dur);
+      o.start(t0); o.stop(t0+dur+0.02);
+    } catch(e){}
+  }
+  return {
+    thud(){ noiseBurst(0.18, 400, 0.18); },
+    tick(){ tone(680, 0.08, 'triangle', 0.05); },
+    swish(){ noiseBurst(0.12, 2200, 0.05); },
+    crackle(){ noiseBurst(0.09, 3200, 0.06); },
+    chime(){ 
+      tone(523,0.35,'sine',0.05); 
+      setTimeout(()=>tone(659,0.35,'sine',0.05),110); 
+      setTimeout(()=>tone(784,0.5,'sine',0.05),220); 
+    },
+    startHum(){
+      if(!state.soundOn) return;
+      if(humOsc) return;
+      try {
+        const c = ensureCtx();
+        humOsc = c.createOscillator(); humOsc.type='sine'; humOsc.frequency.value = 78;
+        humGain = c.createGain(); humGain.gain.value = 0;
+        humOsc.connect(humGain); humGain.connect(c.destination);
+        humOsc.start();
+        humGain.gain.linearRampToValueAtTime(0.025, c.currentTime+0.4);
+      } catch(e){}
+    },
+    stopHum(){
+      if(!humOsc) return;
+      try {
+        const c = ensureCtx();
+        humGain.gain.linearRampToValueAtTime(0, c.currentTime+0.3);
+        const o = humOsc;
+        setTimeout(()=>{ try{o.stop();}catch(e){} }, 400);
+      } catch(e){}
+      humOsc = null; humGain = null;
+    }
+  };
+})();
+
+/* --------------------------------------------------------------
+   3. TIỆN ÍCH CANVAS
+   -------------------------------------------------------------- */
+function setupHiDPICanvas(canvas, cssW, cssH){
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = cssW * dpr;
+  canvas.height = cssH * dpr;
+  canvas.style.width = cssW+'px';
+  canvas.style.height = cssH+'px';
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  return ctx;
+}
+function getPos(evt, canvas, cssW, cssH){
+  const rect = canvas.getBoundingClientRect();
+  const p = (evt.touches && evt.touches[0]) ? evt.touches[0] : evt;
+  const sx = cssW/rect.width, sy = cssH/rect.height;
+  return { x:(p.clientX-rect.left)*sx, y:(p.clientY-rect.top)*sy };
+}
+// Catmull-Rom -> mượt qua các điểm điều khiển
+function smoothPath(ctx, pts){
+  if(pts.length < 2) return;
+  ctx.moveTo(pts[0].x, pts[0].y);
+  for(let i=0;i<pts.length-1;i++){
+    const p0 = pts[i-1] || pts[i];
+    const p1 = pts[i];
+    const p2 = pts[i+1];
+    const p3 = pts[i+2] || p2;
+    const cp1x = p1.x + (p2.x-p0.x)/6;
+    const cp1y = p1.y + (p2.y-p0.y)/6;
+    const cp2x = p2.x - (p3.x-p1.x)/6;
+    const cp2y = p2.y - (p3.y-p1.y)/6;
+    ctx.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,p2.x,p2.y);
+  }
+}
+
+const POT_W = 380, POT_H = 460;
+let glazeMaskCanvas = null, glazeColorLayer = null;
+function buildGlazeMask(){
+  if(!glazeMaskCanvas){ glazeMaskCanvas = document.createElement('canvas'); glazeMaskCanvas.width=POT_W; glazeMaskCanvas.height=POT_H; }
+  const mctx = glazeMaskCanvas.getContext('2d');
+  mctx.clearRect(0,0,POT_W,POT_H);
+  mctx.fillStyle = '#fff';
+  if(state.glazeFullCover){
+    mctx.fillRect(0,0,POT_W,POT_H);
+  } else {
+    for(const g of state.glazeStrokes){
+      mctx.beginPath();
+      mctx.arc(g.x,g.y,g.r,0,Math.PI*2);
+      mctx.fill();
+    }
+  }
+  return glazeMaskCanvas;
+}
+
+function resetShape(){
+  state.shape = { r:{base:40,lower:66,bulge:88,upper:70,neck:52,mouth:58}, height:100, hOff:[0,0,0,0,0,0] };
+  state.shapePresetKey = null;
+  state.shapeTouched = false;
+}
+resetShape();
+
+function computeGeom(){
+  const cx = POT_W/2;
+  const baseY = POT_H - 70;
+  const potHeightPx = 210 * (state.shape.height/100);
+  const MIN_GAP = 16;
+  const hOff = state.shape.hOff || [0,0,0,0,0,0];
+  const ys = [];
+  for(let i=0;i<HEIGHT_FRACS.length;i++){
+    let y = baseY - HEIGHT_FRACS[i]*potHeightPx - hOff[i];
+    if(i===0) y = Math.min(y, baseY + 6);
+    if(i>0) y = Math.min(y, ys[i-1]-MIN_GAP);
+    ys.push(y);
+  }
+  const topY = ys[ys.length-1];
+  const rightPts = RADIUS_KEYS.map((key,i)=>({
+    x: cx + state.shape.r[key],
+    y: ys[i]
+  }));
+  const leftPts = rightPts.map(p=>({x: 2*cx-p.x, y:p.y}));
+  return { cx, baseY, topY, rightPts, leftPts, potHeightPx };
+}
+function buildSilhouettePath(geom){
+  const path = new Path2D();
+  const rp = geom.rightPts, lp = [...geom.leftPts].reverse();
+  path.moveTo(rp[0].x, rp[0].y);
+  const pushSmooth = (arr) => {
+    for(let i=0;i<arr.length-1;i++){
+      const p0 = arr[i-1] || arr[i];
+      const p1 = arr[i];
+      const p2 = arr[i+1];
+      const p3 = arr[i+2] || p2;
+      const cp1x = p1.x + (p2.x-p0.x)/6, cp1y = p1.y + (p2.y-p0.y)/6;
+      const cp2x = p2.x - (p3.x-p1.x)/6, cp2y = p2.y - (p3.y-p1.y)/6;
+      path.bezierCurveTo(cp1x,cp1y,cp2x,cp2y,p2.x,p2.y);
+    }
+  };
+  pushSmooth(rp);
+  path.lineTo(lp[0].x, lp[0].y);
+  pushSmooth(lp);
+  path.closePath();
+  return path;
+}
+
+function radiusAtY(y, geom){
+  const pts = geom.rightPts;
+  if(y >= pts[0].y) return pts[0].x - geom.cx;
+  for(let i=0;i<pts.length-1;i++){
+    const a = pts[i], b = pts[i+1];
+    if(y <= a.y && y >= b.y){
+      const t = (a.y - y)/Math.max(1,(a.y-b.y));
+      return (a.x-geom.cx) + ((b.x-geom.cx)-(a.x-geom.cx))*t;
+    }
+  }
+  return pts[pts.length-1].x - geom.cx;
+}
+function pointInsideShape(x,y,geom){
+  if(y > geom.baseY || y < geom.topY) return false;
+  const r = radiusAtY(y, geom);
+  return Math.abs(x-geom.cx) <= r;
+}
+
+/* renderPottery */
+function renderPottery(ctx, opts){
+  opts = opts||{};
+  ctx.clearRect(0,0,POT_W,POT_H);
+  const geom = computeGeom();
+  const path = buildSilhouettePath(geom);
+
+  // bóng đổ dưới đáy
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(geom.cx, geom.baseY+10, geom.rightPts[0].x-geom.cx+14, 10, 0, 0, Math.PI*2);
+  ctx.fillStyle = 'rgba(43,38,32,.12)';
+  ctx.fill();
+  ctx.restore();
+
+  // bàn xoay quay (ở bước 2)
+  if(opts.showWheel){
+    ctx.save();
+    ctx.translate(geom.cx, geom.baseY+6);
+    ctx.rotate(opts.wheelAngle||0);
+    ctx.beginPath();
+    ctx.ellipse(0,0, geom.rightPts[0].x-geom.cx+34, 13, 0, 0, Math.PI*2);
+    ctx.strokeStyle = 'rgba(93,124,104,.35)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([6,7]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.restore();
+  }
+
+  // thân gốm — nền đất
+  const bodyGrad = ctx.createLinearGradient(geom.cx-120,0,geom.cx+120,0);
+  if(opts.fired){
+    bodyGrad.addColorStop(0,'#C98A5C');
+    bodyGrad.addColorStop(0.5,'#B4744A');
+    bodyGrad.addColorStop(1,'#8A5834');
+  } else {
+    bodyGrad.addColorStop(0,'#E4D6B8');
+    bodyGrad.addColorStop(0.5,'#D2BE96');
+    bodyGrad.addColorStop(1,'#AD9770');
+  }
+  ctx.fillStyle = bodyGrad;
+  ctx.fill(path);
+
+  // hoa văn (clip trong thân)
+  ctx.save();
+  ctx.clip(path);
+  for(const s of state.patternStrokes){
+    if(s.type==='stamp'){
+      ctx.save();
+      ctx.translate(s.x,s.y);
+      ctx.rotate(s.rot);
+      ctx.font = s.size+'px sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText(s.icon, 0, 0);
+      ctx.restore();
+    } else if(s.type==='draw' && s.points.length>1){
+      ctx.beginPath();
+      ctx.lineJoin='round'; ctx.lineCap='round';
+      ctx.strokeStyle = s.color;
+      ctx.lineWidth = s.size;
+      smoothPath(ctx, s.points);
+      ctx.stroke();
+    }
+  }
+
+  // men (clip trong thân)
+  if(state.glazeColorKey && (state.glazeFullCover || state.glazeStrokes.length)){
+    const mask = buildGlazeMask();
+    if(!glazeColorLayer){ glazeColorLayer = document.createElement('canvas'); glazeColorLayer.width=POT_W; glazeColorLayer.height=POT_H; }
+    const lctx = glazeColorLayer.getContext('2d');
+    lctx.clearRect(0,0,POT_W,POT_H);
+    const glazeObj = GLAZES.find(g=>g.key===state.glazeColorKey);
+    lctx.fillStyle = glazeObj ? glazeObj.hex : '#33455E';
+    lctx.fillRect(0,0,POT_W,POT_H);
+    lctx.globalCompositeOperation='destination-in';
+    lctx.drawImage(mask,0,0);
+    lctx.globalCompositeOperation='source-over';
+    ctx.save();
+    ctx.globalAlpha = state.glazeIntensity;
+    ctx.drawImage(glazeColorLayer,0,0);
+    ctx.restore();
+  }
+
+  if(opts.fired){
+    const sheen = ctx.createLinearGradient(geom.cx-100,geom.topY,geom.cx+40,geom.baseY);
+    sheen.addColorStop(0,'rgba(255,255,255,.38)');
+    sheen.addColorStop(0.25,'rgba(255,255,255,.05)');
+    sheen.addColorStop(1,'rgba(0,0,0,.08)');
+    ctx.fillStyle = sheen;
+    ctx.fill(path);
+  }
+  ctx.restore();
+
+  // viền thân
+  ctx.save();
+  ctx.strokeStyle = 'rgba(43,38,32,.18)';
+  ctx.lineWidth = 1.4;
+  ctx.stroke(path);
+  ctx.restore();
+
+  // miệng
+  const mouthR = geom.rightPts[5].x - geom.cx;
+  ctx.save();
+  ctx.beginPath();
+  ctx.ellipse(geom.cx, geom.topY, mouthR, mouthR*0.28, 0, 0, Math.PI*2);
+  const mouthGrad = ctx.createRadialGradient(geom.cx,geom.topY,2,geom.cx,geom.topY,mouthR);
+  mouthGrad.addColorStop(0,'rgba(30,24,18,.55)');
+  mouthGrad.addColorStop(1,'rgba(30,24,18,.15)');
+  ctx.fillStyle = mouthGrad;
+  ctx.fill();
+  ctx.strokeStyle='rgba(43,38,32,.25)'; ctx.lineWidth=1; ctx.stroke();
+  ctx.restore();
+
+  // tay cầm điều chỉnh (chỉ bước 2)
+  if(opts.showHandles){
+    geom.rightPts.forEach((p,i)=>{
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,7,0,Math.PI*2);
+      ctx.fillStyle = (opts.dragIndex===i) ? '#33455E' : '#fff';
+      ctx.strokeStyle = '#33455E';
+      ctx.lineWidth=2;
+      ctx.fill(); ctx.stroke();
+    });
+  }
+  return geom;
+}
+
+/* --------------------------------------------------------------
+   4. BƯỚC 1 — THẤU ĐẤT
+   -------------------------------------------------------------- */
+const kneadCanvas = document.getElementById('kneadCanvas');
+let kneadCtx;
+let kneadHolding = false;
+let kneadBlobSeed = [];
+function initKneadBlob(){
+  kneadBlobSeed = [];
+  const N = 18;
+  for(let i=0;i<N;i++) kneadBlobSeed.push(0.7+Math.random()*0.6);
+}
+initKneadBlob();
+
+function drawKnead(){
+  const cssW=300, cssH=300;
+  if(!kneadCtx) kneadCtx = setupHiDPICanvas(kneadCanvas, cssW, cssH);
+  const ctx = kneadCtx;
+  ctx.clearRect(0,0,cssW,cssH);
+  const prog = state.knead.progress/100;
+  const cx=150, cy=155, baseR=88;
+  const jag = 1-prog;
+  ctx.beginPath();
+  const N = kneadBlobSeed.length;
+  for(let i=0;i<=N;i++){
+    const a = (i/N)*Math.PI*2;
+    const wobble = 1 + (kneadBlobSeed[i%N]-1)*jag;
+    const r = baseR*wobble;
+    const x = cx+Math.cos(a)*r, y=cy+Math.sin(a)*r*0.92;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  const c1 = mixColor('#8f8168','#c98a5c',prog);
+  const c2 = mixColor('#6f6350','#8a5834',prog);
+  const grad = ctx.createRadialGradient(cx-30,cy-40,10,cx,cy,110);
+  grad.addColorStop(0,c1); grad.addColorStop(1,c2);
+  ctx.fillStyle = grad;
+  ctx.fill();
+  ctx.strokeStyle='rgba(43,38,32,.15)'; ctx.lineWidth=1.5; ctx.stroke();
+
+  if(kneadHolding){
+    ctx.beginPath();
+    ctx.ellipse(cx,cy,baseR*0.5,baseR*0.32,0.3,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,.35)';
+    ctx.lineWidth=6;
+    ctx.stroke();
+  }
+}
+function mixColor(a,b,t){
+  const pa=hexToRgb(a), pb=hexToRgb(b);
+  const r=Math.round(pa.r+(pb.r-pa.r)*t), g=Math.round(pa.g+(pb.g-pa.g)*t), bl=Math.round(pa.b+(pb.b-pa.b)*t);
+  return `rgb(${r},${g},${bl})`;
+}
+function hexToRgb(h){h=h.replace('#','');return{r:parseInt(h.substr(0,2),16),g:parseInt(h.substr(2,2),16),b:parseInt(h.substr(4,2),16)};}
+
+let kneadLastPos = null, kneadLoopId = null;
+function kneadLoop(){
+  if(kneadHolding){
+    state.knead.progress = Math.min(100, state.knead.progress + 1.2);
+    updateKneadUI();
+    drawKnead();
+    kneadLoopId = requestAnimationFrame(kneadLoop);
+  }
+}
+function updateKneadUI(){
+  document.getElementById('progressFill').style.width = state.knead.progress+'%';
+  document.getElementById('progressLeftLabel').textContent = 'Độ dẻo';
+  document.getElementById('progressRightLabel').textContent = Math.floor(state.knead.progress)+'%';
+  validateStep();
+}
+function bindKneadEvents(){
+  const down = (e)=>{ 
+    e.preventDefault(); 
+    kneadHolding=true; 
+    kneadLastPos = getPos(e, kneadCanvas, 300, 300);
+    Sound.thud(); 
+    kneadLoop(); 
+  };
+  const up = ()=>{ kneadHolding=false; drawKnead(); };
+  const move = (e)=>{
+    if(!kneadHolding) return;
+    const pos = getPos(e, kneadCanvas, 300, 300);
+    if(kneadLastPos){
+      const d = Math.hypot(pos.x-kneadLastPos.x,pos.y-kneadLastPos.y);
+      state.knead.progress = Math.min(100, state.knead.progress + d*0.08);
+      updateKneadUI();
+    }
+    kneadLastPos = pos;
+  };
+  kneadCanvas.addEventListener('mousedown',down);
+  kneadCanvas.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('mouseup',up);
+  window.addEventListener('touchend',up);
+  kneadCanvas.addEventListener('mousemove',move);
+  kneadCanvas.addEventListener('touchmove',move,{passive:false});
+
+  document.getElementById('quickKneadBtn').addEventListener('click', ()=>{
+    state.knead.progress = 100;
+    updateKneadUI();
+    drawKnead();
+    Sound.thud();
+    validateStep();
+  });
+}
+
+/* --------------------------------------------------------------
+   5. BƯỚC 2 — CHUỐT GỐM
+   -------------------------------------------------------------- */
+const potCanvas = document.getElementById('potCanvas');
+let potCtx;
+let wheelAngle = 0, wheelAnimId = null;
+let dragIndex = -1, heightDragStart = null;
+
+function drawStep2(){
+  if(!potCtx) potCtx = setupHiDPICanvas(potCanvas, POT_W, POT_H);
+  renderPottery(potCtx, {showWheel:true, wheelAngle, showHandles:true, dragIndex});
+}
+function wheelLoop(){
+  wheelAngle += 0.02;
+  drawStep2();
+  wheelAnimId = requestAnimationFrame(wheelLoop);
+}
+function stopWheel(){ if(wheelAnimId){ cancelAnimationFrame(wheelAnimId); wheelAnimId=null; } }
+
+function buildPresetButtons(){
+  const grid = document.getElementById('presetGrid');
+  grid.innerHTML='';
+  Object.entries(PRESETS).forEach(([key,p])=>{
+    const b = document.createElement('button');
+    b.className='presetBtn'; b.textContent=p.label; b.dataset.key=key;
+    b.addEventListener('click',()=>{
+      state.shape = { r:{...p.r}, height:p.height, hOff:[0,0,0,0,0,0] };
+      state.shapePresetKey = key;
+      state.shapeTouched = true;
+      document.getElementById('rHeight').value = p.height;
+      document.getElementById('valHeight').textContent = p.height+'%';
+      [...grid.children].forEach(c=>c.classList.remove('selected'));
+      b.classList.add('selected');
+      Sound.tick();
+      drawStep2(); validateStep();
+    });
+    grid.appendChild(b);
+  });
+}
+function bindStep2Events(){
+  const rHeight = document.getElementById('rHeight');
+  rHeight.addEventListener('input', ()=>{
+    state.shape.height = parseFloat(rHeight.value);
+    document.getElementById('valHeight').textContent = rHeight.value+'%';
+    state.shapeTouched = true;
+    drawStep2(); validateStep();
+  });
+  document.getElementById('resetShapeBtn').addEventListener('click', ()=>{
+    resetShape();
+    rHeight.value = 100; document.getElementById('valHeight').textContent='100%';
+    [...document.getElementById('presetGrid').children].forEach(c=>c.classList.remove('selected'));
+    drawStep2(); validateStep();
+  });
+
+  let handleDragStart = null;
+  const down = (e)=>{
+    if(state.currentStep!==2) return;
+    const pos = getPos(e, potCanvas, POT_W, POT_H);
+    const geom = computeGeom();
+    let hit = -1, best = 18;
+    geom.rightPts.forEach((p,i)=>{
+      const d = Math.hypot(pos.x-p.x,pos.y-p.y);
+      if(d<best){best=d;hit=i;}
+    });
+    if(hit>=0){
+      dragIndex = hit;
+      const key = RADIUS_KEYS[hit];
+      handleDragStart = { x:pos.x, y:pos.y, r:state.shape.r[key], off:(state.shape.hOff[hit]||0) };
+    } else {
+      heightDragStart = {y:pos.y, h:state.shape.height};
+    }
+  };
+  const move = (e)=>{
+    if(state.currentStep!==2) return;
+    if(dragIndex<0 && !heightDragStart) return;
+    e.preventDefault();
+    const pos = getPos(e, potCanvas, POT_W, POT_H);
+    if(dragIndex>=0 && handleDragStart){
+      const key = RADIUS_KEYS[dragIndex];
+      const dx = pos.x - handleDragStart.x;
+      const dy = pos.y - handleDragStart.y;
+      const newR = Math.max(14, Math.min(140, handleDragStart.r + dx));
+      const newOff = Math.max(-70, Math.min(90, handleDragStart.off - dy));
+      state.shape.r[key] = newR;
+      state.shape.hOff[dragIndex] = newOff;
+      state.shapeTouched = true;
+      drawStep2();
+    } else if(heightDragStart){
+      const dy = heightDragStart.y - pos.y;
+      state.shape.height = Math.max(55, Math.min(135, heightDragStart.h + dy*0.4));
+      document.getElementById('rHeight').value = state.shape.height;
+      document.getElementById('valHeight').textContent = Math.round(state.shape.height)+'%';
+      state.shapeTouched = true;
+      drawStep2();
+    }
+  };
+  const up = ()=>{
+    if(state.currentStep!==2) return;
+    if(dragIndex>=0 || heightDragStart) { Sound.tick(); validateStep(); }
+    dragIndex=-1; heightDragStart=null; handleDragStart=null; drawStep2();
+  };
+  potCanvas.addEventListener('mousedown',down);
+  potCanvas.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('mouseup',up);
+  window.addEventListener('touchend',up);
+}
+
+/* --------------------------------------------------------------
+   6. BƯỚC 3 — TRANG TRÍ HOA VĂN
+   -------------------------------------------------------------- */
+let drawingStroke = null;
+function buildMotifGrid(){
+  const grid = document.getElementById('motifGrid');
+  grid.innerHTML='';
+  MOTIFS.forEach(m=>{
+    const b = document.createElement('button');
+    b.className='motifBtn'; b.textContent=m.icon; b.title=m.label; b.dataset.key=m.key;
+    b.addEventListener('click',()=>{
+      state.patternMotif = m;
+      [...grid.children].forEach(c=>c.classList.remove('selected'));
+      b.classList.add('selected');
+    });
+    grid.appendChild(b);
+  });
+  grid.children[0].click();
+}
+function drawStep3(){ renderPottery(potCtx, {fired: state.fired}); }
+function bindStep3Events(){
+  document.getElementById('toolStamp').addEventListener('click', ()=>setPatternTool('stamp'));
+  document.getElementById('toolDraw').addEventListener('click', ()=>setPatternTool('draw'));
+  function setPatternTool(t){
+    state.patternTool = t;
+    document.getElementById('toolStamp').classList.toggle('selected', t==='stamp');
+    document.getElementById('toolDraw').classList.toggle('selected', t==='draw');
+    document.getElementById('motifGrid').style.display = (t==='stamp') ? 'grid':'none';
+    document.getElementById('brushSizeField').style.display = (t==='draw') ? 'block':'none';
+  }
+  setPatternTool('stamp');
+
+  document.getElementById('rBrush').addEventListener('input', (e)=>{
+    state.brushSize = parseInt(e.target.value,10);
+    document.getElementById('valBrush').textContent = state.brushSize+'px';
+  });
+  document.getElementById('valBrush').textContent = state.brushSize+'px';
+  document.getElementById('drawColor').addEventListener('input', (e)=>{ state.drawColor = e.target.value; });
+  document.getElementById('undoDecoBtn').addEventListener('click', ()=>{
+    state.patternStrokes.pop();
+    drawStep3(); validateStep();
+  });
+
+  const down = (e)=>{
+    if(state.currentStep!==3) return;
+    const pos = getPos(e, potCanvas, POT_W, POT_H);
+    const geom = computeGeom();
+    if(!pointInsideShape(pos.x,pos.y,geom)) return;
+    if(state.patternTool==='stamp' && state.patternMotif){
+      state.patternStrokes.push({type:'stamp', icon:state.patternMotif.icon, x:pos.x, y:pos.y, size:22+Math.random()*10, rot:(Math.random()-0.5)*0.6});
+      Sound.tick();
+      drawStep3(); validateStep();
+    } else if(state.patternTool==='draw'){
+      drawingStroke = {type:'draw', color:state.drawColor, size:state.brushSize, points:[pos]};
+      state.patternStrokes.push(drawingStroke);
+      Sound.tick();
+    }
+  };
+  const move = (e)=>{
+    if(state.currentStep!==3 || !drawingStroke) return;
+    e.preventDefault();
+    const pos = getPos(e, potCanvas, POT_W, POT_H);
+    drawingStroke.points.push(pos);
+    drawStep3();
+  };
+  const up = ()=>{
+    if(drawingStroke){ drawingStroke=null; validateStep(); }
+  };
+  potCanvas.addEventListener('mousedown',down);
+  potCanvas.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('mouseup',up);
+  window.addEventListener('touchend',up);
+}
+
+/* --------------------------------------------------------------
+   7. BƯỚC 4 — TRÁNG MEN
+   -------------------------------------------------------------- */
+let glazeSampleGrid = null;
+function buildGlazeSampleGrid(){
+  const geom = computeGeom();
+  const pts = [];
+  for(let y=geom.topY; y<geom.baseY; y+=12){
+    for(let x=geom.cx-140; x<geom.cx+140; x+=10){
+      if(pointInsideShape(x,y,geom)) pts.push({x,y,covered:false});
+    }
+  }
+  glazeSampleGrid = pts;
+}
+function buildGlazeGrid(){
+  const grid = document.getElementById('glazeGrid');
+  grid.innerHTML='';
+  GLAZES.forEach(g=>{
+    const wrap = document.createElement('div');
+    wrap.style.position='relative'; wrap.style.marginBottom='16px';
+    const b = document.createElement('button');
+    b.className='swatch'; b.style.background=g.hex; b.dataset.key=g.key;
+    const lbl = document.createElement('span'); lbl.textContent=g.label;
+    b.appendChild(lbl);
+    b.addEventListener('click',()=>{
+      state.glazeColorKey = g.key;
+      [...grid.querySelectorAll('.swatch')].forEach(s=>s.classList.remove('selected'));
+      b.classList.add('selected');
+      validateStep();
+    });
+    wrap.appendChild(b);
+    grid.appendChild(wrap);
+  });
+  // Mặc định chọn men lam
+  const defaultGlaze = grid.querySelector('.swatch[data-key="lam"]');
+  if(defaultGlaze){
+    state.glazeColorKey = 'lam';
+    defaultGlaze.classList.add('selected');
+  }
+}
+function updateGlazeCoverage(){
+  if(!glazeSampleGrid) buildGlazeSampleGrid();
+  if(state.glazeFullCover){
+    document.getElementById('glazeFill').style.width='100%';
+    document.getElementById('glazePct').textContent='100%';
+    return 100;
+  }
+  let covered=0;
+  for(const p of glazeSampleGrid){
+    p.covered = state.glazeStrokes.some(s=>Math.hypot(s.x-p.x,s.y-p.y)<=s.r*0.9);
+    if(p.covered) covered++;
+  }
+  const pct = glazeSampleGrid.length ? Math.round(covered/glazeSampleGrid.length*100) : 0;
+  document.getElementById('glazeFill').style.width=pct+'%';
+  document.getElementById('glazePct').textContent=pct+'%';
+  return pct;
+}
+let glazePainting = false;
+function bindStep4Events(){
+  document.getElementById('rIntensity').addEventListener('input', (e)=>{
+    state.glazeIntensity = parseInt(e.target.value,10)/100;
+    document.getElementById('valIntensity').textContent = e.target.value+'%';
+    drawStep3();
+  });
+  document.getElementById('valIntensity').textContent = Math.round(state.glazeIntensity*100)+'%';
+
+  document.getElementById('quickGlazeBtn').addEventListener('click', ()=>{
+    if(!state.glazeColorKey){ 
+      state.glazeColorKey='lam'; 
+      const el = document.querySelector('.swatch[data-key="lam"]');
+      if(el) el.classList.add('selected'); 
+    }
+    state.glazeFullCover = true;
+    Sound.swish();
+    drawStep3(); updateGlazeCoverage(); validateStep();
+  });
+
+  const down = (e)=>{
+    if(state.currentStep!==4 || !state.glazeColorKey) return;
+    glazePainting = true;
+    paintGlazeAt(e);
+  };
+  const move = (e)=>{
+    if(state.currentStep!==4 || !glazePainting) return;
+    e.preventDefault();
+    paintGlazeAt(e);
+  };
+  const up = ()=>{ glazePainting=false; };
+  function paintGlazeAt(e){
+    const pos = getPos(e, potCanvas, POT_W, POT_H);
+    const geom = computeGeom();
+    if(!pointInsideShape(pos.x,pos.y,geom)) return;
+    state.glazeStrokes.push({x:pos.x,y:pos.y,r:26});
+    if(Math.random()<0.3) Sound.swish();
+    drawStep3();
+    updateGlazeCoverage();
+    validateStep();
+  }
+  potCanvas.addEventListener('mousedown',down);
+  potCanvas.addEventListener('touchstart',down,{passive:false});
+  window.addEventListener('mousemove',move);
+  window.addEventListener('touchmove',move,{passive:false});
+  window.addEventListener('mouseup',up);
+  window.addEventListener('touchend',up);
+}
+
+/* --------------------------------------------------------------
+   8. BƯỚC 5 — NUNG
+   -------------------------------------------------------------- */
+function fireSequence(){
+  const fireBtn = document.getElementById('fireBtn');
+  fireBtn.disabled = true;
+  document.getElementById('wrapPot').style.display='none';
+  document.getElementById('wrapKiln').style.display='flex';
+  document.getElementById('stepBar').style.display='none';
+
+  const item = document.getElementById('kilnItem');
+  const door = document.getElementById('kilnDoor');
+  const glow = document.getElementById('kilnGlow');
+  const status = document.getElementById('kilnStatus');
+
+  const ictx = setupHiDPICanvas(item, 70, 90);
+  ictx.save(); ictx.scale(0.15,0.15); ictx.translate(0,-70);
+  renderPottery(ictx,{fired:false});
+  ictx.restore();
+
+  status.textContent = 'Đang đưa sản phẩm vào lò...';
+  item.classList.add('inside');
+  setTimeout(()=>{
+    door.classList.remove('open'); door.classList.add('closed');
+    status.textContent = 'Đóng cửa lò...';
+  }, 900);
+
+  setTimeout(()=>{
+    glow.classList.add('on');
+    status.textContent = 'Canh nhiệt để giữ lửa đều tay!';
+    startTempGame();
+  }, 1900);
+}
+
+const TEMP_ROUNDS = [
+  { temp:900,  zoneW:95, speed:2.0 },
+  { temp:1000, zoneW:75, speed:2.5 },
+  { temp:1100, zoneW:58, speed:3.1 },
+  { temp:1200, zoneW:42, speed:3.7 }
+];
+const tempGame = { active:false, round:0, barW:260, barX:10, barY:26, barH:16,
+  markerX:0, dir:1, zoneStart:0, zoneW:0, speed:0, temp:20, animId:null, flash:0, busy:false };
+let tempCtx = null;
+
+function newRound(){
+  const cfg = TEMP_ROUNDS[tempGame.round];
+  tempGame.zoneW = cfg.zoneW;
+  tempGame.speed = cfg.speed;
+  tempGame.zoneStart = tempGame.barX + 6 + Math.random()*(tempGame.barW-12-cfg.zoneW);
+  tempGame.markerX = tempGame.barX;
+  tempGame.dir = 1;
+  tempGame.busy = false;
+  document.getElementById('tempGameRound').textContent =
+    `Lượt ${tempGame.round+1}/${TEMP_ROUNDS.length} · mục tiêu ${cfg.temp}°C`;
+}
+function startTempGame(){
+  document.getElementById('tempGameWrap').style.display='flex';
+  if(!tempCtx) tempCtx = setupHiDPICanvas(document.getElementById('tempBarCanvas'), 280, 64);
+  tempGame.active = true; tempGame.round = 0; tempGame.temp = 20;
+  newRound();
+  tempLoop();
+}
+function stopTempGame(){
+  tempGame.active = false;
+  if(tempGame.animId){ cancelAnimationFrame(tempGame.animId); tempGame.animId=null; }
+  document.getElementById('tempGameWrap').style.display='none';
+}
+function tempLoop(){
+  if(!tempGame.active) return;
+  tempGame.markerX += tempGame.speed*tempGame.dir;
+  if(tempGame.markerX >= tempGame.barX+tempGame.barW-6){ tempGame.markerX = tempGame.barX+tempGame.barW-6; tempGame.dir=-1; }
+  if(tempGame.markerX <= tempGame.barX+6){ tempGame.markerX = tempGame.barX+6; tempGame.dir=1; }
+  if(tempGame.flash>0) tempGame.flash -= 0.05;
+  drawTempBar();
+  tempGame.animId = requestAnimationFrame(tempLoop);
+}
+function drawTempBar(){
+  const ctx = tempCtx, W=280, H=64;
+  ctx.clearRect(0,0,W,H);
+  roundRect(ctx, tempGame.barX, tempGame.barY, tempGame.barW, tempGame.barH, 8);
+  ctx.fillStyle = '#D8CEB2'; ctx.fill();
+  ctx.strokeStyle = 'rgba(43,38,32,.2)'; ctx.lineWidth=1.5; ctx.stroke();
+  roundRect(ctx, tempGame.zoneStart, tempGame.barY, tempGame.zoneW, tempGame.barH, 6);
+  ctx.fillStyle = '#F2C94C'; ctx.fill();
+  ctx.strokeStyle = 'rgba(199,154,70,.7)'; ctx.lineWidth=1.5; ctx.stroke();
+  if(tempGame.flash>0){
+    ctx.fillStyle = tempGame.flashColor==='ok' ? `rgba(93,124,104,${tempGame.flash})` : `rgba(154,75,54,${tempGame.flash})`;
+    ctx.fillRect(0,0,W,H);
+  }
+  const mx = tempGame.markerX;
+  ctx.beginPath();
+  ctx.moveTo(mx-8, tempGame.barY-10);
+  ctx.lineTo(mx+8, tempGame.barY-10);
+  ctx.lineTo(mx, tempGame.barY-1);
+  ctx.closePath();
+  ctx.fillStyle = '#33455E';
+  ctx.fill();
+  ctx.fillRect(mx-1.5, tempGame.barY, 3, tempGame.barH);
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+function attemptTempHit(){
+  if(!tempGame.active || tempGame.busy) return;
+  const inZone = tempGame.markerX >= tempGame.zoneStart && tempGame.markerX <= tempGame.zoneStart+tempGame.zoneW;
+  const cfg = TEMP_ROUNDS[tempGame.round];
+  if(inZone){
+    tempGame.busy = true;
+    tempGame.flash = 0.55; tempGame.flashColor='ok';
+    Sound.chime(); Sound.crackle();
+    document.getElementById('kilnStatus').textContent = `Trúng! Lò đạt ${cfg.temp}°C 🔥`;
+    animateTempTo(cfg.temp, ()=>{
+      const pct = ((tempGame.round+1)/TEMP_ROUNDS.length)*100;
+      document.getElementById('kilnMeterFill').style.width = pct+'%';
+      tempGame.round++;
+      if(tempGame.round>=TEMP_ROUNDS.length){ finishFiring(); }
+      else { setTimeout(()=>{ newRound(); document.getElementById('kilnStatus').textContent='Canh nhiệt để giữ lửa đều tay!'; }, 500); }
+    });
+  } else {
+    tempGame.flash = 0.4; tempGame.flashColor='miss';
+    Sound.tick();
+    document.getElementById('kilnStatus').textContent = 'Chưa đúng lúc, thử lại!';
+  }
+}
+function animateTempTo(target, done){
+  const start = tempGame.temp, t0 = performance.now(), dur=500;
+  function frame(now){
+    const p = Math.min(1,(now-t0)/dur);
+    tempGame.temp = start+(target-start)*p;
+    document.getElementById('tempReadout').textContent = Math.round(tempGame.temp)+'°C';
+    if(p<1) requestAnimationFrame(frame); else done();
+  }
+  requestAnimationFrame(frame);
+}
+function finishFiring(){
+  stopTempGame();
+  document.getElementById('kilnStatus').textContent = 'Hoàn tất!';
+  setTimeout(()=>{
+    state.fired = true;
+    document.getElementById('kilnGlow').classList.remove('on');
+    document.getElementById('kilnDoor').classList.remove('closed');
+    document.getElementById('kilnDoor').classList.add('open');
+    document.getElementById('kilnStatus').textContent = 'Sản phẩm đã nguội — sẵn sàng chiêm ngưỡng!';
+    document.getElementById('continueBtn').textContent = 'Xem tác phẩm →';
+    document.getElementById('continueBtn').disabled = false;
+  }, 700);
+}
+function bindTempGameEvents(){
+  const canvas = document.getElementById('tempBarCanvas');
+  canvas.addEventListener('mousedown', attemptTempHit);
+  canvas.addEventListener('touchstart', (e)=>{ e.preventDefault(); attemptTempHit(); }, {passive:false});
+
+  document.getElementById('quickFireBtn').addEventListener('click', ()=>{
+    stopTempGame();
+    animateTempTo(1200, ()=>{
+      document.getElementById('kilnMeterFill').style.width = '100%';
+      finishFiring();
+    });
+  });
+}
+
+/* --------------------------------------------------------------
+   9. MÀN HÌNH KẾT QUẢ
+   -------------------------------------------------------------- */
+function shapeSummaryLabel(){
+  if(state.shapePresetKey && !state.shapeTouched) return PRESETS[state.shapePresetKey].label;
+  if(state.shapePresetKey) return PRESETS[state.shapePresetKey].label + ' (tuỳ chỉnh)';
+  return 'Kiểu dáng tự do';
+}
+function patternSummaryLabel(){
+  if(!state.patternStrokes.length) return 'Không trang trí';
+  const stamps = state.patternStrokes.filter(s=>s.type==='stamp');
+  const draws = state.patternStrokes.filter(s=>s.type==='draw');
+  const names = new Set(stamps.map(s=>{
+    const m = MOTIFS.find(m=>m.icon===s.icon); return m?m.label:'';
+  }));
+  let label = [...names].filter(Boolean).join(', ');
+  if(draws.length) label += (label?' + ':'')+'nét vẽ tay';
+  return label || 'Tự vẽ';
+}
+function glazeSummaryLabel(){
+  const g = GLAZES.find(g=>g.key===state.glazeColorKey);
+  return g ? g.label : 'Chưa tráng men';
+}
+function showResult(){
+  const rc = document.getElementById('resultCanvas');
+  const rctx = setupHiDPICanvas(rc, 360, 440);
+  rctx.save();
+  rctx.translate(-10,-10);
+  renderPottery(rctx,{fired:true});
+  rctx.restore();
+
+  document.getElementById('factShape').textContent = shapeSummaryLabel();
+  document.getElementById('factPattern').textContent = patternSummaryLabel();
+  document.getElementById('factGlaze').textContent = glazeSummaryLabel();
+  const secs = Math.max(1, Math.round((Date.now()-(state.startTime||Date.now()))/1000));
+  const mins = Math.floor(secs/60), rem = secs%60;
+  document.getElementById('factTime').textContent = mins>0 ? `${mins} phút ${rem}s` : `${rem} giây`;
+}
+function bindResultEvents(){
+  document.getElementById('nameInput').addEventListener('input', (e)=>{
+    state.productName = e.target.value;
+    document.getElementById('resultHeadline').textContent = e.target.value || 'Đặt tên cho tác phẩm';
+  });
+  document.getElementById('downloadBtn').addEventListener('click', ()=>{
+    const rc = document.getElementById('resultCanvas');
+    const link = document.createElement('a');
+    link.download = (state.productName || 'gom-bat-trang') + '.png';
+    link.href = rc.toDataURL('image/png');
+    link.click();
+  });
+  document.getElementById('replayBtn').addEventListener('click', fullReset);
+  document.getElementById('newProductBtn').addEventListener('click', fullReset);
+}
+function fullReset(){
+  state.currentStep = 1; state.unlockedStep = 1;
+  state.knead.progress = 0;
+  resetShape();
+  state.patternStrokes = [];
+  state.glazeStrokes = []; state.glazeFullCover=false; state.glazeColorKey=null;
+  state.fired = false; state.productName='';
+  state.startTime = Date.now();
+  initKneadBlob();
+  document.getElementById('nameInput').value='';
+  document.querySelectorAll('.presetBtn.selected').forEach(b=>b.classList.remove('selected'));
+  document.querySelectorAll('.swatch.selected').forEach(b=>b.classList.remove('selected'));
+  document.getElementById('rHeight').value = 100;
+  document.getElementById('valHeight').textContent='100%';
+  document.getElementById('rIntensity').value = 55;
+  document.getElementById('valIntensity').textContent='55%';
+  document.getElementById('glazeFill').style.width='0%';
+  document.getElementById('glazePct').textContent='0%';
+  document.getElementById('continueBtn').textContent='Tiếp tục →';
+  document.getElementById('kilnDoor').className='open';
+  document.getElementById('kilnGlow').classList.remove('on');
+  document.getElementById('tempReadout').textContent='20°C';
+  document.getElementById('kilnStatus').textContent='Sẵn sàng đưa sản phẩm vào lò';
+  document.getElementById('kilnMeterFill').style.width='0%';
+  document.getElementById('fireBtn').disabled=false;
+  goToScreen('game-shell');
+  showStep(1);
+}
+
+/* --------------------------------------------------------------
+   10. ĐIỀU HƯỚNG / PROGRESS BAR / VALIDATION / KHỞI TẠO
+   -------------------------------------------------------------- */
+function buildProgressBar(){
+  const bar = document.getElementById('progressbar');
+  bar.innerHTML='';
+  STEP_LABELS.forEach((label,i)=>{
+    const stepNum = i+1;
+    if(i>0){
+      const conn = document.createElement('div'); conn.className='pconnector'; conn.dataset.idx=stepNum;
+      bar.appendChild(conn);
+    }
+    const el = document.createElement('div');
+    el.className='pstep'; el.dataset.idx=stepNum;
+    el.innerHTML = `<span class="dot">${stepNum}</span><span class="lbl">${label}</span>`;
+    el.addEventListener('click', ()=>{
+      showStep(stepNum);
+    });
+    bar.appendChild(el);
+  });
+}
+function updateProgressBar(){
+  document.querySelectorAll('.pstep').forEach(el=>{
+    const idx = parseInt(el.dataset.idx,10);
+    el.classList.toggle('active', idx===state.currentStep);
+    el.classList.toggle('done', idx < state.currentStep || idx < state.unlockedStep);
+    el.classList.add('clickable');
+  });
+  document.querySelectorAll('.pconnector').forEach(el=>{
+    const idx = parseInt(el.dataset.idx,10);
+    el.classList.toggle('done', idx <= state.unlockedStep);
+  });
+}
+function goToScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('game-shell').classList.remove('active');
+  if(id==='game-shell'){ document.getElementById('game-shell').classList.add('active'); }
+  else { document.getElementById(id).classList.add('active'); }
+  document.getElementById('topbar').classList.toggle('show', id==='game-shell');
+}
+function showStep(n){
+  state.currentStep = n;
+  state.unlockedStep = Math.max(state.unlockedStep, n);
+  stopWheel(); Sound.stopHum();
+
+  document.querySelectorAll('.control-block').forEach(b=>{
+    b.classList.toggle('show', parseInt(b.dataset.step,10)===n);
+  });
+  document.getElementById('wrapKnead').style.display = n===1 ? 'block':'none';
+  document.getElementById('wrapPot').style.display = (n>=2 && n<=5) ? 'block':'none';
+  document.getElementById('wrapKiln').style.display = 'none';
+  document.getElementById('stepBar').style.display = (n===1) ? 'block':'none';
+
+  const tipEl = document.getElementById('tip'+n);
+  if(tipEl) tipEl.textContent = TIPS[n];
+  document.getElementById('stepHint').textContent = ({
+    1:'Giữ chuột hoặc chạm & di chuyển trên khối đất để nhào.',
+    2:'Kéo các chấm trên thân gốm theo mọi hướng để chỉnh hình, hoặc chọn mẫu có sẵn bên phải.',
+    3:'Chọn họa tiết rồi bấm lên sản phẩm để dán, hoặc chuyển sang "Tự vẽ" để vẽ tự do.',
+    4:'Chọn màu men rồi rê chuột lên sản phẩm để quét men.',
+    5:'Bấm "Đưa vào lò nung" để hoàn thiện sản phẩm.'
+  })[n] || '';
+
+  if(n===1){ drawKnead(); }
+  if(n===2){ wheelLoop(); Sound.startHum(); }
+  if(n===3 || n===4){ drawStep3(); if(n===4){ buildGlazeSampleGrid(); updateGlazeCoverage(); } }
+  if(n===5){
+    drawStep3();
+    document.getElementById('fireBtn').disabled = state.fired;
+    document.getElementById('fireBtn').textContent = state.fired ? '✓ Đã nung xong' : '🔥 Đưa vào lò nung';
+    document.getElementById('continueBtn').textContent = state.fired ? 'Xem tác phẩm →' : 'Tiếp tục →';
+  }
+
+  document.getElementById('backBtn').disabled = (n===1);
+  updateProgressBar();
+  validateStep();
+}
+function stepIsValid(n){
+  switch(n){
+    case 1: return state.knead.progress >= 30; // Linh hoạt hơn, chỉ cần nhào một chút là có thể tiếp tục
+    case 2: return true;
+    case 3: return true;
+    case 4: return true;
+    case 5: return state.fired;
+    default: return true;
+  }
+}
+function validateStep(){
+  const ok = stepIsValid(state.currentStep);
+  document.getElementById('continueBtn').disabled = !ok;
+}
+function bindNav(){
+  document.getElementById('backBtn').addEventListener('click', ()=>{
+    if(state.currentStep>1) showStep(state.currentStep-1);
+  });
+  document.getElementById('continueBtn').addEventListener('click', ()=>{
+    if(state.currentStep===5){
+      if(!state.fired){ fireSequence(); return; }
+      goToScreen('screen-result');
+      showResult();
+      return;
+    }
+    if(state.currentStep < 5) showStep(state.currentStep+1);
+  });
+  document.getElementById('fireBtn').addEventListener('click', fireSequence);
+}
+function bindSoundToggle(){
+  const btn = document.getElementById('soundToggle');
+  btn.addEventListener('click', ()=>{
+    state.soundOn = !state.soundOn;
+    btn.textContent = state.soundOn ? '🔊' : '🔈';
+    if(!state.soundOn) Sound.stopHum(); else if(state.currentStep===2) Sound.startHum();
+  });
+}
+function bindIntro(){
+  document.getElementById('startBtn').addEventListener('click', ()=>{
+    state.startTime = Date.now();
+    goToScreen('game-shell');
+    showStep(1);
+  });
+}
+
+/* --------------------------------------------------------------
+   KHỞI TẠO
+   -------------------------------------------------------------- */
+function init(){
+  buildProgressBar();
+  buildPresetButtons();
+  buildMotifGrid();
+  buildGlazeGrid();
+  bindKneadEvents();
+  bindStep2Events();
+  bindStep3Events();
+  bindStep4Events();
+  bindTempGameEvents();
+  bindNav();
+  bindSoundToggle();
+  bindIntro();
+  bindResultEvents();
+  drawKnead();
+}
+init();
+</script>
+</body>
+</html>
