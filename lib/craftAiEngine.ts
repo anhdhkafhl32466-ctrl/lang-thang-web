@@ -1014,59 +1014,87 @@ Bạn muốn tìm hiểu kỹ hơn về làng nghề nào, hoặc muốn tôi l�
   };
 }
 
-// Main AI Assistant Interface that supports optional Google Gemini Cloud LLM
+// Main AI Assistant Interface that supports Google Gemini Cloud LLM
 export async function askEnhancedCraftAssistant(
   userQuery: string,
   userGeminiKey?: string
 ): Promise<AiResponseResult> {
-  const activeKey = userGeminiKey || process.env.GEMINI_API_KEY || '';
+  const activeKey = (userGeminiKey || process.env.GEMINI_API_KEY || '').trim();
 
-  // 1. If Gemini API key is available, call Gemini 1.5 Flash (or Gemini 2.0 Flash)
-  if (activeKey && activeKey.trim().length > 10) {
-    try {
-      const systemPrompt = `Bạn là Trợ lý Ảo AI cao cấp về toàn bộ 16 Làng Nghề Truyền Thống của Hà Nội (Bát Tràng, Mễ Trì, Vạn Phúc, Quảng Phú Cầu, Tây Tựu, Đào Thục, Xuân La, Thạch Xá, làng Chuông, Phú Vinh, Trạch Xá, Sơn Đồng, Chuyên Mỹ, Hạ Thái, Kiêu Kỵ, Chàng Sơn).
-Nhiệm vụ của bạn là tư vấn du lịch, lịch trình, ẩm thực, phương tiện (xe buýt, xe máy), chi phí, góc chụp ảnh sống ảo và lịch sử văn hóa một cách chuyên nghiệp, nhiệt tình, có cấu trúc rõ ràng với icon sinh động, tiếng Việt chuẩn mực.
+  // 1. If Gemini API key is available, call official Google Gemini models
+  if (activeKey && activeKey.length > 10) {
+    const systemPrompt = `Bạn là Trợ lý Ảo AI chuyên gia cao cấp của nền tảng "Lang Thang — Làng Nghề Hà Nội" (Slogan: "Lang Thang ghé một ngôi làng / Theo chân văn hóa, mở ngàn điều hay").
+Bạn am hiểu tường tận toàn bộ 16 Làng Nghề Truyền Thống của Hà Nội:
+- Bát Tràng (Gốm sứ, lò bầu, vuốt gốm, Bảo tàng 7 tầng xoắn ốc, canh măng mực, buýt 47A)
+- Mễ Trì (Cốm non mộc lá sen, xôi cốm dừa hạt sen, chả cốm giòn thơm, buýt 33, 50, 74)
+- Vạn Phúc (Lụa tơ tằm, con đường ô dù, bún chả Cầu Am, tàu điện Cát Linh - Hà Đông)
+- Quảng Phú Cầu (Hương đỏ triệu view, vịt cỏ Vân Đình, buýt 91)
+- Tây Tựu (Đồng hoa bạt ngàn, bún đậu làng Đăm, ổi đào)
+- Đào Thục (Rối nước Thủy đình cổ, lội nước điều khiển chú Tễu cùng nghệ nhân)
+- Xuân La (Tò he bột nếp ngũ sắc duy nhất Việt Nam, bánh đa gấc)
+- Thạch Xá (Chuồn chuồn tre thăng bằng, Chùa Tây Phương 239 bậc đá ong, chè lam)
+- Làng Chuông (Nón lá bài thơ, chợ phiên rạng sáng đê sông Đáy, bánh đúc tương bần)
+- Phú Vinh (Mây tre đan xuất khẩu châu Âu, decor sống xanh vintage)
+- Trạch Xá (Cội nguồn áo dài hơn 1000 năm, khâu tay giấu chỉ độc nhất)
+- Sơn Đồng (Tạc tượng Phật, đồ thờ sơn son thếp vàng, nem Phùng)
+- Chuyên Mỹ (Khảm xà cừ vỏ ốc cửu khổng ngũ sắc từ thời Lý, bún bung hoa chuối)
+- Hạ Thái (Sơn mài mỹ thuật, dát vỏ trứng và mài nước kỳ công)
+- Kiêu Kỵ (Làng dát vàng quỳ độc nhất Việt Nam, đập 1 chỉ vàng thành ngàn lá quỳ)
+- Chàng Sơn (Quạt giấy dó, quạt lụa từng dự triển lãm Paris, bánh tẻ lá dong).
+
+Nhiệm vụ của bạn là tư vấn du lịch, gợi ý lịch trình, phương tiện (xe buýt, xe máy, tàu điện), ẩm thực, chi phí, góc chụp ảnh sống ảo và lịch sử văn hóa một cách nhiệt tình, đĩnh đạc, ấm áp, có cấu trúc rõ ràng với icon sinh động, tiếng Việt chuẩn mực.
 
 Hãy trả lời câu hỏi sau của người dùng: "${userQuery}"`;
 
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${activeKey.trim()}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: systemPrompt }]
-            }
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 1000
-          }
-        })
-      });
+    const candidateModels = [
+      'gemini-3.6-flash',
+      'gemini-3.5-flash',
+      'gemini-3.5-flash-lite',
+      'gemini-flash-latest'
+    ];
 
-      if (res.ok) {
-        const data = await res.json();
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          // Dynamic follow-up generation based on query
-          const localFallback = generateSmartLocalAnswer(userQuery);
-          return {
-            reply: text,
-            source: 'gemini-1.5-flash',
-            suggestedFollowUps: localFallback.suggestedFollowUps || [
-              'Làng nghề nào gần trung tâm nhất?',
-              'Tọa độ chụp ảnh sống ảo đẹp nhất?',
-              'Món ngon đặc sản không thể bỏ lỡ?'
-            ]
-          };
+    for (const model of candidateModels) {
+      try {
+        const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(activeKey)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: systemPrompt }]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.7,
+              maxOutputTokens: 1200
+            }
+          })
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (text) {
+            const localFallback = generateSmartLocalAnswer(userQuery);
+            return {
+              reply: text,
+              source: 'gemini-1.5-flash',
+              suggestedFollowUps: localFallback.suggestedFollowUps || [
+                'Làng nghề nào gần trung tâm nhất?',
+                'Tọa độ chụp ảnh sống ảo đẹp nhất?',
+                'Món ngon đặc sản không thể bỏ lỡ?'
+              ],
+              relatedVillageSlug: localFallback.relatedVillageSlug
+            };
+          }
         }
+      } catch (err) {
+        // Continue to next model if this one fails
       }
-    } catch (geminiErr) {
-      console.warn('Gemini 1.5 Flash API error, falling back to Local Expert Engine:', geminiErr);
     }
   }
 
   // 2. High-performance offline Expert Engine (Instant, zero latency, highly accurate)
   return generateSmartLocalAnswer(userQuery);
 }
+
