@@ -53,8 +53,8 @@ const config: Config = {
         }
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        serif: ['var(--font-playfair)', 'Playfair Display', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'Be Vietnam Pro', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         'warm': '0 10px 30px -5px rgba(200, 90, 50, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05)',

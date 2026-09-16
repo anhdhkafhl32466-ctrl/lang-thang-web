@@ -1,12 +1,20 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Playfair_Display, Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 import AppShell from "@/components/layout/AppShell";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin", "vietnamese"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800", "900"],
+});
+
+const beVietnamPro = Be_Vietnam_Pro({
+  subsets: ["latin", "vietnamese"],
   variable: "--font-sans",
-  weight: "100 900",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800"],
 });
 
 export const viewport: Viewport = {
@@ -28,11 +36,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className="scroll-smooth">
+    <html lang="vi" className={`scroll-smooth ${beVietnamPro.variable} ${playfairDisplay.variable}`}>
       <head>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossOrigin="" />
+        {/* Preconnect and fallback for Google Fonts */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossOrigin=""
+        />
       </head>
-      <body className={`${geistSans.variable} font-sans antialiased bg-dopaper-50 text-lacquer-900`}>
+      <body className="font-sans antialiased bg-dopaper-50 text-lacquer-900 selection:bg-terracotta-100 selection:text-terracotta-900">
         <AppShell>{children}</AppShell>
       </body>
     </html>
