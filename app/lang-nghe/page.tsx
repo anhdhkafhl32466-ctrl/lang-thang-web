@@ -302,10 +302,10 @@ export default function CraftVillagesDirectoryPage() {
 
               {/* Map Guide Overlay Banner (Top-Left) */}
               <div className="absolute top-4 left-4 z-20 pointer-events-none">
-                <div className="bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-2xl border border-terracotta-200 shadow-lg flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-terracotta-500 animate-ping" />
-                  <span className="text-xs font-bold text-lacquer-900">
-                    Di chuột vào ranh giới từng làng để xem thông tin • Nhấp chuột để mở chi tiết
+                <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-terracotta-200/90 shadow-md flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs font-semibold text-lacquer-900">
+                    Chọn hoặc rê chuột vào biểu tượng làng nghề để xem thông tin
                   </span>
                 </div>
               </div>
