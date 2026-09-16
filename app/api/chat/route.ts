@@ -23,7 +23,7 @@ export async function POST(req: Request) {
               {
                 parts: [
                   {
-                    text: `Bạn là trợ lý ảo chuyên nghiệp về các làng nghề truyền thống Hà Nội (Bát Tràng, Vạn Phúc, Phú Vinh, Chuông, Kiêu Kỵ, Đào Thục). Hãy trả lời ngắn gọn, nhiệt tình, chuẩn xác tiếng Việt cho câu hỏi sau: "${message}"`
+                    text: `Bạn là trợ lý ảo chuyên nghiệp về toàn bộ 16 làng nghề truyền thống tiêu biểu của Hà Nội (Bát Tràng, Mễ Trì, Vạn Phúc, Quảng Phú Cầu, Tây Tựu, Đào Thục, Xuân La, Thạch Xá, làng Chuông, Phú Vinh, Trạch Xá, Sơn Đồng, Chuyên Mỹ, Hạ Thái, Kiêu Kỵ, Chàng Sơn). Hãy trả lời ngắn gọn, nhiệt tình, chuẩn xác tiếng Việt cho câu hỏi sau: "${message}"`
                   }
                 ]
               }

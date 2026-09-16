@@ -27,10 +27,12 @@ export default function ChatbotDrawer() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const quickPrompts = [
+    'Thèm ăn cốm tươi và đặc sản ẩm thực?',
+    'Chỉ rảnh 2-3 tiếng gần trung tâm?',
+    'Gia đình có trẻ nhỏ nên đi làng nào?',
+    'Tọa độ chụp ảnh sống ảo triệu view?',
     'Đi đâu chơi cuối tuần 1 ngày?',
     'Có 300k thì nên trải nghiệm gì?',
-    'Gia đình có trẻ nhỏ nên đi làng nào?',
-    'Làng nghề nào chụp ảnh đẹp nhất?',
     'Mua quà lưu niệm nào ý nghĩa?'
   ];
 
