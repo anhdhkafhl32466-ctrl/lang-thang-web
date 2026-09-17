@@ -24,10 +24,45 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Lang Thang — Làng Nghề Hà Nội | Cổng thông tin & Trải nghiệm di sản",
-  description: "Nền tảng số hóa di sản, bản đồ tương tác và trợ lý AI khám phá 327 làng nghề truyền thống Hà Nội.",
-  keywords: ["Lang Thang", "Làng nghề Hà Nội", "Gốm Bát Tràng", "Lụa Vạn Phúc", "Nón Chuông", "Mây tre Phú Vinh", "Du lịch Hà Nội", "Trải nghiệm làng nghề", "Đồ thủ công mỹ nghệ"],
-  authors: [{ name: "Lang Thang Team" }],
+  metadataBase: new URL("https://lang-thang-web.vercel.app"),
+  title: {
+    default: "Lang Thang Web — Làng Nghề Hà Nội | Nền Tảng Di Sản & Du Lịch",
+    template: "%s | Lang Thang Web",
+  },
+  description: "Lang Thang Web — Nền tảng số hóa di sản, bản đồ tương tác GIS và trợ lý AI thông minh khám phá 327 làng nghề truyền thống Thăng Long - Hà Nội.",
+  keywords: [
+    "lang thang web",
+    "lang thang",
+    "lang-thang-web",
+    "lang thang web vercel",
+    "làng nghề hà nội",
+    "lang nghe ha noi",
+    "du lịch làng nghề",
+    "gốm bát tràng",
+    "lụa vạn phúc",
+    "hương quảng phú cầu",
+    "cốm mễ trì",
+    "nón chuông",
+    "mây tre phú vinh",
+    "di sản hà nội"
+  ],
+  authors: [{ name: "Lang Thang Web Team" }],
+  creator: "Lang Thang Web",
+  publisher: "Lang Thang Web",
+  alternates: {
+    canonical: "https://lang-thang-web.vercel.app",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: [
       { url: "/favicon-32x32.png?v=2", sizes: "32x32", type: "image/png" },
@@ -39,17 +74,50 @@ export const metadata: Metadata = {
     apple: "/apple-touch-icon.png?v=2",
   },
   openGraph: {
-    title: "Lang Thang — Làng Nghề Hà Nội",
-    description: "Nền tảng số hóa di sản và trải nghiệm làng nghề truyền thống Hà Nội",
+    type: "website",
+    locale: "vi_VN",
+    url: "https://lang-thang-web.vercel.app",
+    siteName: "Lang Thang Web",
+    title: "Lang Thang Web — Làng Nghề Hà Nội",
+    description: "Nền tảng số hóa di sản, bản đồ tương tác GIS và trợ lý AI thông minh khám phá 327 làng nghề truyền thống Hà Nội",
     images: [
       {
         url: "/images/lang-thang-logo.png",
         width: 1024,
         height: 1024,
-        alt: "Lang Thang — Làng Nghề Hà Nội Logo",
+        alt: "Lang Thang Web Logo",
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Lang Thang Web — Làng Nghề Hà Nội",
+    description: "Nền tảng số hóa di sản và trợ lý AI khám phá làng nghề truyền thống Hà Nội",
+    images: ["/images/lang-thang-logo.png"],
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://lang-thang-web.vercel.app/#website",
+      "url": "https://lang-thang-web.vercel.app",
+      "name": "Lang Thang Web",
+      "alternateName": ["Lang Thang", "Lang Thang — Làng Nghề Hà Nội", "lang-thang-web", "LangThangWeb"],
+      "description": "Nền tảng số hóa di sản, bản đồ tương tác GIS và trợ lý AI thông minh khám phá 327 làng nghề truyền thống Hà Nội.",
+      "inLanguage": "vi-VN"
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://lang-thang-web.vercel.app/#organization",
+      "name": "Lang Thang Web",
+      "url": "https://lang-thang-web.vercel.app",
+      "logo": "https://lang-thang-web.vercel.app/images/lang-thang-logo.png",
+      "slogan": "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay"
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -60,6 +128,12 @@ export default function RootLayout({
   return (
     <html lang="vi" className={`scroll-smooth ${beVietnamPro.variable} ${playfairDisplay.variable}`}>
       <head>
+        {/* Google Schema.org JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         {/* Favicon & Browser Tab Icons */}
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
