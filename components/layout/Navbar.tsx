@@ -94,11 +94,11 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-terracotta-500 to-terracotta-700 flex items-center justify-center text-white shadow-md shadow-terracotta-500/20 group-hover:scale-105 transition-transform overflow-hidden p-0.5 bg-white border border-terracotta-200">
+            <div className="w-11 h-11 rounded-full bg-white border border-terracotta-300/80 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
               <img
-                src="/images/lang-thang-banner.png"
-                alt="Lang Thang"
-                className="w-full h-full object-cover rounded-lg"
+                src="/images/lang-thang-logo.png"
+                alt="Lang Thang — Làng Nghề Hà Nội"
+                className="w-full h-full object-cover"
               />
             </div>
             <div>
@@ -293,13 +293,22 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
               </button>
             )}
 
-            <div className="px-3 py-2.5 bg-terracotta-50 rounded-2xl border border-terracotta-200/80 mb-2">
-              <span className="font-serif text-sm font-bold text-terracotta-700 block">
-                Lang Thang — Làng Nghề Hà Nội
-              </span>
-              <p className="text-[11px] text-lacquer-800/80 italic mt-0.5">
-                "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay"
-              </p>
+            <div className="px-3 py-2.5 bg-terracotta-50 rounded-2xl border border-terracotta-200/80 mb-2 flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-terracotta-300 bg-white shadow-sm shrink-0">
+                <img
+                  src="/images/lang-thang-logo.png"
+                  alt="Lang Thang"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="min-w-0">
+                <span className="font-serif text-sm font-bold text-terracotta-700 block truncate">
+                  Lang Thang — Làng Nghề Hà Nội
+                </span>
+                <p className="text-[10px] text-lacquer-800/80 italic line-clamp-1">
+                  "Theo chân văn hóa, mở ngàn điều hay"
+                </p>
+              </div>
             </div>
 
             {navLinks.map((link) => (

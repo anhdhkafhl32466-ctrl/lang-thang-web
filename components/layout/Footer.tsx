@@ -14,11 +14,11 @@ export default function Footer() {
           {/* Col 1 & 2: Brand Info */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-white p-0.5 border border-terracotta-400 overflow-hidden shadow-md">
+              <div className="w-12 h-12 rounded-full bg-white border-2 border-terracotta-400 overflow-hidden shadow-md shrink-0 flex items-center justify-center">
                 <img
-                  src="/images/lang-thang-banner.png"
-                  alt="Lang Thang"
-                  className="w-full h-full object-cover rounded-lg"
+                  src="/images/lang-thang-logo.png"
+                  alt="Lang Thang — Làng Nghề Hà Nội"
+                  className="w-full h-full object-cover"
                 />
               </div>
               <div>

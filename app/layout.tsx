@@ -28,6 +28,23 @@ export const metadata: Metadata = {
   description: "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay. Nền tảng di sản số và bản đồ 327 làng nghề truyền thống Hà Nội.",
   keywords: ["Lang Thang", "Làng nghề Hà Nội", "Gốm Bát Tràng", "Lụa Vạn Phúc", "Nón Chuông", "Mây tre Phú Vinh", "Du lịch Hà Nội", "Trải nghiệm làng nghề", "Đồ thủ công mỹ nghệ"],
   authors: [{ name: "Lang Thang Team" }],
+  icons: {
+    icon: "/images/lang-thang-logo.png",
+    shortcut: "/images/lang-thang-logo.png",
+    apple: "/images/lang-thang-logo.png",
+  },
+  openGraph: {
+    title: "Lang Thang — Làng Nghề Hà Nội",
+    description: "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay",
+    images: [
+      {
+        url: "/images/lang-thang-logo.png",
+        width: 1024,
+        height: 1024,
+        alt: "Lang Thang — Làng Nghề Hà Nội Logo",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
