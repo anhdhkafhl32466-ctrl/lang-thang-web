@@ -24,8 +24,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Lang Thang — Làng Nghề Hà Nội | Ghé một ngôi làng, theo chân văn hóa, mở ngàn điều hay",
-  description: "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay. Nền tảng di sản số và bản đồ 327 làng nghề truyền thống Hà Nội.",
+  title: "Lang Thang — Làng Nghề Hà Nội | Cổng thông tin & Trải nghiệm di sản",
+  description: "Nền tảng số hóa di sản, bản đồ tương tác và trợ lý AI khám phá 327 làng nghề truyền thống Hà Nội.",
   keywords: ["Lang Thang", "Làng nghề Hà Nội", "Gốm Bát Tràng", "Lụa Vạn Phúc", "Nón Chuông", "Mây tre Phú Vinh", "Du lịch Hà Nội", "Trải nghiệm làng nghề", "Đồ thủ công mỹ nghệ"],
   authors: [{ name: "Lang Thang Team" }],
   icons: {
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Lang Thang — Làng Nghề Hà Nội",
-    description: "Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay",
+    description: "Nền tảng số hóa di sản và trải nghiệm làng nghề truyền thống Hà Nội",
     images: [
       {
         url: "/images/lang-thang-logo.png",

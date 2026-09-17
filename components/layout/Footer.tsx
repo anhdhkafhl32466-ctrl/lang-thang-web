@@ -36,7 +36,7 @@ export default function Footer() {
             <div className="pt-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-lacquer-800/80 border border-terracotta-500/30 text-xs text-gold-300">
                 <Sparkles className="w-3.5 h-3.5 text-gold-400" />
-                <span className="italic">"Lang Thang ghé một ngôi làng — Theo chân văn hóa, mở ngàn điều hay"</span>
+                <span>Bảo tồn & Lan tỏa giá trị di sản làng nghề Thăng Long — Hà Nội</span>
               </div>
             </div>
 

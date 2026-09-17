@@ -110,8 +110,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                   Làng Nghề Hà Nội
                 </span>
               </div>
-              <p className="text-[11px] text-lacquer-800/80 hidden md:block italic">
-                Lang Thang ghé một ngôi làng • Theo chân văn hóa, mở ngàn điều hay
+              <p className="text-[11px] text-lacquer-800/70 hidden md:block">
+                Bản đồ số & Khám phá di sản Thủ đô
               </p>
             </div>
           </Link>
@@ -305,8 +305,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                 <span className="font-serif text-sm font-bold text-terracotta-700 block truncate">
                   Lang Thang — Làng Nghề Hà Nội
                 </span>
-                <p className="text-[10px] text-lacquer-800/80 italic line-clamp-1">
-                  "Theo chân văn hóa, mở ngàn điều hay"
+                <p className="text-[10px] text-lacquer-800/80 line-clamp-1">
+                  Cổng thông tin & Khám phá di sản Thủ đô
                 </p>
               </div>
             </div>
