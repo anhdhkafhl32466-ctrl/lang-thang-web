@@ -11,7 +11,7 @@ export interface PassportBadge {
 
 export interface VirtualCreation {
   id: string;
-  type: 'pottery' | 'hat';
+  type: 'pottery' | 'hat' | 'silk';
   title: string;
   villageName: string;
   date: string;
@@ -71,6 +71,13 @@ export const ALL_BADGES: PassportBadge[] = [
     name: 'Người Đan Nón Xứ Đoài',
     icon: '👒',
     description: 'Khâu hoàn thiện chiếc nón lá bài thơ làng Chuông thanh lịch.',
+    category: 'Trải nghiệm'
+  },
+  {
+    id: 'badge-silk',
+    name: 'Bậc Thầy Canh Cửi Vạn Phúc',
+    icon: '🧵',
+    description: 'Tự tay dệt nên tấm lụa gấm hoa Vạn Phúc óng ả với nhịp thoi đưa cổ truyền.',
     category: 'Trải nghiệm'
   },
   {

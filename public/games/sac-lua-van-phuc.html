@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sắc Lụa Vạn Phúc - Mini Game Dệt Lụa Truyền Thống Hà Đông</title>
+  <!-- Google Fonts: Playfair Display & Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&display=swap" rel="stylesheet" />
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            dopaper: { 50: '#FDFBF7', 100: '#F9F5EC', 200: '#F0E8D7', 300: '#E4D6BE' },
+            terracotta: { 500: '#C85A32', 600: '#B14B26', 700: '#933B1D' },
+            gold: { 300: '#F1D58B', 400: '#E5BF5A', 500: '#D4A344', 600: '#B8860B' },
+            lacquer: { 800: '#2B1E16', 900: '#1F1610', 950: '#130C07' },
+            bamboo: { 500: '#2A5A3B', 600: '#22482F', 700: '#193623' }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #FDFBF7;
+      color: #1F1610;
+      font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+      user-select: none;
+    }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #F0E8D7; border-radius: 4px; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #D4A344; border-radius: 4px; }
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(212, 163, 68, 0.4)); }
+      50% { transform: scale(1.02); filter: drop-shadow(0 0 15px rgba(212, 163, 68, 0.7)); }
+    }
+    .pulse-glow { animation: pulseGlow 2s infinite ease-in-out; }
+  </style>
+</head>
+<body class="min-h-screen py-6 sm:py-10 bg-[#FDFBF7]">
+  <div id="app" class="max-w-5xl mx-auto px-4 sm:px-6 space-y-6"></div>
+
+  <!-- Main Game Script -->
+  <script>
+    /* =========================================================================
+       1. DATA & CONSTANTS
+       ========================================================================= */
+    const PRODUCTS = [
+      {
+        id: 'square-scarf',
+        name: 'Khăn Lụa Vuông',
+        subtitle: 'Khăn vuông tơ tằm cổ điển',
+        dims: '70cm x 70cm',
+        width: 500,
+        height: 500,
+        desc: 'Chiếc khăn lụa vuông mềm mại, cuốn mép thủ công bằng chỉ tơ tằm. Thích hợp cho bố cục hoa văn tâm đối xứng hoặc 4 góc thanh tao.',
+        finishing: 'Khâu cuốn biên tơ thủ công tỉ mỉ',
+        tag: 'Thanh lịch & Sang trọng'
+      },
+      {
+        id: 'long-scarf',
+        name: 'Khăn Quàng Cổ Lụa',
+        subtitle: 'Khăn choàng lụa dài thướt tha',
+        dims: '180cm x 48cm',
+        width: 625,
+        height: 250,
+        desc: 'Tấm khăn choàng mềm mại buông rủ thướt tha với hai đầu đan tua rua lụa óng ánh. Rất tôn vinh các họa tiết mây hạc bay bổng dọc thân khăn.',
+        finishing: 'Chuốt sợi & thắt nút tua rua lụa mềm',
+        tag: 'Duyên dáng & Ấm áp'
+      },
+      {
+        id: 'tote-bag',
+        name: 'Túi Vải Lụa Đơn Giản',
+        subtitle: 'Túi xách lụa quai tre tinh tế',
+        dims: '32cm x 36cm',
+        width: 440,
+        height: 500,
+        desc: 'Chiếc túi lụa trang nhã phối tay cầm tre tự nhiên, mặt túi may bằng lụa gấm dệt hoa văn nổi bật. Vừa mang tính mỹ thuật vừa tiện dụng.',
+        finishing: 'May ráp thân túi, may lót & xỏ quai tre',
+        tag: 'Hiện đại & Ứng dụng'
+      }
+    ];
+
+    const SILK_COLORS = [
+      { id: 'trang-nga', name: 'Trắng Ngà Tơ Nõn', hex: '#F8F4EB', text: '#2E2218' },
+      { id: 'do-tram', name: 'Đỏ Trầm Hồng Điều', hex: '#8E2828', text: '#FFFFFF' },
+      { id: 'xanh-cham', name: 'Xanh Chàm Ngàn Năm', hex: '#1D3557', text: '#FFFFFF' },
+      { id: 'vang-mo-ga', name: 'Vàng Ấm Mỡ Gà', hex: '#DCA236', text: '#241708' },
+      { id: 'hong-sen', name: 'Hồng Phấn Cánh Sen', hex: '#D47B88', text: '#FFFFFF' },
+      { id: 'xanh-ngoc', name: 'Xanh Ngọc Bích', hex: '#2B6A60', text: '#FFFFFF' },
+      { id: 'tim-hue', name: 'Tím Hoa Cà Cổ', hex: '#6B4C6E', text: '#FFFFFF' },
+      { id: 'den-tuyen', name: 'Đen Tuyền Huyền Lụa', hex: '#222326', text: '#F5EFE6' },
+      { id: 'vang-dong', name: 'Vàng Đồng Hổ Phách', hex: '#A66B24', text: '#FFFFFF' },
+      { id: 'xanh-com', name: 'Xanh Cốm Mùa Thu', hex: '#6E8A54', text: '#FFFFFF' }
+    ];
+
+    const THREAD_COLORS = [
+      { id: 'gold', name: 'Chỉ Vàng Kim Tuyến', hex: '#E5BF5A', shimmer: true },
+      { id: 'silver', name: 'Chỉ Bạc Ngân Tuyến', hex: '#E2E8F0', shimmer: true },
+      { id: 'crimson', name: 'Chỉ Đỏ Son Cổ', hex: '#BA2D2D', shimmer: false },
+      { id: 'ivory', name: 'Chỉ Bạch Ngọc', hex: '#FFFFFF', shimmer: false },
+      { id: 'indigo', name: 'Chỉ Chàm Đậm', hex: '#16283C', shimmer: false },
+      { id: 'amber', name: 'Chỉ Hổ Phách', hex: '#C27D22', shimmer: true },
+      { id: 'moss', name: 'Chỉ Xanh Rêu', hex: '#3E5C3B', shimmer: false },
+      { id: 'rose', name: 'Chỉ Hồng San Hô', hex: '#D96B7A', shimmer: false }
+    ];
+
+    const MOTIFS = [
+      {
+        id: 'van-may',
+        name: 'Vân Mây Ngũ Sắc',
+        cat: 'linh-vat',
+        symbol: 'Đặc trưng lụa Vân Vạn Phúc - An bình, phú quý',
+        path: 'M20,65 C15,65 10,60 10,53 C10,45 16,39 24,39 C25,32 31,26 39,26 C45,26 50,29 53,33 C57,25 65,20 74,20 C86,20 95,30 95,42 C95,45 94,48 93,51 C97,54 100,59 100,64 C100,72 93,78 85,78 L25,78 C18,78 14,73 14,68 C14,62 19,57 25,57 C27,57 29,58 31,59 C30,55 31,50 35,47 C39,44 44,45 47,48 C50,42 56,38 63,38 C72,38 78,45 78,53 C78,55 77,57 76,59 C80,60 83,64 83,68 C83,73 79,77 74,77 L25,77',
+        scale: 1.1
+      },
+      {
+        id: 'chim-hac',
+        name: 'Hạc Tiên Tung Cánh',
+        cat: 'linh-vat',
+        symbol: 'Trường thọ, trí tuệ & phẩm cách thanh cao',
+        path: 'M85,25 C80,22 73,20 68,22 C64,24 61,28 58,32 C54,28 48,22 40,20 C32,18 24,20 18,25 C14,29 12,35 15,40 C17,44 22,46 27,47 C23,51 20,56 19,62 C18,70 23,77 30,81 C38,85 47,83 54,78 C60,82 68,83 75,80 C82,77 87,70 88,62 C89,55 86,49 82,45 C86,40 88,33 85,25 Z M56,40 C58,36 62,33 66,32 C65,37 62,42 58,45 C57,43 56,41 56,40 Z',
+        scale: 1.1
+      },
+      {
+        id: 'hoa-sen',
+        name: 'Bạch Liên Thanh Khiết',
+        cat: 'hoa-la',
+        symbol: 'Quốc hoa Việt Nam - Trang nhã thanh cao',
+        path: 'M50,15 C54,26 62,38 66,50 C68,58 66,66 60,72 C55,77 45,77 40,72 C34,66 32,58 34,50 C38,38 46,26 50,15 Z M48,42 C42,46 32,53 26,62 C22,68 22,76 27,81 C32,86 41,85 47,80 C49,75 49,66 48,56 Z M52,42 C58,46 68,53 74,62 C78,68 78,76 73,81 C68,86 59,85 53,80 C51,75 51,66 52,56 Z M18,70 C15,74 16,80 20,83 C26,87 34,86 39,82 C33,80 27,77 22,72 Z M82,70 C85,74 84,80 80,83 C74,87 66,86 61,82 C67,80 73,77 78,72 Z',
+        scale: 1.1
+      },
+      {
+        id: 'la-sen',
+        name: 'Lá Sen Xòe Duyên',
+        cat: 'hoa-la',
+        symbol: 'Mềm mại hòa ái, chở che hương sen',
+        path: 'M50,20 C68,18 84,30 86,48 C88,66 74,82 56,84 C38,86 20,74 16,56 C12,38 28,22 46,20 L50,50 Z M50,50 L30,35 M50,50 L70,33 M50,50 L75,65 M50,50 L35,70 M50,50 L52,78',
+        scale: 0.95
+      },
+      {
+        id: 'hoa-cuc',
+        name: 'Cúc Vạn Thọ Cổ',
+        cat: 'hoa-la',
+        symbol: 'Kinh điển dệt gấm - Phúc thọ trường xuân',
+        path: 'M50,38 C56,38 62,44 62,50 C62,56 56,62 50,62 C44,62 38,56 38,50 C38,44 44,38 50,38 Z M50,15 C52,22 52,30 50,38 C48,30 48,22 50,15 Z M50,62 C52,70 52,78 50,85 C48,78 48,70 50,62 Z M15,50 C22,48 30,48 38,50 C30,52 22,52 15,50 Z M62,50 C70,48 78,48 85,50 C78,52 70,52 62,50 Z M25,25 C31,31 37,36 42,42 C36,37 31,31 25,25 Z M58,58 C64,64 70,70 75,75 C70,70 64,64 58,58 Z M75,25 C70,31 64,36 58,42 C64,37 70,31 75,25 Z M42,58 C36,64 31,70 25,75 C31,70 36,64 42,58 Z',
+        scale: 1.0
+      },
+      {
+        id: 'qua-tram',
+        name: 'Quả Trám Gấm Cổ',
+        cat: 'hinh-hoc',
+        symbol: 'Cấu trúc dệt gấm thoi nổi đa chiều',
+        path: 'M50,10 L90,50 L50,90 L10,50 Z M50,26 L74,50 L50,74 L26,50 Z M50,40 C55,40 60,45 60,50 C60,55 55,60 50,60 C45,60 40,55 40,50 C40,45 45,40 50,40 Z',
+        scale: 1.0
+      },
+      {
+        id: 'canh-truc',
+        name: 'Trúc Quân Tử',
+        cat: 'hoa-la',
+        symbol: 'Bền bỉ, ngay thẳng của người thợ dệt',
+        path: 'M48,15 L52,15 L52,45 L48,45 Z M47,48 L53,48 L53,85 L47,85 Z M52,28 C62,24 74,25 82,32 C74,33 65,31 52,35 Z M52,38 C65,37 76,42 82,50 C74,48 64,44 52,42 Z M48,55 C36,52 25,54 18,60 C26,60 36,58 48,60 Z M48,65 C34,66 24,72 18,80 C26,77 36,73 48,70 Z',
+        scale: 1.0
+      },
+      {
+        id: 'chu-tho',
+        name: 'Triện Cát Tường Thọ',
+        cat: 'hinh-hoc',
+        symbol: 'Trường thọ, an khang & vạn sự viên mãn',
+        path: 'M50,10 C72,10 90,28 90,50 C90,72 72,90 50,90 C28,90 10,72 10,50 C10,28 28,10 50,10 Z M50,18 C32,18 18,32 18,50 C18,68 32,82 50,82 C68,82 82,68 82,50 C82,32 68,18 50,18 Z M32,32 H68 V40 H32 Z M32,46 H68 V54 H32 Z M32,60 H68 V68 H32 Z M47,24 H53 V76 H47 Z',
+        scale: 0.95
+      },
+      {
+        id: 'chu-phuc',
+        name: 'Ấn Phúc Vương Lụa',
+        cat: 'hinh-hoc',
+        symbol: 'Phúc trạch vô biên, may mắn êm ấm',
+        path: 'M20,20 H80 V80 H20 Z M28,28 H72 V72 H28 Z M36,36 H64 V42 H36 Z M47,42 H53 V64 H47 Z M36,50 H64 V56 H36 Z M36,64 H64 V70 H36 Z',
+        scale: 0.9
+      },
+      {
+        id: 'diem-thuy-ba',
+        name: 'Sóng Nước Thủy Ba',
+        cat: 'hinh-hoc',
+        symbol: 'Sinh sôi và thịnh vượng bền vững',
+        path: 'M0,50 Q25,20 50,50 T100,50 L100,60 L0,60 Z M10,48 Q30,28 50,48 T90,48 M20,46 Q35,34 50,46 T80,46 M0,25 Q15,10 30,25 T60,25 T90,25',
+        scale: 1.2
+      }
+    ];
+
+    const POETIC_NAMES = [
+      'Bạch Liên Dạ Nguyệt',
+      'Vân Vũ Hoàng Kim',
+      'Sắc Thu Hà Đông',
+      'Chàm Bích Song Hạc',
+      'Hồng Điều Cát Tường',
+      'Ngọc Diệp Kim Chi',
+      'Mây Tơ Xứ Đoài',
+      'Thoi Đưa Trăng Rằm'
+    ];
+
+    /* =========================================================================
+       2. AUDIO SYNTHESIZER (WEB AUDIO API)
+       ========================================================================= */
+    class SoundManager {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume();
+      }
+      playPop() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.frequency.setValueAtTime(450, now);
+        osc.frequency.exponentialRampToValueAtTime(850, now + 0.06);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.08);
+      }
+      playShuttle() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const size = this.ctx.sampleRate * 0.2;
+        const buffer = this.ctx.createBuffer(1, size, this.ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buffer;
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(900, now);
+        filter.frequency.exponentialRampToValueAtTime(1800, now + 0.1);
+        filter.Q.value = 3;
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.01, now);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.08);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        noise.start(now);
+        noise.stop(now + 0.21);
+      }
+      playClack() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(200, now);
+        osc.frequency.exponentialRampToValueAtTime(65, now + 0.12);
+        gain.gain.setValueAtTime(0.35, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.13);
+      }
+      playChime(note = 0) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const freqs = [523.25, 587.33, 659.25, 783.99, 880, 1046.5];
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.frequency.setValueAtTime(freqs[note % freqs.length], now);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 1.25);
+      }
+      playSteam() {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const size = this.ctx.sampleRate * 0.35;
+        const buf = this.ctx.createBuffer(1, size, this.ctx.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < size; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+        const noise = this.ctx.createBufferSource();
+        noise.buffer = buf;
+        const filter = this.ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(1200, now);
+        const gain = this.ctx.createGain();
+        gain.gain.setValueAtTime(0.05, now);
+        gain.gain.linearRampToValueAtTime(0.2, now + 0.1);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+        noise.start(now);
+        noise.stop(now + 0.36);
+      }
+    }
+    const sound = new SoundManager();
+
+    /* =========================================================================
+       3. GLOBAL GAME STATE
+       ========================================================================= */
+    const state = {
+      step: 1, // 1 | 2 | 3 | 4
+      product: PRODUCTS[0],
+      baseColor: SILK_COLORS[1], // Đỏ trầm
+      customBaseHex: null,
+      weaveTexture: 'brocade', // 'brocade' | 'damask' | 'satin'
+      threadColor: THREAD_COLORS[0], // Vàng kim tuyến
+      motifs: [
+        {
+          id: 'm-init',
+          motifId: 'hoa-sen',
+          x: 250,
+          y: 250,
+          scale: 1.3,
+          rotation: 0,
+          color: '#E5BF5A',
+          flipX: false,
+          flipY: false
+        }
+      ],
+      selectedMotifId: 'm-init',
+      activeTab: 'motifs', // 'motifs' | 'colors'
+      motifCategory: 'all',
+      // Loom state
+      loomSubStage: 1, // 1: Spin, 2: Weave, 3: Finish
+      spinProgress: 0,
+      spinAngle: 0,
+      weaveProgress: 0,
+      shuttleSide: 'left',
+      finishProgress: 0,
+      // Showcase
+      artworkName: 'Bạch Liên Dạ Nguyệt',
+      artisanName: 'Nghệ nhân Tơ Lụa',
+      showHelpModal: false
+    };
+
+    /* =========================================================================
+       4. RENDER CANVAS HELPER (SVG SILK PREVIEW)
+       ========================================================================= */
+    function renderSilkSVG(p, baseHex, tex, motifs, selId = null, weaveProg = 100, isDraped = true) {
+      const isSq = p.id === 'square-scarf';
+      const isLg = p.id === 'long-scarf';
+      const isTt = p.id === 'tote-bag';
+      const w = p.width;
+      const h = p.height;
+      const visH = (h * weaveProg) / 100;
+
+      let shapes = '';
+      if (isSq) {
+        shapes = `
+          <rect x="14" y="14" width="${w-28}" height="${h-28}" rx="8" fill="#000" opacity="0.15"/>
+          <rect x="18" y="18" width="${w-36}" height="${h-36}" rx="6" fill="${baseHex}"/>
+          <rect x="18" y="18" width="${w-36}" height="${h-36}" rx="6" fill="none" stroke="#D4A344" stroke-width="3.5" opacity="0.85"/>
+          <rect x="26" y="26" width="${w-52}" height="${h-52}" rx="4" fill="none" stroke="#FFF" stroke-width="1" stroke-dasharray="4 3" opacity="0.35"/>
+        `;
+      } else if (isLg) {
+        let leftF = '', rightF = '';
+        for (let i = 0; i < 22; i++) {
+          const y = 26 + (i * (h - 52)) / 21;
+          leftF += `<path d="M 16 ${y} C 10 ${y-2} 4 ${y + (i%2===0?3:-3)} 0 ${y}" stroke="${baseHex}" stroke-width="2.5" opacity="0.9"/>`;
+          rightF += `<path d="M ${w-16} ${y} C ${w-10} ${y-2} ${w-4} ${y + (i%2===0?3:-3)} ${w} ${y}" stroke="${baseHex}" stroke-width="2.5" opacity="0.9"/>`;
+        }
+        shapes = `
+          ${leftF} ${rightF}
+          <rect x="16" y="16" width="${w-32}" height="${h-32}" rx="4" fill="${baseHex}"/>
+          <line x1="16" y1="20" x2="${w-16}" y2="20" stroke="#FFF" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+          <line x1="16" y1="${h-20}" x2="${w-16}" y2="${h-20}" stroke="#FFF" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+        `;
+      } else {
+        shapes = `
+          <path d="M 120 90 C 120 20 320 20 320 90" fill="none" stroke="#B8860B" stroke-width="16" stroke-linecap="round"/>
+          <circle cx="160" cy="38" r="4" fill="#6B4E1B"/><circle cx="220" cy="22" r="4" fill="#6B4E1B"/><circle cx="280" cy="38" r="4" fill="#6B4E1B"/>
+          <path d="M 38 85 Q 220 73 402 85 L 392 462 Q 220 484 48 462 Z" fill="#000" opacity="0.2"/>
+          <path d="M 40 85 Q 220 75 400 85 L 390 460 Q 220 480 50 460 Z" fill="${baseHex}"/>
+          <path d="M 40 85 Q 220 75 400 85" fill="none" stroke="#FFF" stroke-width="2" stroke-dasharray="4 3" opacity="0.4"/>
+        `;
+      }
+
+      // Render Motifs
+      let motifElements = motifs.map(m => {
+        const def = MOTIFS.find(d => d.id === m.motifId);
+        if (!def) return '';
+        const isSel = selId === m.id;
+        const color = m.color || '#E5BF5A';
+        const sx = m.flipX ? -m.scale : m.scale;
+        const sy = m.flipY ? -m.scale : m.scale;
+
+        return `
+          <g transform="translate(${m.x}, ${m.y}) rotate(${m.rotation}) scale(${sx}, ${sy}) translate(-50, -50)" class="cursor-pointer" onclick="selectMotif('${m.id}', event)">
+            <path d="${def.path}" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.2" transform="translate(1.5, 1.5)"/>
+            <path d="${def.path}" fill="${color}" stroke="${color}" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            ${isSel ? `
+              <rect x="-4" y="-4" width="108" height="108" fill="none" stroke="#D4A344" stroke-width="2" stroke-dasharray="4 4" rx="4"/>
+              <circle cx="50" cy="-14" r="5" fill="#D4A344"/>
+            ` : ''}
+          </g>
+        `;
+      }).join('');
+
+      return `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-auto drop-shadow-2xl select-none" style="max-height: 440px;" onclick="deselectMotif(event)">
+          <defs>
+            <linearGradient id="sheen" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#FFF" stop-opacity="0.25"/>
+              <stop offset="50%" stop-color="#000" stop-opacity="0.1"/>
+              <stop offset="100%" stop-color="#FFF" stop-opacity="0.18"/>
+            </linearGradient>
+            ${weaveProg < 100 ? `
+              <clipPath id="loom-clip">
+                <rect x="0" y="${h - visH}" width="${w}" height="${visH}"/>
+              </clipPath>
+            ` : ''}
+          </defs>
+          <g ${weaveProg < 100 ? 'clip-path="url(#loom-clip)"' : ''}>
+            ${shapes}
+            <g id="motifs-container">${motifElements}</g>
+            ${isDraped ? `<rect x="0" y="0" width="${w}" height="${h}" fill="url(#sheen)" style="mix-blend-mode: overlay;" pointer-events="none"/>` : ''}
+          </g>
+        </svg>
+      `;
+    }
+
+    /* =========================================================================
+       5. MAIN APPLICATION RENDERER
+       ========================================================================= */
+    function renderApp() {
+      const app = document.getElementById('app');
+      const baseHex = state.customBaseHex || state.baseColor.hex;
+
+      app.innerHTML = `
+        <!-- Top Nav & Heritage Header -->
+        <header class="flex items-center justify-between border-b border-dopaper-300 pb-4">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🧵</span>
+            <div>
+              <span class="font-serif font-bold text-lg sm:text-xl text-lacquer-900">Sắc Lụa Vạn Phúc</span>
+              <span class="hidden sm:inline text-xs text-lacquer-800/70 ml-2">Ngàn năm dệt gấm thoi hoa</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="toggleAudio()" class="px-3 py-1.5 rounded-xl bg-white border border-dopaper-300 text-xs font-semibold shadow-sm hover:bg-dopaper-100 flex items-center gap-1.5">
+              <span>${sound.enabled ? '🔊 Bật' : '🔇 Tắt'}</span>
+            </button>
+            <button onclick="openHelp()" class="px-3 py-1.5 rounded-xl bg-gold-500/20 text-gold-900 border border-gold-400 text-xs font-bold shadow-sm hover:bg-gold-500/30 flex items-center gap-1.5">
+              <span>📖 Cẩm nang</span>
+            </button>
+          </div>
+        </header>
+
+        <!-- Stepper Navigation -->
+        <div class="grid grid-cols-4 gap-2 text-center text-xs">
+          ${[
+            { s: 1, title: '1. Chọn dáng' },
+            { s: 2, title: '2. Tạo hoa văn' },
+            { s: 3, title: '3. Dệt thoi đưa' },
+            { s: 4, title: '4. Thành phẩm' }
+          ].map(it => `
+            <div onclick="goToStep(${it.s})" class="p-2.5 rounded-xl border transition-all cursor-pointer ${
+              state.step === it.s
+                ? 'bg-lacquer-900 text-white font-bold shadow-md'
+                : state.step > it.s
+                ? 'bg-gold-100 text-gold-900 border-gold-300 font-semibold'
+                : 'bg-white/60 text-lacquer-800/50 border-dopaper-200'
+            }">
+              ${it.title}
+            </div>
+          `).join('')}
+        </div>
+
+        <!-- Dynamic Step View Container -->
+        <div id="step-content">
+          ${renderCurrentStep()}
+        </div>
+
+        <!-- Heritage Guide Modal -->
+        ${state.showHelpModal ? renderHelpModal() : ''}
+      `;
+    }
+
+    function renderCurrentStep() {
+      if (state.step === 1) return renderStep1();
+      if (state.step === 2) return renderStep2();
+      if (state.step === 3) return renderStep3();
+      if (state.step === 4) return renderStep4();
+      return '';
+    }
+
+    /* =========================================================================
+       6. STEP 1: CHỌN SẢN PHẨM
+       ========================================================================= */
+    function renderStep1() {
+      return `
+        <div class="space-y-6 animate-fadeIn">
+          <div class="text-center max-w-xl mx-auto space-y-2">
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
+              Bạn muốn dệt nên tuyệt tác lụa nào hôm nay?
+            </h2>
+            <p class="text-xs sm:text-sm text-lacquer-800/70">
+              Chọn một trong ba sản phẩm truyền thống trứ danh của làng nghề Vạn Phúc để bắt đầu hành trình sáng tạo.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            ${PRODUCTS.map(p => {
+              const isSel = state.product.id === p.id;
+              return `
+                <div onclick="chooseProduct('${p.id}')" class="group rounded-2xl p-5 cursor-pointer border-2 transition-all flex flex-col justify-between bg-white/80 ${
+                  isSel
+                    ? 'border-gold-500 shadow-xl ring-2 ring-gold-400/30 -translate-y-1 bg-gradient-to-b from-dopaper-50 to-white'
+                    : 'border-dopaper-300 hover:border-gold-400 hover:shadow-lg'
+                }">
+                  <div>
+                    <span class="text-[11px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-800 border border-gold-300">
+                      ${p.tag}
+                    </span>
+                    <div class="my-4 h-44 flex items-center justify-center p-2 rounded-xl bg-dopaper-100/60 border border-dopaper-200">
+                      ${renderSilkSVG(p, '#8E2828', 'brocade', [], null, 100, true)}
+                    </div>
+                    <div class="flex items-baseline justify-between">
+                      <h3 class="font-serif text-lg font-bold text-lacquer-900 group-hover:text-terracotta-600">${p.name}</h3>
+                      <span class="text-xs font-mono text-lacquer-800/60 font-semibold">${p.dims}</span>
+                    </div>
+                    <p class="text-xs text-lacquer-800/70 mt-2 leading-relaxed">${p.desc}</p>
+                  </div>
+                  <div class="mt-4 pt-3 border-t border-dopaper-200 text-[11px] text-lacquer-800/60">
+                    Hoàn thiện: <strong class="text-lacquer-900">${p.finishing}</strong>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <div class="bg-gradient-to-r from-lacquer-900 to-lacquer-800 text-white p-5 rounded-2xl shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 class="font-serif text-base font-bold text-gold-300">Đã chọn: ${state.product.name}</h4>
+              <p class="text-xs text-dopaper-200/80">Quy chuẩn tơ lụa làng Vạn Phúc • Khổ vải ${state.product.dims}</p>
+            </div>
+            <button onclick="goToStep(2)" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 text-lacquer-950 font-bold text-sm shadow-lg hover:scale-105 transition-all">
+              Bước 2: Sáng Tạo Thiết Kế →
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       7. STEP 2: SÁNG TẠO THIẾT KẾ
+       ========================================================================= */
+    function renderStep2() {
+      const baseHex = state.customBaseHex || state.baseColor.hex;
+      const selectedMotif = state.motifs.find(m => m.id === state.selectedMotifId);
+      const filteredMotifs = state.motifCategory === 'all'
+        ? MOTIFS
+        : MOTIFS.filter(m => m.cat === state.motifCategory);
+
+      return `
+        <div class="space-y-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <!-- CANVAS AREA (7 COLS) -->
+            <div class="lg:col-span-7 space-y-4">
+              <div class="bg-gradient-to-b from-dopaper-100 to-dopaper-200/60 p-6 sm:p-8 rounded-3xl border-2 border-dopaper-300 shadow-inner flex flex-col items-center justify-center min-h-[420px] relative">
+                <div class="max-w-[440px] w-full flex items-center justify-center">
+                  ${renderSilkSVG(state.product, baseHex, state.weaveTexture, state.motifs, state.selectedMotifId, 100, false)}
+                </div>
+                <div class="mt-3 text-[11px] text-lacquer-800/60 bg-white/70 px-3 py-1 rounded-full border border-dopaper-200">
+                  💡 Nhấp vào hoa văn để chỉnh sửa • Nhấp ra ngoài để bỏ chọn
+                </div>
+              </div>
+
+              <!-- SELECTED MOTIF CONTROLS -->
+              ${selectedMotif ? `
+                <div class="bg-white rounded-2xl p-4 border border-gold-400 shadow-md space-y-3">
+                  <div class="flex items-center justify-between text-xs font-bold text-lacquer-900 border-b pb-2">
+                    <span>Đang chỉnh: ${MOTIFS.find(m => m.id === selectedMotif.motifId)?.name}</span>
+                    <button onclick="deleteSelectedMotif()" class="text-red-700 hover:text-red-900 text-xs">🗑 Xóa</button>
+                  </div>
+                  <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="scaleMotif(1.15)" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">🔍 Phóng to</button>
+                    <button onclick="scaleMotif(0.85)" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">🔎 Thu nhỏ</button>
+                    <button onclick="rotateMotif(45)" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">🔄 Xoay 45°</button>
+                    <button onclick="flipMotif('x')" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">↔ Lật X</button>
+                    <button onclick="centerMotif()" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">🎯 Căn giữa</button>
+                    <button onclick="duplicateMotif()" class="px-2.5 py-1.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 border">📑 Nhân bản</button>
+                  </div>
+                  <div class="pt-2 border-t flex flex-wrap items-center gap-1.5 text-[11px]">
+                    <span class="text-lacquer-800/60 font-medium">Bố cục nhanh:</span>
+                    <button onclick="applySymmetry4()" class="px-2 py-0.5 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold border border-amber-300">❖ Đối xứng 4 góc</button>
+                    <button onclick="applyScatterRepeat()" class="px-2 py-0.5 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold border border-amber-300">∷ Rải hoa văn</button>
+                    <button onclick="applyBorderRun()" class="px-2 py-0.5 rounded bg-amber-50 hover:bg-amber-100 text-amber-900 font-semibold border border-amber-300">═ Viền quanh</button>
+                  </div>
+                </div>
+              ` : ''}
+
+              <!-- Preset Inspirations -->
+              <div class="bg-white/80 p-3 rounded-2xl border border-dopaper-200 text-xs flex flex-col sm:flex-row items-center justify-between gap-2">
+                <span class="font-semibold text-lacquer-900">Mẫu phối cảm hứng Vạn Phúc:</span>
+                <div class="flex gap-2">
+                  <button onclick="applyPreset('van-may')" class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-900 border border-blue-200">Chàm Song Hạc</button>
+                  <button onclick="applyPreset('sen-vang')" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-900 border border-rose-200">Bạch Liên Hương</button>
+                  <button onclick="applyPreset('hoang-kim')" class="px-2.5 py-1 rounded-lg bg-red-50 text-red-900 border border-red-200">Gấm Đỏ Cát Tường</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- TOOLS PANEL (5 COLS) -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Tab Switcher -->
+              <div class="flex rounded-2xl bg-dopaper-200 p-1 border border-dopaper-300">
+                <button onclick="setTab('motifs')" class="flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
+                  state.activeTab === 'motifs' ? 'bg-white text-lacquer-950 shadow-sm' : 'text-lacquer-800/70'
+                }">Thư viện hoa văn</button>
+                <button onclick="setTab('colors')" class="flex-1 py-2 rounded-xl text-xs font-bold transition-all ${
+                  state.activeTab === 'colors' ? 'bg-white text-lacquer-950 shadow-sm' : 'text-lacquer-800/70'
+                }">Màu lụa & Sợi dệt</button>
+              </div>
+
+              <!-- TAB 1: MOTIFS -->
+              ${state.activeTab === 'motifs' ? `
+                <div class="bg-white rounded-2xl p-5 border border-dopaper-200 shadow-sm space-y-4">
+                  <div class="flex items-center justify-between">
+                    <h4 class="font-serif text-sm font-bold text-lacquer-900">Họa Tiết Di Sản</h4>
+                    <span class="text-[11px] font-mono text-lacquer-800/60">${state.motifs.length} họa tiết</span>
+                  </div>
+                  <!-- Category Pills -->
+                  <div class="flex gap-1 text-xs">
+                    ${[
+                      { id: 'all', label: 'Tất cả' },
+                      { id: 'hoa-la', label: 'Hoa lá' },
+                      { id: 'linh-vat', label: 'Mây hạc' },
+                      { id: 'hinh-hoc', label: 'Gấm & Triện' }
+                    ].map(c => `
+                      <button onclick="setMotifCategory('${c.id}')" class="px-2.5 py-1 rounded-full text-[11px] font-semibold ${
+                        state.motifCategory === c.id ? 'bg-lacquer-900 text-white' : 'bg-dopaper-100 text-lacquer-800'
+                      }">${c.label}</button>
+                    `).join('')}
+                  </div>
+                  <!-- Motif Grid -->
+                  <div class="grid grid-cols-2 gap-2.5 max-h-[300px] overflow-y-auto custom-scroll pr-1">
+                    ${filteredMotifs.map(m => `
+                      <button onclick="addMotif('${m.id}')" class="p-2.5 rounded-xl border border-dopaper-200 bg-dopaper-50/50 hover:bg-gold-50 hover:border-gold-400 transition-all text-center flex flex-col items-center gap-1.5 group">
+                        <svg viewBox="0 0 100 100" class="w-10 h-10 stroke-current fill-current text-lacquer-800 group-hover:text-gold-700">
+                          <path d="${m.path}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="font-serif text-xs font-bold text-lacquer-900 truncate w-full">${m.name}</div>
+                      </button>
+                    `).join('')}
+                  </div>
+                </div>
+              ` : `
+                <!-- TAB 2: COLORS -->
+                <div class="bg-white rounded-2xl p-5 border border-dopaper-200 shadow-sm space-y-4">
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-lacquer-900">
+                      <span>Màu Nền Lụa</span>
+                      <span class="text-gold-700">${state.baseColor.name}</span>
+                    </div>
+                    <div class="grid grid-cols-5 gap-2">
+                      ${SILK_COLORS.map(c => `
+                        <button onclick="setBaseColor('${c.id}')" style="background-color: ${c.hex};" class="w-full aspect-square rounded-xl shadow-inner border-2 ${
+                          state.baseColor.id === c.id && !state.customBaseHex ? 'border-lacquer-950 ring-2 ring-gold-400' : 'border-white/50'
+                        }"></button>
+                      `).join('')}
+                    </div>
+                  </div>
+
+                  <div class="space-y-2 pt-2 border-t">
+                    <div class="flex justify-between text-xs font-bold text-lacquer-900">
+                      <span>Màu Sợi Dệt Hoa Văn</span>
+                      <span class="text-terracotta-700">${state.threadColor.name}</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-2">
+                      ${THREAD_COLORS.map(th => `
+                        <button onclick="setThreadColor('${th.id}')" class="p-1.5 rounded-xl border text-center flex flex-col items-center gap-1 ${
+                          state.threadColor.id === th.id ? 'border-gold-500 bg-gold-50 ring-1 ring-gold-400' : 'border-dopaper-200'
+                        }">
+                          <div class="w-5 h-5 rounded-full border border-black/10" style="background-color: ${th.hex};"></div>
+                          <span class="text-[9px] font-medium text-lacquer-900 truncate w-full">${th.name.replace('Chỉ ', '')}</span>
+                        </button>
+                      `).join('')}
+                    </div>
+                  </div>
+                </div>
+              `}
+
+              <!-- Navigation CTA -->
+              <div class="flex items-center gap-3 pt-2">
+                <button onclick="goToStep(1)" class="px-4 py-3 rounded-xl bg-dopaper-200 text-lacquer-900 font-semibold text-xs">← Chọn lại</button>
+                <button onclick="goToStep(3)" class="flex-1 py-3 px-6 rounded-xl bg-gradient-to-r from-terracotta-600 to-terracotta-500 text-white font-bold text-sm shadow-xl hover:scale-[1.02] transition-all">
+                  Bước 3: Đưa Vào Khung Cửi Dệt →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       8. STEP 3: CHẾ TÁC KHUNG CỬI
+       ========================================================================= */
+    function renderStep3() {
+      const baseHex = state.customBaseHex || state.baseColor.hex;
+
+      return `
+        <div class="space-y-6">
+          <div class="bg-gradient-to-b from-dopaper-100 to-dopaper-200/70 rounded-3xl p-6 sm:p-8 border-2 border-dopaper-300 shadow-inner">
+            <!-- SUBSTAGE 1: QUAY TƠ -->
+            ${state.loomSubStage === 1 ? `
+              <div class="max-w-xl mx-auto text-center space-y-6 py-4 animate-fadeIn">
+                <div class="space-y-1">
+                  <span class="text-xs font-bold uppercase tracking-wider text-gold-700 bg-gold-100 px-3 py-1 rounded-full border border-gold-300">Công đoạn 1/3</span>
+                  <h2 class="font-serif text-2xl font-bold text-lacquer-900">Ươm Kén & Quay Xa Kéo Tơ Tằm</h2>
+                  <p class="text-xs text-lacquer-800/70">Kéo sợi tơ nõn vàng óng từ kén tằm Vạn Phúc quấn đều vào ống suốt để sẵn sàng mắc cửi.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 bg-white/80 p-6 rounded-2xl border">
+                  <div class="relative w-40 h-40 flex items-center justify-center">
+                    <div class="w-36 h-36 rounded-full border-4 border-amber-900 border-dashed flex items-center justify-center shadow-md transition-transform duration-300" style="transform: rotate(${state.spinAngle}deg);">
+                      <div class="w-28 h-28 rounded-full border-2 border-gold-600 flex items-center justify-center">
+                        <div class="w-6 h-6 rounded-full bg-gold-500 border border-amber-900"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="space-y-4 max-w-xs w-full text-left">
+                    <div class="flex justify-between text-xs font-bold">
+                      <span>Độ đầy ống tơ:</span>
+                      <span class="text-terracotta-600 font-mono">${state.spinProgress}%</span>
+                    </div>
+                    <div class="w-full h-3 bg-dopaper-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-gold-400 to-amber-600 transition-all duration-300" style="width: ${state.spinProgress}%;"></div>
+                    </div>
+                    ${state.spinProgress < 100 ? `
+                      <button onclick="spinWheel()" class="w-full py-3 rounded-xl bg-gold-500 text-lacquer-950 font-bold text-sm shadow hover:bg-gold-400">
+                        🔄 Quay xa kéo tơ (+25%)
+                      </button>
+                    ` : `
+                      <button onclick="finishWarping()" class="w-full py-3 rounded-xl bg-gradient-to-r from-terracotta-600 to-terracotta-500 text-white font-bold text-sm shadow animate-bounce">
+                        ✨ Mắc sợi dọc lên giàn cửi →
+                      </button>
+                    `}
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- SUBSTAGE 2: DỆT THOI ĐƯA -->
+            ${state.loomSubStage === 2 ? `
+              <div class="space-y-6 animate-fadeIn">
+                <div class="text-center space-y-1">
+                  <span class="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-100 px-3 py-1 rounded-full border border-rose-300">Công đoạn 2/3</span>
+                  <h2 class="font-serif text-2xl font-bold text-lacquer-900">Dệt Gấm Hoa: Thoi Đưa & Đập Go</h2>
+                  <p class="text-xs text-lacquer-800/70">Nhấn nhịp nhàng để thoi gỗ luồn sợi ngang, hoa văn bạn thiết kế sẽ hiện dần lên từng hàng!</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  <!-- LOOM PREVIEW (7 COLS) -->
+                  <div class="md:col-span-7 bg-lacquer-950 rounded-2xl p-6 border-4 border-amber-900 shadow-2xl flex flex-col items-center relative overflow-hidden min-h-[360px]">
+                    <!-- Shuttle race track -->
+                    <div class="w-full h-10 relative flex items-center mb-2 z-20">
+                      <div class="w-full h-1 bg-amber-700/60 rounded-full"></div>
+                      <div class="absolute top-1/2 -translate-y-1/2 transition-all duration-300 ${state.shuttleSide === 'left' ? 'left-4' : 'right-4'}">
+                        <div class="px-3 py-1 bg-gradient-to-r from-amber-800 to-amber-900 text-gold-200 rounded-full border border-gold-500 text-[10px] font-bold shadow-lg">
+                          🧵 Con thoi gỗ
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Reed beater -->
+                    <div class="w-full max-w-[320px] h-3 bg-gradient-to-r from-amber-700 via-gold-600 to-amber-700 rounded-sm mb-3"></div>
+                    <!-- Woven fabric preview with progressive weave cutoff! -->
+                    <div class="relative max-w-[280px] w-full flex items-center justify-center p-2 rounded-lg bg-black/40 border border-gold-500/30">
+                      ${renderSilkSVG(state.product, baseHex, state.weaveTexture, state.motifs, null, state.weaveProgress, false)}
+                    </div>
+                  </div>
+
+                  <!-- CONTROLS (5 COLS) -->
+                  <div class="md:col-span-5 bg-white/80 p-6 rounded-2xl border space-y-4">
+                    <div class="flex justify-between items-baseline">
+                      <span class="font-serif font-bold text-sm">Tiến độ tấm lụa:</span>
+                      <span class="font-mono text-base font-bold text-terracotta-600">${state.weaveProgress}%</span>
+                    </div>
+                    <div class="w-full h-3.5 bg-dopaper-200 rounded-full overflow-hidden p-0.5">
+                      <div class="h-full bg-gradient-to-r from-terracotta-500 via-gold-500 to-terracotta-600 rounded-full transition-all duration-300" style="width: ${state.weaveProgress}%;"></div>
+                    </div>
+
+                    ${state.weaveProgress < 100 ? `
+                      <button onclick="beatLoom()" class="w-full py-4 rounded-2xl bg-lacquer-900 hover:bg-lacquer-800 text-gold-300 font-bold text-base shadow-xl border-2 border-gold-500/50 flex flex-col items-center justify-center gap-1 active:scale-95">
+                        <span>Nhấn: Đập Go - Luồn Thoi</span>
+                        <span class="text-[11px] font-normal text-dopaper-200/70">(Hoặc nhấn phím [Spacebar])</span>
+                      </button>
+                    ` : `
+                      <div class="p-3 bg-emerald-50 border border-emerald-300 rounded-xl text-center text-emerald-800 font-bold text-sm">
+                        ✓ Đã dệt xong trọn vẹn tấm lụa!
+                      </div>
+                    `}
+                    <p class="text-[11px] text-lacquer-800/70 italic">
+                      💡 Hoa văn dệt nổi trực tiếp từ sợi tơ kim tuyến đan xen trên nền lụa cổ truyền.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- SUBSTAGE 3: CHUỘI LỤA & HOÀN THIỆN -->
+            ${state.loomSubStage === 3 ? `
+              <div class="max-w-xl mx-auto text-center space-y-6 py-4 animate-fadeIn">
+                <div class="space-y-1">
+                  <span class="text-xs font-bold uppercase tracking-wider text-bamboo-700 bg-bamboo-100 px-3 py-1 rounded-full border border-bamboo-300">Công đoạn 3/3</span>
+                  <h2 class="font-serif text-2xl font-bold text-lacquer-900">Nấu Chuội & ${state.product.finishing}</h2>
+                  <p class="text-xs text-lacquer-800/70">Chuội lụa qua hơi nước ấm để tơ mềm mượt óng ả và tiến hành khâu viền thủ công.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-6 bg-white/80 p-6 rounded-2xl border">
+                  <div class="w-48 flex items-center justify-center">
+                    ${renderSilkSVG(state.product, baseHex, state.weaveTexture, state.motifs, null, 100, true)}
+                  </div>
+                  <div class="space-y-4 max-w-xs w-full text-left">
+                    <div class="flex justify-between text-xs font-bold">
+                      <span>Độ hoàn thiện:</span>
+                      <span class="text-bamboo-600 font-mono">${state.finishProgress}%</span>
+                    </div>
+                    <div class="w-full h-3 bg-dopaper-200 rounded-full overflow-hidden">
+                      <div class="h-full bg-gradient-to-r from-bamboo-500 to-emerald-600 transition-all duration-300" style="width: ${state.finishProgress}%;"></div>
+                    </div>
+                    ${state.finishProgress < 100 ? `
+                      <button onclick="finishProcess()" class="w-full py-3.5 rounded-xl bg-bamboo-600 text-white font-bold text-sm shadow hover:bg-bamboo-500">
+                        🪶 Chuốt tơ & Hoàn thiện viền (+35%)
+                      </button>
+                    ` : `
+                      <button onclick="goToStep(4)" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-gold-500 to-amber-600 text-lacquer-950 font-bold text-sm shadow animate-bounce">
+                        Bước 4: Nhận Tuyệt Tác Lụa →
+                      </button>
+                    `}
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       9. STEP 4: NHẬN THÀNH PHẨM
+       ========================================================================= */
+    function renderStep4() {
+      const baseHex = state.customBaseHex || state.baseColor.hex;
+
+      return `
+        <div class="space-y-8 animate-fadeIn">
+          <!-- Banner -->
+          <div class="bg-gradient-to-r from-lacquer-950 via-terracotta-900 to-lacquer-950 text-white rounded-3xl p-6 sm:p-8 text-center space-y-2 border-2 border-gold-500/40 shadow-2xl">
+            <span class="text-xs font-bold uppercase tracking-wider text-gold-300 bg-gold-400/20 px-3 py-1 rounded-full border border-gold-400/30">Tuyệt Tác Hoàn Thành</span>
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold text-gold-100">“${state.artworkName}”</h1>
+            <p class="text-xs sm:text-sm text-dopaper-200/80 max-w-lg mx-auto">Tấm lụa thủ công mang trọn vẹn hồn cốt làng nghề ngàn năm, kết tinh từ sợi tơ nõn vàng óng và những nhịp thoi đưa chan chứa ân tình.</p>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- DISPLAY GALLERY (7 COLS) -->
+            <div class="lg:col-span-7 bg-gradient-to-b from-dopaper-100 to-dopaper-200 rounded-3xl p-6 sm:p-10 border-2 border-dopaper-300 shadow-xl flex flex-col items-center justify-center relative">
+              <!-- Wooden hanger -->
+              <div class="w-full max-w-[380px] h-4 bg-gradient-to-r from-amber-900 to-amber-800 rounded-md shadow-md mb-2 flex items-center justify-between px-3">
+                <div class="w-2.5 h-2.5 rounded-full bg-gold-500"></div>
+                <div class="text-[9px] font-serif uppercase tracking-widest text-gold-300 font-bold">VẠN PHÚC KIM BẢO</div>
+                <div class="w-2.5 h-2.5 rounded-full bg-gold-500"></div>
+              </div>
+              <!-- Finished Silk Item -->
+              <div class="max-w-[420px] w-full flex items-center justify-center">
+                ${renderSilkSVG(state.product, baseHex, state.weaveTexture, state.motifs, null, 100, true)}
+              </div>
+              <!-- Red Seal -->
+              <div class="absolute bottom-6 right-6 w-16 h-16 border-2 border-red-700 bg-red-600/10 rounded-lg p-1 flex flex-col items-center justify-center text-red-700 font-serif rotate-6 select-none">
+                <span class="text-[10px] font-bold">VẠN PHÚC</span>
+                <span class="text-[8px] font-bold">CHI BẢO</span>
+                <span class="text-[7px]">NGHỆ NHÂN</span>
+              </div>
+            </div>
+
+            <!-- ACTIONS (5 COLS) -->
+            <div class="lg:col-span-5 space-y-4">
+              <!-- Naming Input Card -->
+              <div class="bg-white rounded-2xl p-5 border border-dopaper-200 shadow-sm space-y-3">
+                <h3 class="font-serif text-base font-bold text-lacquer-900">Đặt Tên Cho Tuyệt Tác</h3>
+                <div>
+                  <label class="block text-xs font-semibold text-lacquer-800 mb-1">Tên tác phẩm:</label>
+                  <input type="text" value="${state.artworkName}" oninput="setArtworkName(this.value)" class="w-full px-3 py-2 rounded-xl border border-dopaper-300 text-sm font-serif font-bold text-lacquer-900 bg-dopaper-50/50 focus:outline-none focus:ring-2 focus:ring-gold-400"/>
+                </div>
+                <div>
+                  <span class="text-[11px] text-lacquer-800/60 block mb-1">Gợi ý tên thơ mộng:</span>
+                  <div class="flex flex-wrap gap-1">
+                    ${POETIC_NAMES.map(name => `
+                      <button onclick="setArtworkName('${name}')" class="px-2 py-0.5 rounded-lg bg-dopaper-100 hover:bg-gold-100 text-[11px] font-serif border">${name}</button>
+                    `).join('')}
+                  </div>
+                </div>
+              </div>
+
+              <!-- Certificate Specs -->
+              <div class="bg-white rounded-2xl p-4 border border-dopaper-200 text-xs space-y-2">
+                <h4 class="font-bold text-lacquer-900 border-b pb-1">Chứng Nhận Nghệ Nhân Làng Nghề</h4>
+                <div class="grid grid-cols-2 gap-2 text-[11px] text-lacquer-800">
+                  <div>Dáng: <strong>${state.product.name}</strong></div>
+                  <div>Khổ: <strong>${state.product.dims}</strong></div>
+                  <div>Sắc nền: <strong>${state.baseColor.name}</strong></div>
+                  <div>Chỉ dệt: <strong>${state.threadColor.name}</strong></div>
+                </div>
+              </div>
+
+              <!-- Export Button -->
+              <button onclick="exportPNG()" class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-terracotta-600 to-terracotta-500 text-white font-bold text-sm shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
+                <span>📥 Tải Ảnh Tuyệt Tác (PNG Cao Cấp)</span>
+              </button>
+
+              <button onclick="resetGame()" class="w-full py-2.5 rounded-xl bg-dopaper-200 text-lacquer-800 text-xs font-semibold hover:bg-dopaper-300 transition-colors">
+                🔄 Chơi lại & Sáng tạo tác phẩm mới
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHelpModal() {
+      return `
+        <div class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+          <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 relative">
+            <button onclick="closeHelp()" class="absolute top-4 right-4 text-lacquer-600 hover:text-lacquer-900 text-lg font-bold">✕</button>
+            <h3 class="font-serif text-xl font-bold text-lacquer-900">Cẩm Nang Làng Lụa Vạn Phúc</h3>
+            <div class="space-y-2.5 text-xs text-lacquer-800/80 leading-relaxed max-h-[340px] overflow-y-auto custom-scroll pr-1">
+              <div class="p-3 bg-dopaper-100 rounded-xl">
+                <strong class="text-terracotta-700 block mb-1">❖ Lụa Vân trứ danh:</strong>
+                Lụa Vân Vạn Phúc có đặc tính kỳ diệu: nhìn thẳng thấy sợi tơ phẳng mịn, nhìn nghiêng hoa văn mây chìm nổi hiện lên tinh xảo.
+              </div>
+              <div class="p-3 bg-dopaper-100 rounded-xl">
+                <strong class="text-terracotta-700 block mb-1">❖ Kỹ thuật mắc cửi:</strong>
+                Người thợ phải mắc hàng ngàn sợi tơ dọc đều tăm tắp, độ căng chuẩn xác để thoi luồn êm ái.
+              </div>
+              <div class="p-3 bg-dopaper-100 rounded-xl">
+                <strong class="text-terracotta-700 block mb-1">❖ Nhịp thoi đập go:</strong>
+                Tiếng thoi đưa lách cách và tiếng go đập là âm thanh rộn rã gắn liền với ký ức bao thế hệ bên dòng sông Nhuệ.
+              </div>
+            </div>
+            <button onclick="closeHelp()" class="w-full py-2.5 rounded-xl bg-lacquer-900 text-white font-bold text-xs uppercase">Đã hiểu</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* =========================================================================
+       10. EVENT HANDLERS & INTERACTIONS
+       ========================================================================= */
+    function goToStep(s) {
+      sound.playPop();
+      state.step = s;
+      if (s === 4) {
+        try {
+          confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+          sound.playChime(3);
+        } catch(e) {}
+      }
+      renderApp();
+    }
+
+    function chooseProduct(id) {
+      sound.playPop();
+      state.product = PRODUCTS.find(p => p.id === id) || PRODUCTS[0];
+      renderApp();
+    }
+
+    function setTab(tab) {
+      sound.playPop();
+      state.activeTab = tab;
+      renderApp();
+    }
+
+    function setMotifCategory(cat) {
+      sound.playPop();
+      state.motifCategory = cat;
+      renderApp();
+    }
+
+    function setBaseColor(id) {
+      sound.playPop();
+      state.baseColor = SILK_COLORS.find(c => c.id === id) || SILK_COLORS[0];
+      state.customBaseHex = null;
+      renderApp();
+    }
+
+    function setThreadColor(id) {
+      sound.playPop();
+      state.threadColor = THREAD_COLORS.find(th => th.id === id) || THREAD_COLORS[0];
+      if (state.selectedMotifId) {
+        const m = state.motifs.find(it => it.id === state.selectedMotifId);
+        if (m) m.color = state.threadColor.hex;
+      }
+      renderApp();
+    }
+
+    function addMotif(id) {
+      sound.playPop();
+      const def = MOTIFS.find(m => m.id === id);
+      if (!def) return;
+      const newM = {
+        id: `m-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+        motifId: def.id,
+        x: state.product.width / 2 + (state.motifs.length % 3) * 15,
+        y: state.product.height / 2 + (state.motifs.length % 2) * 15,
+        scale: def.scale,
+        rotation: 0,
+        color: state.threadColor.hex,
+        flipX: false,
+        flipY: false
+      };
+      state.motifs.push(newM);
+      state.selectedMotifId = newM.id;
+      renderApp();
+    }
+
+    function selectMotif(id, e) {
+      if (e) e.stopPropagation();
+      sound.playPop();
+      state.selectedMotifId = id;
+      renderApp();
+    }
+
+    function deselectMotif(e) {
+      if (e.target.tagName === 'svg') {
+        state.selectedMotifId = null;
+        renderApp();
+      }
+    }
+
+    function scaleMotif(f) {
+      sound.playPop();
+      const m = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (m) {
+        m.scale = Math.max(0.4, Math.min(2.5, +(m.scale * f).toFixed(2)));
+        renderApp();
+      }
+    }
+
+    function rotateMotif(deg) {
+      sound.playPop();
+      const m = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (m) {
+        m.rotation = (m.rotation + deg + 360) % 360;
+        renderApp();
+      }
+    }
+
+    function flipMotif(axis) {
+      sound.playPop();
+      const m = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (m) {
+        if (axis === 'x') m.flipX = !m.flipX;
+        if (axis === 'y') m.flipY = !m.flipY;
+        renderApp();
+      }
+    }
+
+    function centerMotif() {
+      sound.playPop();
+      const m = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (m) {
+        m.x = state.product.width / 2;
+        m.y = state.product.height / 2;
+        renderApp();
+      }
+    }
+
+    function duplicateMotif() {
+      sound.playPop();
+      const m = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (m) {
+        const clone = { ...m, id: `m-${Date.now()}`, x: m.x + 25, y: m.y + 25 };
+        state.motifs.push(clone);
+        state.selectedMotifId = clone.id;
+        renderApp();
+      }
+    }
+
+    function deleteSelectedMotif() {
+      sound.playPop();
+      state.motifs = state.motifs.filter(it => it.id !== state.selectedMotifId);
+      state.selectedMotifId = null;
+      renderApp();
+    }
+
+    function applySymmetry4() {
+      const sel = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (!sel) return;
+      sound.playChime(1);
+      const w = state.product.width;
+      const h = state.product.height;
+      const inset = 80;
+      state.motifs = [
+        ...state.motifs.filter(it => it.id !== sel.id),
+        { ...sel, id: `s1-${Date.now()}`, x: inset, y: inset, rotation: 0, flipX: false, flipY: false },
+        { ...sel, id: `s2-${Date.now()}`, x: w - inset, y: inset, rotation: 90, flipX: true, flipY: false },
+        { ...sel, id: `s3-${Date.now()}`, x: w - inset, y: h - inset, rotation: 180, flipX: true, flipY: true },
+        { ...sel, id: `s4-${Date.now()}`, x: inset, y: h - inset, rotation: 270, flipX: false, flipY: true }
+      ];
+      renderApp();
+    }
+
+    function applyScatterRepeat() {
+      const sel = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (!sel) return;
+      sound.playChime(2);
+      const w = state.product.width;
+      const h = state.product.height;
+      const list = [];
+      const cols = state.product.id === 'long-scarf' ? 5 : 3;
+      const rows = state.product.id === 'long-scarf' ? 2 : 3;
+      for (let ix = 0; ix < cols; ix++) {
+        for (let iy = 0; iy < rows; iy++) {
+          list.push({
+            ...sel,
+            id: `scat-${ix}-${iy}-${Date.now()}`,
+            x: (w * (ix + 1)) / (cols + 1),
+            y: (h * (iy + 1)) / (rows + 1),
+            scale: sel.scale * 0.75,
+            rotation: (ix + iy) % 2 === 0 ? 0 : 15
+          });
+        }
+      }
+      state.motifs = list;
+      renderApp();
+    }
+
+    function applyBorderRun() {
+      const sel = state.motifs.find(it => it.id === state.selectedMotifId);
+      if (!sel) return;
+      sound.playChime(1);
+      const w = state.product.width;
+      const h = state.product.height;
+      const list = [];
+      for (let x = 60; x <= w - 60; x += 85) {
+        list.push({ ...sel, id: `b1-${x}`, x, y: 45, scale: sel.scale * 0.65, rotation: 0 });
+        list.push({ ...sel, id: `b2-${x}`, x, y: h - 45, scale: sel.scale * 0.65, rotation: 180 });
+      }
+      state.motifs = list;
+      renderApp();
+    }
+
+    function applyPreset(type) {
+      sound.playChime(3);
+      const w = state.product.width;
+      const h = state.product.height;
+      if (type === 'van-may') {
+        state.baseColor = SILK_COLORS[2]; // Xanh chàm
+        state.threadColor = THREAD_COLORS[0]; // Vàng kim tuyến
+        state.motifs = [
+          { id: 'p1', motifId: 'chim-hac', x: w/2 - 40, y: h/2 - 20, scale: 1.2, rotation: -10, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p2', motifId: 'van-may', x: w/2 + 60, y: h/2 + 30, scale: 1.1, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p3', motifId: 'van-may', x: w/2 - 100, y: h/2 + 40, scale: 0.8, rotation: 5, color: '#FFF', flipX: true, flipY: false }
+        ];
+      } else if (type === 'sen-vang') {
+        state.baseColor = SILK_COLORS[4]; // Hồng sen
+        state.threadColor = THREAD_COLORS[0];
+        state.motifs = [
+          { id: 'p1', motifId: 'hoa-sen', x: w/2, y: h/2 - 20, scale: 1.3, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p2', motifId: 'la-sen', x: w/2 - 70, y: h/2 + 50, scale: 0.9, rotation: -15, color: '#FFF', flipX: false, flipY: false },
+          { id: 'p3', motifId: 'la-sen', x: w/2 + 70, y: h/2 + 50, scale: 0.9, rotation: 15, color: '#FFF', flipX: true, flipY: false }
+        ];
+      } else {
+        state.baseColor = SILK_COLORS[1]; // Đỏ trầm
+        state.threadColor = THREAD_COLORS[0];
+        state.motifs = [
+          { id: 'p1', motifId: 'chu-phuc', x: w/2, y: h/2, scale: 1.3, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p2', motifId: 'qua-tram', x: 75, y: 75, scale: 0.8, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p3', motifId: 'qua-tram', x: w-75, y: 75, scale: 0.8, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p4', motifId: 'qua-tram', x: 75, y: h-75, scale: 0.8, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false },
+          { id: 'p5', motifId: 'qua-tram', x: w-75, y: h-75, scale: 0.8, rotation: 0, color: '#E5BF5A', flipX: false, flipY: false }
+        ];
+      }
+      renderApp();
+    }
+
+    /* =========================================================================
+       11. LOOM & WEAVING ACTIONS
+       ========================================================================= */
+    function spinWheel() {
+      state.spinAngle += 120;
+      sound.playPop();
+      state.spinProgress = Math.min(100, state.spinProgress + 25);
+      if (state.spinProgress >= 100) sound.playChime(1);
+      renderApp();
+    }
+
+    function finishWarping() {
+      sound.playChime(2);
+      state.loomSubStage = 2;
+      renderApp();
+    }
+
+    function beatLoom() {
+      if (state.weaveProgress >= 100) return;
+      sound.playShuttle();
+      state.shuttleSide = state.shuttleSide === 'left' ? 'right' : 'left';
+      renderApp();
+
+      setTimeout(() => {
+        sound.playClack();
+        state.weaveProgress = Math.min(100, state.weaveProgress + 20);
+        renderApp();
+
+        if (state.weaveProgress >= 100) {
+          sound.playChime(3);
+          setTimeout(() => {
+            state.loomSubStage = 3;
+            renderApp();
+          }, 800);
+        }
+      }, 300);
+    }
+
+    function finishProcess() {
+      sound.playSteam();
+      state.finishProgress = Math.min(100, state.finishProgress + 35);
+      if (state.finishProgress >= 100) sound.playChime(4);
+      renderApp();
+    }
+
+    function setArtworkName(n) {
+      state.artworkName = n;
+      renderApp();
+    }
+
+    function toggleAudio() {
+      sound.enabled = !sound.enabled;
+      if (sound.enabled) sound.playPop();
+      renderApp();
+    }
+
+    function openHelp() {
+      sound.playPop();
+      state.showHelpModal = true;
+      renderApp();
+    }
+
+    function closeHelp() {
+      state.showHelpModal = false;
+      renderApp();
+    }
+
+    function resetGame() {
+      sound.playPop();
+      state.step = 1;
+      state.loomSubStage = 1;
+      state.spinProgress = 0;
+      state.weaveProgress = 0;
+      state.finishProgress = 0;
+      renderApp();
+    }
+
+    /* Spacebar support for weaving */
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && state.step === 3 && state.loomSubStage === 2) {
+        e.preventDefault();
+        beatLoom();
+      }
+    });
+
+    /* =========================================================================
+       12. PNG EXPORT (OFFSCREEN CANVAS GENERATION)
+       ========================================================================= */
+    function exportPNG() {
+      sound.playPop();
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const scale = 2;
+      canvas.width = 800 * scale;
+      canvas.height = 950 * scale;
+      ctx.scale(scale, scale);
+
+      // Vintage paper bg
+      const bg = ctx.createLinearGradient(0, 0, 0, 950);
+      bg.addColorStop(0, '#FCF9F2');
+      bg.addColorStop(1, '#F3EBDD');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, 800, 950);
+
+      // Antique border
+      ctx.strokeStyle = '#D4A344';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(25, 25, 750, 900);
+      ctx.lineWidth = 1;
+      ctx.strokeRect(32, 32, 736, 886);
+
+      // Title
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#C85A32';
+      ctx.font = 'bold 13px sans-serif';
+      ctx.fillText('DI SẢN NGHỀ DỆT LỤA TRUYỀN THỐNG VIỆT NAM', 400, 75);
+
+      ctx.fillStyle = '#1F1610';
+      ctx.font = 'bold 30px Georgia, serif';
+      ctx.fillText('SẮC LỤA VẠN PHÚC', 400, 115);
+
+      ctx.fillStyle = '#79311A';
+      ctx.font = 'italic 15px Georgia, serif';
+      ctx.fillText(`“${state.artworkName || 'Tuyệt tác tơ tằm'}”`, 400, 145);
+
+      // Silk Shape
+      const silkX = 150;
+      const silkY = 180;
+      const silkW = 500;
+      const silkH = state.product.id === 'long-scarf' ? 240 : 420;
+
+      ctx.shadowColor = 'rgba(0,0,0,0.25)';
+      ctx.shadowBlur = 25;
+      ctx.shadowOffsetY = 15;
+      ctx.fillStyle = state.customBaseHex || state.baseColor.hex;
+      ctx.fillRect(silkX, silkY, silkW, silkH);
+
+      ctx.shadowColor = 'transparent';
+      ctx.strokeStyle = '#E5BF5A';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(silkX + 6, silkY + 6, silkW - 12, silkH - 12);
+
+      // Draw motifs
+      state.motifs.forEach(m => {
+        const def = MOTIFS.find(d => d.id === m.motifId);
+        if (!def) return;
+        ctx.save();
+        const mappedX = silkX + (m.x * silkW) / state.product.width;
+        const mappedY = silkY + (m.y * silkH) / state.product.height;
+        ctx.translate(mappedX, mappedY);
+        ctx.rotate((m.rotation * Math.PI) / 180);
+        ctx.scale(m.scale * 0.9, m.scale * 0.9);
+        const p2d = new Path2D(def.path);
+        ctx.translate(-50, -50);
+        ctx.fillStyle = m.color || '#E5BF5A';
+        ctx.fill(p2d);
+        ctx.restore();
+      });
+
+      // Wooden hanger
+      ctx.fillStyle = '#4A2E1B';
+      ctx.fillRect(silkX - 20, silkY - 14, silkW + 40, 14);
+
+      // Red seal
+      const sealX = 640;
+      const sealY = 820;
+      ctx.strokeStyle = '#BA2D2D';
+      ctx.lineWidth = 3;
+      ctx.strokeRect(sealX - 35, sealY - 35, 70, 70);
+      ctx.fillStyle = 'rgba(186, 45, 45, 0.08)';
+      ctx.fillRect(sealX - 35, sealY - 35, 70, 70);
+      ctx.fillStyle = '#BA2D2D';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 12px serif';
+      ctx.fillText('VẠN PHÚC', sealX, sealY - 10);
+      ctx.fillText('CHI BẢO', sealX, sealY + 8);
+      ctx.font = '9px serif';
+      ctx.fillText('HÀ ĐÔNG', sealX, sealY + 23);
+
+      // Specs
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#1F1610';
+      ctx.font = 'bold 14px sans-serif';
+      ctx.fillText(`Tác giả: ${state.artisanName}`, 60, 800);
+      ctx.fillText(`Sản phẩm: ${state.product.name} (${state.product.dims})`, 60, 825);
+      ctx.font = '12px sans-serif';
+      ctx.fillStyle = '#79311A';
+      ctx.fillText(`Màu nền: ${state.baseColor.name} • Sợi: ${state.threadColor.name}`, 60, 850);
+      ctx.fillText(`Ngày tạo tác: ${new Date().toLocaleDateString('vi-VN')} • Làng lụa Vạn Phúc`, 60, 872);
+
+      // Download
+      const dataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      const clean = (state.artworkName || 'Tac-Pham').replace(/\s+/g, '-');
+      a.download = `Sac-Lua-Van-Phuc-${clean}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    // Initialize application on load
+    renderApp();
+  </script>
+</body>
+</html>

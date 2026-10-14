@@ -666,7 +666,7 @@ export default function PassportPage() {
                       className="p-4 bg-white rounded-2xl border border-terracotta-200 shadow-sm flex items-center gap-3.5"
                     >
                       <div className="w-12 h-12 rounded-xl bg-terracotta-50 flex items-center justify-center text-2xl shrink-0">
-                        {c.type === 'pottery' ? '🏺' : '👒'}
+                        {c.type === 'pottery' ? '🏺' : c.type === 'silk' ? '🧵' : '👒'}
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-bold text-lacquer-900 truncate">{c.title}</h4>

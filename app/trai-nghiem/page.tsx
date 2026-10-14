@@ -51,6 +51,23 @@ export default function ExperienceHubPage() {
       accentColor: 'from-gold-500 to-amber-700'
     },
     {
+      id: 'silk',
+      title: 'Sắc Lụa Vạn Phúc',
+      subtitle: 'Xưởng Dệt Gấm Thoi Nổi & Tạo Tác Khăn Lụa Hà Đông',
+      village: 'Làng lụa Vạn Phúc',
+      category: 'Dệt lụa tơ tằm',
+      icon: '🧵',
+      duration: 'Khoảng 3 - 5 phút',
+      difficulty: 'Sáng tạo & Thư giãn',
+      badgeName: 'Bậc Thầy Canh Cửi Vạn Phúc',
+      href: '/trai-nghiem/det-lua',
+      image: '/images/villages/van-phuc/hero.jpg',
+      description: 'Lựa chọn tơ tằm nguyên bản, tự tay phối sắc và dàn dựng hoa văn mây hạc gấm vóc, nhấn nhịp thoi đưa trên khung cửi cổ truyền và hoàn thiện tấm lụa trứ danh.',
+      steps: ['Chọn dáng sản phẩm', 'Sáng tạo hoa văn gấm', 'Mắc cửi & Dệt thoi đưa', 'Chuội lụa & Nhận thành phẩm'],
+      isReady: true,
+      accentColor: 'from-rose-600 via-amber-600 to-indigo-700'
+    },
+    {
       id: 'bamboo',
       title: 'Xưởng Mây Tre Đan Phú Vinh',
       subtitle: 'Chuốt nan mây & Đan họa tiết lóng đôi',

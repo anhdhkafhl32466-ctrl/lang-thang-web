@@ -426,7 +426,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         image: '/images/villages/van-phuc/loom.jpg'
       }
     ],
-    gameUrl: '/trai-nghiem',
+    gameUrl: '/trai-nghiem/det-lua',
     bestTimeToVisit: 'Tháng 10 đến tháng 4, đặc biệt là tuần lễ Văn hóa Lụa Hà Đông vào tháng 11',
     openingHours: '07:30 - 21:00 hàng ngày',
     ticketPrice: 'Tham quan tự do. Workshop dệt lụa: 100.000đ - 250.000đ/buổi',

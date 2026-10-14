@@ -18,6 +18,7 @@ import {
   Camera, Upload, Trash2, ZoomIn, Check, Plus, Image as ImageIcon
 } from 'lucide-react';
 import BatTrangPotteryGame from '@/components/craft/BatTrangPotteryGame';
+import VanPhucSilkGame from '@/components/craft/VanPhucSilkGame';
 
 export default function CraftVillageDetailPage() {
   const params = useParams();
@@ -245,6 +246,14 @@ export default function CraftVillageDetailPage() {
                 >
                   <Sparkles className="w-4 h-4 text-lacquer-950" />
                   <span>Chơi mini game nặn gốm</span>
+                </a>
+              ) : village.slug === 'van-phuc' ? (
+                <a
+                  href="#tro-choi-det-lua"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold text-sm shadow-xl hover:scale-105 transition-all"
+                >
+                  <Sparkles className="w-4 h-4 text-white" />
+                  <span>Chơi mini game dệt lụa</span>
                 </a>
               ) : village.gameUrl ? (
                 <Link
@@ -612,6 +621,41 @@ export default function CraftVillageDetailPage() {
 
             {/* Embed BatTrangPotteryGame directly */}
             <BatTrangPotteryGame />
+          </section>
+        )}
+
+        {/* 3.4 MỤC TRÒ CHƠI MÔ PHỎNG DỆT LỤA VẠN PHÚC (Nhúng trực tiếp) */}
+        {village.slug === 'van-phuc' && (
+          <section id="tro-choi-det-lua" className="space-y-6 pt-4 scroll-mt-24">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 border-b border-terracotta-100 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-100 text-rose-900 text-xs font-bold uppercase tracking-wider mb-2 border border-rose-300">
+                  <Sparkles className="w-3.5 h-3.5 text-rose-600" />
+                  <span>Trải Nghiệm Trực Tuyến Tương Tác</span>
+                </div>
+                <h2 className="font-serif text-2xl sm:text-4xl font-bold text-lacquer-900">
+                  Trò chơi mô phỏng: Sắc Lụa Vạn Phúc
+                </h2>
+                <p className="text-xs sm:text-sm text-lacquer-800/70 mt-1">
+                  Khám phá 4 công đoạn: Chọn dáng sản phẩm → Sáng tạo hoa văn gấm vóc → Thoi đưa canh cửi → Chuội lụa & Triện bảo
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs">
+                <a
+                  href="/trai-nghiem/det-lua"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-dopaper-200 text-lacquer-900 hover:bg-gold-200 font-semibold transition-colors border border-terracotta-200"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-rose-600" />
+                  <span>Mở toàn màn hình</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Embed VanPhucSilkGame directly */}
+            <VanPhucSilkGame />
           </section>
         )}
 
