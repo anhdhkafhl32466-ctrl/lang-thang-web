@@ -33,7 +33,9 @@ export default function AccountPage() {
   const [passportStats, setPassportStats] = useState({
     badgeCount: 0,
     creationsCount: 0,
-    points: 0
+    points: 0,
+    visitedCount: 0,
+    photoCount: 0
   });
 
   const loadData = () => {
@@ -52,7 +54,9 @@ export default function AccountPage() {
     setPassportStats({
       badgeCount: Object.keys(passport.badges).length,
       creationsCount: passport.creations.length,
-      points: passport.points
+      points: passport.points,
+      visitedCount: passport.visitedVillages.length,
+      photoCount: (passport.souvenirPhotos || []).length
     });
   };
 
@@ -209,19 +213,34 @@ export default function AccountPage() {
                   )}
 
                   {/* Summary Stats Badges */}
-                  <div className="pt-3 grid grid-cols-3 gap-2 max-w-sm mx-auto sm:mx-0">
-                    <div className="p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
+                  <div className="pt-3 grid grid-cols-4 gap-2 max-w-md mx-auto sm:mx-0">
+                    <div className="p-2 sm:p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
                       <span className="block text-base sm:text-lg font-bold text-terracotta-600">{passportStats.badgeCount}</span>
                       <span className="text-[10px] text-lacquer-800/70">Huy hiệu</span>
                     </div>
-                    <div className="p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
-                      <span className="block text-base sm:text-lg font-bold text-gold-600">{passportStats.creationsCount}</span>
-                      <span className="text-[10px] text-lacquer-800/70">Tác phẩm</span>
+                    <div className="p-2 sm:p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
+                      <span className="block text-base sm:text-lg font-bold text-gold-600">{passportStats.visitedCount}</span>
+                      <span className="text-[10px] text-lacquer-800/70">Làng đã đi</span>
                     </div>
-                    <div className="p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
+                    <div className="p-2 sm:p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
+                      <span className="block text-base sm:text-lg font-bold text-amber-600">{passportStats.photoCount}</span>
+                      <span className="text-[10px] text-lacquer-800/70">Ảnh lưu niệm</span>
+                    </div>
+                    <div className="p-2 sm:p-2.5 rounded-2xl bg-dopaper-100/70 border border-terracotta-100 text-center">
                       <span className="block text-base sm:text-lg font-bold text-emerald-600">{history.length}</span>
-                      <span className="text-[10px] text-lacquer-800/70">Lần đăng nhập</span>
+                      <span className="text-[10px] text-lacquer-800/70">Đăng nhập</span>
                     </div>
+                  </div>
+
+                  {/* Quick Passport Page Link */}
+                  <div className="pt-2">
+                    <Link
+                      href="/ho-chieu"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-terracotta-500 to-gold-500 hover:from-terracotta-600 hover:to-gold-600 text-white text-xs font-bold shadow-sm transition-all hover:scale-102"
+                    >
+                      <span>🏮 Xem Hộ Chiếu & Ảnh Lưu Niệm Của Bạn</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
                   </div>
                 </div>
               </div>

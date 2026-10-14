@@ -6,11 +6,16 @@ import { notFound, useParams } from 'next/navigation';
 import { CRAFT_VILLAGES, CraftVillage } from '@/data/craftVillages';
 import { PRODUCTS } from '@/data/products';
 import { TOURS } from '@/data/tours';
-import { recordVillageVisit } from '@/lib/passportStorage';
+import {
+  recordVillageVisit, getPassport, addSouvenirPhoto, deleteSouvenirPhoto,
+  compressImage, SouvenirPhoto
+} from '@/lib/passportStorage';
+import confetti from 'canvas-confetti';
 import { formatCurrencyVND } from '@/lib/utils';
 import {
   MapPin, Clock, Calendar, Compass, Sparkles, ArrowRight, CheckCircle2,
-  Share2, Award, ChevronRight, Eye, ExternalLink, Info, Play, X, Palette, Shield
+  Share2, Award, ChevronRight, Eye, ExternalLink, Info, Play, X, Palette, Shield,
+  Camera, Upload, Trash2, ZoomIn, Check, Plus, Image as ImageIcon
 } from 'lucide-react';
 import BatTrangPotteryGame from '@/components/craft/BatTrangPotteryGame';
 
@@ -21,18 +26,93 @@ export default function CraftVillageDetailPage() {
   const village = CRAFT_VILLAGES.find((v) => v.slug === slug);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [activeStep, setActiveStep] = useState<number>(1);
-  const [stampNotification, setStampNotification] = useState<boolean>(false);
+  const [stampNotification, setStampNotification] = useState<string | null>(null);
+
+  // Passport & Souvenir Photos state
+  const [isVisited, setIsVisited] = useState<boolean>(false);
+  const [visitedDate, setVisitedDate] = useState<string | null>(null);
+  const [souvenirPhotos, setSouvenirPhotos] = useState<SouvenirPhoto[]>([]);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [lightboxSouvenir, setLightboxSouvenir] = useState<SouvenirPhoto | null>(null);
+  const [newPhotoCaption, setNewPhotoCaption] = useState<string>('');
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const refreshPassportData = React.useCallback(() => {
+    if (!village) return;
+    const p = getPassport();
+    const visited = p.visitedVillages.includes(village.slug);
+    setIsVisited(visited);
+    setVisitedDate(p.visitedDates?.[village.slug] || null);
+    setSouvenirPhotos((p.souvenirPhotos || []).filter(item => item.villageSlug === village.slug));
+  }, [village]);
 
   useEffect(() => {
-    if (village) {
-      const result = recordVillageVisit(village.slug);
-      if (result.isNew) {
-        setStampNotification(true);
-        const timer = setTimeout(() => setStampNotification(false), 4500);
-        return () => clearTimeout(timer);
+    refreshPassportData();
+    window.addEventListener('passport_updated', refreshPassportData);
+    return () => window.removeEventListener('passport_updated', refreshPassportData);
+  }, [refreshPassportData]);
+
+  const handleManualCheckIn = () => {
+    if (!village) return;
+    const result = recordVillageVisit(village.slug);
+    confetti({ particleCount: 90, spread: 70, origin: { y: 0.6 } });
+    if (result.isNew) {
+      let msg = `Đã đóng dấu mộc: ${village.name}! (+20 điểm di sản)`;
+      if (result.newBadge) {
+        msg += ` • Nhận huy hiệu: ${result.newBadge.name}!`;
       }
+      setStampNotification(msg);
+    } else {
+      setStampNotification(`Làng nghề ${village.name} đã được đóng dấu trong Hộ chiếu!`);
     }
-  }, [village]);
+    refreshPassportData();
+    setTimeout(() => setStampNotification(null), 4500);
+  };
+
+  const handleUploadPhotos = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0 || !village) return;
+
+    setIsUploading(true);
+    try {
+      let count = 0;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const compressed = await compressImage(file, 1000, 0.75);
+        const res = addSouvenirPhoto({
+          villageSlug: village.slug,
+          villageName: village.name,
+          url: compressed,
+          caption: newPhotoCaption.trim() || `Kỷ niệm chuyến đi ${village.name}`
+        });
+        count++;
+        if (res.newBadge) {
+          confetti({ particleCount: 100, spread: 80, origin: { y: 0.5 } });
+          setStampNotification(`Mở khóa huy hiệu mới: ${res.newBadge.name}! 📸`);
+          setTimeout(() => setStampNotification(null), 4500);
+        }
+      }
+      setNewPhotoCaption('');
+      refreshPassportData();
+      if (!stampNotification) {
+        setStampNotification(`Đã thêm thành công ${count} ảnh lưu niệm cho làng ${village.name}!`);
+        setTimeout(() => setStampNotification(null), 4000);
+      }
+    } catch (err) {
+      console.error('Lỗi tải ảnh:', err);
+      alert('Có lỗi xảy ra khi nạp ảnh. Vui lòng thử lại với ảnh nhỏ hơn.');
+    } finally {
+      setIsUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleDeletePhoto = (photoId: string) => {
+    if (window.confirm('Bạn có chắc chắn muốn xóa ảnh lưu niệm này khỏi Hộ chiếu không?')) {
+      deleteSouvenirPhoto(photoId);
+      refreshPassportData();
+    }
+  };
 
   if (!village) {
     return (
@@ -60,16 +140,16 @@ export default function CraftVillageDetailPage() {
     <div className="min-h-screen bg-dopaper-50 pb-20">
       {/* Stamp Notification Popup */}
       {stampNotification && (
-        <div className="fixed top-24 right-4 z-50 bg-white border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce">
-          <div className="w-10 h-10 rounded-xl bg-gold-400 flex items-center justify-center text-xl shadow">
+        <div className="fixed top-24 right-4 z-50 bg-white border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">
+          <div className="w-10 h-10 rounded-xl bg-gold-400 flex items-center justify-center text-xl shadow shrink-0">
             🏮
           </div>
           <div>
             <span className="text-xs font-bold text-terracotta-700 block uppercase">
               Hộ Chiếu Làng Nghề
             </span>
-            <p className="text-xs font-semibold text-lacquer-900">
-              Đã đóng dấu mộc: {village.name}! (+20 điểm)
+            <p className="text-xs font-semibold text-lacquer-900 leading-snug">
+              {stampNotification}
             </p>
           </div>
         </div>
@@ -128,28 +208,54 @@ export default function CraftVillageDetailPage() {
               </div>
             </div>
 
-            {/* Quick action button for mini-game */}
-            {village.slug === 'bat-trang' ? (
-              <div className="shrink-0">
+            {/* Action buttons: Check-in button and mini-game */}
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              {/* Manual Check-in Button */}
+              {!isVisited ? (
+                <button
+                  onClick={handleManualCheckIn}
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-terracotta-500 via-gold-500 to-terracotta-600 hover:from-terracotta-600 hover:to-gold-600 text-white font-bold text-sm shadow-xl hover:scale-105 transition-all border border-gold-300/40"
+                  title="Bấm để ghi nhận bạn đã trực tiếp ghé thăm làng nghề này"
+                >
+                  <span className="text-base">🏮</span>
+                  <span>Đánh dấu đã tham quan</span>
+                </button>
+              ) : (
+                <div className="inline-flex items-center gap-2 px-4 py-3 rounded-2xl bg-emerald-950/80 backdrop-blur-md border border-emerald-400/60 text-emerald-300 font-semibold text-xs sm:text-sm shadow-xl">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Đã ghé thăm & đóng dấu</span>
+                  {visitedDate && (
+                    <span className="text-[11px] text-emerald-300/80">
+                      ({new Date(visitedDate).toLocaleDateString('vi-VN')})
+                    </span>
+                  )}
+                  {souvenirPhotos.length > 0 && (
+                    <span className="ml-1 px-2 py-0.5 rounded-full bg-emerald-500/30 text-[11px] text-emerald-200">
+                      {souvenirPhotos.length} ảnh
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {/* Quick action button for mini-game */}
+              {village.slug === 'bat-trang' ? (
                 <a
                   href="#tro-choi-nan-gom"
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
                 >
                   <Sparkles className="w-4 h-4 text-lacquer-950" />
-                  <span>Chơi mini game nặn gốm ngay</span>
+                  <span>Chơi mini game nặn gốm</span>
                 </a>
-              </div>
-            ) : village.gameUrl ? (
-              <div className="shrink-0">
+              ) : village.gameUrl ? (
                 <Link
                   href={village.gameUrl}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
+                  className="inline-flex items-center gap-2 px-5 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
                 >
                   <Sparkles className="w-4 h-4 text-lacquer-950" />
                   <span>Trải nghiệm làm nghề ảo</span>
                 </Link>
-              </div>
-            ) : null}
+              ) : null}
+            </div>
           </div>
         </div>
       </section>
@@ -177,6 +283,164 @@ export default function CraftVillageDetailPage() {
             </span>
           </div>
         </div>
+
+        {/* 2.2 Mục Ảnh Lưu Niệm Cá Nhân Hóa (Phân loại theo làng nghề này) */}
+        <section className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-terracotta-200/90 shadow-sm space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terracotta-100 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-100 text-gold-900 text-xs font-bold uppercase tracking-wider mb-2 border border-gold-300">
+                <Camera className="w-3.5 h-3.5 text-gold-600" />
+                <span>Hộ Chiếu Di Sản • Kỷ Niệm Chuyến Đi</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900 flex items-center gap-2">
+                <span>Ảnh lưu niệm tại {village.name}</span>
+                {souvenirPhotos.length > 0 && (
+                  <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700">
+                    {souvenirPhotos.length} ảnh
+                  </span>
+                )}
+              </h2>
+              <p className="text-xs sm:text-sm text-lacquer-800/70 mt-1">
+                Lưu giữ những khoảnh khắc, góc check-in và sản phẩm bạn tự làm khi đặt chân tới {village.name}.
+              </p>
+            </div>
+
+            {/* Upload Button (only if visited) */}
+            {isVisited ? (
+              <div className="flex items-center gap-2">
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept="image/*"
+                  multiple
+                  onChange={handleUploadPhotos}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={isUploading}
+                  className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-xs shadow hover:scale-105 transition-all disabled:opacity-50"
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>{isUploading ? 'Đang nén & lưu...' : '+ Tải ảnh lưu niệm lên'}</span>
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          {/* If NOT visited yet */}
+          {!isVisited ? (
+            <div className="bg-gradient-to-r from-dopaper-100/90 to-amber-50/60 rounded-2xl p-6 sm:p-8 border border-terracotta-200 text-center space-y-4">
+              <div className="w-14 h-14 rounded-2xl bg-terracotta-100 text-terracotta-600 flex items-center justify-center mx-auto text-2xl shadow-sm">
+                🏮
+              </div>
+              <div className="space-y-1.5 max-w-lg mx-auto">
+                <h3 className="font-serif text-lg sm:text-xl font-bold text-lacquer-900">
+                  Bạn đã ghé thăm {village.name} chưa?
+                </h3>
+                <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
+                  Để đảm bảo tính xác thực của Hộ chiếu di sản, tính năng đăng ảnh lưu niệm sẽ được mở khóa ngay khi bạn bấm nút xác nhận đã trực tiếp tham quan làng nghề này.
+                </p>
+              </div>
+              <div className="pt-2">
+                <button
+                  onClick={handleManualCheckIn}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-terracotta-500 to-gold-500 hover:from-terracotta-600 hover:to-gold-600 text-white font-bold text-xs sm:text-sm shadow-md hover:scale-105 transition-all"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Tôi đã tham quan {village.name}! Đóng dấu & Mở khóa</span>
+                </button>
+              </div>
+            </div>
+          ) : souvenirPhotos.length === 0 ? (
+            /* If visited but no photos yet */
+            <div className="border-2 border-dashed border-terracotta-200 rounded-2xl p-8 text-center space-y-3 bg-dopaper-50/50">
+              <div className="w-12 h-12 rounded-xl bg-gold-100 text-gold-700 flex items-center justify-center mx-auto">
+                <Camera className="w-6 h-6" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-sm font-bold text-lacquer-900">
+                  Chưa có ảnh lưu niệm nào cho làng nghề này
+                </p>
+                <p className="text-xs text-lacquer-800/70 max-w-md mx-auto">
+                  Bạn đã đóng dấu mộc ghé thăm {village.name}. Hãy tải lên những bức ảnh chụp cổng làng, góc sống ảo triệu view hoặc sản phẩm tự làm để lưu giữ vào Hộ Chiếu!
+                </p>
+              </div>
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold text-xs shadow hover:scale-105 transition-all disabled:opacity-50"
+              >
+                <Upload className="w-3.5 h-3.5" />
+                <span>{isUploading ? 'Đang nén & lưu ảnh...' : 'Tải bức ảnh lưu niệm đầu tiên lên (+15 điểm)'}</span>
+              </button>
+            </div>
+          ) : (
+            /* If visited and has photos */
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+                {souvenirPhotos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="group relative rounded-2xl overflow-hidden border border-terracotta-200 bg-black/5 aspect-[4/3] shadow-sm hover:shadow-md transition-all"
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.caption || 'Ảnh lưu niệm'}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+
+                    {/* Overlay controls on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-2.5 flex flex-col justify-between text-white">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] bg-black/60 backdrop-blur-sm px-2 py-0.5 rounded-full text-gold-300">
+                          {new Date(photo.date).toLocaleDateString('vi-VN')}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeletePhoto(photo.id);
+                          }}
+                          className="p-1 rounded-lg bg-red-600/80 hover:bg-red-600 text-white transition-colors"
+                          title="Xóa ảnh này"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+
+                      <div
+                        onClick={() => setLightboxSouvenir(photo)}
+                        className="cursor-pointer space-y-1"
+                      >
+                        <p className="text-xs font-semibold line-clamp-2 leading-tight">
+                          {photo.caption || `Kỷ niệm ${village.name}`}
+                        </p>
+                        <span className="text-[10px] text-dopaper-200 flex items-center gap-1 font-medium">
+                          <ZoomIn className="w-3 h-3" /> Nhấp để xem lớn
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom footer bar */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-2 text-xs text-lacquer-800/70 border-t border-terracotta-100">
+                <div className="flex items-center gap-1.5">
+                  <Check className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Ảnh được tự động nén tối ưu và phân loại riêng vào mục {village.name} trong Hộ chiếu.</span>
+                </div>
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-terracotta-600 hover:text-terracotta-700 font-bold flex items-center gap-1"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Thêm ảnh khác</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
 
         {/* 3. Lịch sử & Dòng thời gian */}
         <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
@@ -640,6 +904,44 @@ export default function CraftVillageDetailPage() {
             alt="Phóng to ảnh"
             className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
           />
+        </div>
+      )}
+
+      {/* Lightbox Modal for Souvenir Photos */}
+      {lightboxSouvenir && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setLightboxSouvenir(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setLightboxSouvenir(null)}
+              className="absolute -top-10 right-0 p-1.5 rounded-full bg-white/20 text-white hover:bg-white/30"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <img
+              src={lightboxSouvenir.url}
+              alt={lightboxSouvenir.caption || 'Ảnh lưu niệm'}
+              className="max-w-full max-h-[75vh] object-contain rounded-2xl shadow-2xl border border-white/20"
+            />
+            <div className="mt-3 text-center text-white space-y-1">
+              <div className="flex items-center justify-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-gold-500 text-lacquer-950 text-xs font-bold">
+                  {lightboxSouvenir.villageName}
+                </span>
+                <span className="text-xs text-dopaper-300">
+                  {new Date(lightboxSouvenir.date).toLocaleDateString('vi-VN')}
+                </span>
+              </div>
+              <p className="text-sm font-medium text-dopaper-100">
+                {lightboxSouvenir.caption || 'Ảnh lưu niệm chuyến đi'}
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
