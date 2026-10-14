@@ -1,0 +1,83 @@
+/**
+ * Quyền truy cập đơn hàng cho KHÁCH CHƯA ĐĂNG NHẬP.
+ *
+ * Vấn đề: khách vãng lai vẫn phải xem được đơn mình vừa đặt, nhưng không thể mở quyền xem
+ * đơn hàng cho tất cả mọi người (chỉ cần đoán mã đơn là đọc được địa chỉ, số điện thoại...).
+ *
+ * Cách giải quyết: khi tạo đơn thành công, máy chủ phát một cookie ĐÃ KÝ (HMAC) chứa danh sách
+ * mã định danh các đơn mà trình duyệt đó vừa tạo. Client không thể tự thêm đơn khác vào danh
+ * sách vì chữ ký sẽ không còn hợp lệ.
+ */
+
+import crypto from 'crypto';
+import type { NextRequest, NextResponse } from 'next/server';
+
+export const GUEST_ORDERS_COOKIE = 'lt_guest_orders';
+const MAX_TRACKED_ORDERS = 20;
+const TTL_SECONDS = 60 * 60 * 24 * 90; // 90 ngày
+
+function secret(): string {
+  const value = process.env.SESSION_SECRET?.trim();
+  return value && value.length >= 16 ? value : 'lang-thang-dev-session-secret-do-not-use-in-production';
+}
+
+function b64url(input: string | Buffer): string {
+  return Buffer.from(input).toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function sign(data: string): string {
+  // Tiền tố "order-access" tách miền khoá với cookie phiên đăng nhập.
+  return b64url(crypto.createHmac('sha256', secret()).update(`order-access:${data}`).digest());
+}
+
+function encode(ids: string[]): string {
+  const body = b64url(JSON.stringify(ids.slice(-MAX_TRACKED_ORDERS)));
+  return `${body}.${sign(body)}`;
+}
+
+function decode(token: string | undefined): string[] {
+  if (!token || !token.includes('.')) return [];
+  const [body, signature] = token.split('.');
+  if (!body || !signature) return [];
+
+  const a = Buffer.from(signature);
+  const b = Buffer.from(sign(body));
+  if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return [];
+
+  try {
+    const parsed = JSON.parse(Buffer.from(body.replace(/-/g, '+').replace(/_/g, '/'), 'base64').toString('utf8'));
+    return Array.isArray(parsed) ? parsed.filter((id: unknown) => typeof id === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+/** Đọc danh sách mã đơn mà trình duyệt này được phép xem. */
+export function readGuestOrderIds(request: NextRequest | Request): string[] {
+  const cookieHeader = request.headers.get('cookie') || '';
+  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${GUEST_ORDERS_COOKIE}=([^;]+)`));
+  return decode(match ? decodeURIComponent(match[1]) : undefined);
+}
+
+export function canGuestAccessOrder(request: NextRequest | Request, orderId: string): boolean {
+  return readGuestOrderIds(request).includes(orderId);
+}
+
+/** Ghi thêm một đơn vào danh sách được phép xem của trình duyệt hiện tại. */
+export function grantGuestOrderAccess(
+  request: NextRequest | Request,
+  response: NextResponse,
+  orderId: string
+): void {
+  const existing = readGuestOrderIds(request).filter((id) => id !== orderId);
+  const next = [...existing, orderId].slice(-MAX_TRACKED_ORDERS);
+  response.cookies.set({
+    name: GUEST_ORDERS_COOKIE,
+    value: encode(next),
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    path: '/',
+    maxAge: TTL_SECONDS,
+  });
+}

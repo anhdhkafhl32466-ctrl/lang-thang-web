@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { recordLogin, UserAccount } from '@/lib/authStorage';
 import { syncPassportWithServer } from '@/lib/passportStorage';
+import { establishEmailSession, establishGoogleSession } from '@/lib/client/serverSession';
 import confetti from 'canvas-confetti';
 import {
   X, CheckCircle2, ShieldCheck, Mail, User, Sparkles,
@@ -147,6 +148,16 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
         console.warn('API log skip:', e);
       }
 
+      // Thiết lập PHIÊN MÁY CHỦ: ID token được Google xác minh ở server, từ đó server quyết định
+      // quyền (kể cả quyền quản trị) — không dựa vào dữ liệu trong localStorage.
+      const serverSession = await establishGoogleSession(token);
+      if (!serverSession.ok) {
+        setError(
+          `${serverSession.message} Nếu là chủ website, hãy kiểm tra biến môi trường NEXT_PUBLIC_GOOGLE_CLIENT_ID và SESSION_SECRET trên máy chủ.`
+        );
+        return;
+      }
+
       // Record in storage
       const { user } = recordLogin(
         {
@@ -260,6 +271,13 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
         }
       } catch (e) {
         console.warn('API log skip:', e);
+      }
+
+      // Thiết lập phiên máy chủ ở mức thành viên (đường email chỉ kiểm tra MX/DNS nên KHÔNG cấp quyền quản trị).
+      const serverSession = await establishEmailSession(cleanEmail, displayName);
+      if (!serverSession.ok) {
+        setError(serverSession.message);
+        return;
       }
 
       // Record in storage

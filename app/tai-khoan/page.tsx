@@ -8,6 +8,7 @@ import {
   updateUserProfile, UserAccount, LoginHistoryItem
 } from '@/lib/authStorage';
 import { getPassport } from '@/lib/passportStorage';
+import { endServerSession } from '@/lib/client/serverSession';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 import {
   User, ShieldCheck, Mail, Calendar, Clock, Laptop, Smartphone,
@@ -79,6 +80,7 @@ export default function AccountPage() {
   const handleLogout = () => {
     if (window.confirm('Bạn có chắc chắn muốn đăng xuất khỏi tài khoản này?')) {
       logout();
+      endServerSession();
       router.push('/');
     }
   };

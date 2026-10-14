@@ -80,7 +80,14 @@ export default function AdminDashboardPage() {
               Hanoi Craft Villages Admin Dashboard
             </h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href="/admin/don-hang"
+              className="text-xs bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow"
+            >
+              <ShoppingCart className="w-3.5 h-3.5" />
+              <span>Quản trị đơn hàng</span>
+            </Link>
             <span className="text-xs bg-bamboo-100 text-bamboo-800 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-bamboo-600 animate-pulse" />
               Hệ thống hoạt động ổn định

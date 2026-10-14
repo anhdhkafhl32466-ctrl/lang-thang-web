@@ -19,9 +19,16 @@ Nền tảng trải nghiệm văn hóa du lịch số và xúc tiến thương m
 | `/trai-nghiem/dan-non` | **Mini-game Đan nón làng Chuông:** Ủi phẳng lá lụi, xếp 16 vành tre, lồng bài thơ lục bát xứ Đoài, khâu từng mũi cước viền nón |
 | `/ai-goi-y` | **AI Recommendation:** Trắc nghiệm 4 bước tìm làng nghề phù hợp nhất theo sở thích, ngân sách, thời gian, sinh lịch trình và ẩm thực địa phương |
 | `/du-lich` | **Du lịch trực tuyến & Thực tế:** 360 virtual hotspots, danh mục workshop làm nghề, tour nửa ngày & 1 ngày, form giữ chỗ trải nghiệm |
-| `/san-pham` | **Sàn thương mại tinh hoa làng nghề:** Danh mục sản phẩm thủ công cao cấp OCOP, modal chi tiết kỹ nghệ và liên kết trực tiếp tới Shopee / TikTok Shop |
+| `/san-pham` | **Sàn thương mại tinh hoa làng nghề:** Danh mục sản phẩm lấy giá & tồn kho thật từ cơ sở dữ liệu, thêm vào giỏ, đặt hàng và theo dõi tiến trình giao hàng |
 | `/chia-se-lang-nghe` | **Cổng tiếp nhận thông tin cộng đồng:** Dành cho nghệ nhân, người dân gửi thông tin làng nghề với preview hình ảnh và cam kết bản quyền |
 | `/admin` | **Bảng quản trị Startup:** Thống kê lượt truy cập, tỷ lệ chơi game, doanh thu liên kết, quản lý làng nghề và duyệt bài nộp cộng đồng |
+| `/san-pham/[id]` | **Chi tiết sản phẩm:** Hình ảnh, nghệ nhân, chất liệu, tồn kho thực tế và nút thêm vào giỏ |
+| `/gio-hang` | **Giỏ hàng:** Chỉnh sửa số lượng theo tồn kho, tóm tắt tạm tính |
+| `/thanh-toan` | **Thanh toán:** Lấy GPS thật của thiết bị, tìm địa chỉ, xác nhận vị trí trên bản đồ và xem tuyến đường/phí vận chuyển từ kho |
+| `/don-hang` | **Lịch sử mua hàng:** Danh sách đơn của tài khoản, đọc từ cơ sở dữ liệu máy chủ |
+| `/don-hang/[id]` | **Theo dõi đơn hàng:** Thanh tiến trình, bản đồ tuyến đường, lịch sử trạng thái kèm nguồn cập nhật |
+| `/admin/don-hang` | **Quản trị đơn hàng:** Duyệt đơn mới, chuyển trạng thái theo quy trình, ghi nhận người thực hiện và thời gian |
+| Chuông thông báo | **Thông báo trong website:** Số chưa đọc, danh sách thông báo, mở thẳng đơn liên quan, có nút bật Web Push |
 | Widget nổi | **Trợ lý Khám phá Làng nghề AI:** Chatbot tư vấn lịch trình, ẩm thực, ngân sách nổi ở góc màn hình |
 | Modal nổi | **Hộ Chiếu Làng Nghề (Craft Passport):** Tích điểm, lưu trữ tác phẩm đã tạo và hệ thống huy hiệu di sản trong LocalStorage |
 

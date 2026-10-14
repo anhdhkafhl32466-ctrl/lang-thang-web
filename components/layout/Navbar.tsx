@@ -5,11 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Compass, Sparkles, Map, BookOpen, ShoppingBag, Award, Menu, X,
-  ChevronRight, Palette, ChevronDown, User as UserIcon, History, LogOut, ShieldCheck
+  ChevronRight, Palette, ChevronDown, User as UserIcon, History, LogOut, ShieldCheck, ShoppingCart
 } from 'lucide-react';
 import { getPassport } from '@/lib/passportStorage';
 import { getCurrentUser, logout, UserAccount } from '@/lib/authStorage';
+import { endServerSession } from '@/lib/client/serverSession';
+import { useCart } from '@/lib/client/cart';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
+import NotificationBell from '@/components/orders/NotificationBell';
 
 interface NavbarProps {
   onOpenPassport?: () => void;
@@ -24,6 +27,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const cart = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -80,6 +84,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   const handleLogoutClick = () => {
     setUserDropdownOpen(false);
     logout();
+    // Xoá luôn phiên phía máy chủ (cookie đã ký) để không còn quyền truy cập API.
+    endServerSession();
   };
 
   return (
@@ -141,6 +147,24 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
 
           {/* Right Action Icons, Login & Passport */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Shopping Cart */}
+            <Link
+              href="/gio-hang"
+              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm"
+              title="Giỏ hàng"
+            >
+              <ShoppingCart className="w-4 h-4 text-terracotta-600" />
+              <span className="hidden sm:inline">Giỏ hàng</span>
+              {cart.totalCount > 0 && (
+                <span className="px-1.5 py-0.2 bg-terracotta-500 text-white rounded-full text-[11px] font-bold">
+                  {cart.totalCount}
+                </span>
+              )}
+            </Link>
+
+            {/* In-app notifications */}
+            <NotificationBell userEmail={user?.email ?? null} />
+
             {/* Passport Button */}
             <button
               onClick={onOpenPassport}
@@ -209,14 +233,23 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                       <span>Hồ sơ & Tài khoản</span>
                     </Link>
 
-                    <Link
-                      href="/tai-khoan#lich-su"
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
-                    >
-                      <History className="w-4 h-4 text-gold-600" />
-                      <span>Lịch sử đăng nhập</span>
-                    </Link>
+                <Link
+                  href="/don-hang"
+                  onClick={() => setUserDropdownOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
+                >
+                  <ShoppingBag className="w-4 h-4 text-terracotta-600" />
+                  <span>Đơn hàng của tôi</span>
+                </Link>
+
+                <Link
+                  href="/tai-khoan#lich-su"
+                  onClick={() => setUserDropdownOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
+                >
+                  <History className="w-4 h-4 text-gold-600" />
+                  <span>Lịch sử đăng nhập</span>
+                </Link>
 
                     <button
                       onClick={() => {
