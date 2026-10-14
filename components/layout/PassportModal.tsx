@@ -12,6 +12,7 @@ import {
   addSouvenirPhoto, deleteSouvenirPhoto, compressImage, SouvenirPhoto
 } from '@/lib/passportStorage';
 import { CRAFT_VILLAGES } from '@/data/craftVillages';
+import { getCurrentUser, UserAccount } from '@/lib/authStorage';
 
 interface PassportModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface PassportModalProps {
 }
 
 export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
+  const [user, setUser] = useState<UserAccount | null>(null);
   const [passport, setPassport] = useState<PassportData | null>(null);
   const [activeTab, setActiveTab] = useState<'villages' | 'photos' | 'badges' | 'creations'>('villages');
   const [selectedVillageFilter, setSelectedVillageFilter] = useState<string>('all');
@@ -27,6 +29,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadData = () => {
+    setUser(getCurrentUser());
     setPassport(getPassport());
   };
 
@@ -39,7 +42,11 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
   useEffect(() => {
     const handleUpdate = () => loadData();
     window.addEventListener('passport_updated', handleUpdate);
-    return () => window.removeEventListener('passport_updated', handleUpdate);
+    window.addEventListener('auth_state_changed', handleUpdate);
+    return () => {
+      window.removeEventListener('passport_updated', handleUpdate);
+      window.removeEventListener('auth_state_changed', handleUpdate);
+    };
   }, []);
 
   if (!isOpen || !passport) return null;
@@ -134,6 +141,19 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
               <h2 className="font-serif text-xl sm:text-2xl font-bold text-white">
                 Hộ Chiếu Làng Nghề Hà Nội
               </h2>
+              {/* Active user status badge */}
+              <div className="pt-1">
+                {user ? (
+                  <span className="text-[10px] bg-emerald-950/60 border border-emerald-400/40 text-emerald-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Tài khoản: {user.email} (Đã đồng bộ đám mây)</span>
+                  </span>
+                ) : (
+                  <span className="text-[10px] bg-amber-500/20 border border-amber-400/40 text-amber-200 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                    <span>Chế độ Khách (Đăng nhập Gmail để đồng bộ đa thiết bị)</span>
+                  </span>
+                )}
+              </div>
             </div>
           </div>
 

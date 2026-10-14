@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { recordLogin, UserAccount } from '@/lib/authStorage';
+import { syncPassportWithServer } from '@/lib/passportStorage';
 import confetti from 'canvas-confetti';
 import {
   X, CheckCircle2, ShieldCheck, Mail, User, Sparkles,
@@ -161,6 +162,9 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
         }
       );
 
+      // Đồng bộ ngay lập tức hộ chiếu từ máy chủ cho tài khoản Gmail này
+      syncPassportWithServer(user.email).catch(console.warn);
+
       setVerificationSuccess(true);
       confetti({
         particleCount: 80,
@@ -272,6 +276,9 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
           method: `Xác thực Email MX/DNS (@${data.domain})`
         }
       );
+
+      // Đồng bộ ngay lập tức hộ chiếu từ máy chủ cho tài khoản Gmail này
+      syncPassportWithServer(user.email).catch(console.warn);
 
       setVerificationSuccess(true);
       confetti({

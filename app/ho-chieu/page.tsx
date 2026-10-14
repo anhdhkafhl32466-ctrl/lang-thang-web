@@ -13,17 +13,22 @@ import {
   addSouvenirPhoto, deleteSouvenirPhoto, compressImage, SouvenirPhoto
 } from '@/lib/passportStorage';
 import { CRAFT_VILLAGES } from '@/data/craftVillages';
+import { getCurrentUser, UserAccount } from '@/lib/authStorage';
+import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 
 export default function PassportPage() {
+  const [user, setUser] = useState<UserAccount | null>(null);
   const [passport, setPassport] = useState<PassportData | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'villages' | 'badges' | 'creations'>('photos');
   const [selectedVillageFilter, setSelectedVillageFilter] = useState<string>('all');
   const [uploadingVillageSlug, setUploadingVillageSlug] = useState<string | null>(null);
   const [lightboxPhoto, setLightboxPhoto] = useState<SouvenirPhoto | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const loadData = () => {
+    setUser(getCurrentUser());
     setPassport(getPassport());
   };
 
@@ -31,7 +36,11 @@ export default function PassportPage() {
     loadData();
     const handleUpdate = () => loadData();
     window.addEventListener('passport_updated', handleUpdate);
-    return () => window.removeEventListener('passport_updated', handleUpdate);
+    window.addEventListener('auth_state_changed', handleUpdate);
+    return () => {
+      window.removeEventListener('passport_updated', handleUpdate);
+      window.removeEventListener('auth_state_changed', handleUpdate);
+    };
   }, []);
 
   if (!passport) {
@@ -162,6 +171,29 @@ export default function PassportPage() {
                 <p className="text-xs sm:text-sm text-dopaper-200/90 max-w-xl">
                   Ghi dấu từng bước chân qua 16 ngôi làng truyền thống, lưu giữ trọn vẹn ảnh lưu niệm thực tế và mở khóa các huy hiệu du khách văn hóa.
                 </p>
+
+                {/* Account Sync Status Badge */}
+                <div className="pt-2">
+                  {user ? (
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-950/70 border border-emerald-400/50 text-emerald-200 text-xs">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>Đã liên kết Gmail: <strong className="text-white">{user.email}</strong> • Tự động đồng bộ đa thiết bị</span>
+                    </div>
+                  ) : (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-500/20 border border-amber-400/50 text-amber-200 text-xs">
+                        <span>Chế độ Khách (Chưa đăng nhập)</span>
+                      </div>
+                      <button
+                        onClick={() => setIsLoginModalOpen(true)}
+                        className="inline-flex items-center gap-1 px-3 py-1 rounded-xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 text-xs font-bold shadow transition-all"
+                      >
+                        <span>Đăng nhập Gmail để đồng bộ đa thiết bị</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
@@ -686,6 +718,16 @@ export default function PassportPage() {
           </div>
         </div>
       )}
+
+      {/* Google Login Modal */}
+      <GoogleLoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+        onSuccess={() => {
+          loadData();
+          setIsLoginModalOpen(false);
+        }}
+      />
     </div>
   );
 }
