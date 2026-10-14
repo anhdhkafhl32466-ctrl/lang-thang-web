@@ -1,10 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { CRAFT_VILLAGES, CATEGORIES, CraftVillage } from '@/data/craftVillages';
-import { Search, MapPin, Compass, ArrowRight, Sparkles, Navigation, Layers } from 'lucide-react';
+import { useRoutePlanner } from '@/lib/useRoutePlanner';
+import {
+  Search,
+  MapPin,
+  Compass,
+  ArrowRight,
+  Navigation,
+  LocateFixed,
+  Crosshair,
+  X,
+} from 'lucide-react';
+
+import type { CraftMapHandle } from '@/components/map/CraftMapLeaflet';
 
 const CraftMapLeaflet = dynamic(() => import('@/components/map/CraftMapLeaflet'), {
   ssr: false,
@@ -18,10 +30,18 @@ const CraftMapLeaflet = dynamic(() => import('@/components/map/CraftMapLeaflet')
   )
 });
 
+const RoutePlannerPanel = dynamic(() => import('@/components/map/RoutePlannerPanel'), {
+  ssr: false,
+});
+
 export default function CraftMapPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedVillage, setSelectedVillage] = useState<CraftVillage | null>(null);
+  const [panelOpen, setPanelOpen] = useState(false);
+
+  const planner = useRoutePlanner();
+  const mapRef = useRef<CraftMapHandle | null>(null);
 
   const filteredVillages = CRAFT_VILLAGES.filter((v) => {
     const matchesSearch =
@@ -34,6 +54,35 @@ export default function CraftMapPage() {
 
     return matchesSearch && matchesCategory;
   });
+
+  // Liên kết sâu /ban-do?to=<slug> (ví dụ từ popup bản đồ hoặc trang chi tiết làng nghề).
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get('to') || params.get('den');
+    if (!slug) return;
+    const village = CRAFT_VILLAGES.find((v) => v.slug === slug);
+    if (!village) return;
+    planner.setDestinationFromVillage(village);
+    setSelectedVillage(village);
+    setPanelOpen(true);
+    // Chỉ chạy một lần khi vào trang bằng liên kết sâu.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const planRouteTo = (village: CraftVillage) => {
+    planner.setDestinationFromVillage(village);
+    setSelectedVillage(village);
+    setPanelOpen(true);
+  };
+
+  const handleMarkerSelect = (village: CraftVillage) => {
+    setSelectedVillage(village);
+    // Nếu bảng chỉ đường đang mở, tuyến sẽ tự tính lại theo điểm đến vừa chọn.
+    if (panelOpen) planner.setDestinationFromVillage(village);
+  };
+
+  const gpsPosition = planner.geo.position;
 
   return (
     <div className="min-h-screen bg-dopaper-50 py-6 sm:py-10">
@@ -48,6 +97,9 @@ export default function CraftMapPage() {
             <h1 className="font-serif text-2xl sm:text-4xl font-bold text-lacquer-900">
               Bản đồ làng nghề Hà Nội
             </h1>
+            <p className="text-xs text-lacquer-800/60 mt-1">
+              Định vị GPS thật và tính lộ trình theo mạng lưới đường bộ OpenStreetMap (OSRM).
+            </p>
           </div>
 
           {/* Quick Search */}
@@ -127,18 +179,31 @@ export default function CraftMapPage() {
                         {v.location.address}
                       </p>
 
-                      <div className="mt-2 flex items-center justify-between">
-                        <span className="text-[11px] text-gold-600 font-medium">
+                      <div className="mt-2 flex items-center justify-between gap-2">
+                        <span className="text-[11px] text-gold-600 font-medium truncate">
                           {v.history.originPeriod}
                         </span>
-                        <Link
-                          href={`/lang-nghe/${v.slug}`}
-                          onClick={(e) => e.stopPropagation()}
-                          className="text-[11px] text-terracotta-600 hover:text-terracotta-700 font-bold flex items-center gap-0.5"
-                        >
-                          <span>Xem chi tiết</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
+                        <span className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              planRouteTo(v);
+                            }}
+                            className="text-[11px] text-lacquer-900 hover:text-terracotta-700 font-bold flex items-center gap-0.5"
+                          >
+                            <Navigation className="w-3 h-3" />
+                            <span>Chỉ đường</span>
+                          </button>
+                          <Link
+                            href={`/lang-nghe/${v.slug}`}
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-[11px] text-terracotta-600 hover:text-terracotta-700 font-bold flex items-center gap-0.5"
+                          >
+                            <span>Xem chi tiết</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -148,14 +213,78 @@ export default function CraftMapPage() {
           </div>
 
           {/* Leaflet Map Interactive Canvas */}
-          <div className="lg:col-span-8 h-full">
+          <div className="lg:col-span-8 h-full relative">
             <CraftMapLeaflet
+              ref={mapRef}
               villages={filteredVillages}
               selectedVillageId={selectedVillage?.id}
-              onSelectVillage={(v) => setSelectedVillage(v)}
+              onSelectVillage={handleMarkerSelect}
+              userLocation={gpsPosition}
+              route={planner.routeOverlay}
             />
+
+            {/* Nút điều khiển nổi (góc dưới trái, tránh vùng zoom control của Leaflet) */}
+            <div className="absolute left-3 bottom-3 z-[500] flex flex-col items-start gap-2">
+              <button
+                type="button"
+                onClick={() => setPanelOpen((open) => !open)}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold shadow-lg transition-all"
+              >
+                {panelOpen ? <X className="w-4 h-4" /> : <Navigation className="w-4 h-4" />}
+                <span>{panelOpen ? 'Đóng bảng chỉ đường' : 'Chỉ đường tới làng nghề'}</span>
+              </button>
+
+              {gpsPosition && (
+                <button
+                  type="button"
+                  onClick={() => mapRef.current?.centerOnUser?.()}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-terracotta-200 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-400 transition-all"
+                >
+                  <Crosshair className="w-3.5 h-3.5 text-blue-600" />
+                  <span>
+                    Vị trí của tôi · sai số ±{Math.round(gpsPosition.accuracy || 0)} m
+                  </span>
+                </button>
+              )}
+
+              {planner.routeOverlay && (
+                <button
+                  type="button"
+                  onClick={() => mapRef.current?.fitRoute?.()}
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-terracotta-200 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-400 transition-all"
+                >
+                  <LocateFixed className="w-3.5 h-3.5 text-terracotta-600" />
+                  <span>Xem toàn bộ tuyến đường</span>
+                </button>
+              )}
+            </div>
+
+            {/*
+              Bảng chỉ đường: nổi bên phải trên desktop, phủ toàn bộ khung bản đồ trên di động.
+              Khung bao phải có cả `top` và `bottom` để chiều cao xác định — nhờ đó
+              `max-h-full` của panel mới giới hạn được chiều cao và nội dung tự cuộn.
+            */}
+            {panelOpen && (
+              <div className="absolute inset-x-2 top-2 bottom-2 lg:inset-x-auto lg:top-3 lg:right-3 lg:bottom-3 z-[600] flex justify-end pointer-events-none">
+                <div className="w-full lg:w-[380px] max-h-full pointer-events-auto flex">
+                  <RoutePlannerPanel
+                    planner={planner}
+                    villages={CRAFT_VILLAGES}
+                    onClose={() => setPanelOpen(false)}
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
+
+        {/* Ghi chú nguồn dữ liệu */}
+        <p className="text-[11px] text-lacquer-800/60 mt-4 leading-relaxed">
+          <MapPin className="w-3 h-3 inline mr-1 text-terracotta-500" />
+          Lộ trình và hướng dẫn từng chặng do dịch vụ định tuyến OSRM tính trên mạng lưới đường bộ OpenStreetMap.
+          Toạ độ GPS chỉ được lấy khi bạn bấm nút định vị và cho phép quyền vị trí — website không dùng toạ độ mặc định
+          thay cho vị trí thật của bạn.
+        </p>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ import { formatCurrencyVND } from '@/lib/utils';
 import {
   MapPin, Clock, Calendar, Compass, Sparkles, ArrowRight, CheckCircle2,
   Share2, Award, ChevronRight, Eye, ExternalLink, Info, Play, X, Palette, Shield,
-  Camera, Upload, Trash2, ZoomIn, Check, Plus, Image as ImageIcon
+  Camera, Upload, Trash2, ZoomIn, Check, Plus, Image as ImageIcon, Navigation
 } from 'lucide-react';
 import BatTrangPotteryGame from '@/components/craft/BatTrangPotteryGame';
 import VanPhucSilkGame from '@/components/craft/VanPhucSilkGame';
@@ -209,7 +209,7 @@ export default function CraftVillageDetailPage() {
               </div>
             </div>
 
-            {/* Action buttons: Check-in button and mini-game */}
+            {/* Action buttons: Check-in, Mini-game, and Chỉ đường GPS */}
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               {/* Manual Check-in Button */}
               {!isVisited ? (
@@ -264,6 +264,15 @@ export default function CraftVillageDetailPage() {
                   <span>Trải nghiệm làm nghề ảo</span>
                 </Link>
               ) : null}
+
+              {/* Chỉ đường tới làng nghề qua Bản đồ tương tác */}
+              <Link
+                href={`/ban-do?to=${village.slug}`}
+                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 hover:bg-white/25 text-white font-bold text-sm shadow-xl transition-all hover:scale-105"
+              >
+                <Navigation className="w-4 h-4" />
+                <span>Chỉ đường tới làng nghề</span>
+              </Link>
             </div>
           </div>
         </div>
