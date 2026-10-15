@@ -36,6 +36,7 @@ export function canGrantAdminRole(provider: string): boolean {
 }
 
 export interface SessionPayload {
+  userId?: string;
   userEmail: string;
   /**
    * 'seller' là vai trò RIÊNG của tài khoản người bán, KHÔNG kế thừa quyền quản trị:
@@ -100,9 +101,20 @@ export function decodeSession(token: string | undefined | null): SessionPayload 
 }
 
 export function getSession(request: NextRequest | Request): SessionPayload | null {
-  const cookieHeader = request.headers.get('cookie') || '';
-  const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
-  const token = match ? decodeURIComponent(match[1]) : undefined;
+  let token: string | undefined;
+
+  // 1. Đọc từ NextRequest cookies API nếu có
+  if ('cookies' in request && typeof (request as any).cookies?.get === 'function') {
+    token = (request as any).cookies.get(SESSION_COOKIE)?.value;
+  }
+
+  // 2. Đọc từ header 'cookie' chuẩn
+  if (!token) {
+    const cookieHeader = request.headers?.get?.('cookie') || '';
+    const match = cookieHeader.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
+    token = match ? decodeURIComponent(match[1]) : undefined;
+  }
+
   return decodeSession(token);
 }
 
@@ -123,6 +135,7 @@ export function requireAdminSession(request: NextRequest | Request): SessionPayl
  * Vai trò admin được cấp tự động cho email quản trị cấu hình, đồng thời ghi nhận vào bảng users.
  */
 export async function establishSession(params: {
+  userId?: string | null;
   email: string;
   name?: string | null;
   avatar?: string | null;
@@ -130,11 +143,27 @@ export async function establishSession(params: {
   userAgent?: string | null;
 }): Promise<{ token: string; payload: SessionPayload; maxAge: number }> {
   const email = params.email.trim().toLowerCase();
-  const role: 'member' | 'admin' =
+  let role: 'member' | 'admin' | 'seller' =
     email === getAdminEmail() && canGrantAdminRole(params.provider) ? 'admin' : 'member';
+
+  // Nếu không phải email quản trị, kiểm tra xem tài khoản đã là người bán hoặc đã sở hữu shop chưa
+  if (role !== 'admin') {
+    try {
+      const { getUserByEmail } = await import('./users');
+      const { getStoreByOwner } = await import('./stores');
+      const existingUser = await getUserByEmail(email);
+      const existingStore = await getStoreByOwner({ userId: params.userId || existingUser?.id, email });
+      if (existingStore || existingUser?.role === 'seller') {
+        role = 'seller';
+      }
+    } catch {
+      /* bỏ qua lỗi tra cứu phụ */
+    }
+  }
+
   const name = params.name?.trim() || email.split('@')[0];
 
-  await upsertUser({
+  const user = await upsertUser({
     email,
     name,
     avatar: params.avatar || null,
@@ -144,6 +173,7 @@ export async function establishSession(params: {
 
   const issuedAt = Date.now();
   const payload: SessionPayload = {
+    userId: user.id,
     userEmail: email,
     role,
     name,
@@ -162,6 +192,7 @@ export async function establishSession(params: {
  * mật khẩu người bán do người đăng ký tự đặt, không phải bằng chứng sở hữu email quản trị.
  */
 export async function establishSellerSession(params: {
+  userId?: string | null;
   email: string;
   name?: string | null;
   userAgent?: string | null;
@@ -170,7 +201,7 @@ export async function establishSellerSession(params: {
   const name = params.name?.trim() || email.split('@')[0];
   const issuedAt = Date.now();
 
-  await upsertUser({
+  const user = await upsertUser({
     email,
     name,
     role: 'seller',
@@ -178,6 +209,7 @@ export async function establishSellerSession(params: {
   });
 
   const payload: SessionPayload = {
+    userId: user.id,
     userEmail: email,
     role: 'seller',
     name,

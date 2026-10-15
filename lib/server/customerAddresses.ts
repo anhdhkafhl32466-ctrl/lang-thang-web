@@ -60,6 +60,8 @@ export async function listAddressesForUser(email: string): Promise<CustomerAddre
   return rows.map(toCustomerAddress);
 }
 
+export const listCustomerAddresses = listAddressesForUser;
+
 /** Lấy một địa chỉ của khách hàng. */
 export async function getAddressById(id: string, email?: string): Promise<CustomerAddress | null> {
   const normEmail = email ? normalizeEmail(email) : null;
@@ -216,7 +218,6 @@ export async function deleteCustomerAddress(id: string, email: string): Promise<
 
   await execute(`DELETE FROM customer_addresses WHERE id = ? AND lower(user_email) = ?`, [id, normEmail]);
 
-  // Nếu vừa xóa địa chỉ mặc định, tự động gán địa chỉ còn lại gần nhất làm mặc định
   if (address.isDefault) {
     const remaining = await queryOne<AddressRow>(
       `SELECT * FROM customer_addresses WHERE lower(user_email) = ? ORDER BY updated_at DESC LIMIT 1`,
@@ -226,4 +227,20 @@ export async function deleteCustomerAddress(id: string, email: string): Promise<
       await execute(`UPDATE customer_addresses SET is_default = 1 WHERE id = ?`, [remaining.id]);
     }
   }
+}
+
+/** Lấy địa chỉ nhận hàng mặc định của khách hàng. */
+export async function getDefaultCustomerAddress(email: string): Promise<CustomerAddress | null> {
+  const normEmail = normalizeEmail(email);
+  if (!normEmail) return null;
+  const row = await queryOne<AddressRow>(
+    `SELECT * FROM customer_addresses WHERE lower(user_email) = ? AND is_default = 1`,
+    [normEmail]
+  );
+  if (row) return toCustomerAddress(row);
+  const fallback = await queryOne<AddressRow>(
+    `SELECT * FROM customer_addresses WHERE lower(user_email) = ? ORDER BY created_at DESC LIMIT 1`,
+    [normEmail]
+  );
+  return fallback ? toCustomerAddress(fallback) : null;
 }

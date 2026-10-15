@@ -33,6 +33,8 @@ export type StoreStatus = 'pending' | 'active' | 'suspended' | 'rejected';
 
 export interface Store {
   id: string;
+  /** ID tài khoản người dùng chủ sở hữu (users.id) — liên kết chặt chẽ tài khoản với shop */
+  ownerId?: string | null;
   ownerEmail: string;
   name: string;
   slug: string;
@@ -50,6 +52,7 @@ export interface Store {
   /** Nhóm sản phẩm dự định kinh doanh (người bán tự khai khi đăng ký). */
   categories: string[];
   status: StoreStatus;
+  approvalStatus?: string | null;
   reviewNote: string | null;
   approvedAt: string | null;
   approvedBy: string | null;

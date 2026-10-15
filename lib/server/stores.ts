@@ -14,13 +14,28 @@ import { execute, query, queryOne } from './db';
 import { getAdminEmail } from '@/lib/config/commerce';
 import { STORE_STATUSES, STORE_STATUS_META } from '@/lib/orders/storeMeta';
 import type { Store, StoreStatus } from '@/lib/orders/types';
+import { getUserByEmail } from './users';
 
 // Nhãn/mô tả trạng thái nằm ở lib/orders/storeMeta.ts (dữ liệu thuần) để giao diện dùng được mà không
 // phải nhập tầng cơ sở dữ liệu. Re-export tại đây cho các phía gọi phía máy chủ hiện có.
 export { STORE_STATUSES, STORE_STATUS_META };
 
+/**
+ * Chuẩn hóa trạng thái cửa hàng: hỗ trợ cả 'active' và 'approved' (đồng nghĩa duyệt thành công),
+ * xử lý khoảng trắng hoặc chữ hoa/thường.
+ */
+export function normalizeStoreStatus(status: unknown): StoreStatus {
+  if (!status) return 'pending';
+  const clean = String(status).trim().toLowerCase();
+  if (clean === 'active' || clean === 'approved') return 'active';
+  if (clean === 'suspended' || clean === 'inactive' || clean === 'locked') return 'suspended';
+  if (clean === 'rejected' || clean === 'declined') return 'rejected';
+  return 'pending';
+}
+
 interface StoreRow {
   id: string;
+  owner_id?: string | null;
   owner_email: string;
   name: string;
   slug: string;
@@ -37,6 +52,7 @@ interface StoreRow {
   prep_time_days?: number | null;
   categories: string | null;
   status: string;
+  approval_status?: string | null;
   review_note: string | null;
   approved_at: string | null;
   approved_by: string | null;
@@ -45,8 +61,10 @@ interface StoreRow {
 }
 
 export function toStore(row: StoreRow): Store {
+  const normStatus = normalizeStoreStatus(row.status || row.approval_status);
   return {
     id: row.id,
+    ownerId: row.owner_id || null,
     ownerEmail: row.owner_email,
     name: row.name,
     slug: row.slug,
@@ -65,7 +83,8 @@ export function toStore(row: StoreRow): Store {
       .split(',')
       .map((value) => value.trim())
       .filter(Boolean),
-    status: (STORE_STATUSES.includes(row.status as StoreStatus) ? row.status : 'pending') as StoreStatus,
+    status: normStatus,
+    approvalStatus: row.approval_status || (normStatus === 'active' ? 'approved' : normStatus),
     reviewNote: row.review_note,
     approvedAt: row.approved_at,
     approvedBy: row.approved_by,
@@ -98,12 +117,42 @@ export async function getStoreBySlug(slug: string): Promise<Store | null> {
   return row ? toStore(row) : null;
 }
 
-/** Cửa hàng của một tài khoản (tối đa một). */
-export async function getStoreByOwnerEmail(email: string): Promise<Store | null> {
-  const row = await queryOne<StoreRow>(`SELECT * FROM stores WHERE lower(owner_email) = ?`, [
-    email.trim().toLowerCase(),
-  ]);
+/**
+ * Tra cứu cửa hàng theo User ID hoặc Email chủ sở hữu.
+ * Đảm bảo liên kết nhất quán giữa tài khoản người dùng và cửa hàng.
+ */
+export async function getStoreByOwner(identifier: {
+  userId?: string | null;
+  email?: string | null;
+}): Promise<Store | null> {
+  const cleanEmail = identifier.email?.trim().toLowerCase();
+  const cleanId = identifier.userId?.trim();
+
+  let row: StoreRow | null = null;
+  if (cleanId) {
+    row = await queryOne<StoreRow>(`SELECT * FROM stores WHERE owner_id = ?`, [cleanId]);
+  }
+  if (!row && cleanEmail) {
+    row = await queryOne<StoreRow>(
+      `SELECT * FROM stores WHERE lower(owner_email) = ? OR owner_id = ?`,
+      [cleanEmail, cleanEmail]
+    );
+    // Tự động liên kết owner_id nếu hồ sơ shop chưa có nhưng đã xác định được userId
+    if (row && cleanId && !row.owner_id) {
+      await execute(`UPDATE stores SET owner_id = ? WHERE id = ?`, [cleanId, row.id]).catch(() => {});
+      row.owner_id = cleanId;
+    }
+  }
   return row ? toStore(row) : null;
+}
+
+/** Cửa hàng của một tài khoản (tìm qua email hoặc user ID). */
+export async function getStoreByOwnerEmail(email: string): Promise<Store | null> {
+  const clean = email.trim().toLowerCase();
+  return getStoreByOwner({
+    email: clean,
+    userId: clean.startsWith('usr_') ? clean : undefined,
+  });
 }
 
 export async function listStores(params: { status?: string | null; limit?: number } = {}): Promise<Store[]> {
@@ -137,6 +186,7 @@ async function uniqueSlug(name: string, excludeId?: string): Promise<string> {
 
 export interface CreateStoreInput {
   ownerEmail: string;
+  ownerId?: string | null;
   name: string;
   description?: string | null;
   phone?: string | null;
@@ -150,17 +200,24 @@ export interface CreateStoreInput {
   shippingPolicy?: string | null;
   prepTimeDays?: number | null;
   categories?: string[];
-  status?: StoreStatus;
+  status?: StoreStatus | 'approved' | string;
 }
 
 /**
  * Tạo cửa hàng cho một tài khoản. Ném lỗi rõ ràng nếu tài khoản đã có cửa hàng.
  * `status` mặc định là 'pending' — quyết định tự động kích hoạt hay chờ duyệt do phía gọi quyết định
  * dựa trên cấu hình SELLER_AUTO_APPROVE, KHÔNG do client gửi lên.
+ * Tự động liên kết owner_id từ tài khoản người dùng (users.id).
  */
 export async function createStore(input: CreateStoreInput): Promise<Store> {
   const ownerEmail = input.ownerEmail.trim().toLowerCase();
-  const existing = await getStoreByOwnerEmail(ownerEmail);
+  let ownerId = input.ownerId?.trim() || null;
+  if (!ownerId) {
+    const user = await getUserByEmail(ownerEmail);
+    if (user) ownerId = user.id;
+  }
+
+  const existing = await getStoreByOwner({ userId: ownerId, email: ownerEmail });
   if (existing) {
     const error = new Error('Tài khoản này đã có cửa hàng.');
     (error as any).existingStore = existing;
@@ -169,16 +226,18 @@ export async function createStore(input: CreateStoreInput): Promise<Store> {
 
   const id = `str_${crypto.randomUUID()}`;
   const now = new Date().toISOString();
-  const status: StoreStatus = input.status || 'pending';
+  const status: StoreStatus = normalizeStoreStatus(input.status);
+  const approvalStatus = status === 'active' ? 'approved' : status;
   const slug = await uniqueSlug(input.name);
 
   await execute(
-    `INSERT INTO stores (id, owner_email, name, slug, description, phone, contact_name, address_text,
-      address_note, lat, lng, logo_url, banner_url, shipping_policy, prep_time_days, categories, status, review_note, approved_at, approved_by,
+    `INSERT INTO stores (id, owner_id, owner_email, name, slug, description, phone, contact_name, address_text,
+      address_note, lat, lng, logo_url, banner_url, shipping_policy, prep_time_days, categories, status, approval_status, review_note, approved_at, approved_by,
       created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)`,
     [
       id,
+      ownerId,
       ownerEmail,
       input.name.trim(),
       slug,
@@ -195,6 +254,7 @@ export async function createStore(input: CreateStoreInput): Promise<Store> {
       input.prepTimeDays == null ? 1 : Number(input.prepTimeDays),
       (input.categories || []).join(', ') || null,
       status,
+      approvalStatus,
       status === 'active' ? now : null,
       status === 'active' ? ownerEmail : null,
       now,
@@ -268,12 +328,20 @@ export async function updateStoreProfile(
 
 export interface StoreReviewInput {
   storeId: string;
-  status: StoreStatus;
+  status: StoreStatus | 'approved' | string;
   note?: string | null;
   actorEmail: string;
 }
 
-/** Quản trị viên sàn duyệt / từ chối / tạm khóa / kích hoạt lại cửa hàng. */
+/**
+ * Quản trị viên sàn duyệt / từ chối / tạm khóa / kích hoạt lại cửa hàng.
+ * Khi duyệt (status = 'active' hoặc 'approved'):
+ *  1. Cập nhật trạng thái duyệt vào database (status = 'active', approval_status = 'approved').
+ *  2. Liên kết chặt chẽ shop với tài khoản người bán qua owner_id (users.id).
+ *  3. Nâng cấp vai trò người dùng trong bảng users (role = 'seller').
+ *  4. Tự động đảm bảo kho xuất hàng mặc định nếu chưa có.
+ *  5. Chạy an toàn, hoàn toàn idempotent (duyệt nhiều lần không tạo shop hay dữ liệu trùng).
+ */
 export async function reviewStore(input: StoreReviewInput): Promise<Store> {
   const store = await getStoreById(input.storeId);
   if (!store) {
@@ -283,12 +351,23 @@ export async function reviewStore(input: StoreReviewInput): Promise<Store> {
   }
 
   const now = new Date().toISOString();
-  const approved = input.status === 'active';
+  const targetStatus = normalizeStoreStatus(input.status);
+  const approved = targetStatus === 'active';
+  const approvalStatus = approved ? 'approved' : targetStatus;
+
+  // Tìm ID tài khoản để liên kết chặt chẽ nếu chưa có
+  let ownerId = store.ownerId;
+  if (!ownerId && store.ownerEmail) {
+    const user = await getUserByEmail(store.ownerEmail);
+    if (user) ownerId = user.id;
+  }
 
   await execute(
-    `UPDATE stores SET status = ?, review_note = ?, approved_at = ?, approved_by = ?, updated_at = ? WHERE id = ?`,
+    `UPDATE stores SET status = ?, approval_status = ?, owner_id = COALESCE(?, owner_id), review_note = ?, approved_at = ?, approved_by = ?, updated_at = ? WHERE id = ?`,
     [
-      input.status,
+      targetStatus,
+      approvalStatus,
+      ownerId,
       input.note?.trim() || null,
       approved ? store.approvedAt || now : null,
       approved ? input.actorEmail : null,
@@ -297,8 +376,30 @@ export async function reviewStore(input: StoreReviewInput): Promise<Store> {
     ]
   );
 
+  // Khi duyệt người bán: cập nhật vai trò tài khoản trong bảng users (role = 'seller')
+  if (store.ownerEmail) {
+    const cleanEmail = store.ownerEmail.trim().toLowerCase();
+    if (approved) {
+      await execute(
+        `UPDATE users SET role = 'seller', last_login_at = COALESCE(last_login_at, ?) WHERE lower(email) = ? OR id = ?`,
+        [now, cleanEmail, ownerId || '']
+      );
+    }
+  }
+
   const updated = await getStoreById(store.id);
   if (!updated) throw new Error('Không đọc lại được cửa hàng sau khi duyệt.');
+
+  // Tự động đảm bảo kho xuất hàng mặc định cho shop khi duyệt
+  if (approved) {
+    try {
+      const { ensureDefaultWarehouseForStore } = await import('./warehouses');
+      await ensureDefaultWarehouseForStore(updated);
+    } catch {
+      /* skip */
+    }
+  }
+
   return updated;
 }
 
@@ -323,8 +424,59 @@ export async function ensurePlatformStore(): Promise<Store> {
   });
 }
 
-export function isStoreSellable(status: StoreStatus): boolean {
-  return status === 'active';
+export function isStoreSellable(status: string | null | undefined): boolean {
+  return normalizeStoreStatus(status) === 'active';
+}
+
+/**
+ * Đồng bộ an toàn dữ liệu người bán & cửa hàng cũ (Yêu cầu số 7).
+ *  - Gán owner_id cho các shop còn thiếu
+ *  - Cập nhật role = 'seller' cho các chủ shop đã được duyệt
+ *  - Đảm bảo kho xuất hàng mặc định cho các shop active
+ */
+export async function syncApprovedStoresAndUsers(): Promise<{
+  syncedStores: number;
+  syncedUsers: number;
+  createdWarehouses: number;
+}> {
+  let syncedStores = 0;
+  let syncedUsers = 0;
+  let createdWarehouses = 0;
+
+  try {
+    const allStores = await query<StoreRow>(`SELECT * FROM stores`);
+    for (const row of allStores) {
+      const store = toStore(row);
+      const email = store.ownerEmail?.trim().toLowerCase();
+      if (!email) continue;
+
+      const user = await getUserByEmail(email);
+      if (user) {
+        if (!row.owner_id) {
+          await execute(`UPDATE stores SET owner_id = ? WHERE id = ?`, [user.id, store.id]);
+          syncedStores++;
+        }
+        if (store.status === 'active' && user.role !== 'seller' && user.role !== 'admin') {
+          await execute(`UPDATE users SET role = 'seller' WHERE id = ?`, [user.id]);
+          syncedUsers++;
+        }
+      }
+
+      if (store.status === 'active') {
+        try {
+          const { ensureDefaultWarehouseForStore } = await import('./warehouses');
+          await ensureDefaultWarehouseForStore(store);
+          createdWarehouses++;
+        } catch {
+          /* skip */
+        }
+      }
+    }
+  } catch (error) {
+    console.warn('syncApprovedStoresAndUsers warning:', error);
+  }
+
+  return { syncedStores, syncedUsers, createdWarehouses };
 }
 
 /**

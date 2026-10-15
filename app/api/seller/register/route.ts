@@ -137,6 +137,7 @@ export async function POST(request: NextRequest) {
     const passwordHash = hashPassword(String(body.password));
     let isUpgrade = false;
 
+    let userId = existingUser?.id;
     if (existingUser) {
       // Trường hợp 2: Email đã có tài khoản khách hàng trên sàn
       if (existingUser.password_hash) {
@@ -166,10 +167,11 @@ export async function POST(request: NextRequest) {
     } else {
       // Trường hợp 1: Email hoàn toàn mới
       const now = new Date().toISOString();
+      userId = `usr_${crypto.randomUUID()}`;
       await execute(
         `INSERT INTO users (id, email, name, avatar, role, provider, phone, password_hash, created_at, last_login_at)
          VALUES (?, ?, ?, NULL, 'seller', 'seller-password', ?, ?, ?, ?)`,
-        [`usr_${crypto.randomUUID()}`, email, contactName, phone, passwordHash, now, now]
+        [userId, email, contactName, phone, passwordHash, now, now]
       );
     }
 
@@ -178,6 +180,7 @@ export async function POST(request: NextRequest) {
 
     const store = await createStore({
       ownerEmail: email,
+      ownerId: userId,
       name: storeName,
       description,
       phone,
@@ -196,6 +199,7 @@ export async function POST(request: NextRequest) {
 
     // Phiên đăng nhập người bán (cookie httpOnly đã ký)
     const { token, payload, maxAge } = await establishSellerSession({
+      userId,
       email,
       name: contactName,
       userAgent: request.headers.get('user-agent'),

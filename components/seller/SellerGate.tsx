@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   AlertTriangle, BadgeCheck, Bell, BarChart3, ClipboardList, LayoutDashboard, Loader2, LogOut,
-  Package, PackagePlus, ShieldAlert, Store as StoreIcon, Truck, UserCircle, Warehouse as WarehouseIcon, XCircle,
+  Package, PackagePlus, RefreshCw, ShieldAlert, Store as StoreIcon, Truck, UserCircle, Warehouse as WarehouseIcon, XCircle,
 } from 'lucide-react';
 import { fetchSellerState, logoutSeller, type SellerAreaState } from '@/lib/client/sellerApi';
 import { logout as clearDisplayedAccount } from '@/lib/authStorage';
@@ -87,12 +87,19 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   const [state, setState] = useState<SellerAreaState | null>(null);
   const [loading, setLoading] = useState(true);
+  const [queryError, setQueryError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
     try {
+      setLoading(true);
+      setQueryError(null);
       const next = await fetchSellerState();
       setState(next);
-    } catch {
+      if (next?.queryError) {
+        setQueryError(next.queryError);
+      }
+    } catch (err: any) {
+      setQueryError(err?.message || 'Không thể kết nối đến máy chủ.');
       setState(null);
     } finally {
       setLoading(false);
@@ -115,17 +122,47 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   // đăng nhập — nếu bọc cổng kiểm tra phiên thì người bán không có cách nào vào.
   if (pathname === '/ban-hang/dang-nhap') return <>{children}</>;
 
+  // Trường hợp 1: Đang tải dữ liệu hồ sơ
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="flex items-center gap-2 text-sm text-lacquer-800/70">
-          <Loader2 className="w-4 h-4 animate-spin" />
-          <span>Đang kiểm tra phiên đăng nhập người bán...</span>
+          <Loader2 className="w-4 h-4 animate-spin text-terracotta-600" />
+          <span>Đang kiểm tra hồ sơ cửa hàng và phiên đăng nhập...</span>
         </div>
       </div>
     );
   }
 
+  // Trường hợp 2: Có lỗi kết nối / truy vấn cơ sở dữ liệu
+  if (queryError) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-4">
+        <div className="max-w-lg w-full bg-white rounded-3xl border border-rose-200 p-8 space-y-4 text-center shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+            <AlertTriangle className="w-7 h-7" />
+          </div>
+          <h1 className="font-serif text-xl font-bold text-lacquer-900">
+            Lỗi kết nối / truy vấn hồ sơ cửa hàng
+          </h1>
+          <p className="text-xs text-lacquer-800/70 leading-relaxed">
+            {queryError}
+          </p>
+          <div className="flex justify-center pt-2">
+            <button
+              onClick={refresh}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold shadow-sm"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Thử tải lại
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Trường hợp 3: Chưa đăng nhập hoặc tài khoản không phải người bán
   if (!state?.authenticated || !state.isSeller) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4">
@@ -134,11 +171,11 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
             <AlertTriangle className="w-7 h-7" />
           </div>
           <h1 className="font-serif text-xl font-bold text-lacquer-900">
-            {state?.authenticated ? 'Tài khoản này không phải tài khoản người bán' : 'Bạn cần đăng nhập tài khoản người bán'}
+            {state?.authenticated ? 'Tài khoản chưa có cửa hàng người bán' : 'Bạn cần đăng nhập tài khoản người bán'}
           </h1>
           <p className="text-xs text-lacquer-800/70 leading-relaxed">
             {state?.authenticated
-              ? 'Tài khoản đang đăng nhập là tài khoản khách hàng/quản trị nên không có quyền truy cập dữ liệu cửa hàng. Hãy đăng ký cửa hàng hoặc đăng nhập bằng tài khoản người bán.'
+              ? 'Tài khoản đang đăng nhập chưa có hồ sơ mở shop trên sàn Lang Thang. Hãy đăng ký mở cửa hàng để bắt đầu kinh doanh.'
               : 'Khu vực này chỉ dành cho tài khoản đã đăng ký bán hàng trên sàn. Mỗi tài khoản người bán có một cửa hàng riêng và chỉ thấy dữ liệu của cửa hàng mình.'}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
@@ -155,6 +192,41 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
             >
               <StoreIcon className="w-4 h-4" />
               Đăng ký bán hàng
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Trường hợp 4: Là tài khoản người bán nhưng hồ sơ cửa hàng chưa được liên kết
+  if (!state.store) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center px-4">
+        <div className="max-w-lg w-full bg-white rounded-3xl border border-amber-200 p-8 space-y-4 text-center shadow-sm">
+          <div className="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
+            <StoreIcon className="w-7 h-7" />
+          </div>
+          <h1 className="font-serif text-xl font-bold text-lacquer-900">
+            Chưa tìm thấy hồ sơ cửa hàng liên kết
+          </h1>
+          <p className="text-xs text-lacquer-800/70 leading-relaxed">
+            Hồ sơ cửa hàng của tài khoản “{state.email}” có thể đang chờ đồng bộ dữ liệu hoặc chưa hoàn tất thủ tục đăng ký.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+            <button
+              onClick={refresh}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Đồng bộ lại
+            </button>
+            <Link
+              href="/dang-ky-nguoi-ban"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold"
+            >
+              <StoreIcon className="w-4 h-4" />
+              Đăng ký cửa hàng
             </Link>
           </div>
         </div>

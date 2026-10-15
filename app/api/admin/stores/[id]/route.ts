@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, HttpError, jsonError, readJson } from '@/lib/server/http';
 import { requireAdminSession } from '@/lib/server/session';
-import { reviewStore, STORE_STATUSES, STORE_STATUS_META } from '@/lib/server/stores';
+import { normalizeStoreStatus, reviewStore, STORE_STATUSES, STORE_STATUS_META } from '@/lib/server/stores';
 import { createNotification } from '@/lib/server/notifications';
 import { sendSellerStoreReviewEmail } from '@/lib/server/email';
 import { getStoreById } from '@/lib/server/stores';
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 /**
  * PATCH /api/admin/stores/[id] — quản trị viên sàn duyệt / từ chối / tạm khóa / kích hoạt lại cửa hàng.
  *
- * Body: { status: 'active' | 'suspended' | 'rejected' | 'pending', note? }
+ * Body: { status: 'active' | 'approved' | 'suspended' | 'rejected' | 'pending', note? }
  *
  * Hệ quả nghiệp vụ (được kiểm tra ở tầng dữ liệu, không chỉ ở giao diện):
  *  - Cửa hàng không ở trạng thái 'active': sản phẩm KHÔNG hiển thị trên sàn và KHÔNG đặt được
@@ -25,14 +25,14 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
     const admin = requireAdminSession(request);
 
     const body = await readJson<{ status?: string; note?: string }>(request);
-    if (!STORE_STATUSES.includes(body.status as StoreStatus)) {
+    const status = normalizeStoreStatus(body.status);
+    if (!STORE_STATUSES.includes(status)) {
       throw new HttpError(
         `Trạng thái cửa hàng không hợp lệ. Giá trị cho phép: ${STORE_STATUSES.join(', ')}.`,
         400,
         'invalid_status'
       );
     }
-    const status = body.status as StoreStatus;
     const note = body.note?.trim() || null;
 
     const before = await getStoreById(params.id);

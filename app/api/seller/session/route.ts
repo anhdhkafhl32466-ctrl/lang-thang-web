@@ -74,6 +74,7 @@ export async function POST(request: NextRequest) {
     clearRateLimit(emailKey);
 
     const { token, payload, maxAge } = await establishSellerSession({
+      userId: user?.id,
       email,
       name: user?.name || null,
       userAgent: request.headers.get('user-agent'),
@@ -91,10 +92,11 @@ export async function POST(request: NextRequest) {
       ]
     );
 
-    const store = await getStoreByOwnerEmail(email);
+    const { getStoreByOwner } = await import('@/lib/server/stores');
+    const store = await getStoreByOwner({ userId: user?.id, email });
     const response = NextResponse.json({
       ok: true,
-      user: { email: payload.userEmail, name: payload.name, role: payload.role },
+      user: { id: payload.userId, email: payload.userEmail, name: payload.name, role: payload.role },
       store,
       statusMessage: store
         ? STORE_STATUS_META[store.status].description

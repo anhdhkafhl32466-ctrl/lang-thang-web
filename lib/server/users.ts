@@ -55,10 +55,17 @@ export async function upsertUser(params: {
   const existing = await getUserByEmail(email);
 
   if (existing) {
-    // Không bao giờ HẠ QUYỀN một tài khoản quản trị đã có: một đường đăng nhập yếu hơn (ví dụ email
-    // kiểm tra MX) không được phép biến quyền admin thành member và khoá chủ website ra ngoài.
-    const role = existing.role === 'admin' ? 'admin' : params.role;
-    await execute(`UPDATE users SET name = ?, avatar = ?, role = ?, provider = ?, last_login_at = ? WHERE email = ?`, [
+    // Không bao giờ HẠ QUYỀN một tài khoản đã có:
+    // 1. Tài khoản admin không bao giờ bị hạ xuống member hoặc seller.
+    // 2. Tài khoản seller không bao giờ bị hạ xuống member khi đăng nhập qua Google hay email.
+    let role = params.role;
+    if (existing.role === 'admin') {
+      role = 'admin';
+    } else if (existing.role === 'seller' && params.role === 'member') {
+      role = 'seller';
+    }
+
+    await execute(`UPDATE users SET name = COALESCE(?, name), avatar = COALESCE(?, avatar), role = ?, provider = COALESCE(provider, ?), last_login_at = ? WHERE email = ?`, [
       params.name ?? existing.name,
       params.avatar ?? existing.avatar,
       role,
@@ -113,4 +120,28 @@ export async function listRecentSessions(email: string, limit = 20): Promise<any
   return query(`SELECT * FROM sessions WHERE user_email = ? ORDER BY issued_at DESC LIMIT ${Number(limit) || 20}`, [
     email.trim().toLowerCase(),
   ]);
+}
+
+export { hashPassword, verifyPassword } from './password';
+
+export async function createUser(params: {
+  email: string;
+  name?: string | null;
+  avatar?: string | null;
+  role?: UserRole;
+  provider?: string;
+  phone?: string | null;
+  hashedPassword?: string | null;
+}): Promise<DbUser> {
+  const user = await upsertUser({
+    email: params.email,
+    name: params.name,
+    avatar: params.avatar,
+    role: params.role || 'member',
+    provider: params.provider || 'password',
+  });
+  if (params.hashedPassword) {
+    await setUserPassword(params.email, params.hashedPassword, params.phone);
+  }
+  return (await getUserByEmail(params.email)) || user;
 }

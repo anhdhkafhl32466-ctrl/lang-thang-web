@@ -12,7 +12,7 @@
 
 import type { NextRequest } from 'next/server';
 import { getAdminEmail } from '@/lib/config/commerce';
-import { getStoreByOwnerEmail, STORE_STATUS_META } from './stores';
+import { getStoreByOwner, getStoreByOwnerEmail, isStoreSellable, STORE_STATUS_META } from './stores';
 import { getSession, type SessionPayload } from './session';
 import { HttpError, normalizeEmail } from './http';
 import type { Store } from '@/lib/orders/types';
@@ -43,13 +43,7 @@ export async function requireSeller(
       'unauthenticated'
     );
   }
-  if (session.role !== 'seller') {
-    throw new HttpError(
-      'Tài khoản này không phải tài khoản người bán. Nếu bạn muốn bán hàng trên sàn, hãy đăng ký cửa hàng.',
-      403,
-      'not_a_seller'
-    );
-  }
+
   if (session.userEmail === getAdminEmail()) {
     // Quản trị viên sàn quản lý toàn sàn ở /admin; không dùng khu vực người bán để tránh nhập nhằng quyền.
     throw new HttpError(
@@ -59,7 +53,22 @@ export async function requireSeller(
     );
   }
 
-  const store = await getStoreByOwnerEmail(session.userEmail);
+  // Tra cứu cửa hàng theo cả ID tài khoản và email đã xác thực
+  let store: Store | null = null;
+  try {
+    store = await getStoreByOwner({
+      userId: session.userId,
+      email: session.userEmail,
+    });
+  } catch (dbError: any) {
+    throw new HttpError(
+      'Lỗi khi truy vấn hồ sơ cửa hàng từ cơ sở dữ liệu. Vui lòng thử lại sau ít phút.',
+      500,
+      'database_error',
+      { originalError: dbError?.message }
+    );
+  }
+
   if (!store) {
     throw new HttpError(
       'Tài khoản này chưa có hồ sơ cửa hàng. Vui lòng hoàn tất đăng ký người bán.',
@@ -68,8 +77,10 @@ export async function requireSeller(
     );
   }
 
-  if (requireActive && store.status !== 'active') {
-    const meta = STORE_STATUS_META[store.status];
+  // Phân quyền an toàn: Tài khoản sở hữu hồ sơ shop hợp lệ
+  const canSell = isStoreSellable(store.status);
+  if (requireActive && !canSell) {
+    const meta = STORE_STATUS_META[store.status] || STORE_STATUS_META.pending;
     throw new HttpError(
       `Cửa hàng đang ở trạng thái "${meta.label}". ${meta.description}`,
       403,
@@ -78,42 +89,74 @@ export async function requireSeller(
     );
   }
 
-  return { session, store, sellerEmail: session.userEmail };
+  return { session, store, sellerEmail: store.ownerEmail || session.userEmail };
 }
 
-/** Thông tin khu vực người bán cho giao diện: cho phép null khi chưa đăng nhập hoặc chưa có cửa hàng. */
+/** Thông tin khu vực người bán cho giao diện: phân biệt rõ loading, lỗi truy vấn, chưa đăng ký và đã có shop */
 export async function getSellerAreaState(request: NextRequest | Request): Promise<{
   authenticated: boolean;
   isSeller: boolean;
+  userId: string | null;
   email: string | null;
   name: string | null;
   store: Store | null;
   /** Lý do chưa dùng được khu vực bán hàng (nếu có) — hiển thị rõ cho người dùng. */
   blockedReason: string | null;
   canSell: boolean;
+  queryError?: string | null;
 }> {
   const session = getSession(request);
   if (!session) {
-    return { authenticated: false, isSeller: false, email: null, name: null, store: null, blockedReason: null, canSell: false };
+    return {
+      authenticated: false,
+      isSeller: false,
+      userId: null,
+      email: null,
+      name: null,
+      store: null,
+      blockedReason: null,
+      canSell: false,
+    };
   }
 
-  const isSeller = session.role === 'seller';
-  const store = isSeller ? await getStoreByOwnerEmail(session.userEmail) : null;
-  const canSell = Boolean(store && store.status === 'active');
+  let store: Store | null = null;
+  let queryError: string | null = null;
+
+  try {
+    store = await getStoreByOwner({
+      userId: session.userId,
+      email: session.userEmail,
+    });
+  } catch (err: any) {
+    queryError = err?.message || 'Lỗi truy vấn cơ sở dữ liệu hồ sơ shop.';
+  }
+
+  // Người dùng là người bán nếu role là 'seller' HOẶC họ đã sở hữu hồ sơ cửa hàng
+  const isSeller = session.role === 'seller' || Boolean(store);
+  const canSell = Boolean(store && isStoreSellable(store.status));
 
   let blockedReason: string | null = null;
-  if (!isSeller) blockedReason = 'Tài khoản này không phải tài khoản người bán.';
-  else if (!store) blockedReason = 'Chưa có hồ sơ cửa hàng.';
-  else if (!canSell) blockedReason = `${STORE_STATUS_META[store.status].label}: ${STORE_STATUS_META[store.status].description}`;
+  if (queryError) {
+    blockedReason = `Lỗi truy vấn cơ sở dữ liệu: ${queryError}`;
+  } else if (!isSeller) {
+    blockedReason = 'Tài khoản này chưa đăng ký mở cửa hàng trên sàn.';
+  } else if (!store) {
+    blockedReason = 'Chưa tìm thấy hồ sơ cửa hàng liên kết với tài khoản này.';
+  } else if (!canSell) {
+    const meta = STORE_STATUS_META[store.status] || STORE_STATUS_META.pending;
+    blockedReason = `${meta.label}: ${meta.description}`;
+  }
 
   return {
     authenticated: true,
     isSeller,
+    userId: session.userId || null,
     email: session.userEmail,
     name: session.name,
     store,
     blockedReason,
     canSell,
+    queryError,
   };
 }
 

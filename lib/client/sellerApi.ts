@@ -37,11 +37,13 @@ export interface ApiFailure {
 export interface SellerAreaState {
   authenticated: boolean;
   isSeller: boolean;
+  userId?: string | null;
   email: string | null;
   name: string | null;
   store: Store | null;
   blockedReason: string | null;
   canSell: boolean;
+  queryError?: string | null;
   services?: {
     email: boolean;
     push: boolean;

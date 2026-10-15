@@ -224,9 +224,12 @@ CREATE INDEX IF NOT EXISTS idx_email_log_order ON email_log (order_id);
 CREATE INDEX IF NOT EXISTS idx_stores_owner ON stores (owner_email);
 CREATE INDEX IF NOT EXISTS idx_stores_status ON stores (status);
 CREATE INDEX IF NOT EXISTS idx_products_store ON products (store_id);
-CREATE INDEX IF NOT EXISTS idx_seller_orders_store ON seller_orders (store_id, created_at);
 CREATE INDEX IF NOT EXISTS idx_seller_orders_order ON seller_orders (order_id);
 CREATE INDEX IF NOT EXISTS idx_seller_orders_status ON seller_orders (status);
+
+ALTER TABLE stores ADD COLUMN owner_id TEXT;
+ALTER TABLE stores ADD COLUMN approval_status TEXT;
+CREATE INDEX IF NOT EXISTS idx_stores_owner_id ON stores (owner_id);
 
 -- Nạp danh mục sản phẩm lần đầu: ứng dụng tự thực hiện (lib/server/seed.ts) và
 -- KHÔNG ghi đè giá/tồn kho nếu bản ghi đã tồn tại, để chỉnh sửa của người vận

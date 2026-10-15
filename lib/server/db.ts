@@ -155,7 +155,7 @@ async function rawExecuteCount(sql: string, params: SqlParam[] = []): Promise<nu
 }
 
 async function ready(): Promise<void> {
-  if (initDone) return;
+  if (initDone || initializing) return;
   if (initPromise) return initPromise;
   await ensureDbReady();
 }
@@ -276,6 +276,9 @@ export async function ensureDbReady(): Promise<void> {
 
       const { seedCatalog } = await import('./seed');
       await seedCatalog();
+
+      const { syncApprovedStoresAndUsers } = await import('./stores');
+      await syncApprovedStoresAndUsers();
     } finally {
       initializing = false;
     }

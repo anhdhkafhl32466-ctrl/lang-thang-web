@@ -22,6 +22,7 @@ export const SCHEMA_STATEMENTS: string[] = [
    */
   `CREATE TABLE IF NOT EXISTS stores (
     id TEXT PRIMARY KEY,
+    owner_id TEXT,
     owner_email TEXT NOT NULL,
     name TEXT NOT NULL,
     slug TEXT NOT NULL UNIQUE,
@@ -35,6 +36,7 @@ export const SCHEMA_STATEMENTS: string[] = [
     logo_url TEXT,
     categories TEXT,
     status TEXT NOT NULL DEFAULT 'pending',
+    approval_status TEXT,
     review_note TEXT,
     approved_at TEXT,
     approved_by TEXT,
@@ -284,10 +286,13 @@ export const SCHEMA_MIGRATIONS: string[] = [
   `ALTER TABLE stores ADD COLUMN shipping_policy TEXT`,
   `ALTER TABLE stores ADD COLUMN prep_time_days INTEGER DEFAULT 1`,
   `ALTER TABLE stores ADD COLUMN banner_url TEXT`,
+  `ALTER TABLE stores ADD COLUMN owner_id TEXT`,
+  `ALTER TABLE stores ADD COLUMN approval_status TEXT`,
 
   // Chỉ mục trên cột VỪA được thêm bằng ALTER ở trên: phải đặt SAU các câu ALTER, vì với cơ sở dữ
   // liệu mới tạo, `CREATE INDEX ... (store_id)` chạy trước khi cột tồn tại sẽ làm hỏng cả bước khởi
   // tạo schema (bảng products gốc chưa có cột store_id). Chạy lại an toàn nhờ "already exists".
   `CREATE INDEX IF NOT EXISTS idx_products_store ON products (store_id)`,
   `CREATE INDEX IF NOT EXISTS idx_products_warehouse ON products (warehouse_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_stores_owner_id ON stores (owner_id)`,
 ];
