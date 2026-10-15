@@ -110,9 +110,19 @@ export default function Footer() {
           {/* Col 4: Trải nghiệm & Du lịch */}
           <div className="space-y-3">
             <h3 className="font-serif text-base font-semibold text-white tracking-wide border-l-2 border-terracotta-500 pl-2">
-              Trải Nghiệm Số
+              Trải Nghiệm & Chợ Di Sản
             </h3>
             <ul className="space-y-2 text-sm text-dopaper-200/80">
+              <li>
+                <Link href="/cua-hang" className="hover:text-terracotta-400 transition-colors">
+                  🏬 Gian hàng & Xưởng nghề
+                </Link>
+              </li>
+              <li>
+                <Link href="/san-pham" className="hover:text-terracotta-400 transition-colors">
+                  🛍️ Sàn tác phẩm thủ công OCOP
+                </Link>
+              </li>
               <li>
                 <Link href="/trai-nghiem/gom" className="hover:text-terracotta-400 transition-colors">
                   🏺 Xưởng gốm ảo Bát Tràng
@@ -133,15 +143,10 @@ export default function Footer() {
                   🧭 Tour & Workshop thực tế
                 </Link>
               </li>
-              <li>
-                <Link href="/san-pham" className="hover:text-terracotta-400 transition-colors">
-                  🛍️ Sàn sản phẩm tinh hoa
-                </Link>
-              </li>
             </ul>
           </div>
 
-          {/* Col 5: Dành cho đối tác & Startup */}
+          {/* Col 5: Dành cho đối tác & Nghệ nhân */}
           <div className="space-y-3">
             <h3 className="font-serif text-base font-semibold text-white tracking-wide border-l-2 border-terracotta-500 pl-2">
               Hợp Tác Phát Triển
@@ -149,15 +154,20 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-dopaper-200/80">
               <li>
                 <Link
-                  href="/chia-se-lang-nghe"
+                  href="/dang-ky-nguoi-ban"
                   className="inline-flex items-center gap-1.5 text-gold-400 hover:text-gold-300 font-medium"
                 >
-                  <span>Gửi thông tin làng nghề</span>
+                  <span>Mở gian hàng nghệ nhân</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </li>
               <li>
-                <span className="text-xs text-dopaper-300/60 block">Dành cho nghệ nhân & cơ sở sản xuất</span>
+                <Link
+                  href="/chia-se-lang-nghe"
+                  className="hover:text-terracotta-400 transition-colors text-xs"
+                >
+                  Đóng góp tư liệu làng nghề
+                </Link>
               </li>
               <li className="pt-2">
                 <Link href="/admin" className="text-dopaper-300/60 hover:text-dopaper-100 text-xs flex items-center gap-1">
@@ -166,7 +176,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li className="text-xs text-dopaper-300/60 pt-2">
-                Dự án khởi nghiệp đổi mới sáng tạo ứng dụng công nghệ bảo tồn di sản văn hóa Việt Nam.
+                Nền tảng công nghệ số bảo tồn di sản, tôn vinh nghệ nhân và phát triển kinh tế bền vững cho các làng nghề truyền thống Hà Nội.
               </li>
             </ul>
           </div>
@@ -174,12 +184,12 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-dopaper-300/60 gap-4">
-          <p>© {new Date().getFullYear()} Làng Nghề Hà Nội. Bảo tồn & Tinh hoa Di sản Việt Nam.</p>
+          <p>© {new Date().getFullYear()} Lang Thang — Làng Nghề Hà Nội. Bảo tồn & Tinh hoa Di sản Văn hóa Việt Nam.</p>
           <div className="flex items-center gap-6">
-            <span>Dữ liệu mẫu phục vụ trình diễn MVP</span>
+            <span>Đồng hành cùng nghệ nhân Thủ đô</span>
             <span className="hidden sm:inline">•</span>
             <span className="flex items-center gap-1">
-              Được thiết kế với <Heart className="w-3 h-3 text-terracotta-500 fill-terracotta-500" /> dành cho Hà Nội
+              Xây dựng với <Heart className="w-3 h-3 text-terracotta-500 fill-terracotta-500" /> dành cho di sản Tràng An
             </span>
           </div>
         </div>

@@ -11,13 +11,15 @@ export default function HeroSection() {
       <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:20px_20px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        {/* Top Header Badge */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-sm border border-terracotta-200 text-xs sm:text-sm text-terracotta-800 font-semibold shadow-sm">
+        {/* Editorial Cultural Masthead Note above Banner */}
+        <div className="flex flex-wrap items-center justify-between gap-3 pt-1 border-b border-terracotta-200/50 pb-3">
+          <div className="inline-flex items-center gap-2.5 text-xs text-lacquer-800/80 font-medium">
             <span className="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse" />
-            <span>Cổng thông tin & Trải nghiệm Di sản Làng nghề Hà Nội</span>
+            <span className="font-serif italic text-terracotta-700">Chuyên mục Di sản Thủ đô</span>
+            <span className="text-terracotta-300">•</span>
+            <span className="tracking-wide">Số hóa không gian văn hóa &amp; Làng nghề truyền thống Thăng Long</span>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gold-100 text-gold-900 text-xs font-bold border border-gold-300 shadow-sm">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/15 text-gold-900 text-xs font-semibold border border-gold-400/30">
             <Award className="w-3.5 h-3.5 text-gold-600" />
             <span>327 Làng nghề được công nhận</span>
           </div>
@@ -66,6 +68,13 @@ export default function HeroSection() {
               <span>Bản đồ ranh giới</span>
             </Link>
             <Link
+              href="/cua-hang"
+              className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-dopaper-100 text-lacquer-900 text-xs sm:text-sm font-bold border border-terracotta-200 shadow-sm transition-all"
+            >
+              <Heart className="w-4 h-4 text-terracotta-600" />
+              <span>Chợ di sản &amp; Xưởng nghề</span>
+            </Link>
+            <Link
               href="/trai-nghiem"
               className="hidden md:inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gold-400/20 hover:bg-gold-400/30 text-lacquer-900 text-xs sm:text-sm font-bold border border-gold-300 shadow-sm transition-all"
             >
@@ -80,7 +89,7 @@ export default function HeroSection() {
           {/* Card 1: Bản đồ phân vùng */}
           <Link
             href="/lang-nghe"
-            className="bg-white p-5 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all group flex flex-col justify-between"
+            className="bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all group flex flex-col justify-between"
           >
             <div className="space-y-2">
               <div className="w-10 h-10 rounded-2xl bg-terracotta-100 flex items-center justify-center text-terracotta-600 group-hover:scale-110 transition-transform">
@@ -102,14 +111,14 @@ export default function HeroSection() {
           {/* Card 2: Trải nghiệm tương tác làm nghề */}
           <Link
             href="/trai-nghiem"
-            className="bg-white p-5 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-gold-400 transition-all group flex flex-col justify-between"
+            className="bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-gold-400 transition-all group flex flex-col justify-between"
           >
             <div className="space-y-2">
               <div className="w-10 h-10 rounded-2xl bg-gold-100 flex items-center justify-center text-gold-700 group-hover:scale-110 transition-transform">
                 <Sparkles className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-lacquer-900 group-hover:text-gold-700 transition-colors">
-                Trải nghiệm làm nghề ảo & Canvas
+                Trải nghiệm làm nghề ảo &amp; Canvas
               </h3>
               <p className="text-xs text-lacquer-800/70 leading-relaxed">
                 Tự tay nắn vuốt bình gốm Bát Tràng, đan vành nón Chuông ngay trên màn hình và nhận mộc Hộ chiếu làng nghề độc bản.
@@ -121,24 +130,24 @@ export default function HeroSection() {
             </div>
           </Link>
 
-          {/* Card 3: Sàn thủ công OCOP */}
+          {/* Card 3: Sàn thủ công OCOP & Cửa hàng xưởng nghề */}
           <Link
-            href="/san-pham"
-            className="bg-white p-5 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all group flex flex-col justify-between"
+            href="/cua-hang"
+            className="bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all group flex flex-col justify-between"
           >
             <div className="space-y-2">
               <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 group-hover:scale-110 transition-transform">
                 <Heart className="w-5 h-5" />
               </div>
               <h3 className="font-serif text-lg font-bold text-lacquer-900 group-hover:text-emerald-700 transition-colors">
-                Kết nối nghệ nhân & Sản phẩm OCOP
+                Chợ di sản &amp; Xưởng thủ công OCOP
               </h3>
               <p className="text-xs text-lacquer-800/70 leading-relaxed">
-                Ủng hộ trực tiếp các nghệ nhân với sản phẩm khảm trai Chuôn Ngọ, sơn mài Hạ Thái, tăm hương thảo mộc và lụa Vạn Phúc.
+                Ủng hộ trực tiếp các xưởng nghề: gốm men rạn Bát Tràng, lụa Vạn Phúc, hương thảo mộc Quảng Phú Cầu và mây tre Phú Vinh.
               </p>
             </div>
             <div className="pt-4 mt-2 border-t border-emerald-100 flex items-center justify-between text-xs font-bold text-emerald-700">
-              <span>Xem gian hàng thủ công</span>
+              <span>Khám phá các xưởng nghề</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>

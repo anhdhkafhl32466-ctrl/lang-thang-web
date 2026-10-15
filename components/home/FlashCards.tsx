@@ -49,15 +49,15 @@ export default function FlashCards() {
         </div>
 
         {/* Filter Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar">
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar">
           {filterTabs.map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveCategory(tab.id)}
-              className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap transition-all ${
+              className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                 activeCategory === tab.id
-                  ? 'bg-terracotta-500 text-white shadow-md shadow-terracotta-500/20'
-                  : 'bg-dopaper-100 text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200/60'
+                  ? 'bg-lacquer-900 text-white shadow-sm'
+                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200/60'
               }`}
             >
               {tab.label}
@@ -65,86 +65,146 @@ export default function FlashCards() {
           ))}
         </div>
 
-        {/* Flash Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {filteredVillages.map((village) => (
-            <div
-              key={village.id}
-              className="group relative bg-white rounded-3xl border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400/80 transition-all duration-300 flex flex-col overflow-hidden"
-            >
-              {/* Image Container with Zoom & Badge */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                <img
-                  src={village.heroImage}
-                  alt={village.name}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+        {/* EDITORIAL SHOWCASE: Featured Lead Story (Village #0) */}
+        {filteredVillages.length > 0 && (
+          <div className="mb-12 bg-white rounded-3xl border border-terracotta-200/90 overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 group">
+            <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[440px] overflow-hidden bg-gray-100">
+              <img
+                src={filteredVillages[0].heroImage}
+                alt={filteredVillages[0].name}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-lacquer-950/70 via-transparent to-black/20" />
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-xs font-bold text-terracotta-800 shadow">
+                {filteredVillages[0].category}
+              </div>
+              <div className="absolute bottom-4 left-4 text-white">
+                <div className="flex items-center gap-1.5 text-xs font-medium text-gold-300">
+                  <MapPin className="w-4 h-4" />
+                  <span>{filteredVillages[0].location.district}, Hà Nội</span>
+                </div>
+              </div>
+            </div>
 
-                {/* Craft Category Badge */}
-                <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/90 backdrop-blur-sm text-xs font-bold text-terracotta-700 shadow-sm">
-                  {village.category}
+            <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-xs font-semibold text-terracotta-700 uppercase tracking-widest">
+                  <span>Tiêu điểm di sản</span>
+                  <span>•</span>
+                  <span>{filteredVillages[0].history.originPeriod}</span>
                 </div>
 
-                {/* Distance / Location Badge */}
-                <div className="absolute bottom-3 left-3 flex items-center gap-1 text-white text-xs font-medium drop-shadow">
-                  <MapPin className="w-3.5 h-3.5 text-gold-400" />
-                  <span>{village.location.district}</span>
-                </div>
+                <h3 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
+                  {filteredVillages[0].name}
+                </h3>
 
-                {/* Game badge if available */}
-                {village.gameUrl && (
-                  <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-gold-500/90 text-white text-[11px] font-bold flex items-center gap-1 shadow">
-                    <Sparkles className="w-3 h-3" />
-                    <span>Có mini-game</span>
-                  </div>
-                )}
+                <blockquote className="border-l-2 border-gold-500 pl-4 py-1 italic text-xs sm:text-sm text-lacquer-800/85">
+                  "{filteredVillages[0].tagline}"
+                </blockquote>
+
+                <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
+                  {filteredVillages[0].shortDescription}
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-2">
+                  {(filteredVillages[0].tags || []).slice(0, 3).map((sig, idx) => (
+                    <span
+                      key={idx}
+                      className="px-2.5 py-1 rounded-lg bg-dopaper-100 border border-terracotta-200/60 text-[11px] font-medium text-lacquer-900"
+                    >
+                      {sig}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              {/* Card Body */}
-              <div className="p-5 flex-1 flex flex-col justify-between">
-                <div>
-                  <h3 className="font-serif text-xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
+              <div className="pt-6 border-t border-terracotta-100 flex items-center justify-between">
+                {filteredVillages[0].gameUrl ? (
+                  <Link
+                    href={filteredVillages[0].gameUrl}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-gold-700 hover:text-gold-800"
+                  >
+                    <Sparkles className="w-4 h-4 text-gold-600" />
+                    <span>Trải nghiệm xưởng ảo</span>
+                  </Link>
+                ) : (
+                  <span className="text-xs text-lacquer-800/50">Di sản sống Thăng Long</span>
+                )}
+
+                <Link
+                  href={`/lang-nghe/${filteredVillages[0].slug}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold transition-all shadow-sm group-hover:translate-x-0.5"
+                >
+                  <span>Khám phá làng nghề</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Secondary Editorial Stories Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {filteredVillages.slice(1).map((village) => (
+            <article
+              key={village.id}
+              className="group bg-white rounded-3xl border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400/80 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+            >
+              <div>
+                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                  <img
+                    src={village.heroImage}
+                    alt={village.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[11px] font-bold text-terracotta-700 shadow">
+                    {village.category}
+                  </div>
+                  <div className="absolute bottom-3 left-3 flex items-center gap-1 text-white text-xs font-medium drop-shadow">
+                    <MapPin className="w-3.5 h-3.5 text-gold-400" />
+                    <span>{village.location.district}</span>
+                  </div>
+                  {village.gameUrl && (
+                    <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-gold-500 text-white text-[10px] font-bold flex items-center gap-1 shadow">
+                      <Sparkles className="w-3 h-3" />
+                      <span>Mini-game</span>
+                    </div>
+                  )}
+                </div>
+
+                <div className="p-6 space-y-3">
+                  <div className="text-[11px] text-terracotta-600 font-semibold uppercase tracking-wider">
+                    {village.history.originPeriod}
+                  </div>
+                  <h3 className="font-serif text-lg font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors line-clamp-1">
                     {village.name}
                   </h3>
-
-                  {/* Catchy tagline quote */}
-                  <div className="mt-2 pl-3 border-l-2 border-terracotta-400 italic text-xs text-lacquer-800/80 line-clamp-2">
+                  <div className="pl-3 border-l-2 border-gold-400 italic text-xs text-lacquer-800/80 line-clamp-2">
                     "{village.tagline}"
                   </div>
-
-                  <p className="text-xs text-lacquer-800/70 mt-3 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-lacquer-800/70 line-clamp-2 leading-relaxed">
                     {village.shortDescription}
                   </p>
                 </div>
+              </div>
 
-                {/* Action Buttons */}
-                <div className="mt-5 pt-4 border-t border-terracotta-100 flex items-center justify-between gap-2">
-                  {village.gameUrl ? (
-                    <Link
-                      href={village.gameUrl}
-                      className="text-xs text-terracotta-600 hover:text-terracotta-700 font-bold flex items-center gap-1"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-gold-500" />
-                      <span>Thử làm nghề ảo</span>
-                    </Link>
-                  ) : (
-                    <span className="text-xs text-lacquer-800/50">
-                      {village.history.originPeriod}
-                    </span>
-                  )}
-
+              <div className="p-6 pt-0">
+                <div className="pt-4 border-t border-terracotta-100 flex items-center justify-between">
+                  <span className="text-[11px] text-lacquer-800/60 font-medium">
+                    {village.location.distanceFromCenter} từ trung tâm
+                  </span>
                   <Link
                     href={`/lang-nghe/${village.slug}`}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-dopaper-100 hover:bg-terracotta-500 hover:text-white text-lacquer-900 text-xs font-semibold border border-terracotta-200 transition-all group-hover:bg-terracotta-500 group-hover:text-white group-hover:border-transparent"
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-terracotta-600 hover:text-terracotta-700 group-hover:translate-x-1 transition-transform"
                   >
-                    <span>Khám phá</span>
+                    <span>Xem câu chuyện</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>

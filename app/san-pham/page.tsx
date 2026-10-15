@@ -55,11 +55,11 @@ export default function CraftProductsPage() {
             <span>Sàn Tinh Hoa Thủ Công Mỹ Nghệ</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Mua sản phẩm từ làng nghề Hà Nội
+            Tuyệt Tác Thủ Công Làng Nghề Hà Nội
           </h1>
-          <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
-            Đặt hàng trực tiếp trên website: đơn được lưu trong hệ thống, xác nhận địa chỉ nhận hàng trên
-            bản đồ và theo dõi tiến trình giao hàng từ kho Đại học FPT Hòa Lạc.
+          <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed max-w-2xl mx-auto">
+            Trực tiếp kết nối tới các lò gốm, khung cửi và xưởng thủ công mỹ nghệ. Đơn hàng được xác thực trong hệ thống,
+            vận chuyển cẩn trọng từ chính xưởng của nghệ nhân đến tận tay bạn.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-2 pt-1">

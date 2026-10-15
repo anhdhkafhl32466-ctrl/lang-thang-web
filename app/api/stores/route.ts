@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listStores } from '@/lib/server/stores';
+import { listStores, isSyntheticOrTestStore } from '@/lib/server/stores';
 import { query } from '@/lib/server/db';
 import { jsonError } from '@/lib/server/http';
 
@@ -7,10 +7,13 @@ export const dynamic = 'force-dynamic';
 
 /**
  * GET /api/stores — Danh sách cửa hàng làng nghề đang hoạt động công khai trên sàn.
+ * Lọc nghiêm ngặt các hồ sơ thử nghiệm, chỉ hiển thị cửa hàng di sản thật đã được duyệt.
  */
 export async function GET() {
   try {
-    const stores = await listStores({ status: 'active', limit: 100 });
+    const rawStores = await listStores({ status: 'active', limit: 100 });
+    // Loại trừ dữ liệu rác/test theo Mục V của đặc tả
+    const stores = rawStores.filter((s) => !isSyntheticOrTestStore(s));
 
     // Đếm số sản phẩm đang mở bán cho mỗi cửa hàng
     const countRows = await query<{ store_id: string; product_count: number }>(

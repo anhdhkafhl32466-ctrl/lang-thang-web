@@ -33,6 +33,60 @@ export function normalizeStoreStatus(status: unknown): StoreStatus {
   return 'pending';
 }
 
+/**
+ * Nhận diện cửa hàng giả lập hoặc tạo bởi script kiểm thử E2E để loại trừ khỏi danh sách công khai.
+ * Tuân thủ nghiêm ngặt Mục V của tài liệu: Phân biệt dữ liệu kiểm thử và hồ sơ người bán thật,
+ * tuyệt đối không hiển thị tên shop chuỗi ngẫu nhiên (mvokkgldz, timestamp) hoặc mô tả test trên sàn.
+ */
+export function isSyntheticOrTestStore(store: {
+  name?: string | null;
+  ownerEmail?: string | null;
+  description?: string | null;
+  slug?: string | null;
+}): boolean {
+  const email = (store.ownerEmail || '').toLowerCase().trim();
+  const desc = (store.description || '').toLowerCase().trim();
+  const name = (store.name || '').toLowerCase().trim();
+  const slug = (store.slug || '').toLowerCase().trim();
+
+  // 1. Email từ domain test hoặc script E2E
+  if (
+    email.endsWith('@example.com') ||
+    email.endsWith('@langthang.test') ||
+    email.endsWith('@craft.test') ||
+    email.includes('e2e-seller') ||
+    email.includes('test_seller') ||
+    email.includes('test_legacy') ||
+    email.includes('unapproved_') ||
+    email.includes('artisan_1792')
+  ) {
+    return true;
+  }
+
+  // 2. Mô tả chứa dấu hiệu của script kiểm thử
+  if (
+    desc.includes('kiểm thử đầu-cuối') ||
+    desc.includes('script kiểm thử') ||
+    desc.includes('e2e test') ||
+    desc.includes('cửa hàng tạo bởi script') ||
+    desc.includes('cửa hàng mẫu để xem giao diện')
+  ) {
+    return true;
+  }
+
+  // 3. Tên hoặc slug chứa chuỗi ngẫu nhiên sinh ra từ test
+  if (
+    name.includes('test') ||
+    name.includes('thử nghiệm') ||
+    name.includes('cửa hàng demo') ||
+    /\b(mvokkgldz|[a-z0-9]{8,15})\b/i.test(slug) && (slug.includes('test') || slug.includes('e2e') || slug.includes('shop-'))
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
 interface StoreRow {
   id: string;
   owner_id?: string | null;

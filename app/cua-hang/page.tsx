@@ -86,28 +86,28 @@ export default function CraftShopsDirectoryPage() {
   return (
     <div className="min-h-screen bg-dopaper-50 py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        {/* Banner tiêu đề phong cách văn hoá làng nghề */}
-        <div className="relative rounded-3xl bg-gradient-to-r from-lacquer-950 via-terracotta-900 to-lacquer-900 text-dopaper-100 p-8 sm:p-12 overflow-hidden shadow-xl border border-terracotta-800">
-          <div className="absolute -right-10 -bottom-10 w-80 h-80 rounded-full bg-gold-500/10 blur-3xl pointer-events-none" />
-          <div className="relative z-10 max-w-2xl space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-400/20 text-gold-300 border border-gold-400/30 text-xs font-semibold">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Chợ Làng Nghề Thăng Long — Hà Nội</span>
+        {/* Banner tiêu đề phong cách văn hoá làng nghề — Vietnamese Cultural Editorial Masthead */}
+        <div className="relative rounded-3xl bg-white border border-terracotta-200/90 p-8 sm:p-12 overflow-hidden shadow-sm">
+          <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-[radial-gradient(#c85a32_0.6px,transparent_0.6px)] [background-size:16px_16px] opacity-20 pointer-events-none" />
+          <div className="relative z-10 max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-400/20 text-gold-900 border border-gold-400/30 text-xs font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-gold-600" />
+              <span>Sàn Thương Mại Di Sản Thăng Long — Hà Nội</span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
-              Cửa Hàng Di Sản &amp; Nghệ Nhân
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-lacquer-900 leading-tight">
+              Xưởng Chế Tác &amp; Cửa Hàng Làng Nghề
             </h1>
-            <p className="text-sm sm:text-base text-dopaper-200/90 leading-relaxed font-light">
-              Mỗi cửa hàng là một xưởng chế tác độc lập: từ gốm men rạn Bát Tràng, lụa Vạn Phúc mềm mại,
+            <p className="text-sm sm:text-base text-lacquer-800/80 leading-relaxed font-light">
+              Mỗi cửa hàng là một xưởng chế tác thủ công độc lập: từ gốm men rạn Bát Tràng, lụa Vạn Phúc mềm mại,
               đến mây tre đan Phú Vinh tinh xảo. Khám phá các gian hàng chính gốc do nghệ nhân trực tiếp vận hành.
             </p>
-            <div className="pt-2 flex flex-wrap items-center gap-4 text-xs text-gold-200/80">
-              <span className="flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                Chứng nhận xưởng làng nghề
+            <div className="pt-2 flex flex-wrap items-center gap-5 text-xs text-lacquer-800/80">
+              <span className="flex items-center gap-1.5 font-medium">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                Chứng nhận xưởng thủ công làng nghề
               </span>
-              <span className="flex items-center gap-1.5">
-                <Package className="w-4 h-4 text-gold-300" />
+              <span className="flex items-center gap-1.5 font-medium">
+                <Package className="w-4 h-4 text-terracotta-600" />
                 Vận chuyển trực tiếp từ kho xưởng
               </span>
             </div>
@@ -191,7 +191,7 @@ export default function CraftShopsDirectoryPage() {
               >
                 {/* Banner & Logo */}
                 <div>
-                  <div className="relative h-32 w-full bg-gradient-to-r from-terracotta-200 via-dopaper-200 to-gold-200 overflow-hidden">
+                  <div className="relative h-36 w-full bg-dopaper-200 overflow-hidden border-b border-terracotta-100">
                     {shop.bannerUrl ? (
                       <img
                         src={shop.bannerUrl}
@@ -199,11 +199,11 @@ export default function CraftShopsDirectoryPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center opacity-30 text-lacquer-900 font-serif text-xl font-bold">
+                      <div className="w-full h-full flex items-center justify-center bg-[radial-gradient(#c85a32_0.8px,transparent_0.8px)] [background-size:16px_16px] text-terracotta-800/40 font-serif text-base font-bold tracking-wider">
                         {shop.name}
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                   </div>
 
                   <div className="p-5 pt-0 relative space-y-3">

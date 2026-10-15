@@ -148,27 +148,36 @@ export default function StoreFrontPage() {
   return (
     <div className="min-h-screen bg-dopaper-50 pb-16">
       {/* Banner bìa cửa hàng */}
-      <div className="relative h-48 sm:h-64 lg:h-80 w-full bg-gradient-to-r from-lacquer-950 via-terracotta-900 to-stone-900 overflow-hidden">
+      <div className="relative h-56 sm:h-72 lg:h-80 w-full bg-[#1c1613] overflow-hidden">
         {store.bannerUrl ? (
           <img
             src={store.bannerUrl}
             alt={store.name}
-            className="w-full h-full object-cover opacity-80"
+            className="w-full h-full object-cover opacity-85"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-white/20 font-serif text-3xl font-bold">
-            {store.name}
+          <div className="w-full h-full bg-[#1e1713] flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
+            <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#c25e36_1px,transparent_1px)] [background-size:20px_20px]" />
+            <span className="text-[11px] font-mono tracking-widest text-gold-400 uppercase mb-2">
+              Không Gian Nghề Truyền Thống Thăng Long
+            </span>
+            <h2 className="text-white font-serif text-2xl sm:text-4xl font-bold tracking-tight max-w-xl">
+              {store.name}
+            </h2>
+            <p className="text-xs sm:text-sm text-dopaper-200/70 mt-2 max-w-md font-serif italic">
+              Tinh hoa chế tác thủ công từ bàn tay nghệ nhân và thợ giỏi làng nghề
+            </p>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
 
-        <div className="absolute top-6 left-4 sm:left-8">
+        <div className="absolute top-6 left-4 sm:left-8 z-10">
           <Link
             href="/cua-hang"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md text-dopaper-100 text-xs font-semibold hover:bg-black/60 transition-colors border border-white/20"
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-black/50 backdrop-blur-md text-dopaper-100 text-xs font-semibold hover:bg-black/75 transition-colors border border-white/20 shadow-sm"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Tất cả cửa hàng</span>
+            <span>Tất cả cửa hàng di sản</span>
           </Link>
         </div>
       </div>

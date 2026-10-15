@@ -114,70 +114,64 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-dopaper-50/95 backdrop-blur-md shadow-md border-b border-terracotta-200/50 py-3'
-            : 'bg-gradient-to-b from-dopaper-100/90 via-dopaper-50/80 to-transparent py-4'
+            ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-terracotta-200/60 py-2.5'
+            : 'bg-dopaper-50/90 backdrop-blur-md border-b border-terracotta-200/40 py-3.5'
         }`}
       >
-        <div className="max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-6 flex items-center justify-between gap-2 xl:gap-4">
-          {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 select-none">
-            <div className="w-10 h-10 rounded-full bg-white border border-terracotta-300/80 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          {/* Brand Logo & Editorial Masthead Title */}
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
+            <div className="w-10 h-10 rounded-full bg-white border border-terracotta-300/80 shadow-sm flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
               <img
                 src="/images/lang-thang-logo.png"
                 alt="Lang Thang — Làng Nghề Hà Nội"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex flex-col justify-center min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="font-serif text-lg sm:text-xl font-bold text-terracotta-700 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap leading-tight">
-                  Lang Thang
-                </span>
-                <span className="text-[10px] sm:text-[11px] px-1.5 py-0.5 rounded-full bg-terracotta-100/90 text-terracotta-700 font-semibold border border-terracotta-300/80 whitespace-nowrap leading-none hidden sm:inline-flex items-center shadow-2xs">
-                  Làng Nghề Hà Nội
-                </span>
-              </div>
-              <p className="text-[10px] sm:text-[11px] text-lacquer-800/75 whitespace-nowrap hidden md:block font-medium tracking-normal mt-0.5 leading-tight">
-                Bản đồ số & Khám phá di sản Thủ đô
-              </p>
+            <div className="flex items-baseline gap-2">
+              <span className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap">
+                Lang Thang
+              </span>
+              <span className="hidden sm:inline-block text-[11px] uppercase tracking-widest font-semibold text-terracotta-700/80 border-l border-terracotta-300 pl-2 whitespace-nowrap">
+                Di Sản Làng Nghề
+              </span>
             </div>
           </Link>
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink-0">
+          {/* Desktop Editorial Navigation */}
+          <nav className="hidden lg:flex items-center gap-4 xl:gap-6">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg text-xs xl:text-[13px] 2xl:text-sm font-medium transition-all flex items-center gap-1 whitespace-nowrap ${
+                  className={`text-xs uppercase tracking-wider font-semibold transition-all flex items-center gap-1.5 py-1 whitespace-nowrap ${
                     active
-                      ? 'text-terracotta-600 bg-terracotta-50 font-semibold shadow-sm'
+                      ? 'text-terracotta-600 border-b-2 border-terracotta-500 font-bold'
                       : link.isSpecial
-                      ? 'text-lacquer-900 hover:text-terracotta-600 bg-gold-300/30 hover:bg-gold-300/50 border border-gold-400/40'
-                      : 'text-lacquer-800/80 hover:text-terracotta-600 hover:bg-terracotta-50/50'
+                      ? 'text-gold-700 hover:text-gold-800 px-2.5 py-1 rounded-full bg-gold-400/15 border border-gold-400/30'
+                      : 'text-lacquer-800/75 hover:text-terracotta-600'
                   }`}
                 >
-                  {link.isSpecial && <Sparkles className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-gold-600 shrink-0" />}
-                  {link.label}
+                  {link.isSpecial && <Sparkles className="w-3.5 h-3.5 text-gold-600" />}
+                  <span>{link.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Icons, Login & Passport */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {/* Right Action Items — Refined Visual Hierarchy without repetitive boxes */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
             {/* Shopping Cart */}
             <Link
               href="/gio-hang"
-              className="relative flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm shrink-0 whitespace-nowrap"
+              className="relative p-2 text-lacquer-800 hover:text-terracotta-600 transition-colors shrink-0"
               title="Giỏ hàng"
             >
-              <ShoppingCart className="w-4 h-4 text-terracotta-600" />
-              <span className="hidden 2xl:inline">Giỏ hàng</span>
+              <ShoppingCart className="w-5 h-5" />
               {cart.totalCount > 0 && (
-                <span className="px-1.5 py-0.2 bg-terracotta-500 text-white rounded-full text-[11px] font-bold">
+                <span className="absolute top-0.5 right-0.5 w-4 h-4 bg-terracotta-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center">
                   {cart.totalCount}
                 </span>
               )}
@@ -189,60 +183,58 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             {/* Passport Button */}
             <button
               onClick={onOpenPassport}
-              className="flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-full bg-dopaper-100 hover:bg-terracotta-100/70 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm shrink-0 whitespace-nowrap"
+              className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold text-lacquer-800/80 hover:text-gold-700 hover:bg-gold-400/10 transition-colors shrink-0 whitespace-nowrap"
               title="Hộ chiếu Làng nghề của bạn"
             >
               <Award className="w-4 h-4 text-gold-600" />
-              <span className="hidden 2xl:inline">Hộ chiếu</span>
-              <span className="px-1.5 py-0.2 bg-terracotta-500 text-white rounded-full text-[11px] font-bold">
+              <span>Hộ chiếu</span>
+              <span className="text-[10px] font-bold text-gold-800 bg-gold-400/20 px-1.5 py-0.2 rounded-full">
                 {badgeCount}
               </span>
             </button>
 
-            {/* Lối vào khu vực người bán: hiển thị trên màn hình siêu rộng để không lấn chiếm không gian */}
+            {/* Seller Portal Link */}
             {!sellerStore && (
               <Link
                 href="/dang-ky-nguoi-ban"
-                className="hidden 2xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold transition-colors shadow-sm shrink-0 whitespace-nowrap"
+                className="hidden xl:inline-block text-xs font-semibold text-terracotta-700 hover:text-terracotta-800 border-b border-terracotta-400/40 pb-0.5 transition-colors shrink-0 whitespace-nowrap"
                 title="Đăng ký mở cửa hàng trên sàn Lang Thang"
               >
-                <Store className="w-4 h-4" />
-                <span>Bán hàng</span>
+                Mở gian hàng
               </Link>
             )}
 
-            {/* GMAIL LOGIN BUTTON - LUÔN HIỂN THỊ RÕ RÀNG */}
+            {/* GMAIL LOGIN BUTTON - LUÔN HIỂN THỊ RÕ RÀNG VÀ ĐẸP MẮT */}
             {!user ? (
               <button
                 onClick={() => setLoginModalOpen(true)}
-                className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-300 text-lacquer-900 text-xs sm:text-sm font-bold transition-all shadow-sm hover:shadow shrink-0 whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-lacquer-900 hover:bg-terracotta-600 text-white text-xs font-bold transition-all shadow-sm shrink-0 whitespace-nowrap"
                 title="Đăng nhập Gmail"
               >
                 {/* Google G logo SVG */}
-                <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
+                <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
                   <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
                   <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
                   <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
                 </svg>
-                <span>Đăng nhập Gmail</span>
+                <span>Đăng nhập</span>
               </button>
             ) : (
               /* User Avatar Dropdown */
               <div className="relative" ref={dropdownRef}>
                 <button
                   onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-                  className="flex items-center gap-2 p-1 pl-1.5 pr-2.5 rounded-full bg-white hover:bg-dopaper-100 border border-terracotta-200 shadow-sm transition-all"
+                  className="flex items-center gap-2 p-1 rounded-full hover:bg-terracotta-50 transition-all"
                 >
                   <img
                     src={user.avatar}
                     alt={user.name}
-                    className="w-7 h-7 rounded-full object-cover border border-terracotta-200"
+                    className="w-8 h-8 rounded-full object-cover border border-terracotta-200 shadow-sm"
                   />
-                  <span className="text-xs font-bold text-lacquer-900 max-w-[100px] truncate hidden sm:inline-block">
+                  <span className="text-xs font-bold text-lacquer-900 max-w-[90px] truncate hidden sm:inline-block">
                     {user.name.split(' ')[user.name.split(' ').length - 1]}
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-lacquer-800/60" />
                 </button>
 
                 {/* Dropdown Menu */}
