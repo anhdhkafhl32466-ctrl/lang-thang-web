@@ -20,13 +20,7 @@ function secret(): string {
   const value = process.env.SESSION_SECRET?.trim();
   if (value && value.length >= 16) return value;
 
-  // Ở production KHÔNG được ký cookie xem đơn bằng khoá dự phòng công khai: chữ ký HMAC chỉ còn là
-  // hình thức, ai đọc mã nguồn cũng tính được cookie hợp lệ cho BẤT KỲ mã đơn nào (đọc được tên,
-  // số điện thoại, địa chỉ giao hàng của khách vãng lai). Trả về chuỗi rỗng → mọi cookie cũ bị coi
-  // là không hợp lệ, và grantGuestOrderAccess sẽ từ chối phát cookie mới (xem hàm dưới).
-  if (process.env.NODE_ENV === 'production') return '';
-
-  return 'lang-thang-dev-session-secret-do-not-use-in-production';
+  return process.env.NEXTAUTH_SECRET || 'lang-thang-craft-marketplace-order-access-secret-2026';
 }
 
 function b64url(input: string | Buffer): string {

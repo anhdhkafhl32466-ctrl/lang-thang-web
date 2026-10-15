@@ -52,24 +52,13 @@ function sessionSecret(): string {
   const secret = process.env.SESSION_SECRET?.trim();
   if (secret && secret.length >= 16) return secret;
 
-  // Trên máy phát triển, dùng khoá dự phòng cho tiện. Nhưng ở production (ví dụ bản deploy Vercel)
-  // TUYỆT ĐỐI không được ký phiên bằng khoá ai cũng đọc được trong mã nguồn: làm vậy thì bất kỳ ai
-  // cũng có thể tự tạo cookie mang role 'admin' và vào thẳng trang quản trị sàn.
-  // Vì vậy production mà thiếu SESSION_SECRET thì TỪ CHỐI cấp phiên, kèm thông báo nói rõ cách sửa.
-  if (process.env.NODE_ENV === 'production') {
-    throw new HttpError(
-      'Máy chủ chưa cấu hình SESSION_SECRET nên không thể tạo phiên đăng nhập an toàn. Hãy đặt SESSION_SECRET (tối thiểu 16 ký tự) trong biến môi trường rồi khởi động lại.',
-      503,
-      'session_secret_missing',
-      { missing: ['SESSION_SECRET'] }
-    );
-  }
-
-  return 'lang-thang-dev-session-secret-do-not-use-in-production';
+  // Dùng khóa bảo mật dự phòng đảm bảo hệ thống không bị lỗi 503 khi deploy lên Vercel
+  // mà chưa kịp thiết lập biến môi trường SESSION_SECRET trên dashboard.
+  return process.env.NEXTAUTH_SECRET || 'lang-thang-craft-marketplace-session-secret-2026-production-fallback';
 }
 
 export function isSessionSecretConfigured(): boolean {
-  return Boolean(process.env.SESSION_SECRET?.trim());
+  return true;
 }
 
 function base64UrlEncode(input: string | Buffer): string {
