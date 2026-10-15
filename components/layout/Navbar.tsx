@@ -120,38 +120,38 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Brand Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-full bg-white border border-terracotta-300/80 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
+          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white border border-terracotta-300/80 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
               <img
                 src="/images/lang-thang-logo.png"
                 alt="Lang Thang — Làng Nghề Hà Nội"
                 className="w-full h-full object-cover"
               />
             </div>
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-serif text-lg md:text-xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors">
+            <div className="flex flex-col justify-center min-w-0">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <span className="font-serif text-lg sm:text-xl font-bold text-terracotta-700 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap leading-tight">
                   Lang Thang
                 </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-terracotta-100 text-terracotta-700 font-semibold border border-terracotta-300/60 hidden sm:inline-block">
+                <span className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded-full bg-terracotta-100/90 text-terracotta-700 font-semibold border border-terracotta-300/80 whitespace-nowrap leading-none hidden sm:inline-flex items-center shadow-2xs">
                   Làng Nghề Hà Nội
                 </span>
               </div>
-              <p className="text-[11px] text-lacquer-800/70 hidden md:block">
+              <p className="text-[11px] text-lacquer-800/75 whitespace-nowrap hidden md:block font-medium tracking-normal mt-0.5 leading-tight">
                 Bản đồ số & Khám phá di sản Thủ đô
               </p>
             </div>
           </Link>
 
           {/* Desktop Nav Items */}
-          <nav className="hidden lg:flex items-center gap-1 xl:gap-2">
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1.5 shrink-0">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all flex items-center gap-1.5 ${
+                  className={`px-2 xl:px-3 py-1.5 xl:py-2 rounded-lg text-xs xl:text-sm font-medium transition-all flex items-center gap-1 xl:gap-1.5 whitespace-nowrap ${
                     active
                       ? 'text-terracotta-600 bg-terracotta-50 font-semibold shadow-sm'
                       : link.isSpecial
@@ -159,7 +159,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                       : 'text-lacquer-800/80 hover:text-terracotta-600 hover:bg-terracotta-50/50'
                   }`}
                 >
-                  {link.isSpecial && <Sparkles className="w-3.5 h-3.5 text-gold-600" />}
+                  {link.isSpecial && <Sparkles className="w-3 h-3 xl:w-3.5 xl:h-3.5 text-gold-600 shrink-0" />}
                   {link.label}
                 </Link>
               );
@@ -167,15 +167,15 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
           </nav>
 
           {/* Right Action Icons, Login & Passport */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
             {/* Shopping Cart */}
             <Link
               href="/gio-hang"
-              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm"
+              className="relative flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm shrink-0 whitespace-nowrap"
               title="Giỏ hàng"
             >
               <ShoppingCart className="w-4 h-4 text-terracotta-600" />
-              <span className="hidden sm:inline">Giỏ hàng</span>
+              <span className="hidden md:inline">Giỏ hàng</span>
               {cart.totalCount > 0 && (
                 <span className="px-1.5 py-0.2 bg-terracotta-500 text-white rounded-full text-[11px] font-bold">
                   {cart.totalCount}
@@ -189,11 +189,11 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             {/* Passport Button */}
             <button
               onClick={onOpenPassport}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-dopaper-100 hover:bg-terracotta-100/70 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-dopaper-100 hover:bg-terracotta-100/70 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-medium transition-colors shadow-sm shrink-0 whitespace-nowrap"
               title="Hộ chiếu Làng nghề của bạn"
             >
               <Award className="w-4 h-4 text-gold-600" />
-              <span className="hidden sm:inline">Hộ chiếu</span>
+              <span className="hidden md:inline">Hộ chiếu</span>
               <span className="px-1.5 py-0.2 bg-terracotta-500 text-white rounded-full text-[11px] font-bold">
                 {badgeCount}
               </span>
@@ -204,7 +204,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             {!sellerStore && (
               <Link
                 href="/dang-ky-nguoi-ban"
-                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold transition-colors shadow-sm"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold transition-colors shadow-sm shrink-0 whitespace-nowrap"
                 title="Đăng ký mở cửa hàng trên sàn Lang Thang"
               >
                 <Store className="w-4 h-4" />
@@ -216,7 +216,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             {!user ? (
               <button
                 onClick={() => setLoginModalOpen(true)}
-                className="flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-bold transition-all shadow-sm hover:shadow"
+                className="flex items-center gap-1.5 px-2.5 sm:px-3.5 py-1.5 rounded-full bg-white hover:bg-dopaper-50 border border-terracotta-200 text-lacquer-900 text-xs sm:text-sm font-bold transition-all shadow-sm hover:shadow shrink-0 whitespace-nowrap"
                 title="Đăng nhập Gmail"
               >
                 {/* Google G logo SVG */}
@@ -226,7 +226,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                   <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
                   <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
                 </svg>
-                <span>Đăng nhập Gmail</span>
+                <span className="hidden sm:inline">Đăng nhập</span>
+                <span className="hidden xl:inline"> Gmail</span>
               </button>
             ) : (
               /* User Avatar Dropdown */
