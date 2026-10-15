@@ -31,6 +31,11 @@ interface StoresResponse {
   stores: StoreRow[];
   totals: Record<string, number>;
   statuses: { key: StoreStatus; label: string; description: string; tone: string }[];
+  storage?: {
+    backend: string;
+    isEphemeral?: boolean;
+    warning?: string | null;
+  };
 }
 
 const TONE: Record<string, string> = {
@@ -225,6 +230,16 @@ export default function AdminStoresPage() {
           </div>
         )}
         {error && <p className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">{error}</p>}
+
+        {data?.storage?.warning && (
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 text-xs flex items-start gap-3 shadow-sm">
+            <AlertTriangle className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="font-bold text-sm text-amber-950">Lưu ý cấu hình cơ sở dữ liệu trên Vercel</p>
+              <p className="text-amber-800 leading-relaxed">{data.storage.warning}</p>
+            </div>
+          </div>
+        )}
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {(['pending', 'active', 'suspended', 'rejected'] as StoreStatus[]).map((status) => (

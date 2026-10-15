@@ -10,7 +10,7 @@ import { fetchServerSession } from '@/lib/client/serverSession';
 import { ADMIN_ORDERS_PATH, loginHref } from '@/lib/client/authRedirect';
 import {
   TrendingUp, Users, ShoppingCart, Compass, CheckCircle2,
-  XCircle, Sparkles, Award, Eye, Trash2, ArrowRight, Loader2, ShieldCheck
+  XCircle, Sparkles, Award, Eye, Trash2, ArrowRight, Loader2, ShieldCheck, Store
 } from 'lucide-react';
 
 interface SubmissionItem {
@@ -26,9 +26,8 @@ interface SubmissionItem {
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'submissions' | 'villages' | 'products'>('overview');
-  // Trang này trước đây KHÔNG kiểm tra quyền: bất kỳ ai biết đường dẫn /admin đều xem được.
-  // Quyền quản trị giờ lấy từ phiên máy chủ (cookie đã ký), không phải localStorage.
   const [access, setAccess] = useState<'checking' | 'ok' | 'forbidden'>('checking');
+  const [pendingStoresCount, setPendingStoresCount] = useState<number>(0);
   const [submissions, setSubmissions] = useState<SubmissionItem[]>([
     {
       id: 'sub-01',
@@ -60,7 +59,19 @@ export default function AdminDashboardPage() {
         router.replace(loginHref('/admin'));
         return;
       }
-      setAccess(session.user?.isAdmin ? 'ok' : 'forbidden');
+      const isAdm = Boolean(session.user?.isAdmin);
+      setAccess(isAdm ? 'ok' : 'forbidden');
+      if (isAdm) {
+        try {
+          const res = await fetch('/api/admin/stores?status=pending', { cache: 'no-store' });
+          const data = await res.json();
+          if (data?.ok && data.totals) {
+            setPendingStoresCount(Number(data.totals.pending || 0));
+          }
+        } catch {
+          /* ignore */
+        }
+      }
     })();
     return () => {
       cancelled = true;
@@ -146,6 +157,18 @@ export default function AdminDashboardPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link
+              href="/admin/cua-hang"
+              className="text-xs bg-gold-600 hover:bg-gold-700 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow relative"
+            >
+              <Store className="w-3.5 h-3.5" />
+              <span>Quản lý cửa hàng</span>
+              {pendingStoresCount > 0 && (
+                <span className="px-1.5 py-0.5 rounded-full bg-rose-600 text-white text-[10px] font-extrabold animate-pulse">
+                  {pendingStoresCount} chờ duyệt
+                </span>
+              )}
+            </Link>
+            <Link
               href={ADMIN_ORDERS_PATH}
               className="text-xs bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow"
             >
@@ -158,6 +181,31 @@ export default function AdminDashboardPage() {
             </span>
           </div>
         </div>
+
+        {pendingStoresCount > 0 && (
+          <div className="p-4 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                <Store className="w-5 h-5" />
+              </div>
+              <div className="text-xs">
+                <p className="font-bold text-sm text-amber-950">
+                  Có {pendingStoresCount} hồ sơ đăng ký người bán đang chờ duyệt!
+                </p>
+                <p className="text-amber-800">
+                  Các đối tác nghệ nhân, hộ sản xuất đã gửi hồ sơ và đang chờ ban quản trị kiểm tra và duyệt hoạt động.
+                </p>
+              </div>
+            </div>
+            <Link
+              href="/admin/cua-hang"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shrink-0 shadow"
+            >
+              <span>Xem và duyệt hồ sơ ngay</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        )}
 
         {/* Tab switcher */}
         <div className="flex items-center gap-2 border-b border-terracotta-200 overflow-x-auto pb-2 no-scrollbar">

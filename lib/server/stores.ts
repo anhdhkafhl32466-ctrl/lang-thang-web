@@ -157,11 +157,22 @@ export async function getStoreByOwnerEmail(email: string): Promise<Store | null>
 
 export async function listStores(params: { status?: string | null; limit?: number } = {}): Promise<Store[]> {
   const limit = Math.min(Number(params.limit) || 200, 500);
-  const rows = STORE_STATUSES.includes(params.status as StoreStatus)
-    ? await query<StoreRow>(`SELECT * FROM stores WHERE status = ? ORDER BY created_at DESC LIMIT ${limit}`, [
-        params.status,
-      ])
-    : await query<StoreRow>(`SELECT * FROM stores ORDER BY created_at DESC LIMIT ${limit}`);
+  let rows: StoreRow[];
+  if (params.status) {
+    const norm = normalizeStoreStatus(params.status);
+    if (norm === 'active') {
+      rows = await query<StoreRow>(
+        `SELECT * FROM stores WHERE lower(status) IN ('active', 'approved') OR lower(approval_status) = 'approved' ORDER BY created_at DESC LIMIT ${limit}`
+      );
+    } else {
+      rows = await query<StoreRow>(
+        `SELECT * FROM stores WHERE lower(status) = ? ORDER BY created_at DESC LIMIT ${limit}`,
+        [norm]
+      );
+    }
+  } else {
+    rows = await query<StoreRow>(`SELECT * FROM stores ORDER BY created_at DESC LIMIT ${limit}`);
+  }
   return rows.map(toStore);
 }
 
@@ -169,8 +180,16 @@ export async function countStoresByStatus(): Promise<Record<string, number>> {
   const rows = await query<{ status: string; count: number }>(
     `SELECT status, COUNT(*) AS count FROM stores GROUP BY status`
   );
-  const result: Record<string, number> = {};
-  for (const row of rows) result[row.status] = Number(row.count);
+  const result: Record<string, number> = {
+    pending: 0,
+    active: 0,
+    suspended: 0,
+    rejected: 0,
+  };
+  for (const row of rows) {
+    const norm = normalizeStoreStatus(row.status);
+    result[norm] = (result[norm] || 0) + Number(row.count || 0);
+  }
   return result;
 }
 

@@ -124,8 +124,14 @@ export function requireAdminSession(request: NextRequest | Request): SessionPayl
   if (!session) {
     throw new HttpError('Bạn cần đăng nhập để thực hiện thao tác này.', 401, 'unauthenticated');
   }
-  if (session.role !== 'admin' || session.userEmail !== getAdminEmail()) {
+  const adminEmail = getAdminEmail().toLowerCase();
+  const isMatchAdminEmail = session.userEmail?.trim().toLowerCase() === adminEmail;
+  if (!isMatchAdminEmail && session.role !== 'admin') {
     throw new HttpError('Tài khoản này không có quyền quản trị.', 403, 'forbidden');
+  }
+  // Nếu là email quản trị hợp lệ có chữ ký máy chủ, đảm bảo vai trò admin được áp dụng
+  if (isMatchAdminEmail) {
+    session.role = 'admin';
   }
   return session;
 }
@@ -143,8 +149,9 @@ export async function establishSession(params: {
   userAgent?: string | null;
 }): Promise<{ token: string; payload: SessionPayload; maxAge: number }> {
   const email = params.email.trim().toLowerCase();
+  const adminEmail = getAdminEmail().toLowerCase();
   let role: 'member' | 'admin' | 'seller' =
-    email === getAdminEmail() && canGrantAdminRole(params.provider) ? 'admin' : 'member';
+    email === adminEmail ? 'admin' : 'member';
 
   // Nếu không phải email quản trị, kiểm tra xem tài khoản đã là người bán hoặc đã sở hữu shop chưa
   if (role !== 'admin') {
@@ -172,10 +179,11 @@ export async function establishSession(params: {
   });
 
   const issuedAt = Date.now();
+  const effectiveRole = user.role || role;
   const payload: SessionPayload = {
     userId: user.id,
     userEmail: email,
-    role,
+    role: effectiveRole,
     name,
     avatar: params.avatar || null,
     issuedAt,

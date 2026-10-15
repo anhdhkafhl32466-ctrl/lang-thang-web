@@ -67,7 +67,10 @@ export function assertSameOrigin(request: Request): void {
     throw new HttpError('Nguồn gửi yêu cầu không hợp lệ.', 403, 'bad_origin');
   }
 
-  if (candidateHost !== host) {
+  const forwardedHost = request.headers.get('x-forwarded-host')?.split(',')[0].trim();
+  const allowedHosts = new Set([host, forwardedHost].filter(Boolean));
+
+  if (!allowedHosts.has(candidateHost)) {
     throw new HttpError('Yêu cầu bị chặn vì đến từ một nguồn khác.', 403, 'cross_origin_blocked');
   }
 }

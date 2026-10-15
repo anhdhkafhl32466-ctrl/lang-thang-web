@@ -40,6 +40,7 @@ export default function SellerRegisterPage() {
     phone: '',
     password: '',
     confirmPassword: '',
+    addressText: '',
     description: '',
     logoUrl: '',
     addressNote: '',
@@ -98,8 +99,9 @@ export default function SellerRegisterPage() {
       setError(passwordIssue);
       return;
     }
-    if (!address?.text) {
-      setError('Vui lòng nhập địa chỉ cửa hàng (có thể chọn vị trí trên bản đồ để lấy toạ độ xuất hàng).');
+    const finalAddress = (form.addressText || address?.text || '').trim();
+    if (!finalAddress) {
+      setError('Vui lòng nhập địa chỉ cụ thể của cửa hàng / xưởng sản xuất.');
       return;
     }
 
@@ -115,13 +117,13 @@ export default function SellerRegisterPage() {
           phone: form.phone.trim(),
           password: form.password,
           confirmPassword: form.confirmPassword,
-          addressText: address.text,
+          addressText: finalAddress,
           addressNote: form.addressNote.trim() || null,
           description: form.description.trim() || null,
           logoUrl: form.logoUrl.trim() || null,
           categories,
-          lat: address.lat || undefined,
-          lng: address.lng || undefined,
+          lat: address?.lat || undefined,
+          lng: address?.lng || undefined,
         }),
       });
       const data = await res.json();
@@ -332,13 +334,43 @@ export default function SellerRegisterPage() {
                 </span>
               </div>
 
-              <AddressPickerMap value={address} onChange={setAddress} warehouse={warehouse} />
+              <label className="space-y-1.5 text-xs block">
+                <span className="font-bold text-lacquer-900">
+                  Địa chỉ chi tiết của cửa hàng / xưởng <span className="text-rose-600">*</span>
+                </span>
+                <input
+                  required
+                  value={form.addressText}
+                  onChange={(event) => {
+                    const text = event.target.value;
+                    setForm((prev) => ({ ...prev, addressText: text }));
+                    if (address) setAddress({ ...address, text });
+                  }}
+                  placeholder="Ví dụ: Số 24 ngõ 3 xóm 5 làng Bát Tràng, Gia Lâm, Hà Nội"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-sm focus:outline-none focus:border-terracotta-500 font-medium"
+                />
+                <span className="text-[10px] text-lacquer-800/60 block">
+                  Nhập địa chỉ đầy đủ (hoặc tìm kiếm trên bản đồ bên dưới) để bên vận chuyển đến lấy hàng và giao nhận.
+                </span>
+              </label>
+
+              <AddressPickerMap
+                value={address}
+                onChange={(selection) => {
+                  setAddress(selection);
+                  if (selection?.text) {
+                    setForm((prev) => ({ ...prev, addressText: selection.text }));
+                  }
+                }}
+                warehouse={warehouse}
+              />
 
               <label className="space-y-1.5 text-xs block">
                 <span className="font-bold text-lacquer-900">Ghi chú địa chỉ (số nhà, xóm, xưởng...)</span>
                 <input
                   value={form.addressNote}
                   onChange={(event) => setForm({ ...form, addressNote: event.target.value })}
+                  placeholder="Gần đình làng, cạnh cổng chùa, xưởng sau..."
                   className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-sm focus:outline-none focus:border-terracotta-500"
                 />
               </label>
