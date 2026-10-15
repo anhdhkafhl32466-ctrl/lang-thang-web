@@ -168,6 +168,41 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/bat-trang/village_porcelain.jpg',
         caption: 'Không gian trưng bày các tác phẩm gốm sứ nghệ thuật tinh hoa Bát Tràng'
+      },
+      {
+        url: '/images/villages/bat-trang/handcrafting_1.jpg',
+        caption: 'Nghệ nhân Bát Tràng nặn và chuốt gốm thủ công tại xưởng bên tả ngạn sông Hồng',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/handcrafting_2.jpg',
+        caption: 'Tạo hình gốm trên bàn xoay – công đoạn đòi hỏi độ dẻo tay và kinh nghiệm lâu năm',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/transport_2.jpg',
+        caption: 'Vận chuyển gốm mộc quanh làng Bát Tràng bằng xe thồ',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/ceramics_display.jpg',
+        caption: 'Gian trưng bày gốm sứ Bát Tràng với nhiều dáng bình, lọ men rạn và men lam',
+        credit: 'Ảnh: Greenknight dv / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/drying_coal.jpg',
+        caption: 'Phơi than theo cách truyền thống để chuẩn bị cho lò nung gốm Bát Tràng',
+        credit: 'Ảnh: Greenknight dv / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/ceramics_shop.jpg',
+        caption: 'Cửa hàng chuyên bán đồ gốm sứ Bát Tràng trên đường làng',
+        credit: 'Ảnh: Donald Trung / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/bat-trang/street_2.jpg',
+        caption: 'Đường làng Bát Tràng – khu dân cư gắn liền với các lò gốm gia đình',
+        credit: 'Ảnh: RG72 / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -394,6 +429,41 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/van-phuc/silk_punch2.jpg',
         caption: 'Hệ thống thẻ đục lỗ tạo mẫu dệt hoa văn gấm nổi truyền thống'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_7.jpg',
+        caption: 'Máy dệt lụa tại làng Vạn Phúc (Hà Đông), ảnh chụp năm 2003',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_11.jpg',
+        caption: 'Khung dệt lụa truyền thống ở làng Vạn Phúc, Hà Đông',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_15.jpg',
+        caption: 'Xưởng dệt lụa Vạn Phúc với các khung cửi hoạt động liên tục',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/jacquard_weaver.jpg',
+        caption: 'Thợ dệt đứng bên máy dệt lụa Jacquard tại một xưởng ở làng Vạn Phúc',
+        credit: 'Ảnh: Dragfyre / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/van-phuc/jacquard_weaver_sitting.jpg',
+        caption: 'Thợ vận hành máy dệt Jacquard – công đoạn dệt nên những tấm lụa vân hoa',
+        credit: 'Ảnh: Dragfyre / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/van-phuc/loom_punch_cards.jpg',
+        caption: 'Thẻ đục lỗ điều khiển hoa văn trên máy dệt Jacquard – di sản kỹ thuật dệt lụa',
+        credit: 'Ảnh: Dragfyre / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/van-phuc/lua_van_phuc.jpg',
+        caption: 'Vải lụa dệt tại làng Vạn Phúc, Hà Đông, Hà Nội',
+        credit: 'Ảnh: NTLam / Wikimedia Commons (CC BY 2.0)'
       }
     ],
     history: {
@@ -523,6 +593,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/phu-vinh/weaving_bamboo_basket.jpg',
         caption: 'Nghệ nhân cao tuổi với đôi bàn tay gân guốc tài hoa đang đan cài từng nan mây mỏng dẻo tạo nên lẵng hoa văn mắt cáo lóng đôi tinh tế'
+      },
+      {
+        url: '/images/villages/phu-vinh/basket_giarai.jpg',
+        caption: 'Rổ tre mây của người Gia Rai (Bảo tàng Lịch sử Việt Nam, TP.HCM)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/products_3.jpg',
+        caption: 'Sản phẩm mây tre đan thủ công của làng Phú Vinh (Chương Mỹ, Hà Nội)',
+        credit: 'Ảnh: Rin Mamori / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/basket_museum.jpg',
+        caption: 'Rổ mây tre đan bóng (Bảo tàng Mỹ thuật Việt Nam, Hà Nội)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/basket_boat.jpg',
+        caption: 'Thuyền thúng bằng tre và rừng tre – hình ảnh gắn bó với nghề tre của người Việt',
+        credit: 'Ảnh: Chester Ho chesterho / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/bamboo_fishing_baskets.jpg',
+        caption: 'Những chiếc giỏ tre xếp cao trên một con phố Hà Nội',
+        credit: 'Ảnh: David Stanley / Wikimedia Commons (CC BY 4.0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/bamboo_thai_weaving.jpg',
+        caption: 'Đan lát tre của người Thái (bản Diềm, Con Cuông, Nghệ An) – minh họa nghề đan tre Việt Nam',
+        credit: 'Ảnh: KoheiU / Wikimedia Commons (CC0)'
       }
     ],
     history: {
@@ -650,6 +750,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chuong/early_morning_market.jpg',
         caption: 'Phiên chợ nón Chuông họp sớm trong làn sương mờ bên cổng đình làng cổ với những chồng nón lá trắng tinh khôi'
+      },
+      {
+        url: '/images/villages/chuong/conical_hat_making.jpg',
+        caption: 'Chằm nón lá (ảnh chụp tại vùng quê miền Trung) – kỹ thuật chung của nghề nón Việt Nam',
+        credit: 'Ảnh: Cyril Doussin / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/chuong/hatter_vietnam.jpg',
+        caption: 'Nghệ nhân làm nón lá tại đồng bằng sông Cửu Long',
+        credit: 'Ảnh: Thomas Schoch – www.retas.de / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/chuong/hat_display_ethnology.jpg',
+        caption: 'Trưng bày nghề làm nón tại Bảo tàng Dân tộc học Việt Nam (Hà Nội)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuong/non_la_ao_dai.jpg',
+        caption: 'Áo dài và nón lá – hai biểu tượng tạo nên hình ảnh người Việt',
+        credit: 'Ảnh: Eric Reminicent / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/chuong/non_la_toy.jpg',
+        caption: 'Nón lá cỡ nhỏ làm đồ chơi, lưu niệm cho trẻ em',
+        credit: 'Ảnh: terence from Singapore / Wikimedia Commons (CC BY 2.0)'
       }
     ],
     history: {
@@ -767,6 +892,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/kieu-ky/gilding_buddha_statue.jpg',
         caption: 'Người thợ thủ công cẩn trọng dùng chổi lông thỏ nhẹ nhàng dát từng lá vàng quỳ lên tượng Phật gỗ mít sơn son'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_foil_oc_eo_1.jpg',
+        caption: 'Vàng lá khai quật từ di chỉ văn hóa Óc Eo (Bảo tàng Lịch sử Việt Nam, Hà Nội)',
+        credit: 'Ảnh: Gary Todd / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_foil_oc_eo_2.jpg',
+        caption: 'Vàng lá thời Óc Eo – minh chứng cho kỹ thuật dát vàng lâu đời ở Việt Nam',
+        credit: 'Ảnh: Gary Todd / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/cat_tien_gold_leaf.jpg',
+        caption: 'Lá vàng dát hình nữ thần Lakshmi (Bảo tàng Cát Tiên)',
+        credit: 'Ảnh: Sgnpkd / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_malleability.jpg',
+        caption: 'Một khối vàng nhỏ cỡ 5 mm có thể dát thành lá vàng phủ nửa mét vuông – cơ sở của nghề quỳ vàng',
+        credit: 'Ảnh: PHGCOM / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/cutting_gold_leaf_workshop.jpg',
+        caption: 'Cắt lá vàng tại một xưởng dát vàng ở Mandalay, Myanmar – kỹ thuật dát vàng lưu truyền ở châu Á',
+        credit: 'Ảnh: Adam Jones from Kelowna, BC, Canada / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_factory_kanazawa.jpg',
+        caption: 'Xưởng chế tác vàng tại Kanazawa, Nhật Bản',
+        credit: 'Ảnh: Eckhard Pecher / Wikimedia Commons (CC BY 2.5)'
       }
     ],
     history: {
@@ -881,6 +1036,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/dao-thuc/dragon_fire_show.jpg',
         caption: 'Màn múa rối rồng phun pháo sáng lung linh trên mặt nước thủy đình Đào Thục'
+      },
+      {
+        url: '/images/villages/dao-thuc/thang_long_theatre.jpg',
+        caption: 'Nhà hát múa rối nước Thăng Long – sân khấu rối nước lâu đời giữa lòng Hà Nội',
+        credit: 'Ảnh: Gryffindor / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/thang_long_entrance.jpg',
+        caption: 'Nhà hát múa rối nước Thăng Long, Hà Nội',
+        credit: 'Ảnh: CEphoto, Uwe Aranas / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/water_puppet_musician.jpg',
+        caption: 'Nhạc công trong dàn nhạc đệm của một buổi múa rối nước',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/water_puppet_turtle.jpg',
+        caption: 'Con rối nước hình rùa vàng – tích vua Lê trả gươm gắn với Hồ Hoàn Kiếm',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/water_puppeteers_2017.jpg',
+        caption: 'Nghệ nhân múa rối nước Phan Tranh Liêm và vợ, Hà Nội, 2017',
+        credit: 'Ảnh: Kerry Raymond / Wikimedia Commons (CC BY 4.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/marionnettes_eau.jpg',
+        caption: 'Buổi diễn rối nước với các con rối gỗ di chuyển trên mặt nước',
+        credit: 'Ảnh: Eric Lefevre-Ardant from Paris, France / Wikimedia Commons (CC BY-SA 2.0)'
       }
     ],
     history: {
@@ -991,6 +1176,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/tay-tuu/hero.jpg',
         caption: 'Cánh đồng hoa bạt ngàn muôn sắc màu rực rỡ tại thủ phủ hoa Tây Tựu'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_hawker.jpg',
+        caption: 'Người bán hoa rong trên phố Hà Nội',
+        credit: 'Ảnh: Linh Pham linharex / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_market_bus.jpg',
+        caption: 'Cảnh chợ hoa Hà Nội cuối buổi chiều',
+        credit: 'Ảnh: Amenoc / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_nursery.jpg',
+        caption: 'Vườn ươm cây hoa tại Vườn Bách Thảo Hà Nội',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/chrysanthemum.jpg',
+        caption: 'Hoa cúc vàng – loài hoa chủ lực của các vườn hoa ngoại thành Hà Nội',
+        credit: 'Ảnh: Qh88xlcom / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/hanoi_flower_garden.jpg',
+        caption: 'Vườn hoa tại Hà Nội – minh họa không gian trồng hoa vùng ven đô',
+        credit: 'Ảnh: Phan Minh Tuấn / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -1094,6 +1304,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/xuan-la/hero.jpg',
         caption: 'Nghệ nhân nặn tò he dân gian Xuân La với khối bột sắc màu biến hóa rồng phượng sống động'
+      },
+      {
+        url: '/images/villages/xuan-la/to_he_2.jpg',
+        caption: 'Những con tò he nặn bằng bột gạo với đủ sắc màu',
+        credit: 'Ảnh: User:Rungbachduong / Wikimedia Commons (GFDL)'
+      },
+      {
+        url: '/images/villages/xuan-la/to_he_3.jpg',
+        caption: 'Tò he – đồ chơi dân gian nặn tay của trẻ em Việt Nam',
+        credit: 'Ảnh: Memberofc1 / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/o_an_quan.jpg',
+        caption: 'Trò chơi ô ăn quan – trò chơi dân gian Việt Nam',
+        credit: 'Ảnh: Newone / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/o_an_quan_truong_sa.jpg',
+        caption: 'Trẻ em chơi ô ăn quan trên đảo Trường Sa Lớn',
+        credit: 'Ảnh: Phạm Xuân Nguyên / Wikimedia Commons (CC BY 3.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/bit_mat_dap_nieu.jpg',
+        caption: 'Trò chơi dân gian bịt mắt đập niêu trong lễ hội',
+        credit: 'Ảnh: LÊ TẤN LỘC / Wikimedia Commons (CC BY-SA 3.0)'
       }
     ],
     history: {
@@ -1209,6 +1444,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/quang-phu-cau/incense_heritage_field.jpg',
         caption: 'Toàn cảnh phơi tăm hương truyền thống Quảng Phú Cầu nổi danh trên các tạp chí quốc tế',
         credit: 'Ảnh: Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_04.jpg',
+        caption: 'Những bó hương mới xếp phơi dưới nắng tại một làng hương ở Hà Nội',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_40.jpg',
+        caption: 'Người lao động ngồi giữa rừng tăm hương đang phơi – công việc quen thuộc ở làng hương Quảng Phú Cầu',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_49.jpg',
+        caption: 'Tăm hương xếp tỏa tròn như những bông hoa khổng lồ',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_55.jpg',
+        caption: 'Thu gom hương sau khi phơi khô',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_74.jpg',
+        caption: 'Toàn cảnh sân phơi hương của một làng nghề ở Hà Nội',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/incense_making.jpg',
+        caption: 'Se hương – quấn lớp bột hương quanh tăm tre, công đoạn chính của nghề làm hương',
+        credit: 'Ảnh: Kirk Fisher from Columbus Ohio / Wikimedia Commons (CC BY 2.0)'
       }
     ],
     history: {
@@ -1338,6 +1603,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chuyen-my/inlaying_pearl_tray.jpg',
         caption: 'Nghệ nhân dùng dao gọt và dùi tỉ mỉ cẩn từng mảnh ốc xà cừ óng ánh ngũ sắc lộng lẫy vào mặt khay trà gỗ trắc'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_boxes.jpg',
+        caption: 'Hộp gỗ khảm trai thời Nguyễn (Bảo tàng Lịch sử Quốc gia, Hà Nội)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_dragon_panel.jpg',
+        caption: 'Ván chạm rồng sơn son kết hợp khảm trai thời Nguyễn',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_picture_1890.jpg',
+        caption: 'Tranh gỗ khảm trai năm 1890 (Bảo tàng Lịch sử Quốc gia, Hà Nội)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_tray.jpg',
+        caption: 'Khay gỗ khảm xà cừ đầu thế kỷ XX (Bảo tàng Lịch sử Việt Nam, TP.HCM)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_altar_cabinet.jpg',
+        caption: 'Tủ thờ gỗ khảm xà cừ – đồ nội thất cao cấp gắn với nghề khảm trai',
+        credit: 'Ảnh: Bùi Thụy Đào Nguyên / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_bed_cabinet.jpg',
+        caption: 'Sập và tủ chè khảm xà cừ',
+        credit: 'Ảnh: vi:User:Nguyễn Thanh Quang / Wikimedia Commons (CC BY-SA 3.0)'
       }
     ],
     history: {
@@ -1460,6 +1755,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/ha-thai/grinding_lacquer_water.jpg',
         caption: 'Nghệ nhân tỉ mỉ dùng giấy ráp mịn mài ướt bức tranh sơn mài trong bồn nước, làm lộ dần những mảng cẩn vỏ trứng vịt và lá vàng óng ánh'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_painting_nguyen_gia_tri.jpg',
+        caption: 'Bình phong sơn mài “Thiếu nữ và phong cảnh” của danh họa Nguyễn Gia Trí',
+        credit: 'Ảnh: Hoangkid / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_box3.jpg',
+        caption: 'Hộp sơn mài (Bảo tàng Mỹ thuật Việt Nam)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_stirring_tool.jpg',
+        caption: 'Dụng cụ quấy sơn ta – công cụ đặc trưng của nghề sơn mài',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_wood_1.jpg',
+        caption: 'Tượng gỗ sơn mài Việt Nam (Bảo tàng Mỹ thuật TP.HCM)',
+        credit: 'Ảnh: Gary Todd from Xinzheng, China / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_gift_box.jpg',
+        caption: 'Hộp quà sơn mài dùng trong lễ hỏi, Hà Nội đầu thế kỷ XX',
+        credit: 'Ảnh: Vietnamese Women\'s Museum / Wikimedia Commons (CC BY-SA 3.0)'
       }
     ],
     history: {
@@ -1581,6 +1901,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/son-dong/hero.jpg',
         caption: 'Pho tượng gỗ Phật giáo được chạm khắc tinh xảo và sơn son thếp vàng lộng lẫy tại Sơn Đồng'
+      },
+      {
+        url: '/images/villages/son-dong/peacock_wood_statue.jpg',
+        caption: 'Tượng gỗ chim công Việt Nam (Bảo tàng Lịch sử Việt Nam)',
+        credit: 'Ảnh: Phương Huy (thảo luận) / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/son-dong/buddha_wood_statue.jpg',
+        caption: 'Tượng Phật gỗ đứng trên tòa sen (Bảo tàng Mỹ thuật Việt Nam)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/son-dong/boy_buddha_wood.jpg',
+        caption: 'Tượng Phật đồng tử gỗ sơn son thếp vàng, thời Trần – Hồ (Bảo tàng Lịch sử Quốc gia)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/son-dong/wood_sculpture_1.jpg',
+        caption: 'Tượng gỗ Việt Nam (Bảo tàng Mỹ thuật TP.HCM)',
+        credit: 'Ảnh: Gary Todd from Xinzheng, China / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/son-dong/wood_sculpture_2.jpg',
+        caption: 'Tác phẩm điêu khắc gỗ Việt Nam (Bảo tàng Mỹ thuật TP.HCM)',
+        credit: 'Ảnh: Gary Todd from Xinzheng, China / Wikimedia Commons (CC0)'
       }
     ],
     history: {
@@ -1698,6 +2043,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/trach-xa/hero.jpg',
         caption: 'Nét duyên dáng thanh tao của tà áo dài truyền thống may tay thủ công giấu chỉ Trạch Xá'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_modern.jpg',
+        caption: 'Áo dài cách tân trong đời sống đương đại',
+        credit: 'Ảnh: Lê Ngọc Anh Thư / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_modern_2.jpg',
+        caption: 'Áo dài truyền thống tôn lên vẻ thanh lịch của người phụ nữ Việt',
+        credit: 'Ảnh: Pauloleong2002 / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_van_mieu.jpg',
+        caption: 'Áo dài trong khuôn viên Văn Miếu – Quốc Tử Giám (Hà Nội)',
+        credit: 'Ảnh: cloud.shepherd / Wikimedia Commons (CC BY 2.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_nghe.jpg',
+        caption: 'Áo dài tại một lễ hội nghề ở Hà Nội',
+        credit: 'Ảnh: Aodailasenvu / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_tu_than.jpg',
+        caption: 'Áo tứ thân – tiền thân của áo dài năm thân',
+        credit: 'Ảnh: Lionel Ng from Singapore / Wikimedia Commons (CC BY-SA 2.0)'
       }
     ],
     history: {
@@ -1819,6 +2189,26 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/thach-xa/balancing_dragonflies.jpg',
         caption: 'Đàn chuồn chuồn tre sơn mài rực rỡ tự giữ thăng bằng kỳ diệu trên đầu ngón tay và cành cây mộc mạc'
+      },
+      {
+        url: '/images/villages/thach-xa/bamboo_copter.jpg',
+        caption: 'Bộ sưu tập chuồn chuồn tre (taketombo) – đồ chơi tre phổ biến ở châu Á',
+        credit: 'Ảnh: Tomomarusan / Wikimedia Commons (CC BY 2.5)'
+      },
+      {
+        url: '/images/villages/thach-xa/tay_phuong_pagoda.jpg',
+        caption: 'Chùa Tây Phương – ngôi chùa cổ trên vùng đất Thạch Thất, Hà Nội',
+        credit: 'Ảnh: Liftold at Vietnamese Wikipedia / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/thach-xa/tay_phuong_statues.jpg',
+        caption: 'Hệ thống tượng gỗ cổ tại chùa Tây Phương',
+        credit: 'Ảnh: Benjamin Smith / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/thach-xa/la_han_18.jpg',
+        caption: 'Một trong 18 tượng La Hán tại chùa Tây Phương, Thạch Thất',
+        credit: 'Ảnh: Liftold at Vietnamese Wikipedia / Wikimedia Commons (CC BY-SA 3.0)'
       }
     ],
     history: {
@@ -1935,6 +2325,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chang-son/fan_drying_courtyard.jpg',
         caption: 'Sân đình cổ kính Chàng Sơn ngập tràn hàng trăm chiếc quạt lụa và quạt giấy rực rỡ sắc màu đang phơi dưới nắng ấm'
+      },
+      {
+        url: '/images/villages/chang-son/hang_quat_altars.jpg',
+        caption: 'Phố Hàng Quạt – con phố chuyên bán quạt giấy, đồ thờ và tượng Phật của Hà Nội xưa',
+        credit: 'Ảnh: Greg Willis from Denver, CO, usa / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/chang-son/fan_old_quarter.jpg',
+        caption: 'Cụ bà cầm quạt giấy trong khu phố cổ Hà Nội',
+        credit: 'Ảnh: Adam Jones from Kelowna, BC, Canada / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/chang-son/fan_dancer_van_mieu.jpg',
+        caption: 'Vũ nữ cầm quạt trong một buổi biểu diễn tại Văn Miếu (Hà Nội)',
+        credit: 'Ảnh: Jean-Pierre Dalbéra / Wikimedia Commons (CC BY 2.0)'
+      },
+      {
+        url: '/images/villages/chang-son/asian_fan_dance.jpg',
+        caption: 'Điệu múa quạt truyền thống châu Á',
+        credit: 'Ảnh: user:AngMoKio / Wikimedia Commons (CC BY-SA 2.5)'
+      },
+      {
+        url: '/images/villages/chang-son/woven_palm_fan.jpg',
+        caption: 'Quạt lá cọ đan thủ công – minh họa các loại quạt thủ công truyền thống',
+        credit: 'Ảnh: Codobai / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/chang-son/fan_archaeology_note.jpg',
+        caption: 'Tư liệu khảo cổ 1958 ghi nhận quạt giấy trong mộ hợp chất Hoàng Đức (Thanh Hóa)',
+        credit: 'Ảnh: Bầu trời ngb / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -2046,6 +2466,36 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/me-tri/wrapping_com_lotus_leaves.jpg',
         caption: 'Gói cốm tươi dẻo thơm trong lá sen ngọc bích buộc sợi rơm vàng óng bên ấm trà sen ngát hương'
+      },
+      {
+        url: '/images/villages/me-tri/com_lang_vong.jpg',
+        caption: 'Cốm làng Vòng – hạt cốm xanh dẹt làm từ nếp non, đặc sản mùa thu Hà Nội',
+        credit: 'Ảnh: D.Thiên / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/me-tri/com.jpg',
+        caption: 'Cốm tươi gói trong lá',
+        credit: 'Ảnh: Bình Giang / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/me-tri/banh_com_2.png',
+        caption: 'Bánh cốm – bánh làm từ cốm với nhân đậu xanh',
+        credit: 'Ảnh: P.T.Đ / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/me-tri/banh_com_3.jpg',
+        caption: 'Bánh cốm Hà Nội, thức quà mùa thu',
+        credit: 'Ảnh: Viethavvh (thảo luận) / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/me-tri/co_trung_thu.jpg',
+        caption: 'Mâm cỗ Trung thu – dịp cốm và bánh cốm được dùng nhiều nhất',
+        credit: 'Ảnh: Viethavvh / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/me-tri/do_le_an_hoi.jpg',
+        caption: 'Tráp lễ ăn hỏi truyền thống – bánh cốm thường có trong tráp',
+        credit: 'Ảnh: Viethavvh at vi.wikipedia / Wikimedia Commons (Public domain)'
       }
     ],
     history: {

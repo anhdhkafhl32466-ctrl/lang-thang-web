@@ -12,6 +12,83 @@
       "description": "Công lộ xã Bát Tràng, huyện Gia Lâm, Hà Nội sáng mồng Năm Tết Nhâm Thìn (2012).",
       "file": "street_view.jpg",
       "bytes": 497706
+    },
+    {
+      "title": "Bat-Trang-Ceramic-Village8.jpg",
+      "width": 2560,
+      "height": 1920,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Bat-Trang-Ceramic-Village8.jpg",
+      "author": "Steven C. Price",
+      "license": "CC BY-SA 4.0",
+      "description": "Hand crafting ceramics at Bat Trang, Vietnam",
+      "file": "handcrafting_1.jpg"
+    },
+    {
+      "title": "Bat-Trang-Ceramic-Village12.jpg",
+      "width": 2560,
+      "height": 1920,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Bat-Trang-Ceramic-Village12.jpg",
+      "author": "Steven C. Price",
+      "license": "CC BY-SA 4.0",
+      "description": "Hand crafting pottery in Bat Trang, Vietnam",
+      "file": "handcrafting_2.jpg"
+    },
+    {
+      "title": "Bat-Trang-Ceramic-Village2.jpg",
+      "width": 2560,
+      "height": 1920,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Bat-Trang-Ceramic-Village2.jpg",
+      "author": "Steven C. Price",
+      "license": "CC BY-SA 4.0",
+      "description": "Transporting ceramics at Bat Trang, Vietnam",
+      "file": "transport_2.jpg"
+    },
+    {
+      "title": "Bát Tràng DSC 0091.JPG",
+      "width": 3104,
+      "height": 1746,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:B%C3%A1t_Tr%C3%A0ng_DSC_0091.JPG",
+      "author": "Greenknight dv",
+      "license": "CC BY-SA 4.0",
+      "description": "Gốm sứ Bát Tràng",
+      "file": "ceramics_display.jpg"
+    },
+    {
+      "title": "Bát Tràng, tường than.JPG",
+      "width": 2918,
+      "height": 1745,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:B%C3%A1t_Tr%C3%A0ng,_t%C6%B0%E1%BB%9Dng_than.JPG",
+      "author": "Greenknight dv",
+      "license": "CC BY-SA 4.0",
+      "description": "Than được phơi theo phương pháp truyền thống tại làng Bát Tràng",
+      "file": "drying_coal.jpg"
+    },
+    {
+      "title": "Ceramics shop in Bát Tràng, Hanoi (1 March 2018) 12.jpg",
+      "width": 3840,
+      "height": 2160,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Ceramics_shop_in_B%C3%A1t_Tr%C3%A0ng,_Hanoi_(1_March_2018)_12.jpg",
+      "author": "Donald Trung",
+      "license": "CC BY-SA 4.0",
+      "description": "A shop 🏪 specialised in Bát Tràng porcelain products",
+      "file": "ceramics_shop.jpg"
+    },
+    {
+      "title": "Strato en Bát Tràng 01.jpg",
+      "width": 3072,
+      "height": 2304,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Strato_en_B%C3%A1t_Tr%C3%A0ng_01.jpg",
+      "author": "RG72",
+      "license": "CC BY-SA 4.0",
+      "description": "Strato en Bát Tràng, Vjetnamio.",
+      "file": "street_2.jpg"
     }
   ],
   "van-phuc": [
@@ -53,6 +130,83 @@
       "description": "Silk weaving, 2003 Ha Dong",
       "file": "silk_weaving_3.jpg",
       "bytes": 149584
+    },
+    {
+      "title": "Silk weaving, 2003 Ha Dong 7.jpg",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Silk_weaving,_2003_Ha_Dong_7.jpg",
+      "author": "Syced",
+      "license": "CC0",
+      "description": "Silk weaving, 2003 Ha Dong",
+      "file": "silk_weaving_7.jpg"
+    },
+    {
+      "title": "Silk weaving, 2003 Ha Dong 11.jpg",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Silk_weaving,_2003_Ha_Dong_11.jpg",
+      "author": "Syced",
+      "license": "CC0",
+      "description": "Silk weaving, 2003 Ha Dong",
+      "file": "silk_weaving_11.jpg"
+    },
+    {
+      "title": "Silk weaving, 2003 Ha Dong 15.jpg",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Silk_weaving,_2003_Ha_Dong_15.jpg",
+      "author": "Syced",
+      "license": "CC0",
+      "description": "Silk weaving, 2003 Ha Dong",
+      "file": "silk_weaving_15.jpg"
+    },
+    {
+      "title": "Van Phuc weaver at Jacquard loom.jpg",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Van_Phuc_weaver_at_Jacquard_loom.jpg",
+      "author": "Dragfyre",
+      "license": "CC BY-SA 3.0",
+      "description": "A loom operator tends to a Jacquard silk loom at a workshop in Van Phuc silk village, Hanoi, Vietnam.",
+      "file": "jacquard_weaver.jpg"
+    },
+    {
+      "title": "Van Phuc weaver sitting.jpg",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Van_Phuc_weaver_sitting.jpg",
+      "author": "Dragfyre",
+      "license": "CC BY-SA 3.0",
+      "description": "A loom operator sits in front of a Jacquard silk loom at a workshop in Van Phuc silk village, Hanoi, Vietnam.",
+      "file": "jacquard_weaver_sitting.jpg"
+    },
+    {
+      "title": "Van Phuc loom punch cards 02.jpg",
+      "width": 1536,
+      "height": 2048,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Van_Phuc_loom_punch_cards_02.jpg",
+      "author": "Dragfyre",
+      "license": "CC BY-SA 3.0",
+      "description": "Punch cards used in a Jacquard silk loom at a workshop in Van Phuc silk village, Hanoi, Vietnam.",
+      "file": "loom_punch_cards.jpg"
+    },
+    {
+      "title": "LụaVạnPhúc-2198867187 a0d4cdce3b o.jpg",
+      "width": 900,
+      "height": 493,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:L%E1%BB%A5aV%E1%BA%A1nPh%C3%BAc-2198867187_a0d4cdce3b_o.jpg",
+      "author": "NTLam",
+      "license": "CC BY 2.0",
+      "description": "Lụa dệt ở làng Vạn Phúc, Hà Đông, Hà Nội, Việt Nam - Silk manufacturing in Hanoi",
+      "file": "lua_van_phuc.jpg"
     }
   ],
   "phu-vinh": [
@@ -107,6 +261,61 @@
       "description": "Exhibit in the Museum of Vietnamese History, Ho Chi Minh City, Vietnam. This work is old enough so that it is in the public domain. Photography was permitted in the museum without restriction.",
       "file": "basket_giarai.jpg",
       "bytes": 1364250
+    },
+    {
+      "title": "Handicraft products in Phu Vinh bamboo and rattan village, Viet Nam.jpg",
+      "width": 2560,
+      "height": 1707,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Handicraft_products_in_Phu_Vinh_bamboo_and_rattan_village,_Viet_Nam.jpg",
+      "author": "Rin Mamori",
+      "license": "CC BY-SA 4.0",
+      "description": "Handicraft products in Phu Vinh bamboo and rattan village, VietNam",
+      "file": "products_3.jpg"
+    },
+    {
+      "title": "Basket made of varnished and closely-fitted bamboo, Nam Dinh province - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05247.JPG",
+      "width": 4086,
+      "height": 3154,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Basket_made_of_varnished_and_closely-fitted_bamboo,_Nam_Dinh_province_-_Vietnam_National_Museum_of_Fine_Arts_-_Hanoi,_Vietnam_-_DSC05247.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Vietnam National Museum of Fine Arts - Hanoi, Vietnam. This artwork is old enough so that it is in the public domain.",
+      "file": "basket_museum.jpg"
+    },
+    {
+      "title": "Basket Boat and the Bamboo forest (Unsplash).jpg",
+      "width": 4000,
+      "height": 2672,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Basket_Boat_and_the_Bamboo_forest_(Unsplash).jpg",
+      "author": "Chester Ho chesterho",
+      "license": "CC0",
+      "description": "Cẩm Thanh, Hội An, Vietnam",
+      "file": "basket_boat.jpg"
+    },
+    {
+      "title": "Bamboo Fishing Baskets.jpg",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Bamboo_Fishing_Baskets.jpg",
+      "author": "David Stanley",
+      "license": "CC BY 4.0",
+      "description": "Bamboo fishing baskets are stacked high on a street in Hanoi, Vietnam.",
+      "file": "bamboo_fishing_baskets.jpg"
+    },
+    {
+      "title": "Bamboo weaving of the Thai ethnic group (photographed in Diềm Village, Châu Khe Commune, Con Cuông District).jpg",
+      "width": 1108,
+      "height": 1477,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Bamboo_weaving_of_the_Thai_ethnic_group_(photographed_in_Di%E1%BB%81m_Village,_Ch%C3%A2u_Khe_Commune,_Con_Cu%C3%B4ng_District).jpg",
+      "author": "KoheiU",
+      "license": "CC0",
+      "description": "(photographed in Diềm Village, Châu Khe Commune, Con Cuông District)",
+      "file": "bamboo_thai_weaving.jpg"
     }
   ],
   "chuong": [
@@ -148,6 +357,61 @@
       "description": "The traditional Vietnamese conical hat (nonla) dates from long ago. It identifies pictures taken in Vietnam.",
       "file": "non_la_vietnam.jpg",
       "bytes": 311631
+    },
+    {
+      "title": "Making conical hats - Hue countryside.jpg",
+      "width": 1944,
+      "height": 2592,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Making_conical_hats_-_Hue_countryside.jpg",
+      "author": "Cyril Doussin",
+      "license": "CC BY-SA 2.0",
+      "description": "Đan nón, Huế.Making conical hats - Hue countryside",
+      "file": "conical_hat_making.jpg"
+    },
+    {
+      "title": "Hatter Vietnam.jpg",
+      "width": 3872,
+      "height": 2592,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hatter_Vietnam.jpg",
+      "author": "Thomas Schoch – www.retas.de",
+      "license": "CC BY-SA 3.0",
+      "description": "Hatter in Mekong Delta, Vietnam, making traditional Conical Asian hat",
+      "file": "hatter_vietnam.jpg"
+    },
+    {
+      "title": "Hat-making display - Vietnam Museum of Ethnology - Hanoi, Vietnam - DSC02609.JPG",
+      "width": 3648,
+      "height": 5472,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hat-making_display_-_Vietnam_Museum_of_Ethnology_-_Hanoi,_Vietnam_-_DSC02609.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Vietnam Museum of Ethnology - Hanoi, Vietnam. Photography was permitted in the museum without restriction.",
+      "file": "hat_display_ethnology.jpg"
+    },
+    {
+      "title": "The symbol of Vietnamese.jpg",
+      "width": 3650,
+      "height": 4032,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:The_symbol_of_Vietnamese.jpg",
+      "author": "Eric Reminicent",
+      "license": "CC BY-SA 4.0",
+      "description": "The picture explicitly shows a Vietnamese who is wearing a palm-leaf conical hat and an Ao Dai. Palm-leaf conical hats and Ao Dai are the 2 biggest symbols of Vietnamese people. They both look elegant, yet simple and fat",
+      "file": "non_la_ao_dai.jpg"
+    },
+    {
+      "title": "Nón lá đồ chơi.jpg",
+      "width": 1024,
+      "height": 681,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:N%C3%B3n_l%C3%A1_%C4%91%E1%BB%93_ch%C6%A1i.jpg",
+      "author": "terence from Singapore",
+      "license": "CC BY 2.0",
+      "description": "Small straw conic hats.",
+      "file": "non_la_toy.jpg"
     }
   ],
   "kieu-ky": [
@@ -176,6 +440,72 @@
       "description": "Image of a piece of pure gold leaf taken using the focus stacking technique.",
       "file": "gold_leaf_closeup.jpg",
       "bytes": 485221
+    },
+    {
+      "title": "Oc Eo Culture Gold Foil 1.jpg",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Oc_Eo_Culture_Gold_Foil_1.jpg",
+      "author": "Gary Todd",
+      "license": "CC0",
+      "description": "Oc Eo Culture Gallery, Museum of Vietnamese History, Hanoi. Complete indexed photo collection at WorldHistoryPics.com.",
+      "file": "gold_foil_oc_eo_1.jpg"
+    },
+    {
+      "title": "Oc Eo Culture Gold Foil 2.jpg",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Oc_Eo_Culture_Gold_Foil_2.jpg",
+      "author": "Gary Todd",
+      "license": "CC0",
+      "description": "Oc Eo Culture Gallery, Museum of Vietnamese History, Hanoi. Complete indexed photo collection at WorldHistoryPics.com.",
+      "file": "gold_foil_oc_eo_2.jpg"
+    },
+    {
+      "title": "Cat Tien gold.jpg",
+      "width": 2004,
+      "height": 2827,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cat_Tien_gold.jpg",
+      "author": "Sgnpkd",
+      "license": "CC BY-SA 4.0",
+      "description": "Golden leaf with Lakshmi figure. Golden lingam amulet. Cat Tien Museum.",
+      "file": "cat_tien_gold_leaf.jpg"
+    },
+    {
+      "title": "Small gold nugget 5mm dia and corresponding foil surface of half sq meter.jpg",
+      "width": 2304,
+      "height": 3072,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Small_gold_nugget_5mm_dia_and_corresponding_foil_surface_of_half_sq_meter.jpg",
+      "author": "PHGCOM",
+      "license": "CC BY-SA 3.0",
+      "description": "Small gold nugget 5mm dia and corresponding gold foil surface of half sq_meter",
+      "file": "gold_malleability.jpg"
+    },
+    {
+      "title": "Cutting Gold Leaf - Golden Rose Workshop - Mandalay - Myanmar (Burma) (11962913425).jpg",
+      "width": 2736,
+      "height": 3648,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Cutting_Gold_Leaf_-_Golden_Rose_Workshop_-_Mandalay_-_Myanmar_(Burma)_(11962913425).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "description": "Cutting Gold Leaf - Golden Rose Workshop - Mandalay - Myanmar (Burma)",
+      "file": "cutting_gold_leaf_workshop.jpg"
+    },
+    {
+      "title": "Kanazawa Gold Factory.jpg",
+      "width": 1793,
+      "height": 1276,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Kanazawa_Gold_Factory.jpg",
+      "author": "Eckhard Pecher",
+      "license": "CC BY 2.5",
+      "description": "Gold Processing at a workshop in Kanazawa, Japan",
+      "file": "gold_factory_kanazawa.jpg"
     }
   ],
   "dao-thuc": [
@@ -217,6 +547,72 @@
       "description": "Nguoi chan trau trong mua roi nuoc",
       "file": "buffalo_puppet.jpg",
       "bytes": 410970
+    },
+    {
+      "title": "Thang Long Water Puppet Theatre2.JPG",
+      "width": 2816,
+      "height": 2112,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Thang_Long_Water_Puppet_Theatre2.JPG",
+      "author": "Gryffindor",
+      "license": "CC BY-SA 3.0",
+      "description": "Thang Long Water Puppet Theatre in Hanoi",
+      "file": "thang_long_theatre.jpg"
+    },
+    {
+      "title": "Hanoi Vietnam Thang-Long-Water-Puppet-Theatre-01.jpg",
+      "width": 4272,
+      "height": 2848,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hanoi_Vietnam_Thang-Long-Water-Puppet-Theatre-01.jpg",
+      "author": "CEphoto, Uwe Aranas",
+      "license": "CC BY-SA 3.0",
+      "description": "Hanoi, Vietnam: Thang Long Water Puppet Theatre",
+      "file": "thang_long_entrance.jpg"
+    },
+    {
+      "title": "Water-Puppet-Show-Musician.jpg",
+      "width": 1864,
+      "height": 1368,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Water-Puppet-Show-Musician.jpg",
+      "author": "Steven C. Price",
+      "license": "CC BY-SA 4.0",
+      "description": "Musician at Water Puppet Show, Hanoi, Vietnam",
+      "file": "water_puppet_musician.jpg"
+    },
+    {
+      "title": "Water-Puppet-turtle.jpg",
+      "width": 1996,
+      "height": 1176,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Water-Puppet-turtle.jpg",
+      "author": "Steven C. Price",
+      "license": "CC BY-SA 4.0",
+      "description": "Water Puppet, Hanoi, Vietnam",
+      "file": "water_puppet_turtle.jpg"
+    },
+    {
+      "title": "Water puppeteers Phan Tranh Liem and his wife, Hanoi, 2017.jpg",
+      "width": 4032,
+      "height": 3024,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Water_puppeteers_Phan_Tranh_Liem_and_his_wife,_Hanoi,_2017.jpg",
+      "author": "Kerry Raymond",
+      "license": "CC BY 4.0",
+      "description": "Water puppeteers Phan Tranh Liem and his wife, Hanoi, 2017",
+      "file": "water_puppeteers_2017.jpg"
+    },
+    {
+      "title": "Marionnettes sur l'eau (21717834799).jpg",
+      "width": 2173,
+      "height": 1449,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Marionnettes_sur_l%27eau_(21717834799).jpg",
+      "author": "Eric Lefevre-Ardant from Paris, France",
+      "license": "CC BY-SA 2.0",
+      "description": "Marionnettes sur l'eau",
+      "file": "marionnettes_eau.jpg"
     }
   ],
   "tay-tuu": [
@@ -258,6 +654,61 @@
       "description": "Flower display - Hanoi, Vietnam.",
       "file": "flower_display.jpg",
       "bytes": 1611105
+    },
+    {
+      "title": "Flower hawker (Unsplash).jpg",
+      "width": 7213,
+      "height": 4814,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Flower_hawker_(Unsplash).jpg",
+      "author": "Linh Pham linharex",
+      "license": "CC0",
+      "description": "Hanoi, Vietnam",
+      "file": "flower_hawker.jpg"
+    },
+    {
+      "title": "Flower market from bus.jpg",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Flower_market_from_bus.jpg",
+      "author": "Amenoc",
+      "license": "CC0",
+      "description": "late afternoon",
+      "file": "flower_market_bus.jpg"
+    },
+    {
+      "title": "Flower trunks - Hanoi Botanical Garden - Hanoi, Vietnam - DSC03574.JPG",
+      "width": 5472,
+      "height": 3648,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Flower_trunks_-_Hanoi_Botanical_Garden_-_Hanoi,_Vietnam_-_DSC03574.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Hanoi Botanical Garden - Hanoi, Vietnam.",
+      "file": "flower_nursery.jpg"
+    },
+    {
+      "title": "Yellow Chrysanthemum in Vietnam.jpg",
+      "width": 722,
+      "height": 1280,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Yellow_Chrysanthemum_in_Vietnam.jpg",
+      "author": "Qh88xlcom",
+      "license": "CC BY-SA 4.0",
+      "description": "Ảnh chụp hoa cúc vàng đang nở rộ tại làng hoa Tây Tựu, Hà Nội, Việt Nam ngày 07/04/2025.",
+      "file": "chrysanthemum.jpg"
+    },
+    {
+      "title": "Vườn hoa Quốc Tử Giám, Hà Nội 003.JPG",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:V%C6%B0%E1%BB%9Dn_hoa_Qu%E1%BB%91c_T%E1%BB%AD_Gi%C3%A1m,_H%C3%A0_N%E1%BB%99i_003.JPG",
+      "author": "Phan Minh Tuấn",
+      "license": "CC BY-SA 4.0",
+      "description": "Vườn hoa Quốc Tử Giám, Hà Nội, Việt Nam.",
+      "file": "hanoi_flower_garden.jpg"
     }
   ],
   "xuan-la": [
@@ -299,6 +750,61 @@
       "description": "Tò he 1",
       "file": "to_he_1.jpg",
       "bytes": 680115
+    },
+    {
+      "title": "To he.JPG",
+      "width": 2288,
+      "height": 1712,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:To_he.JPG",
+      "author": "User:Rungbachduong",
+      "license": "GFDL",
+      "description": "en:Tò he",
+      "file": "to_he_2.jpg"
+    },
+    {
+      "title": "Tò he.JPG",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:T%C3%B2_he.JPG",
+      "author": "Memberofc1",
+      "license": "CC BY-SA 3.0",
+      "description": "some \"tò he\"",
+      "file": "to_he_3.jpg"
+    },
+    {
+      "title": "Newone - ô ăn quan.jpg",
+      "width": 3024,
+      "height": 4032,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Newone_-_%C3%B4_%C4%83n_quan.jpg",
+      "author": "Newone",
+      "license": "CC BY-SA 4.0",
+      "description": "Trò chơi dân gian ngày tết Kỷ Hợi vi:ô ăn quan tại Times City",
+      "file": "o_an_quan.jpg"
+    },
+    {
+      "title": "Chơi ô ăn quan (Trường Sa).jpg",
+      "width": 2272,
+      "height": 1704,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Ch%C6%A1i_%C3%B4_%C4%83n_quan_(Tr%C6%B0%E1%BB%9Dng_Sa).jpg",
+      "author": "Phạm Xuân Nguyên",
+      "license": "CC BY 3.0",
+      "description": "Trẻ em Việt Nam trên đảo Trường Sa Lớn thuộc quần đảo Trường Sa đang chơi trò chơi dân gian ô ăn quan.",
+      "file": "o_an_quan_truong_sa.jpg"
+    },
+    {
+      "title": "Bịt mắt đập niêu.JPG",
+      "width": 1024,
+      "height": 768,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:B%E1%BB%8Bt_m%E1%BA%AFt_%C4%91%E1%BA%ADp_ni%C3%AAu.JPG",
+      "author": "LÊ TẤN LỘC",
+      "license": "CC BY-SA 3.0",
+      "description": "Bịt mắt đập niêu, một trò chơi dân gian Hội An",
+      "file": "bit_mat_dap_nieu.jpg"
     }
   ],
   "quang-phu-cau": [
@@ -340,6 +846,72 @@
       "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
       "file": "drying_incense_3.jpg",
       "bytes": 1185329
+    },
+    {
+      "title": "Drying incense 04.jpg",
+      "width": 5464,
+      "height": 3640,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Drying_incense_04.jpg",
+      "author": "Azimronnie",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
+      "file": "drying_incense_04.jpg"
+    },
+    {
+      "title": "Drying incense 40.jpg",
+      "width": 5464,
+      "height": 3070,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Drying_incense_40.jpg",
+      "author": "Azimronnie",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
+      "file": "drying_incense_40.jpg"
+    },
+    {
+      "title": "Drying incense 49.jpg",
+      "width": 5464,
+      "height": 3070,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Drying_incense_49.jpg",
+      "author": "Azimronnie",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
+      "file": "drying_incense_49.jpg"
+    },
+    {
+      "title": "Drying incense 55.jpg",
+      "width": 5464,
+      "height": 3070,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Drying_incense_55.jpg",
+      "author": "Azimronnie",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
+      "file": "drying_incense_55.jpg"
+    },
+    {
+      "title": "Drying incense 74.jpg",
+      "width": 4965,
+      "height": 2987,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Drying_incense_74.jpg",
+      "author": "Azimronnie",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese workers sits surrounded by thousands of incense sticks in a village in Hanoi, Vietnam, where the sticks have been traditionally made for hundreds of years. Incense plays an important role in the spiritual live",
+      "file": "drying_incense_74.jpg"
+    },
+    {
+      "title": "Incense making (2637231356).jpg",
+      "width": 1024,
+      "height": 950,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Incense_making_(2637231356).jpg",
+      "author": "Kirk Fisher from Columbus Ohio",
+      "license": "CC BY 2.0",
+      "description": "Incense maker",
+      "file": "incense_making.jpg"
     }
   ],
   "chuyen-my": [
@@ -381,6 +953,72 @@
       "description": "",
       "file": "sap_kham_trai.jpg",
       "bytes": 639739
+    },
+    {
+      "title": "Boxes, Nguyen dynasty, 19th to early 20th century, wood with mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05617.JPG",
+      "width": 5472,
+      "height": 3083,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Boxes,_Nguyen_dynasty,_19th_to_early_20th_century,_wood_with_mother_of_pearl_inlay_-_National_Museum_of_Vietnamese_History_-_Hanoi,_Vietnam_-_DSC05617.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the National Museum of Vietnamese History, Hanoi, Vietnam. Photography was permitted in the museum without restriction. This artwork is old enough so that it is in the public domain.",
+      "file": "inlay_boxes.jpg"
+    },
+    {
+      "title": "Panel with dragon decoration, Nguyen dynasty, 19th century, crimson and gilded wood, mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05622.JPG",
+      "width": 5301,
+      "height": 3526,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Panel_with_dragon_decoration,_Nguyen_dynasty,_19th_century,_crimson_and_gilded_wood,_mother_of_pearl_inlay_-_National_Museum_of_Vietnamese_History_-_Hanoi,_Vietnam_-_DSC05622.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the National Museum of Vietnamese History, Hanoi, Vietnam. Photography was permitted in the museum without restriction. This artwork is old enough so that it is in the public domain.",
+      "file": "inlay_dragon_panel.jpg"
+    },
+    {
+      "title": "Picture, Nguyen dynasty, 1890, wood with mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05612.JPG",
+      "width": 5472,
+      "height": 3648,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Picture,_Nguyen_dynasty,_1890,_wood_with_mother_of_pearl_inlay_-_National_Museum_of_Vietnamese_History_-_Hanoi,_Vietnam_-_DSC05612.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the National Museum of Vietnamese History, Hanoi, Vietnam. Photography was permitted in the museum without restriction. This artwork is old enough so that it is in the public domain.",
+      "file": "inlay_picture_1890.jpg"
+    },
+    {
+      "title": "Tray, early 20th century, carved wood with mother-of-pearl inlay - Museum of Vietnamese History - Ho Chi Minh City - DSC05968.JPG",
+      "width": 4865,
+      "height": 3219,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Tray,_early_20th_century,_carved_wood_with_mother-of-pearl_inlay_-_Museum_of_Vietnamese_History_-_Ho_Chi_Minh_City_-_DSC05968.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Museum of Vietnamese History, Ho Chi Minh City, Vietnam. This work is old enough so that it is in the public domain. Photography was permitted in the museum without restriction.",
+      "file": "inlay_tray.jpg"
+    },
+    {
+      "title": "Tủ thờ khảm xà cừ..jpg",
+      "width": 2786,
+      "height": 2227,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:T%E1%BB%A7_th%E1%BB%9D_kh%E1%BA%A3m_x%C3%A0_c%E1%BB%AB..jpg",
+      "author": "Bùi Thụy Đào Nguyên",
+      "license": "CC BY-SA 3.0",
+      "description": "Một tủ thờ gỗ khảm xà cừ trong Bảo tàng An Giang, Việt Nam.",
+      "file": "inlay_altar_cabinet.jpg"
+    },
+    {
+      "title": "Sập và tủ chè khảm xà cừ.JPG",
+      "width": 2560,
+      "height": 1920,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:S%E1%BA%ADp_v%C3%A0_t%E1%BB%A7_ch%C3%A8_kh%E1%BA%A3m_x%C3%A0_c%E1%BB%AB.JPG",
+      "author": "vi:User:Nguyễn Thanh Quang",
+      "license": "CC BY-SA 3.0",
+      "description": "Một bộ sập và tủ chè khảm xà cừ.",
+      "file": "inlay_bed_cabinet.jpg"
     }
   ],
   "ha-thai": [
@@ -435,6 +1073,50 @@
       "description": "Lacquered folding screen named Thiếu nữ và phong cảnh (Young ladies and garden landscape). This is the \"Young ladies\" side",
       "file": "lacquer_painting_nguyen_gia_tri.jpg",
       "bytes": 761752
+    },
+    {
+      "title": "Lacquered box - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05246.JPG",
+      "width": 3530,
+      "height": 4163,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Lacquered_box_-_Vietnam_National_Museum_of_Fine_Arts_-_Hanoi,_Vietnam_-_DSC05246.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Vietnam National Museum of Fine Arts - Hanoi, Vietnam. This artwork is old enough so that it is in the public domain.",
+      "file": "lacquer_box3.jpg"
+    },
+    {
+      "title": "Instrument for stirring lacquer, Viet - Vietnam Museum of Ethnology - Hanoi, Vietnam - DSC02595.JPG",
+      "width": 3648,
+      "height": 5472,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Instrument_for_stirring_lacquer,_Viet_-_Vietnam_Museum_of_Ethnology_-_Hanoi,_Vietnam_-_DSC02595.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Vietnam Museum of Ethnology - Hanoi, Vietnam. Photography was permitted in the museum without restriction.",
+      "file": "lacquer_stirring_tool.jpg"
+    },
+    {
+      "title": "Vietnamese Lacquered Wood (9997427095).jpg",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Vietnamese_Lacquered_Wood_(9997427095).jpg",
+      "author": "Gary Todd from Xinzheng, China",
+      "license": "CC0",
+      "description": "HCMC Fine Arts Museum, Ho Chi Minh City/Saigon. Complete indexed photo collection at WorldHistoryPics.com.",
+      "file": "lacquer_wood_1.jpg"
+    },
+    {
+      "title": "Vietnamese Women's Museum, Gift Box.jpg",
+      "width": 5315,
+      "height": 3544,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Vietnamese_Women%27s_Museum,_Gift_Box.jpg",
+      "author": "Vietnamese Women's Museum",
+      "license": "CC BY-SA 3.0",
+      "description": "Gift box for engagement ritual Wood, lacquer H.23cm, D.50cm",
+      "file": "lacquer_gift_box.jpg"
     }
   ],
   "son-dong": [
@@ -476,6 +1158,61 @@
       "description": "One of the eighteen arhat statues at Tây Phương Buddhist Temple, Thạch Thất District, Hanoi, Vietnam.",
       "file": "la_han_tay_phuong.jpg",
       "bytes": 954563
+    },
+    {
+      "title": "Tượng gỗ chim công Việt Nam tại Bảo tàng lịch sử Việt Nam năm 2017 (16).jpg",
+      "width": 3120,
+      "height": 4160,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:T%C6%B0%E1%BB%A3ng_g%E1%BB%97_chim_c%C3%B4ng_Vi%E1%BB%87t_Nam_t%E1%BA%A1i_B%E1%BA%A3o_t%C3%A0ng_l%E1%BB%8Bch_s%E1%BB%AD_Vi%E1%BB%87t_Nam_n%C4%83m_2017_(16).jpg",
+      "author": "Phương Huy (thảo luận)",
+      "license": "Public domain",
+      "description": "Tượng gỗ chim công Việt Nam tại Bảo tàng lịch sử Việt Nam năm 2017",
+      "file": "peacock_wood_statue.jpg"
+    },
+    {
+      "title": "Buddha standing on a lotus throne, wood - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC04890.JPG",
+      "width": 3466,
+      "height": 5257,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Buddha_standing_on_a_lotus_throne,_wood_-_Vietnam_National_Museum_of_Fine_Arts_-_Hanoi,_Vietnam_-_DSC04890.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the Vietnam National Museum of Fine Arts - Hanoi, Vietnam. This artwork is old enough so that it is in the public domain.",
+      "file": "buddha_wood_statue.jpg"
+    },
+    {
+      "title": "The boy Buddha rising up from lotus, Tran-Ho dynasty, 14th-15th century AD, crimson and gilded wood - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05511.JPG",
+      "width": 3551,
+      "height": 4700,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:The_boy_Buddha_rising_up_from_lotus,_Tran-Ho_dynasty,_14th-15th_century_AD,_crimson_and_gilded_wood_-_National_Museum_of_Vietnamese_History_-_Hanoi,_Vietnam_-_DSC05511.JPG",
+      "author": "Daderot",
+      "license": "CC0",
+      "description": "Exhibit in the National Museum of Vietnamese History, Hanoi, Vietnam. Photography was permitted in the museum without restriction. This artwork is old enough so that it is in the public domain.",
+      "file": "boy_buddha_wood.jpg"
+    },
+    {
+      "title": "Vietnamese Wood Sculpture (9997563953).jpg",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Vietnamese_Wood_Sculpture_(9997563953).jpg",
+      "author": "Gary Todd from Xinzheng, China",
+      "license": "CC0",
+      "description": "HCMC Fine Arts Museum, Ho Chi Minh City/Saigon. Complete indexed photo collection at WorldHistoryPics.com.",
+      "file": "wood_sculpture_1.jpg"
+    },
+    {
+      "title": "Vietnamese Wood Sculpture (9997484046).jpg",
+      "width": 5184,
+      "height": 3456,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Vietnamese_Wood_Sculpture_(9997484046).jpg",
+      "author": "Gary Todd from Xinzheng, China",
+      "license": "CC0",
+      "description": "HCMC Fine Arts Museum, Ho Chi Minh City/Saigon. Complete indexed photo collection at WorldHistoryPics.com.",
+      "file": "wood_sculpture_2.jpg"
     }
   ],
   "trach-xa": [
@@ -517,6 +1254,61 @@
       "description": "Captured with my lensbaby in Phan Thiet, Vietnam. Watching the dance was amazing, they are so fluid and graceful.",
       "file": "ao_dai_dancers.jpg",
       "bytes": 328448
+    },
+    {
+      "title": "Modern ao dai.jpg",
+      "width": 1795,
+      "height": 2433,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Modern_ao_dai.jpg",
+      "author": "Lê Ngọc Anh Thư",
+      "license": "CC BY-SA 4.0",
+      "description": "Modern ao dai with dress",
+      "file": "ao_dai_modern.jpg"
+    },
+    {
+      "title": "Ao Dai (modern).jpg",
+      "width": 3456,
+      "height": 4608,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Ao_Dai_(modern).jpg",
+      "author": "Pauloleong2002",
+      "license": "CC BY-SA 4.0",
+      "description": "This photo has been taken in the country: Estonia",
+      "file": "ao_dai_modern_2.jpg"
+    },
+    {
+      "title": "Temple of Literature - Ao Dai.jpg",
+      "width": 6984,
+      "height": 4661,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Temple_of_Literature_-_Ao_Dai.jpg",
+      "author": "cloud.shepherd",
+      "license": "CC BY 2.0",
+      "description": "Temple of Literature - Ao Dai",
+      "file": "ao_dai_van_mieu.jpg"
+    },
+    {
+      "title": "Aodai Nghe 2018.jpg",
+      "width": 3648,
+      "height": 5472,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Aodai_Nghe_2018.jpg",
+      "author": "Aodailasenvu",
+      "license": "CC BY-SA 4.0",
+      "description": "Ao dai",
+      "file": "ao_dai_nghe.jpg"
+    },
+    {
+      "title": "Áo tứ thân.jpg",
+      "width": 1288,
+      "height": 1936,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:%C3%81o_t%E1%BB%A9_th%C3%A2n.jpg",
+      "author": "Lionel Ng from Singapore",
+      "license": "CC BY-SA 2.0",
+      "description": "Một cô gái mặc áo tứ thân",
+      "file": "ao_tu_than.jpg"
     }
   ],
   "thach-xa": [
@@ -558,6 +1350,61 @@
       "description": "The smiling Arhat, one of the eighteen arhat statues at Tây Phương Buddhist Temple, Thạch Thất District, Hanoi, Vietnam.",
       "file": "la_han.jpg",
       "bytes": 1144695
+    },
+    {
+      "title": "Montmoreau 16 Libellule bambou 2012.jpg",
+      "width": 4334,
+      "height": 2458,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Montmoreau_16_Libellule_bambou_2012.jpg",
+      "author": "JLPC",
+      "license": "CC BY-SA 3.0",
+      "description": "Bamboo dragonfly : toy made and painted in Vietnam. Montmoreau, Charente, France.",
+      "file": "bamboo_dragonfly.jpg"
+    },
+    {
+      "title": "Taketombo.jpg",
+      "width": 1746,
+      "height": 1398,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Taketombo.jpg",
+      "author": "Tomomarusan",
+      "license": "CC BY 2.5",
+      "description": "A selection of bamboo-copters.",
+      "file": "bamboo_copter.jpg"
+    },
+    {
+      "title": "Chùa Tây Phương.JPG",
+      "width": 3072,
+      "height": 2304,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Ch%C3%B9a_T%C3%A2y_Ph%C6%B0%C6%A1ng.JPG",
+      "author": "Liftold at Vietnamese Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "description": "Tây Phương Buddhist Temple, Thạch Thất District, Hanoi, Vietnam.",
+      "file": "tay_phuong_pagoda.jpg"
+    },
+    {
+      "title": "Tây Phương Pagoda - 06.jpg",
+      "width": 4694,
+      "height": 3135,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:T%C3%A2y_Ph%C6%B0%C6%A1ng_Pagoda_-_06.jpg",
+      "author": "Benjamin Smith",
+      "license": "CC BY-SA 4.0",
+      "description": "Tây Phương Pagoda (Greater Hanoi, Vietnam) - Statues",
+      "file": "tay_phuong_statues.jpg"
+    },
+    {
+      "title": "1 trong 18 La Hán chùa Tây Phương.jpg",
+      "width": 2304,
+      "height": 3072,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:1_trong_18_La_H%C3%A1n_ch%C3%B9a_T%C3%A2y_Ph%C6%B0%C6%A1ng.jpg",
+      "author": "Liftold at Vietnamese Wikipedia",
+      "license": "CC BY-SA 3.0",
+      "description": "One of the eighteen arhat statues at Tây Phương Buddhist Temple, Thạch Thất District, Hanoi, Vietnam.",
+      "file": "la_han_18.jpg"
     }
   ],
   "chang-son": [
@@ -586,6 +1433,72 @@
       "description": "A temple on Hàng Quạt Street in Hanoi.",
       "file": "hang_quat_temple.jpg",
       "bytes": 1045416
+    },
+    {
+      "title": "Hang Quat street of Buddhist altars & statues (3695174688).jpg",
+      "width": 1600,
+      "height": 1063,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hang_Quat_street_of_Buddhist_altars_%26_statues_(3695174688).jpg",
+      "author": "Greg Willis from Denver, CO, usa",
+      "license": "CC BY-SA 2.0",
+      "description": "Hang Quat street of Buddhist altars &amp; statues",
+      "file": "hang_quat_altars.jpg"
+    },
+    {
+      "title": "Elderly Woman with Fan - Old Quarter - Hanoi - Vietnam (48072281137).jpg",
+      "width": 2736,
+      "height": 3648,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Elderly_Woman_with_Fan_-_Old_Quarter_-_Hanoi_-_Vietnam_(48072281137).jpg",
+      "author": "Adam Jones from Kelowna, BC, Canada",
+      "license": "CC BY-SA 2.0",
+      "description": "Elderly Woman with Fan - Old Quarter - Hanoi - Vietnam",
+      "file": "fan_old_quarter.jpg"
+    },
+    {
+      "title": "Danseuse dans le Temple de la Littérature (Hanoi).jpg",
+      "width": 1456,
+      "height": 1941,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Danseuse_dans_le_Temple_de_la_Litt%C3%A9rature_(Hanoi).jpg",
+      "author": "Jean-Pierre Dalbéra",
+      "license": "CC BY 2.0",
+      "description": "Jeune danseuse vietnamienne se produisant lors d'une fête dans le Temple de la Littérature.",
+      "file": "fan_dancer_van_mieu.jpg"
+    },
+    {
+      "title": "Asian fan dance2.jpg",
+      "width": 2070,
+      "height": 1380,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Asian_fan_dance2.jpg",
+      "author": "user:AngMoKio",
+      "license": "CC BY-SA 2.5",
+      "description": "Asian fan dance",
+      "file": "asian_fan_dance.jpg"
+    },
+    {
+      "title": "Woven palm leaf fan.jpg",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Woven_palm_leaf_fan.jpg",
+      "author": "Codobai",
+      "license": "CC BY-SA 4.0",
+      "description": "Vietnamese fan of woven palm leaf",
+      "file": "woven_palm_fan.jpg"
+    },
+    {
+      "title": "Ghi chép về hiện vật khảo cổ ở mộ hợp chất Hoàng Đức - Thanh Hoá 1958.jpg",
+      "width": 1080,
+      "height": 734,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Ghi_ch%C3%A9p_v%E1%BB%81_hi%E1%BB%87n_v%E1%BA%ADt_kh%E1%BA%A3o_c%E1%BB%95_%E1%BB%9F_m%E1%BB%99_h%E1%BB%A3p_ch%E1%BA%A5t_Ho%C3%A0ng_%C4%90%E1%BB%A9c_-_Thanh_Ho%C3%A1_1958.jpg",
+      "author": "Bầu trời ngb",
+      "license": "CC BY-SA 4.0",
+      "description": "Từ Viện Bảo tàng Archeologie Hà Nội, Việt Nam. Nội dung: Hai xác ướp, áo vóc mộ xá Hoàng Đức, đồ dùng và vải mộ xá Hoàng Đức (quạt giấy, lụa tiểu liệm, yếm lụa, túi gấm đựng trầu cau, bao chân vải, xiêm. Tài liệu được kh",
+      "file": "fan_archaeology_note.jpg"
     }
   ],
   "me-tri": [
@@ -601,6 +1514,72 @@
       "description": "green rice cake made using cốm with mung bean filling",
       "file": "banh_com_vietnam.jpg",
       "bytes": 409799
+    },
+    {
+      "title": "Com-lang-vong.jpg",
+      "width": 1600,
+      "height": 1062,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Com-lang-vong.jpg",
+      "author": "D.Thiên",
+      "license": "CC BY-SA 4.0",
+      "description": "Cốm làng Vòng",
+      "file": "com_lang_vong.jpg"
+    },
+    {
+      "title": "Com.JPG",
+      "width": 1600,
+      "height": 1200,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Com.JPG",
+      "author": "Bình Giang",
+      "license": "Public domain",
+      "description": "Cốm.",
+      "file": "com.jpg"
+    },
+    {
+      "title": "Banh com.png",
+      "width": 3264,
+      "height": 2448,
+      "mime": "image/png",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Banh_com.png",
+      "author": "P.T.Đ",
+      "license": "CC BY-SA 4.0",
+      "description": "Bánh cốm Hàng Than.",
+      "file": "banh_com_2.png"
+    },
+    {
+      "title": "Bánh cốm.jpg",
+      "width": 1139,
+      "height": 1554,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:B%C3%A1nh_c%E1%BB%91m.jpg",
+      "author": "Viethavvh (thảo luận)",
+      "license": "CC BY-SA 3.0",
+      "description": "Bánh cốm Nguyên Ninh phố Hàng Than Hà Nội, trong một tráp lễ vật ăn hỏi.",
+      "file": "banh_com_3.jpg"
+    },
+    {
+      "title": "Cỗ trung thu.JPG",
+      "width": 3888,
+      "height": 2592,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:C%E1%BB%97_trung_thu.JPG",
+      "author": "Viethavvh",
+      "license": "CC BY-SA 4.0",
+      "description": "Phá cỗ trung thu trong không gian gia đình ở Hà Nội, Việt Nam với một số đồ ăn cơ bản: chuối tiêu chín ăn với cốm Vòng; bánh nướng bánh dẻo, quả hồng ngâm.",
+      "file": "co_trung_thu.jpg"
+    },
+    {
+      "title": "Do le an hoi.JPG",
+      "width": 2426,
+      "height": 904,
+      "mime": "image/jpeg",
+      "descriptionurl": "https://commons.wikimedia.org/wiki/File:Do_le_an_hoi.JPG",
+      "author": "Viethavvh at vi.wikipedia",
+      "license": "Public domain",
+      "description": "2 mâm (trầu cau; lợn sữa quay) và 5 tráp (bánh cốm; bánh phu thê; rượu và thuốc lá; chè hộp; bánh đậu xanh) dùng trong một lễ ăn hỏi ở Hà Nội",
+      "file": "do_le_an_hoi.jpg"
     }
   ]
 }
