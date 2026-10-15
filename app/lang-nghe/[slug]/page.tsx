@@ -742,32 +742,50 @@ export default function CraftVillageDetailPage() {
 
         {/* 5. Bộ sưu tập hình ảnh & Lightbox */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
-              Hình ảnh & Không gian làng nghề
-            </h2>
-            <span className="text-xs text-lacquer-800/60">Nhấp vào ảnh để xem kích thước lớn</span>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-b border-terracotta-100 pb-4">
+            <div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
+                <ImageIcon className="w-4 h-4" />
+                <span>Khoảnh Khắc Di Sản</span>
+              </div>
+              <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
+                Hình ảnh & Không gian làng nghề
+                <span className="text-terracotta-600 text-lg font-sans font-semibold ml-2.5">
+                  ({village.gallery.length} ảnh)
+                </span>
+              </h2>
+            </div>
+            <span className="text-xs text-lacquer-800/60 hidden sm:inline flex items-center gap-1.5">
+              <ZoomIn className="w-3.5 h-3.5 text-terracotta-500" />
+              <span>Nhấp vào ảnh để xem kích thước lớn</span>
+            </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
             {village.gallery.map((img, idx) => (
               <div
                 key={idx}
                 onClick={() => setSelectedImage(img)}
-                className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all"
+                className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all border border-terracotta-200/50 bg-dopaper-200"
               >
                 <img
                   src={img.url}
                   alt={img.caption}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
                 />
-                <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end gap-1 p-3">
-                  <p className="text-white text-xs font-medium line-clamp-2">
-                    {img.caption}
-                  </p>
-                  {img.credit && (
-                    <p className="text-white/60 text-[10px] leading-tight">{img.credit}</p>
-                  )}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3.5">
+                  <div className="self-end p-1.5 rounded-full bg-white/20 backdrop-blur-md text-white shadow-sm">
+                    <ZoomIn className="w-3.5 h-3.5" />
+                  </div>
+                  <div>
+                    <p className="text-white text-xs font-medium line-clamp-2 leading-relaxed">
+                      {img.caption}
+                    </p>
+                    {img.credit && (
+                      <p className="text-white/70 text-[10px] mt-0.5 leading-tight">{img.credit}</p>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}

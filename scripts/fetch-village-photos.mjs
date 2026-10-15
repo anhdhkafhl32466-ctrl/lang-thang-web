@@ -26,102 +26,264 @@ const API = 'https://commons.wikimedia.org/w/api.php';
 
 // slug làng nghề -> danh sách từ khoá tìm kiếm (ưu tiên tiếng Việt + tiếng Anh)
 const VILLAGES = {
-  'bat-trang': ['Bát Tràng ceramic', 'Bat Trang pottery', 'Bat Trang ceramic village'],
-  'van-phuc': ['Vạn Phúc silk', 'Van Phuc silk weaving', 'Hà Đông silk'],
-  'phu-vinh': ['Phú Vinh bamboo', 'bamboo and rattan weaving Vietnam', 'mây tre đan'],
-  'chuong': ['nón lá Vietnam', 'conical hat Vietnam', 'làng Chuông nón', 'nón quai thao'],
-  'kieu-ky': ['gold leaf Vietnam', 'Kiêu Kỵ', 'dát vàng quỳ', 'goldbeating'],
-  'dao-thuc': ['water puppetry Vietnam', 'múa rối nước', 'water puppet theatre'],
-  'tay-tuu': ['Tây Tựu flower', 'flower field Hanoi', 'flower village Vietnam'],
-  'xuan-la': ['tò he', 'toy figurine dough Vietnam', 'Phú Xuyên'],
-  'quang-phu-cau': ['Quảng Phú Cầu incense', 'incense sticks Vietnam', 'làng hương'],
-  'chuyen-my': ['khảm trai', 'mother of pearl inlay Vietnam', 'Chuôn Ngọ', 'xà cừ'],
-  'ha-thai': ['sơn mài', 'Vietnamese lacquerware', 'lacquer painting Vietnam'],
-  'son-dong': ['Sơn Đồng wood carving', 'wood carving Buddhist Vietnam', 'tạc tượng'],
-  'trach-xa': ['áo dài', 'ao dai Vietnam', 'Vietnamese traditional dress'],
-  'thach-xa': ['chuồn chuồn tre', 'bamboo dragonfly', 'Thạch Xá'],
-  'chang-son': ['quạt giấy', 'hand fan Vietnam', 'Chàng Sơn fan'],
-  'me-tri': ['cốm', 'green rice flakes Vietnam', 'cốm Hà Nội'],
+  'bat-trang': [
+    'Bát Tràng', 'Bat Trang pottery', 'Bat Trang ceramic', 'Vietnamese ceramics',
+    'gốm sứ Việt Nam', 'Vietnam pottery kiln', 'Nguyễn dynasty ceramic vase', 'blue and white porcelain Vietnam',
+  ],
+  'van-phuc': [
+    'Vạn Phúc silk', 'Van Phuc silk weaving', 'Hà Đông silk', 'silk weaving Vietnam',
+    'Vietnamese silk', 'silk loom Vietnam', 'áo dài lụa', 'Vietnamese textile weaving',
+  ],
+  'phu-vinh': [
+    'Phú Vinh bamboo', 'bamboo and rattan weaving Vietnam', 'mây tre đan',
+    'bamboo basket Vietnam', 'rattan handicraft', 'bamboo weaving', 'Chương Mỹ',
+  ],
+  'chuong': [
+    'nón lá Vietnam', 'conical hat Vietnam', 'làng Chuông nón', 'nón quai thao',
+    'conical hat making', 'Thanh Oai', 'palm leaf hat Vietnam', 'nón chóp',
+  ],
+  'kieu-ky': [
+    'gold leaf Vietnam', 'Kiêu Kỵ', 'dát vàng quỳ', 'goldbeating',
+    'gold leaf craftsman', 'quỳ vàng', 'gold foil', 'Gia Lâm',
+  ],
+  'dao-thuc': [
+    'water puppetry Vietnam', 'múa rối nước', 'water puppet theatre',
+    'water puppet Hanoi', 'Thăng Long water puppet', 'rối nước', 'water puppet show',
+  ],
+  'tay-tuu': [
+    'Tây Tựu flower', 'flower field Hanoi', 'flower village Vietnam', 'hoa Tây Tựu',
+    'gladiolus field', 'daisy field Vietnam', 'flower market Hanoi', 'rose farm Vietnam',
+  ],
+  'xuan-la': [
+    'tò he', 'toy figurine dough Vietnam', 'Phú Xuyên', 'đồ chơi dân gian',
+    'Vietnamese folk toy', 'dough figurine', 'to he',
+  ],
+  'quang-phu-cau': [
+    'Quảng Phú Cầu incense', 'incense sticks Vietnam', 'làng hương', 'hương trầm',
+    'incense drying Vietnam', 'Ứng Hòa', 'incense maker', 'drying incense',
+  ],
+  'chuyen-my': [
+    'khảm trai', 'mother of pearl inlay Vietnam', 'Chuôn Ngọ', 'xà cừ',
+    'inlay furniture Vietnam', 'mother-of-pearl', 'Nguyễn dynasty inlay', 'khảm xà cừ',
+  ],
+  'ha-thai': [
+    'sơn mài', 'Vietnamese lacquerware', 'lacquer painting Vietnam', 'lacquerware Vietnam',
+    'Vietnamese lacquer', 'lacquered wood Vietnam', 'sơn mài Việt Nam', 'lacquer box Vietnam',
+  ],
+  'son-dong': [
+    'Sơn Đồng wood carving', 'wood carving Buddhist Vietnam', 'tạc tượng', 'tượng gỗ Việt Nam',
+    'Vietnamese wood sculpture', 'Buddhist statue Vietnam wood', 'La Hán wood',
+  ],
+  'trach-xa': [
+    'áo dài', 'ao dai Vietnam', 'Vietnamese traditional dress', 'áo tứ thân',
+    'Vietnamese woman ao dai', 'Vietnam tailoring', 'traditional Vietnamese clothing',
+  ],
+  'thach-xa': [
+    'chuồn chuồn tre', 'bamboo dragonfly', 'Thạch Xá', 'đồ chơi tre',
+    'Chùa Tây Phương', 'Tây Phương pagoda', 'bamboo dragonfly toy',
+  ],
+  'chang-son': [
+    'quạt giấy', 'hand fan Vietnam', 'Chàng Sơn fan', 'folding fan',
+    'Hàng Quạt', 'paper fan Vietnam', 'quạt Chàng Sơn',
+  ],
+  'me-tri': [
+    'cốm', 'green rice flakes Vietnam', 'cốm Hà Nội', 'bánh cốm',
+    'Làng Vòng cốm', 'Vietnamese cốm', 'green rice Vietnam', 'rice flake',
+  ],
 };
 
 // Đã xem xét & tuyển chọn thủ công từ Commons: tiêu đề gốc -> tên file lưu cục bộ.
 const PINS = {
-  'bat-trang': [['Đường phố xã Bát Tràng, Gia Lâm, Hà Nội.jpg', 'street_view.jpg']],
+  'bat-trang': [
+    ['Đường phố xã Bát Tràng, Gia Lâm, Hà Nội.jpg', 'street_view.jpg'],
+    ['Bat-Trang-Ceramic-Village8.jpg', 'handcrafting_1.jpg'],
+    ['Bat-Trang-Ceramic-Village12.jpg', 'handcrafting_2.jpg'],
+    ['Bat-Trang-Ceramic-Village2.jpg', 'transport_2.jpg'],
+    ['Bát Tràng DSC 0091.JPG', 'ceramics_display.jpg'],
+    ['Bát Tràng, tường than.JPG', 'drying_coal.jpg'],
+    ['Ceramics shop in Bát Tràng, Hanoi (1 March 2018) 12.jpg', 'ceramics_shop.jpg'],
+    ['Strato en Bát Tràng 01.jpg', 'street_2.jpg'],
+  ],
   'van-phuc': [
     ['Silk weaving, 2003 Ha Dong.jpg', 'silk_weaving_1.jpg'],
     ['Silk weaving, 2003 Ha Dong 3.jpg', 'silk_weaving_2.jpg'],
     ['Silk weaving, 2003 Ha Dong 9.jpg', 'silk_weaving_3.jpg'],
+    ['Silk weaving, 2003 Ha Dong 7.jpg', 'silk_weaving_7.jpg'],
+    ['Silk weaving, 2003 Ha Dong 11.jpg', 'silk_weaving_11.jpg'],
+    ['Silk weaving, 2003 Ha Dong 15.jpg', 'silk_weaving_15.jpg'],
+    ['Van Phuc weaver at Jacquard loom.jpg', 'jacquard_weaver.jpg'],
+    ['Van Phuc weaver sitting.jpg', 'jacquard_weaver_sitting.jpg'],
+    ['Van Phuc loom punch cards 02.jpg', 'loom_punch_cards.jpg'],
+    ['LụaVạnPhúc-2198867187 a0d4cdce3b o.jpg', 'lua_van_phuc.jpg'],
   ],
   'phu-vinh': [
     ['Bamboo and rattan village Phu Vinh,Chuong My,Ha Noi,Viet Nam.jpg', 'village.jpg'],
     ['Handicraft products in Phu Vinh bamboo and rattan village,VietNam.jpg', 'products_1.jpg'],
     ['Handicraft products in Phu Vinh bamboo and rattan village, Ha Noi, Viet Nam.jpg', 'products_2.jpg'],
+    ['Handicraft products in Phu Vinh bamboo and rattan village, Viet Nam.jpg', 'products_3.jpg'],
+    ['Basket made of varnished and closely-fitted bamboo, Nam Dinh province - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05247.JPG', 'basket_museum.jpg'],
+    ['Basket, Giarai people, bamboo, rattan - Museum of Vietnamese History - Ho Chi Minh City - DSC05771.JPG', 'basket_giarai.jpg'],
+    ['Basket Boat and the Bamboo forest (Unsplash).jpg', 'basket_boat.jpg'],
+    ['Bamboo Fishing Baskets.jpg', 'bamboo_fishing_baskets.jpg'],
+    ['Bamboo weaving of the Thai ethnic group (photographed in Diềm Village, Châu Khe Commune, Con Cuông District).jpg', 'bamboo_thai_weaving.jpg'],
   ],
   'chuong': [
     ['Conical hat, Viet, Thanh Oai, Hanoi, 1999, palm leaves with bamboo frame - Vietnamese Women\u0027s Museum - Hanoi, Vietnam - DSC03996.JPG', 'thanh_oai_museum.jpg'],
     ['Nón quai thao.jpg', 'non_quai_thao.jpg'],
     ['Vietnamese conical hat nonla.jpg', 'non_la_vietnam.jpg'],
+    ['Making conical hats - Hue countryside.jpg', 'conical_hat_making.jpg'],
+    ['Hatter Vietnam.jpg', 'hatter_vietnam.jpg'],
+    ['Hat-making display - Vietnam Museum of Ethnology - Hanoi, Vietnam - DSC02609.JPG', 'hat_display_ethnology.jpg'],
+    ['The symbol of Vietnamese.jpg', 'non_la_ao_dai.jpg'],
+    ['Nón lá đồ chơi.jpg', 'non_la_toy.jpg'],
   ],
   'kieu-ky': [
     ['Hammering Gold Leaf.jpg', 'gold_leaf_hammering.jpg'],
     ['Gold Leaf Close Up.jpg', 'gold_leaf_closeup.jpg'],
+    ['Oc Eo Culture Gold Foil 1.jpg', 'gold_foil_oc_eo_1.jpg'],
+    ['Oc Eo Culture Gold Foil 2.jpg', 'gold_foil_oc_eo_2.jpg'],
+    ['Cat Tien gold.jpg', 'cat_tien_gold_leaf.jpg'],
+    ['Small gold nugget 5mm dia and corresponding foil surface of half sq meter.jpg', 'gold_malleability.jpg'],
+    ['Cutting Gold Leaf - Golden Rose Workshop - Mandalay - Myanmar (Burma) (11962913425).jpg', 'cutting_gold_leaf_workshop.jpg'],
+    ['Kanazawa Gold Factory.jpg', 'gold_factory_kanazawa.jpg'],
   ],
   'dao-thuc': [
     ['Water-Puppet-Show5.jpg', 'puppet_show2.jpg'],
     ['Performers-of-Water-Puppet-Show.jpg', 'performers.jpg'],
     ['Nguoi chan trau trong mua roi nuoc.jpg', 'buffalo_puppet.jpg'],
+    ['Thang Long Water Puppet Theatre2.JPG', 'thang_long_theatre.jpg'],
+    ['Hanoi Vietnam Thang-Long-Water-Puppet-Theatre-01.jpg', 'thang_long_entrance.jpg'],
+    ['Water-Puppet-Show-Musician.jpg', 'water_puppet_musician.jpg'],
+    ['Water-Puppet-turtle.jpg', 'water_puppet_turtle.jpg'],
+    ['Water puppeteers Phan Tranh Liem and his wife, Hanoi, 2017.jpg', 'water_puppeteers_2017.jpg'],
+    ["Marionnettes sur l'eau (21717834799).jpg", 'marionnettes_eau.jpg'],
   ],
   'tay-tuu': [
     ['Flower market - Hanoi, Vietnam - DSC03681.JPG', 'flower_market_hanoi.jpg'],
     ['Flower vender, Hanoi (37608462635).jpg', 'flower_vendor.jpg'],
     ['Flower display - Hanoi, Vietnam - DSC03494.JPG', 'flower_display.jpg'],
+    ['Flower hawker (Unsplash).jpg', 'flower_hawker.jpg'],
+    ['Flower market from bus.jpg', 'flower_market_bus.jpg'],
+    ['Flower trunks - Hanoi Botanical Garden - Hanoi, Vietnam - DSC03574.JPG', 'flower_nursery.jpg'],
+    ['Yellow Chrysanthemum in Vietnam.jpg', 'chrysanthemum.jpg'],
+    ['Vườn hoa Quốc Tử Giám, Hà Nội 003.JPG', 'hanoi_flower_garden.jpg'],
   ],
   'xuan-la': [
     ['To he Vietnam.jpg', 'to_he_vietnam.jpg'],
     ['Making a "tò he".JPG', 'making_to_he.jpg'],
     ['Tò he 1.JPG', 'to_he_1.jpg'],
+    ['To he.JPG', 'to_he_2.jpg'],
+    ['Tò he.JPG', 'to_he_3.jpg'],
+    ['Newone - ô ăn quan.jpg', 'o_an_quan.jpg'],
+    ['Chơi ô ăn quan (Trường Sa).jpg', 'o_an_quan_truong_sa.jpg'],
+    ['Bịt mắt đập niêu.JPG', 'bit_mat_dap_nieu.jpg'],
   ],
   'quang-phu-cau': [
     ['Incense in Vietnam.jpg', 'incense_vietnam.jpg'],
     ['Drying incense 26.jpg', 'drying_incense_2.jpg'],
     ['Drying incense 33.jpg', 'drying_incense_3.jpg'],
+    ['Drying incense 04.jpg', 'drying_incense_04.jpg'],
+    ['Drying incense 40.jpg', 'drying_incense_40.jpg'],
+    ['Drying incense 49.jpg', 'drying_incense_49.jpg'],
+    ['Drying incense 55.jpg', 'drying_incense_55.jpg'],
+    ['Drying incense 74.jpg', 'drying_incense_74.jpg'],
+    ['Incense making (2637231356).jpg', 'incense_making.jpg'],
   ],
   'chuyen-my': [
     ['Screen, Nguyen dynasty, 1890, wood with mother of pearl inlay, view 1 - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05606.JPG', 'inlay_screen_1890.jpg'],
     ['Picture, Nguyen dynasty, 19th to early 20th century, wood with mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05615.JPG', 'inlay_picture_museum.jpg'],
     ['Sập khảm trai.jpg', 'sap_kham_trai.jpg'],
+    ['Boxes, Nguyen dynasty, 19th to early 20th century, wood with mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05617.JPG', 'inlay_boxes.jpg'],
+    ['Panel with dragon decoration, Nguyen dynasty, 19th century, crimson and gilded wood, mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05622.JPG', 'inlay_dragon_panel.jpg'],
+    ['Picture, Nguyen dynasty, 1890, wood with mother of pearl inlay - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05612.JPG', 'inlay_picture_1890.jpg'],
+    ['Tray, early 20th century, carved wood with mother-of-pearl inlay - Museum of Vietnamese History - Ho Chi Minh City - DSC05968.JPG', 'inlay_tray.jpg'],
+    ['Tủ thờ khảm xà cừ..jpg', 'inlay_altar_cabinet.jpg'],
+    ['Sập và tủ chè khảm xà cừ.JPG', 'inlay_bed_cabinet.jpg'],
   ],
   'ha-thai': [
     ['Lacquered box - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05256.JPG', 'lacquer_box2.jpg'],
     ['Roc kings, Kien Xuong district, Thai Binh province, 18th century AD, lacquered wood - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05096.JPG', 'lacquer_roc.jpg'],
     ['Case containing royal ordinance, Nguyen dynasty, late 19th to early 20th century, lacquered wood - Museum of Vietnamese History - Ho Chi Minh City - DSC05950.JPG', 'lacquer_case.jpg'],
+    ['Painting Thieu nu va phong canh of Nguyen Gia Tri (front side).jpg', 'lacquer_painting_nguyen_gia_tri.jpg'],
+    ['Lacquered box - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC05246.JPG', 'lacquer_box3.jpg'],
+    ['Instrument for stirring lacquer, Viet - Vietnam Museum of Ethnology - Hanoi, Vietnam - DSC02595.JPG', 'lacquer_stirring_tool.jpg'],
+    ['Vietnamese Lacquered Wood (9997427095).jpg', 'lacquer_wood_1.jpg'],
+    ['Vietnamese Women\u0027s Museum, Gift Box.jpg', 'lacquer_gift_box.jpg'],
   ],
   'son-dong': [
     ['Statue of Shakyamuni on the snowy mountain, Tây Phương Pagoda, Hà Tây Province (1794), Vietnam National Museum of Fine Arts, Hanoi, Vietnam - 20131030.JPG', 'tay_phuong_statue.jpg'],
     ['Attendant to Buddha, wood - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC04879.JPG', 'attendant_buddha.jpg'],
     ['La Hán chùa Tây Phương.JPG', 'la_han_tay_phuong.jpg'],
+    ['Tượng gỗ chim công Việt Nam tại Bảo tàng lịch sử Việt Nam năm 2017 (16).jpg', 'peacock_wood_statue.jpg'],
+    ['Buddha standing on a lotus throne, wood - Vietnam National Museum of Fine Arts - Hanoi, Vietnam - DSC04890.JPG', 'buddha_wood_statue.jpg'],
+    ['The boy Buddha rising up from lotus, Tran-Ho dynasty, 14th-15th century AD, crimson and gilded wood - National Museum of Vietnamese History - Hanoi, Vietnam - DSC05511.JPG', 'boy_buddha_wood.jpg'],
+    ['Vietnamese Wood Sculpture (9997563953).jpg', 'wood_sculpture_1.jpg'],
+    ['Vietnamese Wood Sculpture (9997484046).jpg', 'wood_sculpture_2.jpg'],
   ],
   'trach-xa': [
     ['Vietnamese girl wearing ao dai.jpg', 'ao_dai_3.jpg'],
     ['Áo dài trắng 2015-01-26.jpg', 'ao_dai_trang.jpg'],
     ['Áo dài dancers.jpg', 'ao_dai_dancers.jpg'],
+    ['Modern ao dai.jpg', 'ao_dai_modern.jpg'],
+    ['Ao Dai (modern).jpg', 'ao_dai_modern_2.jpg'],
+    ['Temple of Literature - Ao Dai.jpg', 'ao_dai_van_mieu.jpg'],
+    ['Aodai Nghe 2018.jpg', 'ao_dai_nghe.jpg'],
+    ['Áo tứ thân.jpg', 'ao_tu_than.jpg'],
   ],
   'thach-xa': [
     ['Chùa Tây Phương 2.JPG', 'pagoda_2.jpg'],
     ['Tây Phương Pagoda - 03.jpg', 'pagoda_3.jpg'],
     ['Thập Bát La Hán - Chùa tây Phương - La Hán Cười.jpg', 'la_han.jpg'],
+    ['Montmoreau 16 Libellule bambou 2012.jpg', 'bamboo_dragonfly.jpg'],
+    ['Taketombo.jpg', 'bamboo_copter.jpg'],
+    ['Chùa Tây Phương.JPG', 'tay_phuong_pagoda.jpg'],
+    ['Tây Phương Pagoda - 06.jpg', 'tay_phuong_statues.jpg'],
+    ['1 trong 18 La Hán chùa Tây Phương.jpg', 'la_han_18.jpg'],
   ],
   'chang-son': [
     ['Hanoï - Promenade du Dragon, rue des Éventails.jpg', 'hanoi_fan_street.jpg'],
     ['Temple on Hàng Quạt Street.jpg', 'hang_quat_temple.jpg'],
+    ['Hang Quat street of Buddhist altars & statues (3695174688).jpg', 'hang_quat_altars.jpg'],
+    ['Elderly Woman with Fan - Old Quarter - Hanoi - Vietnam (48072281137).jpg', 'fan_old_quarter.jpg'],
+    ['Danseuse dans le Temple de la Littérature (Hanoi).jpg', 'fan_dancer_van_mieu.jpg'],
+    ['Asian fan dance2.jpg', 'asian_fan_dance.jpg'],
+    ['Woven palm leaf fan.jpg', 'woven_palm_fan.jpg'],
+    ['Ghi chép về hiện vật khảo cổ ở mộ hợp chất Hoàng Đức - Thanh Hoá 1958.jpg', 'fan_archaeology_note.jpg'],
   ],
-  'me-tri': [['Banh com (Vietnam).JPG', 'banh_com_vietnam.jpg']],
+  'me-tri': [
+    ['Banh com (Vietnam).JPG', 'banh_com_vietnam.jpg'],
+    ['Com-lang-vong.jpg', 'com_lang_vong.jpg'],
+    ['Com.JPG', 'com.jpg'],
+    ['Banh com.png', 'banh_com_2.png'],
+    ['Bánh cốm.jpg', 'banh_com_3.jpg'],
+    ['Cỗ trung thu.JPG', 'co_trung_thu.jpg'],
+    ['Do le an hoi.JPG', 'do_le_an_hoi.jpg'],
+  ],
 };
 
 const OK_MIME = new Set(['image/jpeg', 'image/png', 'image/webp']);
 const STOP = new Set(['la', 'vietnam', 'viet', 'nam', 'the', 'and', 'of', 'in', 'at', 'village', 'lang', 'xa', 'huyen']);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Wikimedia yêu cầu User-Agent mô tả rõ mục đích + liên hệ khi tải số lượng lớn.
+const UA = 'HanoiCraftVillages/1.0 (educational GIS project; https://github.com/hanoi-craft-villages) node-fetch';
+
+/** Tải 1 URL ảnh với backoff lũy tiến khi gặp 429/quá tải. */
+async function fetchImage(url, { retries = 6, base = 3000 } = {}) {
+  let last = '';
+  for (let attempt = 0; attempt < retries; attempt++) {
+    const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'image/*' } });
+    if (res.status === 429 || res.status === 503) {
+      last = `HTTP ${res.status}`;
+      await sleep(base * 2 ** attempt + Math.floor(Math.random() * 900));
+      continue;
+    }
+    if (!res.ok) throw new Error(String(res.status));
+    return Buffer.from(await res.arrayBuffer());
+  }
+  throw new Error(`quá tải (${last}) sau ${retries} lần thử`);
+}
 
 function fold(s) {
   return (s || '')
@@ -145,9 +307,9 @@ async function api(params) {
   const url = new URL(API);
   for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
   for (let attempt = 0; attempt < 5; attempt++) {
-    const res = await fetch(url, { headers: { 'User-Agent': 'HanoiCraftVillages/1.0 (educational project)' } });
-    if (res.status === 429) {
-      await sleep(2500 * (attempt + 1));
+    const res = await fetch(url, { headers: { 'User-Agent': UA } });
+    if (res.status === 429 || res.status === 503) {
+      await sleep(3000 * 2 ** attempt + Math.floor(Math.random() * 900));
       continue;
     }
     if (!res.ok) throw new Error(`Commons API ${res.status}`);
@@ -156,7 +318,7 @@ async function api(params) {
   throw new Error('Commons API 429 (hết lượt thử lại)');
 }
 
-async function search(query, limit = 12) {
+async function search(query, limit = 25) {
   const data = await api({
     action: 'query',
     generator: 'search',
@@ -247,15 +409,7 @@ async function download(slug, candidates) {
       continue;
     }
     try {
-      let buf;
-      for (let attempt = 0; attempt < 4; attempt++) {
-        const res = await fetch(img.thumburl, { headers: { 'User-Agent': 'HanoiCraftVillages/1.0' } });
-        if (res.status === 429) { await sleep(2500 * (attempt + 1)); continue; }
-        if (!res.ok) throw new Error(String(res.status));
-        buf = Buffer.from(await res.arrayBuffer());
-        break;
-      }
-      if (!buf) throw new Error('429 khi tải ảnh');
+      const buf = await fetchImage(img.thumburl);
       if (buf.length < 8000) throw new Error('ảnh quá nhỏ');
       await writeFile(path.join(dir, file), buf);
       saved.push({ ...img, file, bytes: buf.length });
@@ -266,6 +420,43 @@ async function download(slug, candidates) {
     await sleep(900);
   }
   return saved;
+}
+
+/** Liệt kê file trong một Commons category (hiệu quả hơn search rất nhiều). */
+async function categoryFiles(name, limit = 60) {
+  const title = name.startsWith('Category:') ? name : `Category:${name}`;
+  const data = await api({
+    action: 'query',
+    generator: 'categorymembers',
+    gcmtitle: title,
+    gcmtype: 'file',
+    gcmlimit: String(limit),
+    prop: 'imageinfo',
+    iiprop: 'url|size|mime|extmetadata',
+    iiurlwidth: '1600',
+    format: 'json',
+  });
+  const pages = data?.query?.pages;
+  if (!pages) return [];
+  const clean = (s) => (s || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  return Object.values(pages)
+    .map((p) => {
+      const info = p.imageinfo?.[0];
+      if (!info) return null;
+      const meta = info.extmetadata || {};
+      return {
+        title: p.title.replace(/^File:/, ''),
+        width: info.width,
+        height: info.height,
+        mime: info.mime,
+        thumburl: info.thumburl,
+        descriptionurl: info.descriptionurl,
+        author: clean(meta.Artist?.value) || 'Không rõ',
+        license: clean(meta.LicenseShortName?.value) || 'Xem trang gốc',
+        description: clean(meta.ImageDescription?.value).slice(0, 220),
+      };
+    })
+    .filter(Boolean);
 }
 
 async function infoByTitle(title) {
@@ -304,19 +495,16 @@ async function runPins(only, manifest) {
     const dir = path.join(OUT_ROOT, slug);
     await mkdir(dir, { recursive: true });
     manifest[slug] = manifest[slug] || [];
-    for (const [title, file] of pins) {
+    for (const [rawTitle, file] of pins) {
+      const title = rawTitle;
+      // `pins` chạy lại chỉ tải file còn thiếu, trừ khi FORCE=1
+      if (!process.env.FORCE && existsSync(path.join(dir, file))) {
+        continue;
+      }
       try {
         const img = await infoByTitle(title);
         if (!img) throw new Error('không tìm thấy trên Commons');
-        let buf;
-        for (let attempt = 0; attempt < 4; attempt++) {
-          const res = await fetch(img.thumburl, { headers: { 'User-Agent': 'HanoiCraftVillages/1.0' } });
-          if (res.status === 429) { await sleep(2500 * (attempt + 1)); continue; }
-          if (!res.ok) throw new Error(String(res.status));
-          buf = Buffer.from(await res.arrayBuffer());
-          break;
-        }
-        if (!buf) throw new Error('429 khi tải ảnh');
+        const buf = await fetchImage(img.thumburl);
         if (buf.length < 8000) throw new Error('ảnh quá nhỏ');
         await writeFile(path.join(dir, file), buf);
         manifest[slug] = manifest[slug].filter((e) => e.file !== file);
@@ -337,6 +525,24 @@ async function main() {
   if (mode === 'search-x') {
     const results = await search(only, 20);
     for (const c of results) console.log(`• ${c.title}  [${c.width}x${c.height}]  ${c.license}  — ${c.author}`);
+    return;
+  }
+  if (mode === 'cat' || mode === 'cat-x') {
+    const cats = mode === 'cat' ? Object.keys(CATEGORIES) : [only];
+    for (const name of cats) {
+      console.log(`\n### ${name}`);
+      let files = [];
+      try {
+        files = await categoryFiles(name);
+      } catch (e) {
+        console.log(`  ! lỗi: ${e.message}`);
+        continue;
+      }
+      for (const c of files) {
+        console.log(`  • ${c.title}  [${c.width}x${c.height}]  ${c.license}  — ${c.author}`);
+      }
+      await sleep(1200);
+    }
     return;
   }
   let pinsManifest = {};
@@ -362,6 +568,7 @@ async function main() {
     if (mode === 'search') {
       for (const c of candidates) {
         console.log(`  • ${c.title}  [${c.width}x${c.height}]  ${c.license}  — ${c.author}`);
+        console.log(`      ${c.description.replace(/\s+/g, ' ').slice(0, 150)}`);
       }
       continue;
     }

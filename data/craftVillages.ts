@@ -160,6 +160,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/bat-trang/street_view.jpg',
         caption: 'Đường làng Bát Tràng (xã Bát Tràng, Gia Lâm) với những dãy lò gốm và cửa hiệu dọc con đường chính của làng',
         credit: 'Ảnh: Banhtrung1 / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/bat-trang/ancient_alley.jpg',
+        caption: 'Ngõ cổ Bát Tràng với những bức tường gạch nghiêng rêu phong nhuốm màu thời gian'
+      },
+      {
+        url: '/images/villages/bat-trang/village_porcelain.jpg',
+        caption: 'Không gian trưng bày các tác phẩm gốm sứ nghệ thuật tinh hoa Bát Tràng'
       }
     ],
     history: {
@@ -367,6 +375,25 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/van-phuc/silk_weaving_3.jpg',
         caption: 'Toàn cảnh xưởng dệt lụa tơ tằm Hà Đông (tư liệu năm 2003)',
         credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_reeling_spinning.jpg',
+        caption: 'Nghệ nhân quay tơ nõn vào suốt dệt truyền thống làng lụa Vạn Phúc',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_loom_craft.jpg',
+        caption: 'Quy trình canh cửi dệt gấm hoa lộng lẫy trên khung dệt Jacquard',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/van_phuc_temple_gate.jpg',
+        caption: 'Cổng đình và không gian di sản làng nghề lụa nghìn năm Vạn Phúc bên dòng sông Nhuệ',
+        credit: 'Ảnh: Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_punch2.jpg',
+        caption: 'Hệ thống thẻ đục lỗ tạo mẫu dệt hoa văn gấm nổi truyền thống'
       }
     ],
     history: {
@@ -492,6 +519,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/phu-vinh/products_2.jpg',
         caption: 'Sản phẩm mỹ nghệ mây tre đan Phú Vinh với nhiều kiểu dáng gia dụng và trang trí',
         credit: 'Ảnh: Rin Mamori / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/weaving_bamboo_basket.jpg',
+        caption: 'Nghệ nhân cao tuổi với đôi bàn tay gân guốc tài hoa đang đan cài từng nan mây mỏng dẻo tạo nên lẵng hoa văn mắt cáo lóng đôi tinh tế'
       }
     ],
     history: {
@@ -615,6 +646,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/chuong/non_la_vietnam.jpg',
         caption: 'Chiếc nón lá Việt Nam - vật dụng che nắng mưa gắn với bao thế hệ người dân đồng bằng Bắc Bộ',
         credit: 'Ảnh: steve the archivist / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/chuong/early_morning_market.jpg',
+        caption: 'Phiên chợ nón Chuông họp sớm trong làn sương mờ bên cổng đình làng cổ với những chồng nón lá trắng tinh khôi'
       }
     ],
     history: {
@@ -724,6 +759,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/kieu-ky/gold_leaf_closeup.jpg',
         caption: 'Cận cảnh một lá vàng quỳ mỏng như tơ - thành phẩm của nghề dát vàng Kiêu Kỵ (ảnh minh họa)',
         credit: 'Ảnh: Tim Denholm / Wikimedia Commons (CC BY 4.0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_leaf_hammering_workshop.jpg',
+        caption: 'Nghệ nhân Kiều Kỵ quỳ gối đập búa nhịp nhàng trên tập quỳ vàng để dát mỏng vàng lá siêu mỏng'
+      },
+      {
+        url: '/images/villages/kieu-ky/gilding_buddha_statue.jpg',
+        caption: 'Người thợ thủ công cẩn trọng dùng chổi lông thỏ nhẹ nhàng dát từng lá vàng quỳ lên tượng Phật gỗ mít sơn son'
       }
     ],
     history: {
@@ -834,6 +877,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/dao-thuc/buffalo_puppet.jpg',
         caption: 'Tiết mục chăn trâu - một trong những tích trò đồng dao quen thuộc của rối nước',
         credit: 'Ảnh: Buileducanh / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/dragon_fire_show.jpg',
+        caption: 'Màn múa rối rồng phun pháo sáng lung linh trên mặt nước thủy đình Đào Thục'
       }
     ],
     history: {
@@ -940,6 +987,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/tay-tuu/flower_display.jpg',
         caption: 'Sạp hoa trưng bày ở Hà Nội - nơi hoa Tây Tựu theo chân thương lái tỏa đi muôn nẻo',
         credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/hero.jpg',
+        caption: 'Cánh đồng hoa bạt ngàn muôn sắc màu rực rỡ tại thủ phủ hoa Tây Tựu'
       }
     ],
     history: {
@@ -1039,6 +1090,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/xuan-la/to_he_1.jpg',
         caption: 'Tò he cắm thành chùm trên que tre - món đồ chơi dân gian gắn với tuổi thơ bao thế hệ',
         credit: 'Ảnh: Duyphuong / Wikimedia Commons (CC BY 3.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/hero.jpg',
+        caption: 'Nghệ nhân nặn tò he dân gian Xuân La với khối bột sắc màu biến hóa rồng phượng sống động'
       }
     ],
     history: {
@@ -1145,6 +1200,15 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/quang-phu-cau/drying_incense_3.jpg',
         caption: 'Những bó chân hương xòe tròn như đóa hoa khổng lồ dưới nắng - khung cảnh làm nên tên tuổi làng hương',
         credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_courtyard.jpg',
+        caption: 'Sân đình làng rực rỡ hàng trăm bó chân hương đỏ son và vàng hoàng yến xòe hoa khổng lồ'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/incense_heritage_field.jpg',
+        caption: 'Toàn cảnh phơi tăm hương truyền thống Quảng Phú Cầu nổi danh trên các tạp chí quốc tế',
+        credit: 'Ảnh: Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -1270,6 +1334,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chuyen-my/sap_kham_trai.jpg',
         caption: 'Chiếc sập gỗ khảm trai - món đồ nội thất cung đình mang đậm dấu ấn nghề Chuôn Ngọ'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlaying_pearl_tray.jpg',
+        caption: 'Nghệ nhân dùng dao gọt và dùi tỉ mỉ cẩn từng mảnh ốc xà cừ óng ánh ngũ sắc lộng lẫy vào mặt khay trà gỗ trắc'
       }
     ],
     history: {
@@ -1388,6 +1456,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/ha-thai/lacquer_case.jpg',
         caption: 'Hộp đựng sắc phong triều Nguyễn (cuối thế kỷ XIX - đầu XX) bằng gỗ sơn mài',
         credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/grinding_lacquer_water.jpg',
+        caption: 'Nghệ nhân tỉ mỉ dùng giấy ráp mịn mài ướt bức tranh sơn mài trong bồn nước, làm lộ dần những mảng cẩn vỏ trứng vịt và lá vàng óng ánh'
       }
     ],
     history: {
@@ -1505,6 +1577,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/son-dong/attendant_buddha.jpg',
         caption: 'Tượng thị giả bằng gỗ - hiện vật Bảo tàng Mỹ thuật Việt Nam',
         credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/son-dong/hero.jpg',
+        caption: 'Pho tượng gỗ Phật giáo được chạm khắc tinh xảo và sơn son thếp vàng lộng lẫy tại Sơn Đồng'
       }
     ],
     history: {
@@ -1618,6 +1694,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/trach-xa/ao_dai_dancers.jpg',
         caption: 'Vũ điệu trong tà áo dài - tà áo Việt Nam vươn ra thế giới',
         credit: 'Ảnh: Lucas Jans / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/hero.jpg',
+        caption: 'Nét duyên dáng thanh tao của tà áo dài truyền thống may tay thủ công giấu chỉ Trạch Xá'
       }
     ],
     history: {
@@ -1735,6 +1815,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/thach-xa/pagoda_3.jpg',
         caption: 'Tượng gỗ một vị tổ sư trong chùa Tây Phương - nguồn cảm hứng cho nghề chạm khắc của vùng',
         credit: 'Ảnh: Benjamin Smith / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/thach-xa/balancing_dragonflies.jpg',
+        caption: 'Đàn chuồn chuồn tre sơn mài rực rỡ tự giữ thăng bằng kỳ diệu trên đầu ngón tay và cành cây mộc mạc'
       }
     ],
     history: {
@@ -1843,6 +1927,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/chang-son/hang_quat_temple.jpg',
         caption: 'Ngôi đền trên phố Hàng Quạt - dấu tích của con phố buôn quạt một thời',
         credit: 'Ảnh: Christophe95 / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/chang-son/artisan_painting_fan.jpg',
+        caption: 'Nghệ nhân lão làng Chàng Sơn cẩn thận vẽ bức tranh phong cảnh thủy mặc lên chiếc quạt giấy dó truyền thống'
+      },
+      {
+        url: '/images/villages/chang-son/fan_drying_courtyard.jpg',
+        caption: 'Sân đình cổ kính Chàng Sơn ngập tràn hàng trăm chiếc quạt lụa và quạt giấy rực rỡ sắc màu đang phơi dưới nắng ấm'
       }
     ],
     history: {
@@ -1946,6 +2038,14 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
         url: '/images/villages/me-tri/banh_com_vietnam.jpg',
         caption: 'Bánh cốm nhân đậu xanh làm từ hạt cốm dẹp - thức quà mùa thu đặc trưng của Hà Nội',
         credit: 'Ảnh: Khương Việt Hà / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/me-tri/com_roasting_fire.jpg',
+        caption: 'Rang thóc nếp non trên chảo gang đỏ lửa củi trong gian bếp cổ truyền đượm khói lam chiều'
+      },
+      {
+        url: '/images/villages/me-tri/wrapping_com_lotus_leaves.jpg',
+        caption: 'Gói cốm tươi dẻo thơm trong lá sen ngọc bích buộc sợi rơm vàng óng bên ấm trà sen ngát hương'
       }
     ],
     history: {
