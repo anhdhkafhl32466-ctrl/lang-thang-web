@@ -86,6 +86,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   const navLinks = [
     { href: '/', label: 'Trang chủ' },
     { href: '/lang-nghe', label: 'Làng nghề' },
+    { href: '/cua-hang', label: 'Cửa hàng' },
     { href: '/ban-do', label: 'Bản đồ' },
     { href: '/trai-nghiem', label: 'Trải nghiệm' },
     { href: '/du-lich', label: 'Du lịch' },

@@ -21,8 +21,9 @@ import { getProduct } from './catalog';
 import { HttpError, normalizeEmail, normalizePhone, requireString } from './http';
 import { createNotification } from './notifications';
 import { getWarehouse, SHIPPING } from '@/lib/config/commerce';
-import { getRouteFromWarehouse, originForStoreRecord, quoteShippingFrom, warehouseOrigin } from './shipping';
+import { getRouteFromWarehouse, originForStoreRecord, quoteShippingFrom, warehouseOrigin, type ShippingOrigin } from './shipping';
 import { ensurePlatformStore, getStoreById } from './stores';
+import { getDefaultWarehouse, getWarehouseById } from './warehouses';
 import {
   getSellerOrdersByParent,
   insertSellerOrder,
@@ -231,6 +232,8 @@ export async function createOrder(
     lineTotal: number;
     storeId: string;
     storeName: string;
+    warehouseId?: string | null;
+    warehouseName?: string | null;
   };
 
   const groups = new Map<string, { store: Store; items: Line[]; subtotal: number }>();
@@ -270,22 +273,73 @@ export async function createOrder(
       lineTotal,
       storeId: store.id,
       storeName: store.name,
+      warehouseId: product.warehouseId,
+      warehouseName: product.warehouseName,
     });
     group.subtotal += lineTotal;
     groups.set(store.id, group);
   }
 
-  // 2. Mỗi cửa hàng là một chặng giao hàng riêng: tuyến đường thật từ điểm xuất hàng của cửa hàng.
+  // 2. Mỗi cửa hàng là một chặng giao hàng riêng: tuyến đường thật từ điểm xuất hàng (kho) của cửa hàng.
   const storeGroups: StoreOrderGroup[] = [];
   for (const group of Array.from(groups.values())) {
-    const origin = originForStoreRecord(group.store);
+    // Tìm kho xuất hàng của nhóm: ưu tiên kho gắn với sản phẩm, nếu không thì dùng kho mặc định của shop
+    let warehouse = null;
+    const itemWithWarehouse = group.items.find((item: any) => item.warehouseId);
+    if (itemWithWarehouse && (itemWithWarehouse as any).warehouseId) {
+      warehouse = await getWarehouseById((itemWithWarehouse as any).warehouseId, group.store.id);
+    }
+    if (!warehouse) {
+      warehouse = await getDefaultWarehouse(group.store.id);
+    }
+
+    const shipAddress = warehouse?.addressText || group.store.addressText || 'Hà Nội, Việt Nam';
+    const shipLat = warehouse?.lat != null ? warehouse.lat : group.store.lat;
+    const shipLng = warehouse?.lng != null ? warehouse.lng : group.store.lng;
+
+    const hasWarehouseCoords = warehouse && warehouse.lat != null && warehouse.lng != null && Number.isFinite(warehouse.lat) && Number.isFinite(warehouse.lng);
+    const hasStoreCoords = group.store.lat != null && group.store.lng != null && Number.isFinite(group.store.lat) && Number.isFinite(group.store.lng);
+
+    let origin: ShippingOrigin;
+    if (hasWarehouseCoords) {
+      origin = {
+        id: warehouse!.id,
+        name: warehouse!.name,
+        address: shipAddress,
+        lat: Number(warehouse!.lat),
+        lng: Number(warehouse!.lng),
+        fallbackToWarehouse: false,
+      };
+    } else if (hasStoreCoords) {
+      origin = {
+        id: group.store.id,
+        name: group.store.name,
+        address: shipAddress,
+        lat: Number(group.store.lat),
+        lng: Number(group.store.lng),
+        fallbackToWarehouse: false,
+      };
+    } else {
+      const platformWh = getWarehouse();
+      origin = {
+        id: platformWh.id,
+        name: `${warehouse?.name || group.store.name} (tạm tính từ kho sàn)`,
+        address: shipAddress,
+        lat: platformWh.lat,
+        lng: platformWh.lng,
+        fallbackToWarehouse: true,
+      };
+    }
+
     const quote = await quoteShippingFrom(origin, { subtotal: group.subtotal, lat, lng });
     storeGroups.push({
       storeId: group.store.id,
       storeName: group.store.name,
-      storeAddress: group.store.addressText,
-      storeLat: group.store.lat,
-      storeLng: group.store.lng,
+      storeAddress: shipAddress,
+      storeLat: shipLat,
+      storeLng: shipLng,
+      warehouseId: warehouse?.id || null,
+      warehouseName: warehouse?.name || null,
       items: group.items.map((line: Line) => ({
         productId: line.productId,
         name: line.name,

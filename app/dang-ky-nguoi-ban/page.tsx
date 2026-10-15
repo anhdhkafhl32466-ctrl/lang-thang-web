@@ -49,14 +49,33 @@ export default function SellerRegisterPage() {
   const [warehouse, setWarehouse] = useState<WarehouseInfo | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [existingStoreError, setExistingStoreError] = useState<{
+    message: string;
+    storeName?: string;
+    redirectUrl: string;
+  } | null>(null);
+  const [loggedInCustomer, setLoggedInCustomer] = useState<{ email: string; name: string } | null>(null);
   const [created, setCreated] = useState<{ store: Store; autoApproved: boolean; statusMessage: string; note?: string } | null>(null);
 
   React.useEffect(() => {
     (async () => {
       try {
-        const res = await fetch('/api/config', { cache: 'no-store' });
-        const data = await res.json();
-        if (data?.ok) setWarehouse(data.warehouse);
+        const [configRes, sessionRes] = await Promise.all([
+          fetch('/api/config', { cache: 'no-store' }),
+          fetch('/api/auth/session', { cache: 'no-store' }),
+        ]);
+        const configData = await configRes.json();
+        if (configData?.ok) setWarehouse(configData.warehouse);
+
+        const sessionData = await sessionRes.json();
+        if (sessionData?.authenticated && sessionData.user) {
+          setLoggedInCustomer({ email: sessionData.user.email, name: sessionData.user.name || '' });
+          setForm((prev) => ({
+            ...prev,
+            email: prev.email || sessionData.user.email,
+            contactName: prev.contactName || sessionData.user.name || '',
+          }));
+        }
       } catch {
         /* bản đồ vẫn dùng được */
       }
@@ -73,6 +92,7 @@ export default function SellerRegisterPage() {
   const submit = async (event: React.FormEvent) => {
     event.preventDefault();
     setError(null);
+    setExistingStoreError(null);
 
     if (passwordIssue) {
       setError(passwordIssue);
@@ -106,6 +126,13 @@ export default function SellerRegisterPage() {
       });
       const data = await res.json();
       if (!res.ok || !data.ok) {
+        if (data?.error?.code === 'store_exists') {
+          setExistingStoreError({
+            message: data.error.message,
+            storeName: data.error.details?.store?.name,
+            redirectUrl: data.error.details?.redirectUrl || '/ban-hang',
+          });
+        }
         setError(data?.error?.message || 'Không gửi được hồ sơ đăng ký.');
         return;
       }
@@ -179,6 +206,48 @@ export default function SellerRegisterPage() {
             có một cửa hàng riêng, đơn hàng được tách theo cửa hàng nên bạn chỉ xử lý phần của mình.
           </p>
         </header>
+
+        {loggedInCustomer && (
+          <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-start gap-3 text-xs shadow-sm">
+            <BadgeCheck className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+            <div className="space-y-1">
+              <p className="font-bold text-sm text-emerald-950">
+                Đang sử dụng tài khoản khách hàng ({loggedInCustomer.email})
+              </p>
+              <p className="text-emerald-800 leading-relaxed">
+                Hệ thống sẽ nâng cấp tài khoản của bạn thành người bán và tạo hồ sơ cửa hàng. Mọi đơn hàng bạn đã mua trước đây vẫn được giữ nguyên đầy đủ.
+              </p>
+            </div>
+          </div>
+        )}
+
+        {existingStoreError && (
+          <div className="p-5 rounded-2xl bg-amber-50 border border-amber-300 text-amber-950 space-y-3 shadow-sm">
+            <div className="flex items-start gap-3">
+              <StoreIcon className="w-6 h-6 text-amber-700 flex-shrink-0 mt-0.5" />
+              <div className="text-xs space-y-1.5 flex-1">
+                <p className="font-bold text-base text-amber-950">Tài khoản này đã có cửa hàng trên sàn!</p>
+                <p className="text-amber-800 leading-relaxed">{existingStoreError.message}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <Link
+                href={existingStoreError.redirectUrl}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow"
+              >
+                <StoreIcon className="w-4 h-4" />
+                Vào Trung tâm người bán
+              </Link>
+              <button
+                type="button"
+                onClick={() => setExistingStoreError(null)}
+                className="px-4 py-2 text-xs font-semibold text-amber-800 hover:text-amber-950"
+              >
+                Đóng thông báo
+              </button>
+            </div>
+          </div>
+        )}
 
         <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { assertSameOrigin, HttpError, jsonError, normalizeEmail, normalizePhone, readJson, requireString } from '@/lib/server/http';
 import { assertRateLimit, callerId, recordRateLimitHit } from '@/lib/server/rateLimit';
-import { hashPassword, validatePasswordStrength } from '@/lib/server/password';
-import { applySessionCookie, establishSellerSession } from '@/lib/server/session';
+import { hashPassword, validatePasswordStrength, verifyPassword } from '@/lib/server/password';
+import { applySessionCookie, establishSellerSession, getSession } from '@/lib/server/session';
 import { getStoreByOwnerEmail, createStore, isSellerAutoApproveEnabled, STORE_STATUS_META } from '@/lib/server/stores';
 import { getUserByEmail } from '@/lib/server/users';
 import { createNotification } from '@/lib/server/notifications';
@@ -10,6 +10,7 @@ import { sendAdminSellerApplicationEmail, isEmailConfigured } from '@/lib/server
 import { getAdminEmail } from '@/lib/config/commerce';
 import { describeStorage } from '@/lib/server/storage';
 import { execute, transaction } from '@/lib/server/db';
+import { ensureDefaultWarehouseForStore } from '@/lib/server/warehouses';
 import crypto from 'crypto';
 
 export const dynamic = 'force-dynamic';
@@ -41,20 +42,19 @@ function readCategories(value: unknown): string[] {
 /**
  * POST /api/seller/register — đăng ký tài khoản người bán.
  *
- * Bảo mật:
- *  - Email quản trị viên KHÔNG được dùng để đăng ký người bán (nếu không, bất kỳ ai cũng có thể đặt
- *    mật khẩu cho email quản trị và chiếm quyền điều hành sàn).
- *  - Email đã tồn tại thì từ chối: người dùng cũ phải đăng nhập, không được "nhận lại" tài khoản
- *    bằng cách đặt mật khẩu mới (chưa có dịch vụ xác minh email nên đây là bước bắt buộc).
- *  - Trạng thái mặc định là 'pending' (chờ duyệt); chỉ bật tự động kích hoạt khi cấu hình
- *    SELLER_AUTO_APPROVE=true và mặc định vẫn ghi nhận để quản trị viên biết.
+ * Hỗ trợ đầy đủ 4 trường hợp nghiệp vụ (Nhiệm vụ 1):
+ *  1. Email hoàn toàn mới: Tạo tài khoản, lưu mật khẩu băm, tạo hồ sơ cửa hàng & kho mặc định.
+ *  2. Email đã có tài khoản khách hàng (chưa có shop): Cho phép nâng cấp thành tài khoản người bán,
+ *     xác minh mật khẩu nếu đã có hoặc thiết lập mật khẩu mới, không làm mất đơn hàng khách đã mua.
+ *  3. Email đã có shop: Thông báo rõ ràng và trả về đường dẫn tới Trung tâm người bán (/ban-hang).
+ *  4. Đồng bộ dữ liệu an toàn, chống rò rỉ dữ liệu hoặc cấp quyền admin sai trái.
  */
 export async function POST(request: NextRequest) {
   const rateKey = `seller-register:${callerId(request)}`;
   try {
     assertSameOrigin(request);
     assertRateLimit(rateKey, {
-      limit: 6,
+      limit: 10,
       windowMs: 60 * 60 * 1000,
       message: 'Bạn đã gửi quá nhiều hồ sơ đăng ký. Vui lòng thử lại sau {minutes} phút.',
     });
@@ -84,7 +84,6 @@ export async function POST(request: NextRequest) {
 
     let lat = typeof body.lat === 'number' && Number.isFinite(body.lat) ? body.lat : null;
     let lng = typeof body.lng === 'number' && Number.isFinite(body.lng) ? body.lng : null;
-    // Toạ độ phải đi theo cặp: chỉ có một nửa thì bản đồ/tuyến đường sẽ sai.
     if ((lat === null) !== (lng === null)) {
       lat = null;
       lng = null;
@@ -98,33 +97,84 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const existingUser = await getUserByEmail(email);
-    if (existingUser) {
-      throw new HttpError(
-        'Email này đã có tài khoản trên sàn. Vui lòng đăng nhập, hoặc dùng email khác để đăng ký bán hàng.',
-        409,
-        'email_exists'
+    // Trường hợp 3: Email đã có cửa hàng trên sàn
+    const existingStore = await getStoreByOwnerEmail(email);
+    if (existingStore) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: {
+            code: 'store_exists',
+            message: `Tài khoản "${email}" đã có cửa hàng "${existingStore.name}" trên sàn. Bạn có thể truy cập ngay vào Trung tâm người bán để quản lý cửa hàng của mình.`,
+            details: {
+              store: {
+                id: existingStore.id,
+                name: existingStore.name,
+                slug: existingStore.slug,
+                status: existingStore.status,
+              },
+              redirectUrl: '/ban-hang',
+            },
+          },
+          redirectUrl: '/ban-hang',
+          store: {
+            id: existingStore.id,
+            name: existingStore.name,
+            slug: existingStore.slug,
+            status: existingStore.status,
+          },
+        },
+        { status: 409 }
       );
     }
 
-    const existingStore = await getStoreByOwnerEmail(email);
-    if (existingStore) {
-      throw new HttpError('Email này đã có cửa hàng trên sàn.', 409, 'store_exists');
+    const currentSession = getSession(request);
+    const isCurrentSessionUser = Boolean(
+      currentSession?.userEmail && currentSession.userEmail.toLowerCase() === email
+    );
+
+    const existingUser = await getUserByEmail(email);
+    const passwordHash = hashPassword(String(body.password));
+    let isUpgrade = false;
+
+    if (existingUser) {
+      // Trường hợp 2: Email đã có tài khoản khách hàng trên sàn
+      if (existingUser.password_hash) {
+        // Tài khoản đã có mật khẩu băm: kiểm tra nếu người dùng không phải đang đăng nhập chính email này
+        const passwordMatches = verifyPassword(String(body.password), existingUser.password_hash);
+        if (!passwordMatches && !isCurrentSessionUser) {
+          throw new HttpError(
+            'Email này đã có tài khoản khách hàng trên sàn. Mật khẩu bạn nhập không đúng với tài khoản đã có. Vui lòng nhập đúng mật khẩu hoặc đăng nhập tài khoản trước khi đăng ký mở shop.',
+            401,
+            'existing_account_password_mismatch'
+          );
+        }
+        // Khớp mật khẩu hoặc đang có phiên hợp lệ: nâng cấp vai trò thành 'seller'
+        await execute(
+          `UPDATE users SET role = 'seller', name = COALESCE(?, name), phone = COALESCE(?, phone), last_login_at = ? WHERE email = ?`,
+          [contactName, phone, new Date().toISOString(), email]
+        );
+      } else {
+        // Tài khoản tạo từ Google OAuth hoặc khi đặt hàng (chưa có password_hash):
+        // Thiết lập mật khẩu mới và nâng cấp role
+        await execute(
+          `UPDATE users SET role = 'seller', password_hash = ?, name = COALESCE(?, name), phone = COALESCE(?, phone), provider = COALESCE(provider, 'seller-password'), last_login_at = ? WHERE email = ?`,
+          [passwordHash, contactName, phone, new Date().toISOString(), email]
+        );
+      }
+      isUpgrade = true;
+    } else {
+      // Trường hợp 1: Email hoàn toàn mới
+      const now = new Date().toISOString();
+      await execute(
+        `INSERT INTO users (id, email, name, avatar, role, provider, phone, password_hash, created_at, last_login_at)
+         VALUES (?, ?, ?, NULL, 'seller', 'seller-password', ?, ?, ?, ?)`,
+        [`usr_${crypto.randomUUID()}`, email, contactName, phone, passwordHash, now, now]
+      );
     }
 
     const autoApprove = isSellerAutoApproveEnabled();
     const status = autoApprove ? 'active' : 'pending';
-
-    // 1. Tạo tài khoản (mật khẩu đã băm bằng scrypt) + cửa hàng trong cùng một giao dịch.
-    const passwordHash = hashPassword(String(body.password));
-    await transaction(async () => {
-      const now = new Date().toISOString();
-      await execute(
-        `INSERT INTO users (id, email, name, avatar, role, provider, phone, password_hash, created_at, last_login_at)
-         VALUES (?, ?, ?, NULL, 'seller', 'seller-password', ?, ?, ?, NULL)`,
-        [`usr_${crypto.randomUUID()}`, email, contactName, phone, passwordHash, now]
-      );
-    });
 
     const store = await createStore({
       ownerEmail: email,
@@ -141,7 +191,10 @@ export async function POST(request: NextRequest) {
       status,
     });
 
-    // 2. Phiên đăng nhập người bán (cookie httpOnly đã ký).
+    // Tự động tạo kho xuất hàng mặc định cho shop (Nhiệm vụ 3)
+    await ensureDefaultWarehouseForStore(store);
+
+    // Phiên đăng nhập người bán (cookie httpOnly đã ký)
     const { token, payload, maxAge } = await establishSellerSession({
       email,
       name: contactName,

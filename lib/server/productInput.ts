@@ -127,6 +127,10 @@ export function parseProductInput(body: any, options: { partial?: boolean } = {}
   const preparationDays = integerField(body?.preparationDays, 'thời gian chuẩn bị (ngày)', 0, 120);
   if (preparationDays !== null) result.preparationDays = preparationDays;
 
+  if (body?.warehouseId !== undefined) {
+    result.warehouseId = body.warehouseId ? String(body.warehouseId).trim() : null;
+  }
+
   if (body?.active !== undefined) {
     result.active = Boolean(body.active);
   }

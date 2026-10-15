@@ -20,10 +20,13 @@ export interface CatalogProduct {
   /** Cửa hàng (người bán) sở hữu sản phẩm — bắt buộc trong mô hình đa người bán. */
   storeId: string;
   storeName: string;
+  storeSlug?: string | null;
   storeStatus: StoreStatus;
   description?: string | null;
   weightG?: number | null;
   preparationDays?: number | null;
+  warehouseId?: string | null;
+  warehouseName?: string | null;
 }
 
 export type StoreStatus = 'pending' | 'active' | 'suspended' | 'rejected';
@@ -41,12 +44,50 @@ export interface Store {
   lat: number | null;
   lng: number | null;
   logoUrl: string | null;
+  bannerUrl?: string | null;
+  shippingPolicy?: string | null;
+  prepTimeDays?: number | null;
   /** Nhóm sản phẩm dự định kinh doanh (người bán tự khai khi đăng ký). */
   categories: string[];
   status: StoreStatus;
   reviewNote: string | null;
   approvedAt: string | null;
   approvedBy: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Warehouse {
+  id: string;
+  storeId: string;
+  name: string;
+  addressText: string;
+  addressNote: string | null;
+  lat: number | null;
+  lng: number | null;
+  contactName: string | null;
+  phone: string | null;
+  isDefault: boolean;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export type AddressLabel = 'Nhà riêng' | 'Trường học' | 'Ký túc xá' | 'Công ty' | 'Khác';
+
+export interface CustomerAddress {
+  id: string;
+  userEmail: string;
+  recipientName: string;
+  phone: string;
+  province?: string | null;
+  ward?: string | null;
+  addressText: string;
+  addressNote?: string | null;
+  lat?: number | null;
+  lng?: number | null;
+  label: AddressLabel | string;
+  isDefault: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -97,6 +138,8 @@ export interface SellerOrder {
   storeAddress: string | null;
   storeLat: number | null;
   storeLng: number | null;
+  warehouseId?: string | null;
+  warehouseName?: string | null;
   subtotal: number;
   shippingFee: number;
   total: number;

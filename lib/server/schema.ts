@@ -196,6 +196,48 @@ export const SCHEMA_STATEMENTS: string[] = [
     user_agent TEXT
   )`,
 
+  /*
+   * Kho hàng / Điểm xuất hàng của cửa hàng (Nhiệm vụ 3).
+   * Mỗi shop có thể có nhiều kho (Kho chính, xưởng sản xuất, kho vệ tinh).
+   * Mỗi sản phẩm có thể chọn xuất hàng từ một kho cụ thể hoặc kho mặc định của shop.
+   */
+  `CREATE TABLE IF NOT EXISTS warehouses (
+    id TEXT PRIMARY KEY,
+    store_id TEXT NOT NULL,
+    name TEXT NOT NULL,
+    address_text TEXT NOT NULL,
+    address_note TEXT,
+    lat REAL,
+    lng REAL,
+    contact_name TEXT,
+    phone TEXT,
+    is_default INTEGER NOT NULL DEFAULT 0,
+    active INTEGER NOT NULL DEFAULT 1,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+
+  /*
+   * Sổ địa chỉ của khách hàng (Nhiệm vụ 3).
+   * Khách hàng có thể lưu nhiều địa chỉ nhận hàng (Nhà riêng, Trường học, KTX, Công ty...).
+   */
+  `CREATE TABLE IF NOT EXISTS customer_addresses (
+    id TEXT PRIMARY KEY,
+    user_email TEXT NOT NULL,
+    recipient_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    province TEXT,
+    ward TEXT,
+    address_text TEXT NOT NULL,
+    address_note TEXT,
+    lat REAL,
+    lng REAL,
+    label TEXT NOT NULL DEFAULT 'Nhà riêng',
+    is_default INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+
   `CREATE INDEX IF NOT EXISTS idx_orders_status ON orders (status)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_created ON orders (created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON orders (customer_email)`,
@@ -209,6 +251,8 @@ export const SCHEMA_STATEMENTS: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_seller_orders_store ON seller_orders (store_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_seller_orders_order ON seller_orders (order_id)`,
   `CREATE INDEX IF NOT EXISTS idx_seller_orders_status ON seller_orders (status)`,
+  `CREATE INDEX IF NOT EXISTS idx_warehouses_store ON warehouses (store_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_customer_addresses_email ON customer_addresses (user_email)`,
 ];
 
 /**
@@ -233,8 +277,17 @@ export const SCHEMA_MIGRATIONS: string[] = [
   `ALTER TABLE users ADD COLUMN password_hash TEXT`,
   `ALTER TABLE users ADD COLUMN phone TEXT`,
 
+  // Cột kho hàng & thông tin cửa hàng mở rộng
+  `ALTER TABLE products ADD COLUMN warehouse_id TEXT`,
+  `ALTER TABLE seller_orders ADD COLUMN warehouse_id TEXT`,
+  `ALTER TABLE seller_orders ADD COLUMN warehouse_name TEXT`,
+  `ALTER TABLE stores ADD COLUMN shipping_policy TEXT`,
+  `ALTER TABLE stores ADD COLUMN prep_time_days INTEGER DEFAULT 1`,
+  `ALTER TABLE stores ADD COLUMN banner_url TEXT`,
+
   // Chỉ mục trên cột VỪA được thêm bằng ALTER ở trên: phải đặt SAU các câu ALTER, vì với cơ sở dữ
   // liệu mới tạo, `CREATE INDEX ... (store_id)` chạy trước khi cột tồn tại sẽ làm hỏng cả bước khởi
   // tạo schema (bảng products gốc chưa có cột store_id). Chạy lại an toàn nhờ "already exists".
   `CREATE INDEX IF NOT EXISTS idx_products_store ON products (store_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_products_warehouse ON products (warehouse_id)`,
 ];

@@ -195,6 +195,33 @@ async function main() {
   const storeB = regB.json?.store;
   const storeC = regC.json?.store;
 
+  // Kiểm tra Case 3: Đăng ký khi email đã có shop -> 409 store_exists và redirectUrl
+  const dupStore = await registerSeller(sellerA, sellerAEmail, 'Shop Trùng', 'Địa chỉ');
+  check(
+    'Email đã có shop đăng ký lại: trả 409 store_exists',
+    dupStore.status === 409 && dupStore.json?.error?.code === 'store_exists',
+    `status=${dupStore.status} code=${dupStore.json?.error?.code}`
+  );
+  check('Trả redirectUrl về /ban-hang', dupStore.json?.redirectUrl === '/ban-hang');
+
+  // Kiểm tra Case 2: Khách hàng cũ đăng ký mở shop -> nâng cấp role, không báo trùng email
+  const upgradeClient = new Client('khách nâng cấp');
+  const upgradeEmail = `e2e-upgraded-${stamp}@example.com`;
+  await upgradeClient.post('/api/auth/session', { email: upgradeEmail, name: 'Khách Làng Nghề Cũ' });
+  const upgradeReg = await registerSeller(
+    upgradeClient,
+    upgradeEmail,
+    `Cửa hàng Nâng Cấp ${stamp}`,
+    'Hà Đông, Hà Nội'
+  );
+  check(
+    'Khách hàng cũ đăng ký mở shop: nâng cấp thành công (201)',
+    upgradeReg.status === 201,
+    `status=${upgradeReg.status} ${messageOf(upgradeReg)}`
+  );
+  const upgradeSession = await upgradeClient.get('/api/seller/session');
+  check('Tài khoản khách cũ đã thành seller', upgradeSession.json?.isSeller === true);
+
   section('2. Chưa được duyệt thì KHÔNG được đăng bán');
   const pendingProduct = await sellerA.post('/api/seller/products', {
     name: 'Sản phẩm khi chưa duyệt',
@@ -252,6 +279,41 @@ async function main() {
   await sellerB.post('/api/seller/session', { email: sellerBEmail, password });
   await sellerC.post('/api/seller/session', { email: sellerCEmail, password });
 
+  section('5.5. Quản lý kho hàng của shop & Sổ địa chỉ khách');
+  const whListA = await sellerA.get('/api/seller/warehouses');
+  check('Shop A có sẵn kho mặc định tự động tạo', (whListA.json?.warehouses || []).length >= 1);
+  const defaultWhA = (whListA.json?.warehouses || [])[0];
+
+  const newWhA = await sellerA.post('/api/seller/warehouses', {
+    name: `Xưởng nung men số 2 ${stamp}`,
+    addressText: 'Xóm 3 Bát Tràng, Gia Lâm, Hà Nội',
+    isDefault: false,
+  });
+  check('Shop A tạo thêm kho thứ 2 thành công', newWhA.status === 201, `status=${newWhA.status}`);
+  const whA2Id = newWhA.json?.warehouse?.id;
+
+  // Shop B cố sửa kho của Shop A -> 404
+  const crossWhEdit = await sellerB.patch(`/api/seller/warehouses/${whA2Id}`, { name: 'Hack Kho A' });
+  check('Shop B không được sửa kho của Shop A (404)', crossWhEdit.status === 404);
+
+  // Khách lưu địa chỉ vào Sổ địa chỉ
+  const memberAddr = await member.post('/api/customer/addresses', {
+    recipientName: 'Khách Thân Thiết',
+    phone: '0988112233',
+    addressText: 'Số 10 Phố Nhà Thờ, Hoàn Kiếm, Hà Nội',
+    label: 'Nhà riêng',
+    isDefault: true,
+  });
+  check('Khách lưu địa chỉ vào sổ thành công (201)', memberAddr.status === 201);
+  const memberAddrList = await member.get('/api/customer/addresses');
+  check('Khách đọc lại được sổ địa chỉ của mình', (memberAddrList.json?.addresses || []).length >= 1);
+
+  // Cửa hàng công khai
+  const publicStores = await guest.get('/api/stores');
+  check('Khách xem danh sách cửa hàng di sản thành công', publicStores.status === 200 && (publicStores.json?.stores || []).length >= 3);
+  const publicStoreA = await guest.get(`/api/stores/${storeA.slug}`);
+  check('Khách xem chi tiết gian hàng của Shop A qua slug', publicStoreA.status === 200 && publicStoreA.json?.store?.name === storeA.name);
+
   section('6. Người bán đăng sản phẩm');
   const sharedBody = {
     name: `Bình gốm E2E ${stamp}`,
@@ -265,13 +327,15 @@ async function main() {
   };
 
   // Cố tình gửi storeId của cửa hàng B: máy chủ phải bỏ qua và gán theo phiên đăng nhập.
-  const productA = await sellerA.post('/api/seller/products', { ...sharedBody, storeId: storeB.id });
+  // Gán kho xuất hàng thứ hai (whA2Id) để kiểm tra luồng kho riêng
+  const productA = await sellerA.post('/api/seller/products', { ...sharedBody, storeId: storeB.id, warehouseId: whA2Id });
   check('Đăng sản phẩm A thành công', productA.status === 201, `status=${productA.status} ${messageOf(productA)}`);
   check(
     'storeId giả mạo từ client bị bỏ qua (sản phẩm thuộc cửa hàng A)',
     productA.json?.product?.storeId === storeA.id,
     `storeId=${productA.json?.product?.storeId}`
   );
+  check('Sản phẩm A gắn đúng kho xuất hàng thứ hai đã chọn', productA.json?.product?.warehouseId === whA2Id);
 
   const productB = await sellerB.post('/api/seller/products', { ...sharedBody, name: `Đèn mây E2E ${stamp}`, price: 250000 });
   const productC = await sellerC.post('/api/seller/products', { ...sharedBody, name: `Khăn lụa E2E ${stamp}`, price: 410000 });
@@ -508,7 +572,7 @@ async function main() {
   );
 
   section('16. Website văn hóa hiện có vẫn hoạt động');
-  for (const page of ['/', '/lang-nghe', '/san-pham', '/gio-hang', '/trai-nghiem', '/ho-chieu', '/ban-do', '/du-lich', '/thanh-toan']) {
+  for (const page of ['/', '/lang-nghe', '/cua-hang', '/san-pham', '/gio-hang', '/trai-nghiem', '/ho-chieu', '/ban-do', '/du-lich', '/thanh-toan']) {
     const response = await fetch(`${BASE}${page}`);
     check(`Trang ${page} trả 200`, response.status === 200, `status=${response.status}`);
   }

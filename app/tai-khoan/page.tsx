@@ -10,10 +10,11 @@ import {
 import { getPassport } from '@/lib/passportStorage';
 import { endServerSession } from '@/lib/client/serverSession';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
+import CustomerAddressBook from '@/components/customer/CustomerAddressBook';
 import {
   User, ShieldCheck, Mail, Calendar, Clock, Laptop, Smartphone,
   Globe, LogOut, Trash2, Award, Sparkles, ArrowRight, CheckCircle2,
-  AlertCircle, History, Edit3, Save, RefreshCw
+  AlertCircle, History, Edit3, Save, RefreshCw, MapPin
 } from 'lucide-react';
 
 export default function AccountPage() {
@@ -21,7 +22,7 @@ export default function AccountPage() {
   const [user, setUser] = useState<UserAccount | null>(null);
   const [history, setHistory] = useState<LoginHistoryItem[]>([]);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'history' | 'profile' | 'passport'>('history');
+  const [activeTab, setActiveTab] = useState<'history' | 'profile' | 'addresses' | 'passport'>('history');
 
   // Edit profile state
   const [isEditing, setIsEditing] = useState(false);
@@ -63,6 +64,10 @@ export default function AccountPage() {
 
   useEffect(() => {
     loadData();
+
+    if (typeof window !== 'undefined' && window.location.hash === '#dia-chi') {
+      setActiveTab('addresses');
+    }
 
     const handleAuthChange = () => {
       loadData();
@@ -271,6 +276,17 @@ export default function AccountPage() {
               >
                 <User className="w-4 h-4" />
                 <span>Thông tin cá nhân</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('addresses')}
+                className={`px-5 py-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
+                  activeTab === 'addresses'
+                    ? 'border-terracotta-500 text-terracotta-600 bg-white rounded-t-2xl shadow-sm'
+                    : 'border-transparent text-lacquer-800/70 hover:text-lacquer-900'
+                }`}
+              >
+                <MapPin className="w-4 h-4" />
+                <span>Sổ địa chỉ nhận hàng</span>
               </button>
             </div>
 
@@ -483,6 +499,9 @@ export default function AccountPage() {
                 </form>
               </div>
             )}
+
+            {/* TAB CONTENT 3: ADDRESS BOOK */}
+            {activeTab === 'addresses' && <CustomerAddressBook />}
           </div>
         )}
       </div>

@@ -187,7 +187,35 @@ export function originForStoreRecord(store: Store | null): ShippingOrigin {
   };
 }
 
-export async function originForStore(storeId: string): Promise<ShippingOrigin> {
+import { getDefaultWarehouse, getWarehouseById } from './warehouses';
+
+export async function originForStore(storeId: string, warehouseId?: string | null): Promise<ShippingOrigin> {
+  if (warehouseId) {
+    const wh = await getWarehouseById(warehouseId, storeId);
+    if (wh && wh.lat != null && wh.lng != null && Number.isFinite(wh.lat) && Number.isFinite(wh.lng)) {
+      return {
+        id: wh.id,
+        name: wh.name,
+        address: wh.addressText,
+        lat: Number(wh.lat),
+        lng: Number(wh.lng),
+        fallbackToWarehouse: false,
+      };
+    }
+  }
+
+  const defaultWh = await getDefaultWarehouse(storeId);
+  if (defaultWh && defaultWh.lat != null && defaultWh.lng != null && Number.isFinite(defaultWh.lat) && Number.isFinite(defaultWh.lng)) {
+    return {
+      id: defaultWh.id,
+      name: defaultWh.name,
+      address: defaultWh.addressText,
+      lat: Number(defaultWh.lat),
+      lng: Number(defaultWh.lng),
+      fallbackToWarehouse: false,
+    };
+  }
+
   return originForStoreRecord(await getStoreById(storeId));
 }
 
@@ -205,19 +233,20 @@ export async function quoteCartShipping(params: {
 }): Promise<CartShippingQuote> {
   const products = await getProductsByIds(params.items.map((item) => item.productId));
 
-  const groups = new Map<string, { storeId: string; subtotal: number }>();
+  const groups = new Map<string, { storeId: string; subtotal: number; warehouseId?: string | null }>();
   for (const item of params.items) {
     const product = products.get(item.productId);
     if (!product) continue;
     const quantity = Math.max(1, Math.floor(Number(item.quantity) || 1));
-    const current = groups.get(product.storeId) || { storeId: product.storeId, subtotal: 0 };
+    const current = groups.get(product.storeId) || { storeId: product.storeId, subtotal: 0, warehouseId: product.warehouseId };
     current.subtotal += product.price * quantity;
+    if (!current.warehouseId && product.warehouseId) current.warehouseId = product.warehouseId;
     groups.set(product.storeId, current);
   }
 
   const legs: ShippingLeg[] = [];
   for (const group of Array.from(groups.values())) {
-    const origin = await originForStore(group.storeId);
+    const origin = await originForStore(group.storeId, group.warehouseId);
     const quote = await quoteShippingFrom(origin, { subtotal: group.subtotal, lat: params.lat, lng: params.lng });
     legs.push({
       storeId: group.storeId,

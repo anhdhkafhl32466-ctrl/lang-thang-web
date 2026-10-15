@@ -118,21 +118,38 @@ export default function ProductDetailPage() {
               <div><strong>Mã sản phẩm:</strong> <span className="font-mono">{product.id}</span></div>
             </div>
 
-            {/* Thông tin NGƯỜI BÁN: sàn có nhiều cửa hàng nên khách cần biết ai bán để đối chiếu khi theo dõi đơn. */}
-            <div className="p-4 rounded-2xl border border-terracotta-200 bg-white space-y-1.5 text-xs">
-              <span className="flex items-center gap-1.5 font-bold text-lacquer-900">
-                <Store className="w-3.5 h-3.5 text-terracotta-600" />
-                Người bán
-              </span>
+            {/* Thông tin NGƯỜI BÁN & KHO XUẤT HÀNG: sàn đa người bán */}
+            <div className="p-4 rounded-2xl border border-terracotta-200 bg-white space-y-2 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="flex items-center gap-1.5 font-bold text-lacquer-900">
+                  <Store className="w-3.5 h-3.5 text-terracotta-600" />
+                  Cửa hàng sở hữu
+                </span>
+                <Link
+                  href={`/cua-hang/${product.storeSlug || product.storeId}`}
+                  className="inline-flex items-center gap-1 text-[11px] font-bold text-terracotta-600 hover:text-terracotta-700 bg-terracotta-50 px-2.5 py-1 rounded-lg border border-terracotta-200"
+                >
+                  <span>Ghé thăm gian hàng</span>
+                  <ArrowRight className="w-3 h-3" />
+                </Link>
+              </div>
+
               <div className="text-lacquer-800/80">
-                Cửa hàng: <strong className="text-lacquer-900">{product.storeName}</strong>
+                Gian hàng: <strong className="text-lacquer-900 text-sm font-serif">{product.storeName}</strong>
                 {product.storeStatus !== 'active' && (
-                  <span className="ml-1 text-rose-600">(cửa hàng tạm ngừng bán)</span>
+                  <span className="ml-1 text-rose-600 font-bold">(cửa hàng tạm ngừng bán)</span>
                 )}
               </div>
-              <p className="text-[11px] text-lacquer-800/60 leading-relaxed">
-                Sản phẩm này do cửa hàng trên đăng bán. Nếu giỏ hàng có sản phẩm của nhiều cửa hàng, đơn sẽ được
-                tách thành nhiều phần và mỗi cửa hàng xử lý phần của mình.
+
+              {product.warehouseName && (
+                <div className="text-[11px] text-lacquer-800/70 flex items-center gap-1">
+                  <Truck className="w-3 h-3 text-terracotta-500 shrink-0" />
+                  <span>Xuất kho từ: <strong className="text-lacquer-900">{product.warehouseName}</strong></span>
+                </div>
+              )}
+
+              <p className="text-[11px] text-lacquer-800/60 leading-relaxed pt-1 border-t border-terracotta-100">
+                Sản phẩm đóng gói và giao trực tiếp từ kho của {product.storeName}. Nếu giỏ hàng có sản phẩm từ nhiều cửa hàng, sàn sẽ tự động tách gói hàng độc lập.
               </p>
             </div>
 

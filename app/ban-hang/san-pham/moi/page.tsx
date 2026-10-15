@@ -14,11 +14,12 @@ import React, { Suspense, useCallback, useEffect, useMemo, useState } from 'reac
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
-  AlertTriangle, ArrowLeft, CheckCircle2, ImagePlus, Loader2, PackagePlus, Save, Upload,
+  AlertTriangle, ArrowLeft, CheckCircle2, ImagePlus, Loader2, PackagePlus, Save, Upload, Warehouse as WarehouseIcon,
 } from 'lucide-react';
 import { CRAFT_VILLAGES } from '@/data/craftVillages';
 import { createProduct, fetchMyProducts, updateProduct, uploadSellerImage } from '@/lib/client/sellerApi';
 import { useSeller } from '@/components/seller/SellerGate';
+import type { Warehouse } from '@/lib/orders/types';
 
 interface FormState {
   name: string;
@@ -33,6 +34,7 @@ interface FormState {
   artisanName: string;
   weightG: string;
   preparationDays: string;
+  warehouseId: string;
   active: boolean;
 }
 
@@ -49,6 +51,7 @@ const EMPTY: FormState = {
   artisanName: '',
   weightG: '',
   preparationDays: '',
+  warehouseId: '',
   active: true,
 };
 
@@ -59,11 +62,23 @@ function ProductForm() {
   const { state } = useSeller();
 
   const [form, setForm] = useState<FormState>(EMPTY);
+  const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
   const [loading, setLoading] = useState(Boolean(editingId));
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch('/api/seller/warehouses')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.ok && Array.isArray(data?.warehouses)) {
+          setWarehouses(data.warehouses);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const loadForEdit = useCallback(async () => {
     if (!editingId) return;
@@ -89,6 +104,7 @@ function ProductForm() {
         artisanName: product.artisanName || '',
         weightG: product.weightG ? String(product.weightG) : '',
         preparationDays: product.preparationDays != null ? String(product.preparationDays) : '',
+        warehouseId: product.warehouseId || '',
         active: product.active,
       });
     } catch (err: any) {
@@ -142,6 +158,7 @@ function ProductForm() {
       artisanName: form.artisanName.trim() || null,
       weightG: form.weightG ? Number(form.weightG) : null,
       preparationDays: form.preparationDays ? Number(form.preparationDays) : null,
+      warehouseId: form.warehouseId ? form.warehouseId : null,
       active: form.active,
     };
 
@@ -286,6 +303,38 @@ function ProductForm() {
                 className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-sm focus:outline-none focus:border-terracotta-500"
               />
             </label>
+
+            {/* Chọn Kho / Điểm xuất hàng của sản phẩm */}
+            <div className="p-4 rounded-2xl bg-dopaper-50 border border-terracotta-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-xs text-lacquer-900 flex items-center gap-1.5">
+                  <WarehouseIcon className="w-4 h-4 text-terracotta-600" />
+                  Điểm xuất hàng (Kho / Xưởng chế tác)
+                </span>
+                <Link
+                  href="/ban-hang/kho-hang"
+                  target="_blank"
+                  className="text-[11px] font-bold text-terracotta-600 hover:underline"
+                >
+                  + Quản lý điểm kho
+                </Link>
+              </div>
+              <select
+                value={form.warehouseId}
+                onChange={(event) => setForm({ ...form, warehouseId: event.target.value })}
+                className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 bg-white"
+              >
+                <option value="">Sử dụng kho mặc định của cửa hàng</option>
+                {warehouses.map((wh) => (
+                  <option key={wh.id} value={wh.id}>
+                    {wh.name} — {wh.addressText} {wh.isDefault ? '(Mặc định)' : ''}
+                  </option>
+                ))}
+              </select>
+              <p className="text-[10px] text-lacquer-800/60 leading-relaxed">
+                Mỗi sản phẩm có thể xuất từ một xưởng hoặc kho riêng biệt. Hệ thống sẽ căn cứ vào tọa độ và địa chỉ của kho này để tính khoảng cách và phí vận chuyển tới người nhận.
+              </p>
+            </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <label className="space-y-1.5 text-xs">

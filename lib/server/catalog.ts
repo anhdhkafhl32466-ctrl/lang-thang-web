@@ -33,16 +33,21 @@ interface ProductRow {
   preparation_days: number | null;
   store_id: string | null;
   store_name: string | null;
+  store_slug: string | null;
   store_status: string | null;
+  warehouse_id: string | null;
+  warehouse_name: string | null;
   active: number;
 }
 
 const PRODUCT_SELECT = `
   SELECT p.id, p.name, p.village_id, p.village_name, p.category, p.price, p.stock, p.image,
          p.artisan_name, p.material, p.dimensions, p.description, p.weight_g, p.preparation_days,
-         p.store_id, p.active, s.name AS store_name, s.status AS store_status
+         p.store_id, p.warehouse_id, p.active, s.name AS store_name, s.slug AS store_slug, s.status AS store_status,
+         w.name AS warehouse_name
   FROM products p
-  LEFT JOIN stores s ON s.id = p.store_id`;
+  LEFT JOIN stores s ON s.id = p.store_id
+  LEFT JOIN warehouses w ON w.id = p.warehouse_id`;
 
 export function toProduct(row: ProductRow): CatalogProduct {
   return {
@@ -63,7 +68,10 @@ export function toProduct(row: ProductRow): CatalogProduct {
     // Sản phẩm chưa gán cửa hàng thuộc về sàn (xem ensurePlatformStore).
     storeId: row.store_id || 'platform',
     storeName: row.store_name || 'Lang Thang — Sàn di sản',
+    storeSlug: row.store_slug || null,
     storeStatus: ((row.store_status || 'active') as StoreStatus),
+    warehouseId: row.warehouse_id || null,
+    warehouseName: row.warehouse_name || null,
   };
 }
 
@@ -127,14 +135,29 @@ export async function getProductForOwner(
   const row = await queryOne<ProductRow & { store_owner_email: string | null }>(
     `SELECT p.id, p.name, p.village_id, p.village_name, p.category, p.price, p.stock, p.image,
             p.artisan_name, p.material, p.dimensions, p.description, p.weight_g, p.preparation_days,
-            p.store_id, p.active, s.name AS store_name, s.status AS store_status,
-            s.owner_email AS store_owner_email
-     FROM products p LEFT JOIN stores s ON s.id = p.store_id
+            p.store_id, p.warehouse_id, p.active, s.name AS store_name, s.slug AS store_slug, s.status AS store_status,
+            s.owner_email AS store_owner_email, w.name AS warehouse_name
+     FROM products p
+     LEFT JOIN stores s ON s.id = p.store_id
+     LEFT JOIN warehouses w ON w.id = p.warehouse_id
      WHERE p.id = ?`,
     [productId]
   );
   if (!row) return null;
   return { ...toProduct(row), active: Number(row.active) === 1, storeOwnerEmail: row.store_owner_email };
+}
+
+import { getDefaultWarehouse, getWarehouseById } from './warehouses';
+
+/** Danh sách sản phẩm của một cửa hàng công khai (theo ID hoặc Slug). */
+export async function listProductsByStore(storeIdOrSlug: string): Promise<CatalogProduct[]> {
+  const rows = await query<ProductRow>(
+    `${PRODUCT_SELECT}
+     WHERE p.active = 1 AND (p.store_id = ? OR s.slug = ?) AND (s.status = 'active' OR s.status IS NULL)
+     ORDER BY p.name`,
+    [storeIdOrSlug, storeIdOrSlug]
+  );
+  return rows.map(toProduct);
 }
 
 export interface ProductWriteInput {
@@ -151,6 +174,7 @@ export interface ProductWriteInput {
   dimensions?: string | null;
   weightG?: number | null;
   preparationDays?: number | null;
+  warehouseId?: string | null;
   active?: boolean;
 }
 
@@ -162,10 +186,23 @@ export async function createStoreProduct(
   const id = `prd_${crypto.randomUUID()}`;
   const now = new Date().toISOString();
 
+  let warehouseId: string | null = null;
+  if (input.warehouseId) {
+    const wh = await getWarehouseById(input.warehouseId, storeId);
+    if (!wh) {
+      throw new Error('Kho hàng xuất hàng không thuộc cửa hàng của bạn.');
+    }
+    warehouseId = wh.id;
+  }
+  if (!warehouseId) {
+    const defaultWh = await getDefaultWarehouse(storeId);
+    warehouseId = defaultWh?.id || null;
+  }
+
   await execute(
     `INSERT INTO products (id, name, village_id, village_name, category, price, stock, image, artisan_name,
-       material, dimensions, description, weight_g, preparation_days, store_id, active, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       material, dimensions, description, weight_g, preparation_days, store_id, warehouse_id, active, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       id,
       input.name,
@@ -182,6 +219,7 @@ export async function createStoreProduct(
       input.weightG ?? null,
       input.preparationDays ?? null,
       storeId,
+      warehouseId,
       input.active === false ? 0 : 1,
       now,
       now,
@@ -208,11 +246,25 @@ export async function updateStoreProduct(
   ]);
   if (!current) return false;
 
+  let warehouseId = current.warehouse_id;
+  if (patch.warehouseId !== undefined) {
+    if (patch.warehouseId) {
+      const wh = await getWarehouseById(patch.warehouseId, storeId);
+      if (!wh) {
+        throw new Error('Kho hàng xuất hàng không thuộc cửa hàng của bạn.');
+      }
+      warehouseId = wh.id;
+    } else {
+      const defaultWh = await getDefaultWarehouse(storeId);
+      warehouseId = defaultWh?.id || null;
+    }
+  }
+
   const now = new Date().toISOString();
   const affected = await executeCount(
     `UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category = ?, image = ?,
        village_id = ?, village_name = ?, material = ?, dimensions = ?, weight_g = ?, preparation_days = ?,
-       active = ?, updated_at = ?
+       warehouse_id = ?, active = ?, updated_at = ?
      WHERE id = ? AND store_id = ?`,
     [
       patch.name ?? current.name,
@@ -227,6 +279,7 @@ export async function updateStoreProduct(
       patch.dimensions === undefined ? current.dimensions : patch.dimensions || null,
       patch.weightG === undefined ? current.weight_g : patch.weightG,
       patch.preparationDays === undefined ? current.preparation_days : patch.preparationDays,
+      warehouseId,
       patch.active === undefined ? Number(current.active) : patch.active ? 1 : 0,
       now,
       productId,

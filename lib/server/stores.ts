@@ -32,6 +32,9 @@ interface StoreRow {
   lat: number | null;
   lng: number | null;
   logo_url: string | null;
+  banner_url?: string | null;
+  shipping_policy?: string | null;
+  prep_time_days?: number | null;
   categories: string | null;
   status: string;
   review_note: string | null;
@@ -55,6 +58,9 @@ export function toStore(row: StoreRow): Store {
     lat: row.lat == null ? null : Number(row.lat),
     lng: row.lng == null ? null : Number(row.lng),
     logoUrl: row.logo_url,
+    bannerUrl: row.banner_url || null,
+    shippingPolicy: row.shipping_policy || null,
+    prepTimeDays: row.prep_time_days == null ? 1 : Number(row.prep_time_days),
     categories: (row.categories || '')
       .split(',')
       .map((value) => value.trim())
@@ -83,6 +89,12 @@ export function slugify(input: string): string {
 
 export async function getStoreById(id: string): Promise<Store | null> {
   const row = await queryOne<StoreRow>(`SELECT * FROM stores WHERE id = ?`, [id]);
+  return row ? toStore(row) : null;
+}
+
+/** Tìm cửa hàng theo slug (URL công khai /cua-hang/[slug]). */
+export async function getStoreBySlug(slug: string): Promise<Store | null> {
+  const row = await queryOne<StoreRow>(`SELECT * FROM stores WHERE slug = ?`, [slug.trim().toLowerCase()]);
   return row ? toStore(row) : null;
 }
 
@@ -134,6 +146,9 @@ export interface CreateStoreInput {
   lat?: number | null;
   lng?: number | null;
   logoUrl?: string | null;
+  bannerUrl?: string | null;
+  shippingPolicy?: string | null;
+  prepTimeDays?: number | null;
   categories?: string[];
   status?: StoreStatus;
 }
@@ -159,9 +174,9 @@ export async function createStore(input: CreateStoreInput): Promise<Store> {
 
   await execute(
     `INSERT INTO stores (id, owner_email, name, slug, description, phone, contact_name, address_text,
-      address_note, lat, lng, logo_url, categories, status, review_note, approved_at, approved_by,
+      address_note, lat, lng, logo_url, banner_url, shipping_policy, prep_time_days, categories, status, review_note, approved_at, approved_by,
       created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)`,
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?, ?, ?)`,
     [
       id,
       ownerEmail,
@@ -175,6 +190,9 @@ export async function createStore(input: CreateStoreInput): Promise<Store> {
       typeof input.lat === 'number' ? input.lat : null,
       typeof input.lng === 'number' ? input.lng : null,
       input.logoUrl?.trim() || null,
+      input.bannerUrl?.trim() || null,
+      input.shippingPolicy?.trim() || null,
+      input.prepTimeDays == null ? 1 : Number(input.prepTimeDays),
       (input.categories || []).join(', ') || null,
       status,
       status === 'active' ? now : null,
@@ -202,6 +220,9 @@ export async function updateStoreProfile(
     lat?: number | null;
     lng?: number | null;
     logoUrl?: string | null;
+    bannerUrl?: string | null;
+    shippingPolicy?: string | null;
+    prepTimeDays?: number | null;
     categories?: string[];
   }
 ): Promise<Store> {
@@ -218,7 +239,7 @@ export async function updateStoreProfile(
 
   await execute(
     `UPDATE stores SET name = ?, slug = ?, description = ?, phone = ?, contact_name = ?, address_text = ?,
-       address_note = ?, lat = ?, lng = ?, logo_url = ?, categories = ?, updated_at = ?
+       address_note = ?, lat = ?, lng = ?, logo_url = ?, banner_url = ?, shipping_policy = ?, prep_time_days = ?, categories = ?, updated_at = ?
      WHERE id = ?`,
     [
       name,
@@ -231,6 +252,9 @@ export async function updateStoreProfile(
       patch.lat === undefined ? store.lat : patch.lat,
       patch.lng === undefined ? store.lng : patch.lng,
       patch.logoUrl === undefined ? store.logoUrl : patch.logoUrl?.trim() || null,
+      patch.bannerUrl === undefined ? store.bannerUrl : patch.bannerUrl?.trim() || null,
+      patch.shippingPolicy === undefined ? store.shippingPolicy : patch.shippingPolicy?.trim() || null,
+      patch.prepTimeDays === undefined ? store.prepTimeDays : patch.prepTimeDays == null ? 1 : Number(patch.prepTimeDays),
       patch.categories === undefined ? store.categories.join(', ') || null : patch.categories.join(', ') || null,
       now,
       store.id,

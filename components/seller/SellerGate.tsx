@@ -16,7 +16,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   AlertTriangle, BadgeCheck, Bell, BarChart3, ClipboardList, LayoutDashboard, Loader2, LogOut,
-  Package, PackagePlus, ShieldAlert, Store as StoreIcon, Truck, UserCircle, XCircle,
+  Package, PackagePlus, ShieldAlert, Store as StoreIcon, Truck, UserCircle, Warehouse as WarehouseIcon, XCircle,
 } from 'lucide-react';
 import { fetchSellerState, logoutSeller, type SellerAreaState } from '@/lib/client/sellerApi';
 import { logout as clearDisplayedAccount } from '@/lib/authStorage';
@@ -61,6 +61,7 @@ const NAV_GROUPS: { title: string; items: { href: string; label: string; icon: R
     items: [
       { href: '/ban-hang/thong-ke', label: 'Thống kê bán hàng', icon: BarChart3 },
       { href: '/ban-hang/thong-bao', label: 'Thông báo', icon: Bell },
+      { href: '/ban-hang/kho-hang', label: 'Kho & điểm lấy hàng', icon: WarehouseIcon },
       { href: '/ban-hang/ho-so', label: 'Hồ sơ cửa hàng', icon: StoreIcon },
     ],
   },

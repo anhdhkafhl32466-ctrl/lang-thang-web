@@ -50,6 +50,7 @@ export async function POST(request: NextRequest) {
       dimensions: input.dimensions ?? null,
       weightG: input.weightG ?? null,
       preparationDays: input.preparationDays ?? null,
+      warehouseId: input.warehouseId ?? null,
       active: input.active !== false,
     });
 

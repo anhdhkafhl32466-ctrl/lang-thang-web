@@ -72,6 +72,8 @@ interface SellerOrderRow {
   store_address: string | null;
   store_lat: number | null;
   store_lng: number | null;
+  warehouse_id?: string | null;
+  warehouse_name?: string | null;
   subtotal: number;
   shipping_fee: number;
   total: number;
@@ -112,6 +114,8 @@ export function toSellerOrder(row: SellerOrderRow): SellerOrder {
     storeAddress: row.store_address,
     storeLat: row.store_lat == null ? null : Number(row.store_lat),
     storeLng: row.store_lng == null ? null : Number(row.store_lng),
+    warehouseId: row.warehouse_id || null,
+    warehouseName: row.warehouse_name || null,
     subtotal: Number(row.subtotal),
     shippingFee: Number(row.shipping_fee),
     total: Number(row.total),
@@ -390,6 +394,8 @@ export interface StoreOrderGroup {
   storeAddress: string | null;
   storeLat: number | null;
   storeLng: number | null;
+  warehouseId?: string | null;
+  warehouseName?: string | null;
   items: SellerOrderItemInput[];
   subtotal: number;
   shippingFee: number;
@@ -419,9 +425,9 @@ export async function insertSellerOrder(params: {
 
   await execute(
     `INSERT INTO seller_orders (id, order_id, store_id, code, store_name, store_address, store_lat, store_lng,
-       subtotal, shipping_fee, total, status, carrier, tracking_code, route_distance_m, route_duration_s,
-       route_provider, route_status, created_at, updated_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_confirmation', NULL, NULL, ?, ?, ?, ?, ?, ?)`,
+       warehouse_id, warehouse_name, subtotal, shipping_fee, total, status, carrier, tracking_code,
+       route_distance_m, route_duration_s, route_provider, route_status, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending_confirmation', NULL, NULL, ?, ?, ?, ?, ?, ?)`,
     [
       id,
       params.parentOrderId,
@@ -431,6 +437,8 @@ export async function insertSellerOrder(params: {
       group.storeAddress,
       group.storeLat,
       group.storeLng,
+      group.warehouseId || null,
+      group.warehouseName || null,
       group.subtotal,
       group.shippingFee,
       group.total,
