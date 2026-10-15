@@ -97,7 +97,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     category: 'Gốm sứ',
     categorySlug: 'gom-su',
     tagline: 'Ngàn năm giữ lửa – Nơi đất hóa thành nghệ thuật',
-    shortDescription: 'Làng gốm cổ truyền bên bờ tả ngạn sông Hồng với hơn 700 năm lịch sử, nổi tiếng với nước men rạn, men lam và nghệ thuật vuốt tay điêu luyện.',
+    shortDescription: 'Làng gốm cổ truyền bên bờ tả ngạn sông Hồng với gần 700 năm lịch sử (dấu tích gốm đã được ghi chép từ thế kỷ XIV), nổi tiếng với nước men rạn, men lam và nghệ thuật vuốt tay điêu luyện.',
     location: {
       address: 'Xã Bát Tràng, Huyện Gia Lâm',
       district: 'Huyện Gia Lâm',
@@ -155,6 +155,11 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/bat-trang/village_workshop.jpg',
         caption: 'Xưởng chế tác và tạo hình gốm thủ công bên tả ngạn sông Hồng'
+      },
+      {
+        url: '/images/villages/bat-trang/street_view.jpg',
+        caption: 'Đường làng Bát Tràng (xã Bát Tràng, Gia Lâm) với những dãy lò gốm và cửa hiệu dọc con đường chính của làng',
+        credit: 'Ảnh: Banhtrung1 / Wikimedia Commons (CC0)'
       }
     ],
     history: {
@@ -163,7 +168,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       milestones: [
         {
           period: 'Thế kỷ 10 - 11',
-          title: 'Khởi nguồn từ làng Bồ Bát (Ninh Bình) dời cư ra Thăng Long',
+          title: 'Truyền thuyết khởi nguồn từ làng Bồ Bát (Ninh Bình) dời cư ra Thăng Long',
           description: 'Từ thời vua Lý Thái Tổ dời đô ra Thăng Long, các dòng họ làm gốm nổi tiếng của làng Bồ Bát (Yên Mô, Ninh Bình) đã tìm đến vùng đất Bát Tràng (thuộc Gia Lâm, Hà Nội ngày nay) để lập nghiệp. Nơi đây có nguồn đất sét trắng dồi dào và nằm bên bờ sông Hồng thuận lợi giao thương, tạo điều kiện hoàn hảo để phát triển nghề gốm.'
         },
         {
@@ -347,6 +352,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/van-phuc/weaver.jpg',
         caption: 'Thợ dệt bên khung cửi lụa tơ tằm truyền thống Hà Đông'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_1.jpg',
+        caption: 'Khung cửi và sợi tơ trong một xưởng dệt lụa Hà Đông (tư liệu năm 2003)',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_2.jpg',
+        caption: 'Công đoạn dệt lụa tơ tằm bên trong xưởng dệt Hà Đông (tư liệu năm 2003)',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/van-phuc/silk_weaving_3.jpg',
+        caption: 'Toàn cảnh xưởng dệt lụa tơ tằm Hà Đông (tư liệu năm 2003)',
+        credit: 'Ảnh: Syced / Wikimedia Commons (CC0)'
       }
     ],
     history: {
@@ -457,10 +477,25 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/phu-vinh/bamboo_basket.jpg',
         caption: 'Chiếc giỏ mây tre đan hoa văn kỷ hà độc đáo'
+      },
+      {
+        url: '/images/villages/phu-vinh/village.jpg',
+        caption: 'Không gian làng nghề mây tre đan Phú Vinh (xã Phú Nghĩa, Chương Mỹ) với những giàn phơi nan và sản phẩm bày bán hai bên đường',
+        credit: 'Ảnh: Rin Mamori / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/products_1.jpg',
+        caption: 'Các sản phẩm mây tre đan thủ công trưng bày tại làng Phú Vinh',
+        credit: 'Ảnh: Rin Mamori / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/phu-vinh/products_2.jpg',
+        caption: 'Sản phẩm mỹ nghệ mây tre đan Phú Vinh với nhiều kiểu dáng gia dụng và trang trí',
+        credit: 'Ảnh: Rin Mamori / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
-      originPeriod: 'Thế kỷ XVII (Hơn 400 năm lịch sử)',
+      originPeriod: 'Khoảng thế kỷ XVII (gần 400 năm lịch sử)',
       founder: 'Tổ nghề truyền tụng lại qua nhiều thế hệ dòng họ Nguyễn, Trần làng Phú Hoa',
       milestones: [
         {
@@ -542,8 +577,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     name: 'Làng nón Chuông',
     category: 'Nón lá',
     categorySlug: 'non-la',
-    tagline: 'Vành nón bài thơ – Nét duyên thầm xứ Đoài bên dòng Đáy',
-    shortDescription: 'Làng nón cổ kính hơn 300 năm bên bờ sông Đáy, nổi tiếng với nón lá bài thơ thanh tao và nón ba tầm quai thao đậm đà bản sắc Bắc Bộ.',
+    tagline: 'Vành nón quai thao – Nét duyên thầm xứ Đoài bên dòng Đáy',
+    shortDescription: 'Làng nón cổ kính hơn 300 năm bên bờ sông Đáy, nổi tiếng với nón quai thao (nón ba tầm) thanh tao cùng nón chóp, nón lá đậm đà bản sắc Bắc Bộ.',
     location: {
       address: 'Xã Phương Trung, Huyện Thanh Oai',
       district: 'Huyện Thanh Oai',
@@ -564,12 +599,27 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       },
       {
         url: '/images/villages/chuong/conical_hat2.jpg',
-        caption: 'Nón lá bài thơ làng Chuông - biểu tượng nét duyên phụ nữ Việt'
+        caption: 'Nón lá làng Chuông - biểu tượng nét duyên người phụ nữ Việt'
+      },
+      {
+        url: '/images/villages/chuong/non_quai_thao.jpg',
+        caption: 'Nón quai thao - dòng nón cổ truyền làm nên tên tuổi làng Chuông xưa',
+        credit: 'Ảnh: Petr Ruzicka / Wikimedia Commons (CC BY 2.0)'
+      },
+      {
+        url: '/images/villages/chuong/thanh_oai_museum.jpg',
+        caption: 'Nón lá Thanh Oai làm từ lá cọ và vành tre (hiện vật Bảo tàng Phụ nữ Việt Nam, 1999)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuong/non_la_vietnam.jpg',
+        caption: 'Chiếc nón lá Việt Nam - vật dụng che nắng mưa gắn với bao thế hệ người dân đồng bằng Bắc Bộ',
+        credit: 'Ảnh: steve the archivist / Wikimedia Commons (CC BY-SA 2.0)'
       }
     ],
     history: {
-      originPeriod: 'Thế kỷ VIII - X (Thời Đinh - Tiền Lê)',
-      founder: 'Tổ nghề truyền đời tại vùng đất Phương Trung văn vật',
+      originPeriod: 'Khoảng thế kỷ XVII (hơn 300 năm)',
+      founder: 'Tương truyền cụ Lê Văn Các là người mang kỹ thuật làm nón Xuân Kiều - Ba Đồn về truyền cho dân làng Phương Trung',
       milestones: [
         {
           period: 'Thời Phong kiến',
@@ -577,9 +627,9 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
           description: 'Làng Chuông chuyên làm nón ba tầm, nón nhởn phục vụ giới quý tộc và các kỳ hội lễ Bắc Bộ.'
         },
         {
-          period: 'Thế kỷ 20',
-          title: 'Sáng tạo nón bài thơ',
-          description: 'Nghệ nhân chèn các bài thơ lục bát ca ngợi vẻ đẹp phụ nữ Việt Nam và thắng cảnh Thăng Long ẩn hiện dưới lớp lá nón.'
+          period: 'Thế kỷ XX - nay',
+          title: 'Duy trì nghề nón bên dòng sông Đáy',
+          description: 'Làng Chuông vẫn giữ các dòng nón quai thao, nón chóp, nón lá truyền thống, đồng thời phát triển nón lụa và các mẫu nón mỹ nghệ phục vụ du khách trong và ngoài nước.'
         }
       ],
       culturalSignificance: 'Nón làng Chuông là biểu tượng duyên dáng của người phụ nữ Việt Nam qua bao thế kỷ ca dao và thi ca.'
@@ -601,9 +651,9 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       },
       {
         step: 3,
-        title: 'Xếp lá và lồng bài thơ',
-        summary: 'Xếp hai lớp lá trắng đều tăm tắp, xen giữa là hoa văn cắt giấy hoặc câu thơ xứ Đoài.',
-        description: 'Khi soi chiếc nón lên ánh nắng mặt trời, người xem sẽ thấy hình ảnh Chùa Một Cột hoặc hai câu thơ lục bát ẩn hiện lung linh.',
+        title: 'Xếp lá và lồng hoa văn cắt giấy',
+        summary: 'Xếp hai lớp lá trắng đều tăm tắp, xen giữa là hoa văn cắt giấy trang trí.',
+        description: 'Muốn nón phẳng đẹp, người thợ phải xếp từng lớp lá thật đều tay và chuẩn khuôn; nhiều nơi còn lồng thêm hoa văn cắt giấy để chiếc nón thêm duyên khi soi lên ánh nắng.',
         image: '/images/villages/chuong/conical_hat2.jpg'
       },
       {
@@ -664,14 +714,24 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/kieu-ky/gilded_altar.jpg',
         caption: 'Họa tiết đao mác thếp vàng quỳ Kiêu Kỵ tinh xảo'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_leaf_hammering.jpg',
+        caption: 'Công đoạn đập vàng lá bằng búa tay - công đoạn đòi hỏi sự kiên nhẫn bậc nhất của nghề quỳ vàng (ảnh minh họa kỹ thuật)',
+        credit: 'Ảnh: Adam Jones / Wikimedia Commons (CC BY-SA 2.0)'
+      },
+      {
+        url: '/images/villages/kieu-ky/gold_leaf_closeup.jpg',
+        caption: 'Cận cảnh một lá vàng quỳ mỏng như tơ - thành phẩm của nghề dát vàng Kiêu Kỵ (ảnh minh họa)',
+        credit: 'Ảnh: Tim Denholm / Wikimedia Commons (CC BY 4.0)'
       }
     ],
     history: {
-      originPeriod: 'Hơn 300 năm (Thời Hậu Lê, thế kỷ XVIII)',
+      originPeriod: 'Khoảng 300 năm (Thời Hậu Lê, thế kỷ XVIII)',
       founder: 'Tiến sĩ Nguyễn Quý Trị (người học nghề dát vàng từ phương Bắc về truyền dạy dân làng)',
       milestones: [
         {
-          period: 'Năm 1765',
+          period: 'Thế kỷ XVIII (thời Lê Cảnh Hưng)',
           title: 'Khởi xướng nghề quỳ vàng',
           description: 'Cụ Nguyễn Quý Trị được triều đình cử đi sứ, học được bí thuật đập vàng lá rồi truyền lại cho người dân Kiêu Kỵ làm kế sinh nhai.'
         },
@@ -759,16 +819,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/dao-thuc/water_stage.jpg',
         caption: 'Không gian biểu diễn múa rối nước truyền thống'
+      },
+      {
+        url: '/images/villages/dao-thuc/puppet_show2.jpg',
+        caption: 'Quân rối nước nhấp nhô trên mặt nước trong một tiết mục truyền thống',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/performers.jpg',
+        caption: 'Các nghệ nhân phường rối đứng sau mành buồm, điều khiển con rối bằng sào và dây',
+        credit: 'Ảnh: Steven C. Price / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/dao-thuc/buffalo_puppet.jpg',
+        caption: 'Tiết mục chăn trâu - một trong những tích trò đồng dao quen thuộc của rối nước',
+        credit: 'Ảnh: Buileducanh / Wikimedia Commons (CC BY-SA 3.0)'
       }
     ],
     history: {
-      originPeriod: 'Hơn 300 năm (Thời Hậu Lê, năm 1735)',
+      originPeriod: 'Hơn 300 năm (thời Lê Trung Hưng)',
       founder: 'Nội giám Đào Đăng Khiêm (người truyền dạy ngón nghề múa rối cho quê hương)',
       milestones: [
         {
-          period: 'Năm 1735',
-          title: 'Thành lập Phường rối Đào Thục',
-          description: 'Quan Nội giám Đào Đăng Khiêm về quê lập thủy đình và truyền dạy kỹ thuật điều khiển con rối bằng sào và dây bí truyền.'
+          period: 'Khoảng năm 1735',
+          title: 'Bia đá ghi dấu phường rối Đào Thục',
+          description: 'Tấm bia đá ở đình làng (dựng khoảng năm 1735, thời vua Lê Ý Tông) ghi lại việc quan Nội giám Đào Đăng Khiêm về quê lập thủy đình và truyền dạy kỹ thuật điều khiển con rối bằng sào và dây bí truyền.'
         },
         {
           period: 'Hiện đại',
@@ -850,6 +925,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/tay-tuu/flower_bus.jpg',
         caption: 'Những chuyến xe chở đầy hoa tươi từ Tây Tựu về nội đô Hà Nội'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_market_hanoi.jpg',
+        caption: 'Chợ hoa Hà Nội nhộn nhịp sắc màu - đầu ra quen thuộc của hoa Tây Tựu (ảnh minh họa)',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_vendor.jpg',
+        caption: 'Người bán hoa rong trên phố Hà Nội với những bó hoa cúc, hoa hồng tươi rói',
+        credit: 'Ảnh: Richard Mortel / Wikimedia Commons (CC BY 2.0)'
+      },
+      {
+        url: '/images/villages/tay-tuu/flower_display.jpg',
+        caption: 'Sạp hoa trưng bày ở Hà Nội - nơi hoa Tây Tựu theo chân thương lái tỏa đi muôn nẻo',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
       }
     ],
     history: {
@@ -934,10 +1024,25 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/xuan-la/to_he2.jpg',
         caption: 'Tò he hình các con giáp ngộ nghĩnh, gắn liền với tuổi thơ'
+      },
+      {
+        url: '/images/villages/xuan-la/to_he_vietnam.jpg',
+        caption: 'Những con giống bột tò he với đủ hình dáng, màu sắc dân gian',
+        credit: 'Ảnh: Grenouille vert / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/making_to_he.jpg',
+        caption: 'Nghệ nhân thoăn thoắt vê bột, tạo hình trên que tre trước mắt du khách',
+        credit: 'Ảnh: Memberofc1 / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/xuan-la/to_he_1.jpg',
+        caption: 'Tò he cắm thành chùm trên que tre - món đồ chơi dân gian gắn với tuổi thơ bao thế hệ',
+        credit: 'Ảnh: Duyphuong / Wikimedia Commons (CC BY 3.0)'
       }
     ],
     history: {
-      originPeriod: 'Hơn 300 năm trước',
+      originPeriod: 'Ước khoảng 300 - 400 năm (theo truyền kể địa phương)',
       founder: 'Các bậc tiền nhân làng Xuân La ban đầu làm con giống bột dâng cúng đình chùa',
       milestones: [
         {
@@ -978,9 +1083,9 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     ],
     artisans: [
       {
-        name: 'Nghệ nhân Đặng Văn Hậu',
-        title: 'Bàn tay vàng phục hưng con giống bột Phú Xuyên',
-        experience: '20 năm sáng tạo tò he truyền thống và hiện đại',
+        name: 'Nghệ nhân Ưu tú Nguyễn Văn Thành',
+        title: 'Chủ nhiệm Câu lạc bộ Tò he Xuân La',
+        experience: 'Nhiều thập kỷ gắn bó với nghề nặn tò he truyền thống',
         quote: 'Nặn tò he không chỉ là đồ chơi, đó là một tác phẩm điêu khắc mini gửi gắm nụ cười trẻ thơ.',
         avatar: '/images/villages/xuan-la/to_he1.jpg'
       }
@@ -1025,6 +1130,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/quang-phu-cau/hero.jpg',
         caption: 'Không gian rực rỡ sắc màu của làng tăm hương Quảng Phú Cầu'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/incense_vietnam.jpg',
+        caption: 'Những nén hương đang cháy - hình ảnh thân thuộc trong đời sống tâm linh người Việt (chụp tại làng Quảng Phú Cầu)',
+        credit: 'Ảnh: Trantuanviet / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_2.jpg',
+        caption: 'Người thợ ngồi giữa rừng chân hương đang phơi nắng ở một làng hương ngoại thành Hà Nội',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
+      },
+      {
+        url: '/images/villages/quang-phu-cau/drying_incense_3.jpg',
+        caption: 'Những bó chân hương xòe tròn như đóa hoa khổng lồ dưới nắng - khung cảnh làm nên tên tuổi làng hương',
+        credit: 'Ảnh: Azimronnie / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -1136,6 +1256,20 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chuyen-my/inlay_panel.jpg',
         caption: 'Bức hoành phi khảm rồng mây sơn son thếp vàng kết hợp khảm xà cừ'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_screen_1890.jpg',
+        caption: 'Bình phong gỗ khảm xà cừ thời Nguyễn (1890) - hiện vật Bảo tàng Lịch sử Quốc gia',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/inlay_picture_museum.jpg',
+        caption: 'Tranh khảm xà cừ trên gỗ thời Nguyễn (thế kỷ XIX - đầu XX) lưu giữ tại bảo tàng',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/chuyen-my/sap_kham_trai.jpg',
+        caption: 'Chiếc sập gỗ khảm trai - món đồ nội thất cung đình mang đậm dấu ấn nghề Chuôn Ngọ'
       }
     ],
     history: {
@@ -1239,11 +1373,26 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/ha-thai/lacquer_ritual.jpg',
         caption: 'Hộp sơn mài dùng trong nghi lễ truyền thống Hà Nội đầu thế kỷ 20'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_box2.jpg',
+        caption: 'Hộp gỗ sơn mài - hiện vật Bảo tàng Mỹ thuật Việt Nam',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_roc.jpg',
+        caption: 'Tượng vua Rộc (Kiến Xương, Thái Bình) thế kỷ XVIII bằng gỗ sơn mài - minh chứng cho kỹ thuật sơn son thếp vàng lâu đời',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
+      },
+      {
+        url: '/images/villages/ha-thai/lacquer_case.jpg',
+        caption: 'Hộp đựng sắc phong triều Nguyễn (cuối thế kỷ XIX - đầu XX) bằng gỗ sơn mài',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
       }
     ],
     history: {
       originPeriod: 'Thế kỷ XVII (Hơn 200 năm)',
-      founder: 'Các phường thợ sơn Cự Đà và làng Hạ Thái cổ',
+      founder: 'Phường thợ sơn Cự Tràng (sau đổi thành Đông Thái rồi Hạ Thái); nghệ nhân Đinh Văn Thành (Cả Thiều) là người đưa sơn mài mỹ thuật về làng vào thập niên 1930',
       milestones: [
         {
           period: 'Thế kỷ XVIII',
@@ -1319,7 +1468,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     category: 'Điêu khắc & Gỗ mỹ nghệ',
     categorySlug: 'dieu-khac-go',
     tagline: 'Thổi hồn vào gỗ – Thiên đường đồ thờ tâm linh xứ Đoài',
-    shortDescription: 'Làng nghề hơn 800 năm tuổi chuyên tạc tượng Phật giáo, tượng danh nhân và đồ thờ sơn son thếp vàng, cung cấp cho hơn một nửa di tích đền chùa miền Bắc.',
+    shortDescription: 'Làng nghề tạc tượng lâu đời (truyền thuyết gắn với tướng Đào Trực thời Lê Đại Hành), chuyên tạc tượng Phật giáo, tượng danh nhân và đồ thờ sơn son thếp vàng cho nhiều di tích đền chùa miền Bắc.',
     location: {
       address: 'Xã Sơn Đồng, Huyện Hoài Đức',
       district: 'Huyện Hoài Đức',
@@ -1341,14 +1490,29 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/son-dong/gilded_wood.jpg',
         caption: 'Đồ thờ gỗ sơn son thếp vàng thời Nguyễn tinh xảo'
+      },
+      {
+        url: '/images/villages/son-dong/tay_phuong_statue.jpg',
+        caption: 'Tượng Thích Ca sơ sinh trên núi tuyết - tượng gỗ chùa Tây Phương (1794), hiện vật Bảo tàng Mỹ thuật Việt Nam',
+        credit: 'Ảnh: Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/son-dong/la_han_tay_phuong.jpg',
+        caption: 'Tượng La Hán bằng gỗ chùa Tây Phương (Thạch Thất) - đỉnh cao của nghệ thuật tạc tượng gỗ Việt Nam',
+        credit: 'Ảnh: Liftold / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/son-dong/attendant_buddha.jpg',
+        caption: 'Tượng thị giả bằng gỗ - hiện vật Bảo tàng Mỹ thuật Việt Nam',
+        credit: 'Ảnh: Daderot / Wikimedia Commons (CC0)'
       }
     ],
     history: {
-      originPeriod: 'Thế kỷ XIII (Hơn 800 năm)',
-      founder: 'Cụ tổ nghề tạc tượng dân gian xứ Đoài',
+      originPeriod: 'Khoảng thế kỷ X (theo truyền thuyết hơn 1.000 năm)',
+      founder: 'Tương truyền tướng Đào Trực (thời Lê Đại Hành) là người truyền nghề tạc tượng cho dân làng',
       milestones: [
         {
-          period: 'Thời Lý - Trần',
+          period: 'Thời Lê Đại Hành (thế kỷ X)',
           title: 'Khởi dựng phường thợ tạc tượng chùa chiền',
           description: 'Các nghệ nhân phục dựng tượng Phật tam thế, hoành phi câu đối cho các quốc tự.'
         },
@@ -1439,16 +1603,31 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/trach-xa/ao_dai2.jpg',
         caption: 'Áo dài lụa ngũ thân may tay thủ công Trạch Xá'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_3.jpg',
+        caption: 'Thiếu nữ trong tà áo dài trắng thanh khiết - nét đẹp gắn với quốc phục Việt Nam',
+        credit: 'Ảnh: Zeus Studio / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_trang.jpg',
+        caption: 'Áo dài trắng truyền thống với tà áo thướt tha, kín đáo',
+        credit: 'Ảnh: Áo Dài Sài Gòn / Wikimedia Commons (CC BY 2.0)'
+      },
+      {
+        url: '/images/villages/trach-xa/ao_dai_dancers.jpg',
+        caption: 'Vũ điệu trong tà áo dài - tà áo Việt Nam vươn ra thế giới',
+        credit: 'Ảnh: Lucas Jans / Wikimedia Commons (CC BY-SA 2.0)'
       }
     ],
     history: {
-      originPeriod: 'Thế kỷ X (Năm 968 - Hơn 1.000 năm)',
+      originPeriod: 'Thế kỷ X (hơn 1.000 năm)',
       founder: 'Đức bà Nguyễn Thị Sen (Tứ phi hoàng hậu của vua Đinh Tiên Hoàng)',
       milestones: [
         {
-          period: 'Năm 968',
-          title: 'Hoàng hậu Nguyễn Thị Sen truyền nghề',
-          description: 'Hoàng phi triều Đinh mang kỹ thuật may vá cung đình về dạy cho người dân quê hương Trạch Xá.'
+          period: 'Cuối thế kỷ X',
+          title: 'Tứ phi Nguyễn Thị Sen truyền nghề may',
+          description: 'Theo thần tích của làng, Tứ phi Nguyễn Thị Sen (vợ vua Đinh Tiên Hoàng) trở về quê hương Trạch Xá và truyền dạy kỹ thuật may vá cung đình cho dân làng.'
         },
         {
           period: 'Thế kỷ XX',
@@ -1541,6 +1720,21 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/thach-xa/pagoda2.jpg',
         caption: 'Mái ngói cong vút Chùa Tây Phương - điểm tựa tâm linh của làng nghề'
+      },
+      {
+        url: '/images/villages/thach-xa/pagoda_2.jpg',
+        caption: 'Cổng tam quan Chùa Tây Phương (Thạch Thất, Hà Nội)',
+        credit: 'Ảnh: Liftold / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/thach-xa/la_han.jpg',
+        caption: 'Tượng La Hán bằng gỗ chùa Tây Phương - kiệt tác điêu khắc gỗ cổ Việt Nam',
+        credit: 'Ảnh: Liftold / Wikimedia Commons (CC BY-SA 3.0)'
+      },
+      {
+        url: '/images/villages/thach-xa/pagoda_3.jpg',
+        caption: 'Tượng gỗ một vị tổ sư trong chùa Tây Phương - nguồn cảm hứng cho nghề chạm khắc của vùng',
+        credit: 'Ảnh: Benjamin Smith / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -1639,6 +1833,16 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/chang-son/hero.jpg',
         caption: 'Quê hương xứ Đoài hữu tình bên chân núi chùa Tây Phương'
+      },
+      {
+        url: '/images/villages/chang-son/hanoi_fan_street.jpg',
+        caption: 'Phố Hàng Quạt (Hà Nội) xưa - nơi quạt Chàng Sơn theo chân thợ làng ra kinh thành bán (ảnh tư liệu của Pierre Dieulefils)',
+        credit: 'Ảnh: Pierre Dieulefils / Wikimedia Commons (Public domain)'
+      },
+      {
+        url: '/images/villages/chang-son/hang_quat_temple.jpg',
+        caption: 'Ngôi đền trên phố Hàng Quạt - dấu tích của con phố buôn quạt một thời',
+        credit: 'Ảnh: Christophe95 / Wikimedia Commons (CC BY-SA 4.0)'
       }
     ],
     history: {
@@ -1737,6 +1941,11 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       {
         url: '/images/villages/me-tri/banh_com_box.jpg',
         caption: 'Hộp bánh cốm truyền thống quà tặng mùa thu Hà Nội'
+      },
+      {
+        url: '/images/villages/me-tri/banh_com_vietnam.jpg',
+        caption: 'Bánh cốm nhân đậu xanh làm từ hạt cốm dẹp - thức quà mùa thu đặc trưng của Hà Nội',
+        credit: 'Ảnh: Khương Việt Hà / Wikimedia Commons (Public domain)'
       }
     ],
     history: {
@@ -1744,9 +1953,9 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       founder: 'Các cụ tổ dòng họ Đỗ, Ngô làng Mễ Trì Hạ',
       milestones: [
         {
-          period: 'Năm 2016',
-          title: 'Tiếp đón Tổng thống Mỹ Barack Obama',
-          description: 'Cốm Mễ Trì vinh dự được giới thiệu trong hành trình khám phá văn hóa ẩm thực Hà Nội của Tổng thống Mỹ.'
+          period: 'Ngày 24/5/2016',
+          title: 'Tổng thống Mỹ Barack Obama ghé mua cốm Mễ Trì',
+          description: 'Trong chuyến thăm Hà Nội, Tổng thống Mỹ Barack Obama đã ghé thăm phường Mễ Trì và mua cốm về làm quà, đưa đặc sản mùa thu Hà Nội đến gần hơn với bạn bè quốc tế.'
         },
         {
           period: 'Năm 2019',

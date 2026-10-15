@@ -25,7 +25,7 @@ export default function CraftVillageDetailPage() {
   const slug = params?.slug as string;
 
   const village = CRAFT_VILLAGES.find((v) => v.slug === slug);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{ url: string; caption: string; credit?: string } | null>(null);
   const [activeStep, setActiveStep] = useState<number>(1);
   const [stampNotification, setStampNotification] = useState<string | null>(null);
 
@@ -753,7 +753,7 @@ export default function CraftVillageDetailPage() {
             {village.gallery.map((img, idx) => (
               <div
                 key={idx}
-                onClick={() => setSelectedImage(img.url)}
+                onClick={() => setSelectedImage(img)}
                 className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all"
               >
                 <img
@@ -761,10 +761,13 @@ export default function CraftVillageDetailPage() {
                   alt={img.caption}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+                <div className="absolute inset-0 bg-black/45 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end gap-1 p-3">
                   <p className="text-white text-xs font-medium line-clamp-2">
                     {img.caption}
                   </p>
+                  {img.credit && (
+                    <p className="text-white/60 text-[10px] leading-tight">{img.credit}</p>
+                  )}
                 </div>
               </div>
             ))}
@@ -952,11 +955,22 @@ export default function CraftVillageDetailPage() {
           >
             <X className="w-6 h-6" />
           </button>
-          <img
-            src={selectedImage}
-            alt="Phóng to ảnh"
-            className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
-          />
+          <div
+            className="flex flex-col items-center gap-3 max-w-5xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img
+              src={selectedImage.url}
+              alt={selectedImage.caption || 'Phóng to ảnh'}
+              className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
+            />
+            <div className="text-center space-y-1 max-w-3xl px-2">
+              <p className="text-white text-sm font-medium">{selectedImage.caption}</p>
+              {selectedImage.credit && (
+                <p className="text-white/60 text-xs">{selectedImage.credit}</p>
+              )}
+            </div>
+          </div>
         </div>
       )}
 
