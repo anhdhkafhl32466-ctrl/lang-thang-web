@@ -1,14 +1,25 @@
 /**
  * Thông báo trong website — lưu trong cơ sở dữ liệu để tồn tại giữa các phiên và thiết bị.
+ *
+ * Mô hình đa người bán có BA nhóm người nhận:
+ *  - 'admin'   : bảng điều khiển của sàn (thông báo vận hành toàn sàn).
+ *  - 'customer': người mua, nhận theo email của chính tài khoản đã đặt đơn.
+ *  - 'seller'  : người bán, nhận theo email chủ cửa hàng. Một người bán CHỈ thấy thông báo gắn với
+ *                email của mình, nên không thể đọc được thông báo của cửa hàng khác.
+ *
+ * Vì vậy hàm đọc phải nhận VAI TRÒ NGƯỜI XEM (viewer) do máy chủ xác định từ phiên đăng nhập, chứ
+ * không dùng cờ boolean dễ bị hiểu sai ở phía gọi.
  */
 
 import crypto from 'crypto';
 import { execute, query, queryOne } from './db';
 import type { SiteNotification } from '@/lib/orders/types';
 
+export type NotificationAudience = 'admin' | 'customer' | 'seller';
+
 interface NotificationRow {
   id: string;
-  audience: 'admin' | 'customer';
+  audience: NotificationAudience;
   user_email: string | null;
   order_id: string | null;
   title: string;
@@ -33,7 +44,7 @@ function toNotification(row: NotificationRow): SiteNotification {
 }
 
 export async function createNotification(params: {
-  audience: 'admin' | 'customer';
+  audience: NotificationAudience;
   userEmail?: string | null;
   orderId?: string | null;
   title: string;
@@ -69,57 +80,68 @@ export async function createNotification(params: {
   };
 }
 
+/** Điều kiện lọc theo vai trò người xem — CÙNG một câu điều kiện được dùng cho cả đọc và đánh dấu đã đọc. */
+function viewerClause(viewer: 'admin' | 'customer' | 'seller'): { where: string; params: (string | null)[] } {
+  if (viewer === 'admin') {
+    // Quản trị viên thấy thông báo vận hành toàn sàn và thông báo gửi tới chính email của mình.
+    return {
+      where: `(audience = 'admin' OR (user_email IS NOT NULL AND user_email = ?))`,
+      params: [],
+    };
+  }
+  // Người bán và khách chỉ thấy thông báo gửi ĐÍCH DANH tới email của mình.
+  return {
+    where: `user_email = ? AND audience = ?`,
+    params: [viewer],
+  };
+}
+
 /**
  * Danh sách thông báo cho một người xem.
- *  - Quản trị viên thấy thông báo audience='admin' và các thông báo gửi tới email của mình.
- *  - Khách chỉ thấy thông báo gắn với email của mình.
+ *  - Quản trị viên: thông báo audience='admin' + thông báo gửi tới email của mình.
+ *  - Người bán: thông báo audience='seller' gửi tới email chủ cửa hàng.
+ *  - Khách: thông báo audience='customer' gửi tới email của mình.
  */
 export async function listNotifications(params: {
   email: string | null;
-  isAdmin: boolean;
+  viewer: 'admin' | 'customer' | 'seller';
   limit?: number;
 }): Promise<{ items: SiteNotification[]; unreadCount: number }> {
   const limit = Math.min(Math.max(Number(params.limit) || 20, 1), 100);
   const email = params.email?.trim().toLowerCase() ?? null;
+  const clause = viewerClause(params.viewer);
 
-  let rows: NotificationRow[];
-  if (params.isAdmin) {
-    rows = await query<NotificationRow>(
-      `SELECT * FROM notifications
-       WHERE audience = 'admin' OR (user_email IS NOT NULL AND user_email = ?)
-       ORDER BY created_at DESC LIMIT ${limit}`,
-      [email]
-    );
-  } else if (email) {
-    rows = await query<NotificationRow>(
-      `SELECT * FROM notifications
-       WHERE user_email = ? AND audience = 'customer'
-       ORDER BY created_at DESC LIMIT ${limit}`,
-      [email]
-    );
-  } else {
-    rows = [];
+  // Không có email (quán khách chưa đăng nhập) thì chỉ quản trị viên mới có gì để xem.
+  if (params.viewer !== 'admin' && !email) {
+    return { items: [], unreadCount: 0 };
   }
 
+  const args: (string | null)[] = params.viewer === 'admin' ? [email] : [email, ...clause.params];
+  const rows = await query<NotificationRow>(
+    `SELECT * FROM notifications WHERE ${clause.where} ORDER BY created_at DESC LIMIT ${limit}`,
+    args
+  );
+
   const unreadRow = await queryOne<{ count: number }>(
-    params.isAdmin
-      ? `SELECT COUNT(*) AS count FROM notifications
-         WHERE read_at IS NULL AND (audience = 'admin' OR (user_email IS NOT NULL AND user_email = ?))`
-      : `SELECT COUNT(*) AS count FROM notifications
-         WHERE read_at IS NULL AND user_email = ? AND audience = 'customer'`,
-    [email]
+    `SELECT COUNT(*) AS count FROM notifications WHERE read_at IS NULL AND ${clause.where}`,
+    args
   );
 
   return { items: rows.map(toNotification), unreadCount: Number(unreadRow?.count ?? 0) };
 }
 
-export async function markNotificationRead(id: string, email: string | null, isAdmin: boolean): Promise<boolean> {
+export async function markNotificationRead(
+  id: string,
+  email: string | null,
+  viewer: 'admin' | 'customer' | 'seller'
+): Promise<boolean> {
   const existing = await queryOne<NotificationRow>(`SELECT * FROM notifications WHERE id = ?`, [id]);
   if (!existing) return false;
 
+  const normalized = email?.trim().toLowerCase() ?? null;
   const ownsIt =
-    (isAdmin && existing.audience === 'admin') ||
-    (email && existing.user_email === email.trim().toLowerCase());
+    (viewer === 'admin' && existing.audience === 'admin') ||
+    (normalized !== null && existing.user_email === normalized);
   if (!ownsIt) return false;
 
   if (!existing.read_at) {
@@ -128,19 +150,32 @@ export async function markNotificationRead(id: string, email: string | null, isA
   return true;
 }
 
-export async function markAllNotificationsRead(email: string | null, isAdmin: boolean): Promise<number> {
+export async function markAllNotificationsRead(
+  email: string | null,
+  viewer: 'admin' | 'customer' | 'seller'
+): Promise<number> {
   const now = new Date().toISOString();
   const normalized = email?.trim().toLowerCase() ?? null;
-  if (isAdmin) {
+
+  if (viewer === 'admin') {
     await execute(
       `UPDATE notifications SET read_at = ? WHERE read_at IS NULL AND (audience = 'admin' OR (user_email IS NOT NULL AND user_email = ?))`,
       [now, normalized]
     );
   } else if (normalized) {
     await execute(
-      `UPDATE notifications SET read_at = ? WHERE read_at IS NULL AND user_email = ? AND audience = 'customer'`,
-      [now, normalized]
+      `UPDATE notifications SET read_at = ? WHERE read_at IS NULL AND user_email = ? AND audience = ?`,
+      [now, normalized, viewer]
     );
   }
   return 0;
+}
+
+/** Số thông báo CHƯA ĐỌC của người bán — hiển thị trên huy hiệu của Trung tâm người bán. */
+export async function countUnreadForSeller(email: string): Promise<number> {
+  const row = await queryOne<{ count: number }>(
+    `SELECT COUNT(*) AS count FROM notifications WHERE read_at IS NULL AND audience = 'seller' AND user_email = ?`,
+    [email.trim().toLowerCase()]
+  );
+  return Number(row?.count ?? 0);
 }

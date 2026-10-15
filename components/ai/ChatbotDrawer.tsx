@@ -27,6 +27,8 @@ export default function ChatbotDrawer() {
   const [apiKeyInput, setApiKeyInput] = useState('');
   const [activeApiKey, setActiveApiKey] = useState('');
   const [savedKeySuccess, setSavedKeySuccess] = useState(false);
+  // Website có khoá AI DÙNG CHUNG ở máy chủ hay chưa. Có rồi thì khách không phải nhập khoá riêng.
+  const [sharedAiConfigured, setSharedAiConfigured] = useState(false);
 
   const [messages, setMessages] = useState<ChatMessage[]>([
     {
@@ -65,6 +67,22 @@ export default function ChatbotDrawer() {
         setApiKeyInput(stored);
       }
     }
+  }, []);
+
+  // Hỏi máy chủ xem đã cấu hình khoá AI dùng chung chưa (chỉ trả về true/false, không trả khoá).
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/config', { cache: 'no-store' })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setSharedAiConfigured(Boolean(data?.services?.ai?.configured));
+      })
+      .catch(() => {
+        /* giữ nguyên trạng thái mặc định */
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const scrollToBottom = () => {
@@ -261,14 +279,26 @@ export default function ChatbotDrawer() {
                   <span>Cấu hình Động cơ AI (Tùy chọn)</span>
                 </span>
                 <span className="text-[10px] text-amber-700 font-normal">
-                  {activeApiKey ? 'Đang dùng Gemini API Key' : 'Mặc định: Offline Engine 2.0'}
+                  {activeApiKey
+                    ? 'Đang dùng khoá riêng của bạn'
+                    : sharedAiConfigured
+                      ? 'Đang dùng khoá AI dùng chung'
+                      : 'Mặc định: Offline Engine 2.0'}
                 </span>
               </div>
 
-              <p className="text-[11px] text-amber-800/80 leading-relaxed">
-                Mặc định hệ thống chạy <strong>Engine Chuyên gia Làng nghề 2.0</strong> (phản hồi tức thì, không cần mạng).
-                Nếu bạn muốn AI trò chuyện tự do bằng <strong>Google Gemini 1.5 Flash</strong>, hãy dán API key miễn phí từ <a href="https://aistudio.google.com/" target="_blank" rel="noreferrer" className="underline font-semibold text-terracotta-600">Google AI Studio</a>.
-              </p>
+              {sharedAiConfigured ? (
+                <p className="text-[11px] text-emerald-800 leading-relaxed bg-emerald-50 border border-emerald-200 rounded-lg p-2">
+                  Website đã bật <strong>khoá AI dùng chung</strong> ở máy chủ — bạn dùng trợ lý đầy đủ
+                  ngay, <strong>không cần dán khoá riêng</strong>. Ô bên dưới chỉ dành cho ai muốn dùng
+                  khoá riêng của mình.
+                </p>
+              ) : (
+                <p className="text-[11px] text-amber-800/80 leading-relaxed">
+                  Mặc định hệ thống chạy <strong>Engine Chuyên gia Làng nghề 2.0</strong> (phản hồi tức thì, không cần mạng).
+                  Nếu bạn muốn AI trò chuyện tự do bằng <strong>Google Gemini</strong>, hãy dán API key miễn phí từ <a href="https://aistudio.google.com/" target="_blank" rel="noreferrer" className="underline font-semibold text-terracotta-600">Google AI Studio</a>.
+                </p>
+              )}
 
               <form onSubmit={handleSaveApiKey} className="flex gap-1.5">
                 <input

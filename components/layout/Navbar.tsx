@@ -5,11 +5,12 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   Compass, Sparkles, Map, BookOpen, ShoppingBag, Award, Menu, X,
-  ChevronRight, Palette, ChevronDown, User as UserIcon, History, LogOut, ShieldCheck, ShoppingCart
+  ChevronRight, Palette, ChevronDown, User as UserIcon, History, LogOut, ShieldCheck, ShoppingCart, Store
 } from 'lucide-react';
 import { getPassport } from '@/lib/passportStorage';
 import { getCurrentUser, logout, UserAccount } from '@/lib/authStorage';
-import { endServerSession } from '@/lib/client/serverSession';
+import { endServerSession, fetchServerSession } from '@/lib/client/serverSession';
+import { ADMIN_ORDERS_PATH } from '@/lib/client/authRedirect';
 import { useCart } from '@/lib/client/cart';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 import NotificationBell from '@/components/orders/NotificationBell';
@@ -26,6 +27,11 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   const [user, setUser] = useState<UserAccount | null>(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  // Quyền quản trị đọc từ PHIÊN MÁY CHỦ (cookie đã ký), không phải từ localStorage.
+  const [isAdmin, setIsAdmin] = useState(false);
+  // Tài khoản người bán cũng xác định từ phiên máy chủ: chỉ hiện lối vào Trung tâm người bán khi
+  // máy chủ xác nhận đây là tài khoản bán hàng.
+  const [sellerStore, setSellerStore] = useState<string | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const cart = useCart();
 
@@ -41,8 +47,20 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
     };
     updateBadgeCount();
 
+    const refreshServerSession = () => {
+      fetchServerSession()
+        .then((session) => setIsAdmin(Boolean(session?.user?.isAdmin)))
+        .catch(() => setIsAdmin(false));
+
+      fetch('/api/seller/session', { cache: 'no-store' })
+        .then((res) => res.json())
+        .then((data) => setSellerStore(data?.isSeller ? data?.store?.name || 'cửa hàng của bạn' : null))
+        .catch(() => setSellerStore(null));
+    };
+
     const updateUser = () => {
       setUser(getCurrentUser());
+      refreshServerSession();
     };
     updateUser();
 
@@ -81,11 +99,13 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
     return false;
   };
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = async () => {
     setUserDropdownOpen(false);
+    // Xoá phiên máy chủ (cookie đã ký) TRƯỚC khi xoá trạng thái giao diện, để quyền quản trị
+    // biến mất cùng lúc với phiên thay vì vẫn còn sau khi "đăng xuất".
+    await endServerSession();
     logout();
-    // Xoá luôn phiên phía máy chủ (cookie đã ký) để không còn quyền truy cập API.
-    endServerSession();
+    setIsAdmin(false);
   };
 
   return (
@@ -178,6 +198,19 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
               </span>
             </button>
 
+            {/* Lối vào khu vực người bán. Chỉ hiển thị khi CHƯA là người bán; người bán đã có mục
+                "Trung tâm người bán" trong menu tài khoản nên không cần lặp lại ở đây. */}
+            {!sellerStore && (
+              <Link
+                href="/dang-ky-nguoi-ban"
+                className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold transition-colors shadow-sm"
+                title="Đăng ký mở cửa hàng trên sàn Lang Thang"
+              >
+                <Store className="w-4 h-4" />
+                <span>Bán hàng</span>
+              </Link>
+            )}
+
             {/* GMAIL LOGIN / USER AVATAR BUTTON */}
             {!user ? (
               <button
@@ -242,6 +275,36 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                   <span>Đơn hàng của tôi</span>
                 </Link>
 
+                {isAdmin && (
+                  <>
+                    <Link
+                      href={ADMIN_ORDERS_PATH}
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-gold-400/10 hover:bg-gold-400/20 text-lacquer-900 font-bold transition-colors border-y border-gold-400/30"
+                    >
+                      <ShieldCheck className="w-4 h-4 text-gold-600" />
+                      <span>Quản trị đơn hàng</span>
+                    </Link>
+                    <Link
+                      href="/admin/cua-hang"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 bg-gold-400/10 hover:bg-gold-400/20 text-lacquer-900 font-bold transition-colors border-b border-gold-400/30"
+                    >
+                      <Store className="w-4 h-4 text-gold-600" />
+                      <span>Quản lý cửa hàng</span>
+                    </Link>
+                  </>
+                )}
+
+                <Link
+                  href={sellerStore ? '/ban-hang' : '/dang-ky-nguoi-ban'}
+                  onClick={() => setUserDropdownOpen(false)}
+                  className="flex items-center gap-2 px-4 py-2.5 hover:bg-terracotta-50 text-lacquer-900 font-semibold transition-colors"
+                >
+                  <Store className="w-4 h-4 text-terracotta-600" />
+                  <span>{sellerStore ? `Trung tâm người bán (${sellerStore})` : 'Đăng ký bán hàng'}</span>
+                </Link>
+
                 <Link
                   href="/tai-khoan#lich-su"
                   onClick={() => setUserDropdownOpen(false)}
@@ -300,13 +363,31 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                     <span className="text-[10px] text-lacquer-800/60 block truncate max-w-[180px]">{user.email}</span>
                   </div>
                 </div>
-                <Link
-                  href="/tai-khoan"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-2.5 py-1 rounded-lg bg-terracotta-50 text-terracotta-700 text-xs font-bold border border-terracotta-200"
-                >
-                  Hồ sơ
-                </Link>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  {isAdmin && (
+                    <Link
+                      href={ADMIN_ORDERS_PATH}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-2.5 py-1 rounded-lg bg-gold-400/20 text-lacquer-900 text-xs font-bold border border-gold-400/40"
+                    >
+                      Quản trị
+                    </Link>
+                  )}
+                  <Link
+                    href={sellerStore ? '/ban-hang' : '/dang-ky-nguoi-ban'}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-2.5 py-1 rounded-lg bg-terracotta-500 text-white text-xs font-bold border border-terracotta-600"
+                  >
+                    {sellerStore ? 'Bán hàng' : 'Đăng ký bán'}
+                  </Link>
+                  <Link
+                    href="/tai-khoan"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="px-2.5 py-1 rounded-lg bg-terracotta-50 text-terracotta-700 text-xs font-bold border border-terracotta-200"
+                  >
+                    Hồ sơ
+                  </Link>
+                </div>
               </div>
             ) : (
               <button

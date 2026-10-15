@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { recordLogin, UserAccount } from '@/lib/authStorage';
 import { syncPassportWithServer } from '@/lib/passportStorage';
 import { establishEmailSession, establishGoogleSession } from '@/lib/client/serverSession';
+import { ADMIN_ORDERS_PATH } from '@/lib/client/authRedirect';
 import confetti from 'canvas-confetti';
 import {
   X, CheckCircle2, ShieldCheck, Mail, User, Sparkles,
@@ -14,7 +16,12 @@ import {
 interface GoogleLoginModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: (user: UserAccount) => void;
+  /**
+   * Được gọi sau khi phiên MÁY CHỦ được thiết lập thành công.
+   * `info.isAdmin` lấy từ cookie phiên đã ký ở máy chủ (không phải localStorage) — dùng nó để
+   * quyết định chuyển quản trị viên thẳng tới trang quản lý đơn hàng.
+   */
+  onSuccess?: (user: UserAccount, info: { isAdmin: boolean }) => void;
 }
 
 declare global {
@@ -24,6 +31,7 @@ declare global {
 }
 
 export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleLoginModalProps) {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'google_oauth' | 'email_verify'>('google_oauth');
 
   // Google OAuth state
@@ -184,8 +192,11 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
       });
 
       setTimeout(() => {
-        onSuccess?.(user);
+        const isAdmin = Boolean(serverSession.isAdmin);
+        onSuccess?.(user, { isAdmin });
         onClose();
+        // Quản trị viên đi THẲNG vào trang quản lý đơn hàng, không qua trang chủ.
+        if (isAdmin) router.replace(ADMIN_ORDERS_PATH);
       }, 1000);
     } catch (err: any) {
       console.error('Error decoding Google response:', err);
@@ -306,8 +317,11 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
       });
 
       setTimeout(() => {
-        onSuccess?.(user);
+        const isAdmin = Boolean(serverSession.isAdmin);
+        onSuccess?.(user, { isAdmin });
         onClose();
+        // Quản trị viên đi THẲNG vào trang quản lý đơn hàng, không qua trang chủ.
+        if (isAdmin) router.replace(ADMIN_ORDERS_PATH);
       }, 1000);
     } catch (err: any) {
       setError('Lỗi kết nối máy chủ kiểm tra email. Vui lòng thử lại.');

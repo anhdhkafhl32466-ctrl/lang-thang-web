@@ -7,7 +7,7 @@ import { useCart } from '@/lib/client/cart';
 import { formatCurrencyVND } from '@/lib/utils';
 import type { CatalogProduct } from '@/lib/orders/types';
 import {
-  ShoppingCart, ArrowLeft, PackageCheck, Truck, ShieldCheck, Loader2, AlertTriangle, Minus, Plus, ArrowRight,
+  ShoppingCart, ArrowLeft, PackageCheck, Truck, ShieldCheck, Loader2, AlertTriangle, Minus, Plus, ArrowRight, Store,
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
@@ -113,8 +113,34 @@ export default function ProductDetailPage() {
               <div><strong>Nghệ nhân:</strong> {product.artisanName}</div>
               {product.material && <div><strong>Chất liệu:</strong> {product.material}</div>}
               {product.dimensions && <div><strong>Kích thước:</strong> {product.dimensions}</div>}
+              {product.weightG ? <div><strong>Khối lượng:</strong> {product.weightG} g</div> : null}
+              {product.preparationDays ? <div><strong>Thời gian chuẩn bị hàng:</strong> khoảng {product.preparationDays} ngày</div> : null}
               <div><strong>Mã sản phẩm:</strong> <span className="font-mono">{product.id}</span></div>
             </div>
+
+            {/* Thông tin NGƯỜI BÁN: sàn có nhiều cửa hàng nên khách cần biết ai bán để đối chiếu khi theo dõi đơn. */}
+            <div className="p-4 rounded-2xl border border-terracotta-200 bg-white space-y-1.5 text-xs">
+              <span className="flex items-center gap-1.5 font-bold text-lacquer-900">
+                <Store className="w-3.5 h-3.5 text-terracotta-600" />
+                Người bán
+              </span>
+              <div className="text-lacquer-800/80">
+                Cửa hàng: <strong className="text-lacquer-900">{product.storeName}</strong>
+                {product.storeStatus !== 'active' && (
+                  <span className="ml-1 text-rose-600">(cửa hàng tạm ngừng bán)</span>
+                )}
+              </div>
+              <p className="text-[11px] text-lacquer-800/60 leading-relaxed">
+                Sản phẩm này do cửa hàng trên đăng bán. Nếu giỏ hàng có sản phẩm của nhiều cửa hàng, đơn sẽ được
+                tách thành nhiều phần và mỗi cửa hàng xử lý phần của mình.
+              </p>
+            </div>
+
+            {product.description && (
+              <div className="text-xs text-lacquer-800/80 leading-relaxed whitespace-pre-line">
+                {product.description}
+              </div>
+            )}
 
             <div className="flex items-center gap-3">
               <span className="text-xs font-bold text-lacquer-900">Số lượng</span>
@@ -185,7 +211,9 @@ export default function ProductDetailPage() {
             <div className="pt-3 border-t border-terracotta-100 grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-lacquer-800/70">
               <span className="flex items-center gap-1.5">
                 <Truck className="w-3.5 h-3.5 text-terracotta-600" />
-                <span>Giao từ kho Đại học FPT Hòa Lạc, phí tính theo tuyến đường thật.</span>
+                <span>
+                  Giao từ địa chỉ xuất hàng của {product.storeName}; phí tính theo tuyến đường thật của từng cửa hàng.
+                </span>
               </span>
               <span className="flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />

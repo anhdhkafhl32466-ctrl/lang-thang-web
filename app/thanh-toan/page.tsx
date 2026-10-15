@@ -9,9 +9,23 @@ import { formatDistance, formatDuration, LatLng } from '@/lib/geo';
 import { getCurrentUser } from '@/lib/authStorage';
 import AddressPickerMap, { AddressSelection } from '@/components/orders/AddressPickerMap';
 import type { Order, ShippingQuote } from '@/lib/orders/types';
+
+interface ShippingLeg {
+  storeId: string;
+  storeName: string;
+  subtotal: number;
+  fee: number;
+  freeShipping: boolean;
+  distanceM: number | null;
+  durationS: number | null;
+  provider: string | null;
+  status: string;
+  originName: string;
+  usingWarehouseFallback: boolean;
+}
 import {
   ShieldCheck, Loader2, AlertTriangle, CheckCircle2, PackageCheck, MapPin, Truck, Mail, BellRing, ArrowRight,
-  XCircle,
+  XCircle, Store,
 } from 'lucide-react';
 
 interface WarehouseInfo {
@@ -32,6 +46,8 @@ export default function CheckoutPage() {
   const [note, setNote] = useState('');
   const [address, setAddress] = useState<AddressSelection | null>(null);
   const [quote, setQuote] = useState<ShippingQuote | null>(null);
+  // Mỗi cửa hàng là một chặng giao hàng riêng: phí vận chuyển của đơn = tổng phí các chặng.
+  const [legs, setLegs] = useState<ShippingLeg[]>([]);
   const [quoteLoading, setQuoteLoading] = useState(false);
   const [routeGeometry, setRouteGeometry] = useState<LatLng[] | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -60,10 +76,11 @@ export default function CheckoutPage() {
     })();
   }, []);
 
-  // Khi địa chỉ được xác nhận: tính tuyến đường thật + phí vận chuyển.
+  // Khi địa chỉ được xác nhận: tính tuyến đường thật + phí vận chuyển cho TỪNG cửa hàng.
   useEffect(() => {
     if (!address) {
       setQuote(null);
+      setLegs([]);
       setRouteGeometry(null);
       return;
     }
@@ -72,7 +89,9 @@ export default function CheckoutPage() {
     (async () => {
       setQuoteLoading(true);
       try {
+        const items = cart.lines.map((line) => `${line.productId}:${line.quantity}`).join(',');
         const params = new URLSearchParams({
+          items,
           subtotal: String(cart.subtotal),
           lat: String(address.lat),
           lng: String(address.lng),
@@ -80,7 +99,10 @@ export default function CheckoutPage() {
         const quoteRes = await fetch(`/api/shipping/quote?${params.toString()}`, { cache: 'no-store' });
         const quoteData = await quoteRes.json();
         if (cancelled) return;
-        if (quoteData?.ok) setQuote(quoteData.quote);
+        if (quoteData?.ok) {
+          setQuote(quoteData.quote);
+          setLegs(quoteData.legs || []);
+        }
       } finally {
         if (!cancelled) setQuoteLoading(false);
       }
@@ -143,14 +165,8 @@ export default function CheckoutPage() {
             },
             items: cart.lines.map((line) => ({ productId: line.productId, quantity: line.quantity })),
             paymentMethod: 'cod',
-            route: quote
-              ? {
-                  distanceM: quote.distanceM,
-                  durationS: quote.durationS,
-                  provider: quote.provider,
-                  status: quote.message,
-                }
-              : null,
+            // Tuyến đường và phí vận chuyển KHÔNG gửi lên để quyết định số tiền: máy chủ tự tính lại
+            // theo từng cửa hàng khi tạo đơn (dùng đúng hàm báo giá ở trên nên số tiền vẫn khớp).
           }),
         });
 
@@ -170,7 +186,7 @@ export default function CheckoutPage() {
         setSubmitting(false);
       }
     },
-    [address, cart, email, name, note, phone, quote]
+    [address, cart, email, name, note, phone]
   );
 
   if (createdOrder) {
@@ -190,6 +206,41 @@ export default function CheckoutPage() {
               <div className="flex justify-between"><span className="text-lacquer-800/70">Phí vận chuyển</span><strong>{formatCurrencyVND(createdOrder.shippingFee)}</strong></div>
               <div className="flex justify-between border-t border-terracotta-200 pt-1.5"><span className="text-lacquer-800/70">Tổng cộng</span><strong className="text-terracotta-600">{formatCurrencyVND(createdOrder.total)}</strong></div>
             </div>
+
+            {/* Đơn đã được tách theo cửa hàng: khách nhìn rõ ai đang xử lý phần nào. */}
+            {createdOrder.sellerOrders && createdOrder.sellerOrders.length > 0 && (
+              <div className="text-left space-y-2">
+                <span className="block text-xs font-bold text-lacquer-900">
+                  Đơn được tách thành {createdOrder.sellerOrders.length} phần theo cửa hàng
+                </span>
+                {createdOrder.sellerOrders.map((child) => (
+                  <div
+                    key={child.id}
+                    className="p-3 rounded-2xl border border-terracotta-100 bg-dopaper-50 text-[11px] space-y-1"
+                  >
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-bold text-lacquer-900 flex items-center gap-1.5 min-w-0">
+                        <Store className="w-3 h-3 text-terracotta-600 shrink-0" />
+                        <span className="truncate">{child.storeName}</span>
+                      </span>
+                      <span className="font-mono text-[10px] text-lacquer-800/70">{child.code}</span>
+                    </div>
+                    <ul className="text-[10px] text-lacquer-800/75 space-y-0.5">
+                      {(child.items || []).map((item) => (
+                        <li key={item.id} className="flex justify-between gap-2">
+                          <span className="truncate">{item.quantity} × {item.name}</span>
+                          <span className="shrink-0">{formatCurrencyVND(item.lineTotal)}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex justify-between text-[10px] border-t border-terracotta-100 pt-1">
+                      <span className="text-lacquer-800/70">Phần của cửa hàng (gồm ship)</span>
+                      <strong className="text-terracotta-600">{formatCurrencyVND(child.total)}</strong>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="text-left text-[11px] space-y-1.5 p-3 rounded-2xl bg-dopaper-50 border border-terracotta-100">
               <span className="block font-bold text-lacquer-900">Tình trạng gửi thông báo (kết quả thật):</span>
@@ -330,13 +381,40 @@ export default function CheckoutPage() {
                     return (
                       <div key={line.productId} className="flex items-center gap-2 text-[11px]">
                         <img src={product.image} alt={product.name} className="w-9 h-9 rounded-lg object-cover border border-terracotta-100" />
-                        <span className="flex-1 text-lacquer-900 line-clamp-1">{product.name}</span>
+                        <span className="flex-1 min-w-0">
+                          <span className="block text-lacquer-900 line-clamp-1">{product.name}</span>
+                          <span className="flex items-center gap-1 text-[10px] text-lacquer-800/60">
+                            <Store className="w-2.5 h-2.5" />
+                            {product.storeName}
+                          </span>
+                        </span>
                         <span className="text-lacquer-800/70">x{line.quantity}</span>
                         <strong className="text-terracotta-600">{formatCurrencyVND(product.price * line.quantity)}</strong>
                       </div>
                     );
                   })}
                 </div>
+
+                {/* Phí vận chuyển tách theo từng cửa hàng: mỗi cửa hàng xuất hàng từ một địa chỉ riêng. */}
+                {legs.length > 0 && (
+                  <div className="space-y-1.5 text-[11px] p-3 rounded-2xl bg-dopaper-100 border border-terracotta-100">
+                    <span className="block font-bold text-lacquer-900">Phí vận chuyển theo cửa hàng</span>
+                    {legs.map((leg) => (
+                      <div key={leg.storeId} className="flex items-start justify-between gap-2">
+                        <span className="min-w-0">
+                          <span className="block text-lacquer-900 font-semibold truncate">{leg.storeName}</span>
+                          <span className="block text-[10px] text-lacquer-800/60">
+                            {leg.distanceM != null ? formatDistance(leg.distanceM) : 'chưa tính được tuyến'}
+                            {leg.usingWarehouseFallback ? ' · xuất từ kho mặc định của sàn' : ''}
+                          </span>
+                        </span>
+                        <strong className="shrink-0 text-terracotta-600">
+                          {leg.freeShipping ? 'Miễn phí' : formatCurrencyVND(leg.fee)}
+                        </strong>
+                      </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className="space-y-2 text-xs border-t border-terracotta-100 pt-3">
                   <div className="flex justify-between"><span className="text-lacquer-800/70">Tạm tính</span><strong>{formatCurrencyVND(cart.subtotal)}</strong></div>

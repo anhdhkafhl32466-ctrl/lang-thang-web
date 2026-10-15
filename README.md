@@ -149,10 +149,40 @@ Dự án được thiết kế với **Kiến trúc 2 tầng (Two-layer architec
 ## 6. HƯỚNG DẪN TRIỂN KHAI PRODUCTION (DEPLOYMENT)
 
 ### Triển khai lên Vercel (Khuyến nghị hàng đầu)
+
+> ⚠️ **Bắt buộc đọc**: trên Vercel đĩa là **tạm** (`/tmp`) và mỗi lần máy chủ khởi động lại là mất sạch.
+> Nếu không đặt `DATABASE_URL`, ứng dụng sẽ tự chạy SQLite trong `/tmp` và **mọi đơn hàng, người bán,
+> sản phẩm, thông báo sẽ biến mất sau vài phút**. Vì vậy hãy tạo Postgres (Neon) trước khi dùng thật.
+
 1. Đẩy mã nguồn lên kho chứa GitHub / GitLab.
-2. Đăng nhập vào [Vercel](https://vercel.com) và chọn **Import Project**.
-3. Vercel tự động nhận diện framework **Next.js**. Thêm biến môi trường `GEMINI_API_KEY` (nếu có) trong mục **Environment Variables**.
-4. Nhấn **Deploy**. Dự án sẽ trực tuyến toàn cầu sau chưa đầy 2 phút.
+2. Đăng nhập [Vercel](https://vercel.com) → **Import Project**, và đặt **Root Directory = `lang-thang-web`**
+   (mã nguồn nằm trong thư mục con này).
+3. Vercel tự nhận diện **Next.js**. Khai báo **Environment Variables**:
+
+| Biến | Bắt buộc | Nếu thiếu thì sao |
+|---|---|---|
+| `DATABASE_URL` | ✅ | rơi về SQLite trong `/tmp` → mất toàn bộ dữ liệu |
+| `SESSION_SECRET` | ✅ | production **từ chối tạo phiên** (503 `session_secret_missing`) — cố ý như vậy, vì khoá dự phòng nằm công khai trong mã nguồn nên ai cũng giả được cookie quản trị |
+| `ADMIN_EMAIL` | ✅ | không tài khoản nào được coi là quản trị viên chính |
+| `ADMIN_ACCESS_KEY` | ✅ | mất đường đăng nhập quản trị dự phòng (≥24 ký tự) |
+| `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | khuyến nghị | không gửi được Web Push (thông báo nổi trong web vẫn chạy) |
+| `RESEND_API_KEY`, `EMAIL_FROM` | tùy chọn | không gửi email; hệ thống ghi rõ "chưa gửi" chứ không báo thành công giả |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | tùy chọn | không đăng nhập được bằng Google (dùng được khoá quản trị + email người bán) |
+| `PUBLIC_MEDIA_BASE_URL` | tùy chọn | ảnh người bán tải lên chỉ nằm ở `/tmp` → mất sau khi khởi động lại |
+
+4. Nhấn **Deploy**.
+5. Kiểm tra ngay sau khi deploy: mở `/api/config`, đăng nhập người bán ở `/ban-hang/dang-nhap`, đặt thử một
+   đơn rồi tải lại sau ít phút để chắc chắn dữ liệu vẫn còn (đây là bước xác nhận `DATABASE_URL` đã đúng).
+
+**Ba điểm cần biết trước khi chạy thật trên Vercel**
+
+- **Ảnh sản phẩm**: Vercel không cho ghi vào mã nguồn. Hãy dùng dịch vụ lưu trữ ngoài (S3/R2/Blob) và đặt
+  `PUBLIC_MEDIA_BASE_URL`, hoặc để người bán dán URL ảnh thay vì tải file lên.
+- **Giới hạn số lần đăng nhập sai** (`lib/server/rateLimit.ts`) đang đếm **trong bộ nhớ của từng máy chủ
+  ảo**, nên khi Vercel chạy nhiều bản song song thì hiệu lực giảm. Muốn chắc chắn, thay bằng Redis/Upstash
+  cùng giao diện.
+- **Nhánh PostgreSQL chưa từng chạy thử** ở máy phát triển (máy không có Postgres). Hãy chạy
+  `npm run test:e2e` trỏ vào bản deploy trước khi cho người bán thật đăng ký.
 
 ### Triển khai bằng Docker
 Dự án có thể đóng gói dễ dàng với `Dockerfile` tiêu chuẩn của Next.js Standalone mode và chạy trên các máy chủ VPS (Ubuntu/Debian, AWS EC2, Google Cloud Run).

@@ -36,6 +36,8 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
       ok: true,
       order: result.order,
       delivery: { emails: result.emails, push: result.push },
+      // Đơn đa cửa hàng: báo cáo bước chuyển đã áp cho từng đơn con nào (và cửa hàng nào bị bỏ qua vì sao).
+      sellerOrders: result.sellerOrders || [],
       updatedBy: session.userEmail,
     });
   } catch (error) {

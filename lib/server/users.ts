@@ -5,19 +5,41 @@
 import crypto from 'crypto';
 import { execute, query, queryOne } from './db';
 
+export type UserRole = 'member' | 'admin' | 'seller';
+
 export interface DbUser {
   id: string;
   email: string;
   name: string | null;
   avatar: string | null;
-  role: 'member' | 'admin';
+  role: UserRole;
   provider: string | null;
   created_at: string;
   last_login_at: string | null;
+  /** Chỉ có giá trị với tài khoản người bán đăng nhập bằng mật khẩu riêng. */
+  password_hash?: string | null;
+  phone?: string | null;
 }
 
 export async function getUserByEmail(email: string): Promise<DbUser | null> {
   return queryOne<DbUser>(`SELECT * FROM users WHERE email = ?`, [email.trim().toLowerCase()]);
+}
+
+/**
+ * Tài khoản người bán đã có mật khẩu — dùng cho luồng đăng nhập bằng mật khẩu.
+ * Hàm này KHÔNG được trả dữ liệu ra ngoài API (chỉ dùng nội bộ để so sánh mật khẩu).
+ */
+export async function getUserForPasswordLogin(email: string): Promise<DbUser | null> {
+  return queryOne<DbUser>(`SELECT * FROM users WHERE email = ?`, [email.trim().toLowerCase()]);
+}
+
+/** Ghi mật khẩu đã băm cho tài khoản người bán (không bao giờ lưu mật khẩu thô). */
+export async function setUserPassword(email: string, passwordHash: string, phone?: string | null): Promise<void> {
+  await execute(`UPDATE users SET password_hash = ?, phone = COALESCE(?, phone), role = 'seller' WHERE email = ?`, [
+    passwordHash,
+    phone?.trim() || null,
+    email.trim().toLowerCase(),
+  ]);
 }
 
 /** Tạo mới hoặc cập nhật người dùng khi đăng nhập. Vai trò do server quyết định, không nhận từ client. */
@@ -25,7 +47,7 @@ export async function upsertUser(params: {
   email: string;
   name?: string | null;
   avatar?: string | null;
-  role: 'member' | 'admin';
+  role: UserRole;
   provider: string;
 }): Promise<DbUser> {
   const email = params.email.trim().toLowerCase();
@@ -33,15 +55,18 @@ export async function upsertUser(params: {
   const existing = await getUserByEmail(email);
 
   if (existing) {
+    // Không bao giờ HẠ QUYỀN một tài khoản quản trị đã có: một đường đăng nhập yếu hơn (ví dụ email
+    // kiểm tra MX) không được phép biến quyền admin thành member và khoá chủ website ra ngoài.
+    const role = existing.role === 'admin' ? 'admin' : params.role;
     await execute(`UPDATE users SET name = ?, avatar = ?, role = ?, provider = ?, last_login_at = ? WHERE email = ?`, [
       params.name ?? existing.name,
       params.avatar ?? existing.avatar,
-      params.role,
+      role,
       params.provider,
       now,
       email,
     ]);
-    return { ...existing, name: params.name ?? existing.name, role: params.role, last_login_at: now };
+    return { ...existing, name: params.name ?? existing.name, role, last_login_at: now };
   }
 
   const id = `usr_${crypto.randomUUID()}`;

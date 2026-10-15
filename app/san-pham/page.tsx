@@ -6,7 +6,7 @@ import { CRAFT_VILLAGES } from '@/data/craftVillages';
 import { formatCurrencyVND } from '@/lib/utils';
 import { useCart } from '@/lib/client/cart';
 import {
-  ShoppingBag, Search, Star, ArrowRight, PackageCheck, Loader2, AlertTriangle, ShoppingCart,
+  ShoppingBag, Search, Star, ArrowRight, PackageCheck, Loader2, AlertTriangle, ShoppingCart, Store,
 } from 'lucide-react';
 
 export default function CraftProductsPage() {
@@ -192,8 +192,17 @@ export default function CraftProductsPage() {
                         </h3>
                       </Link>
 
-                      <div className="pt-1 text-xs text-lacquer-800/60">
-                        Nghệ nhân: <strong className="text-lacquer-900">{product.artisanName}</strong>
+                      <div className="pt-1 text-xs text-lacquer-800/60 space-y-0.5">
+                        <div>
+                          Nghệ nhân: <strong className="text-lacquer-900">{product.artisanName}</strong>
+                        </div>
+                        {/* Người bán: mỗi sản phẩm thuộc một cửa hàng, khách cần biết ai bán để theo dõi đơn theo cửa hàng. */}
+                        <div className="flex items-center gap-1 text-[11px]">
+                          <Store className="w-3 h-3 text-terracotta-600 shrink-0" />
+                          <span>
+                            Bán bởi <strong className="text-lacquer-900">{product.storeName}</strong>
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>

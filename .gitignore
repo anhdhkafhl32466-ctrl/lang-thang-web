@@ -33,6 +33,9 @@ yarn-error.log*
 # cơ sở dữ liệu SQLite cục bộ (dữ liệu đơn hàng khi chưa cấu hình DATABASE_URL)
 /.data/
 
+# dữ liệu hộ chiếu làng nghề do người dùng tạo khi chạy máy chủ (KHÔNG commit dữ liệu người dùng)
+/data/user_passports.json
+
 # vercel
 .vercel
 

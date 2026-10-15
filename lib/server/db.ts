@@ -17,7 +17,7 @@
 import fs from 'fs';
 import path from 'path';
 import { AsyncLocalStorage } from 'node:async_hooks';
-import { SCHEMA_STATEMENTS } from './schema';
+import { SCHEMA_MIGRATIONS, SCHEMA_STATEMENTS } from './schema';
 
 export type SqlParam = string | number | boolean | null | undefined;
 export type Row = Record<string, any>;
@@ -254,6 +254,26 @@ export async function ensureDbReady(): Promise<void> {
           db.exec(statement);
         }
       }
+
+      // Nâng cấp cột cho CSDL đã tồn tại. Lỗi "cột/bảng đã tồn tại" là bình thường (đã nâng cấp rồi),
+      // mọi lỗi khác vẫn ném ra để không che giấu sự cố thật.
+      for (const migration of SCHEMA_MIGRATIONS) {
+        try {
+          if (getDbBackend() === 'postgres') {
+            const pool = await getPgPool();
+            await pool.query(migration);
+          } else {
+            const db = await getSqlite();
+            db.exec(migration);
+          }
+        } catch (error: any) {
+          const message = String(error?.message || '');
+          if (!/duplicate column|already exists|duplicate_column/i.test(message)) {
+            throw error;
+          }
+        }
+      }
+
       const { seedCatalog } = await import('./seed');
       await seedCatalog();
     } finally {

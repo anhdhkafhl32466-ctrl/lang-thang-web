@@ -1,19 +1,28 @@
 'use client';
 
 /**
- * Chuông thông báo trong website.
+ * Chuông thông báo TRONG WEBSITE — kênh thông báo chính của sàn (không phụ thuộc email).
  * - Đếm số chưa đọc và liệt kê thông báo lấy từ cơ sở dữ liệu.
  * - Tự cập nhật định kỳ (không cần tải lại trang) và khi quay lại tab.
+ * - Thông báo MỚI nổi ngay thành thẻ ở góc phải trên (xem NotificationToasts) và, nếu người dùng đã cho
+ *   phép, thành thông báo của hệ điều hành khi tab đang ở phía sau.
  * - Bấm vào thông báo sẽ mở đúng đơn hàng liên quan và đánh dấu đã đọc.
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Bell, BellRing, CheckCheck, Loader2, X } from 'lucide-react';
+import { Bell, BellRing, CheckCheck, Loader2, MonitorSmartphone, X } from 'lucide-react';
 import type { SiteNotification } from '@/lib/orders/types';
 import { useWebPush } from '@/lib/client/useWebPush';
+import NotificationToasts, {
+  applyUnreadBadge,
+  showSystemNotification,
+  useNotificationToasts,
+} from './NotificationToasts';
 
 const POLL_MS = 20_000;
+
+type SystemPermission = 'default' | 'denied' | 'granted' | 'unsupported';
 
 export default function NotificationBell({ userEmail }: { userEmail: string | null }) {
   const router = useRouter();
@@ -22,9 +31,13 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
   const [unread, setUnread] = useState(0);
   const [loading, setLoading] = useState(false);
   const [authenticated, setAuthenticated] = useState(false);
+  const [systemPermission, setSystemPermission] = useState<SystemPermission>('default');
   const containerRef = useRef<HTMLDivElement>(null);
 
   const push = useWebPush(userEmail);
+  // Tách rời từng hàm (thay vì giữ cả object) để bộ đếm thời gian tải lại thông báo không bị dựng lại
+  // mỗi lần giao diện vẽ lại — nếu không, chuông sẽ gọi API liên tục.
+  const { collect: collectToasts, dismiss: dismissToast, items: toastItems } = useNotificationToasts();
 
   const load = useCallback(async () => {
     try {
@@ -35,13 +48,20 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
       if (data?.ok) {
         setItems(data.items || []);
         setUnread(Number(data.unreadCount || 0));
+        // Thông báo mới → nổi thành thẻ ngay trong web; nếu tab đang ở phía sau thì báo bằng thông báo
+        // của hệ điều hành (chỉ khi người dùng đã cho phép). Không cần email, không cần HTTPS/push.
+        applyUnreadBadge(Number(data.unreadCount || 0));
+        const fresh = collectToasts(data.items || []);
+        if (document.hidden) {
+          fresh.forEach((item) => showSystemNotification(item.title, item.body, () => window.focus()));
+        }
       }
     } catch {
       /* im lặng, lần sau thử lại */
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [collectToasts]);
 
   useEffect(() => {
     load();
@@ -55,6 +75,21 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
       window.removeEventListener('auth_state_changed', onFocus);
     };
   }, [load]);
+
+  // Số chưa đọc trên tiêu đề tab chỉ có ý nghĩa khi tab đang ở phía sau — đổi tab thì cập nhật lại.
+  useEffect(() => {
+    const onVisibilityChange = () => applyUnreadBadge(unread);
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', onVisibilityChange);
+  }, [unread]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('Notification' in window)) {
+      setSystemPermission('unsupported');
+      return;
+    }
+    setSystemPermission(Notification.permission as SystemPermission);
+  }, []);
 
   useEffect(() => {
     const handleOutside = (event: MouseEvent) => {
@@ -79,6 +114,25 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
     if (item.link) router.push(item.link);
   };
 
+  /** Nhấn vào thẻ nổi: mở đúng đơn của thông báo đó rồi đóng thẻ. */
+  const handleOpenToast = useCallback(
+    async (id: string) => {
+      const item = items.find((entry) => entry.id === id);
+      dismissToast(id);
+      if (item) await handleOpenItem(item);
+    },
+    [items, dismissToast, handleOpenItem]
+  );
+
+  const enableSystemNotifications = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      setSystemPermission(permission as SystemPermission);
+    } catch {
+      setSystemPermission('denied');
+    }
+  };
+
   const markAll = async () => {
     try {
       await fetch('/api/notifications', {
@@ -96,6 +150,8 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
 
   return (
     <div className="relative" ref={containerRef}>
+      <NotificationToasts items={toastItems} onOpen={handleOpenToast} onDismiss={dismissToast} />
+
       <button
         type="button"
         onClick={() => {
@@ -160,9 +216,29 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
             )}
           </div>
 
-          <div className="px-4 py-3 bg-dopaper-50 border-t border-terracotta-100 space-y-2">
+          <div className="px-4 py-3 bg-dopaper-50 border-t border-terracotta-100 space-y-3">
+            {/* Kênh chính: thông báo nổi ngay trên web — không cần email, không cần HTTPS. */}
             <div className="flex items-center justify-between gap-2">
-              <span className="text-[11px] text-lacquer-800/70">Thông báo đẩy (máy tính & điện thoại)</span>
+              <span className="text-[11px] text-lacquer-800/70 flex items-start gap-1.5">
+                <MonitorSmartphone className="w-3.5 h-3.5 mt-0.5 shrink-0" />
+                Thông báo nổi trên máy khi website đang mở
+              </span>
+              {systemPermission === 'granted' ? (
+                <span className="text-[11px] font-bold text-emerald-600">Đang bật</span>
+              ) : systemPermission === 'unsupported' ? (
+                <span className="text-[11px] text-lacquer-800/50">Máy không hỗ trợ</span>
+              ) : (
+                <button
+                  onClick={enableSystemNotifications}
+                  disabled={systemPermission === 'denied'}
+                  className="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-lacquer-900 hover:bg-lacquer-800 text-white disabled:opacity-40"
+                >
+                  {systemPermission === 'denied' ? 'Đã bị chặn' : 'Bật'}
+                </button>
+              )}
+            </div>
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-[11px] text-lacquer-800/70">Thông báo đẩy (khi đã đóng website)</span>
               {push.isSubscribed ? (
                 <button
                   onClick={push.unsubscribe}

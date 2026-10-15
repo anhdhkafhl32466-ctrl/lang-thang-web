@@ -17,6 +17,38 @@ export interface CatalogProduct {
   artisanName: string;
   material: string | null;
   dimensions: string | null;
+  /** Cửa hàng (người bán) sở hữu sản phẩm — bắt buộc trong mô hình đa người bán. */
+  storeId: string;
+  storeName: string;
+  storeStatus: StoreStatus;
+  description?: string | null;
+  weightG?: number | null;
+  preparationDays?: number | null;
+}
+
+export type StoreStatus = 'pending' | 'active' | 'suspended' | 'rejected';
+
+export interface Store {
+  id: string;
+  ownerEmail: string;
+  name: string;
+  slug: string;
+  description: string | null;
+  phone: string | null;
+  contactName: string | null;
+  addressText: string | null;
+  addressNote: string | null;
+  lat: number | null;
+  lng: number | null;
+  logoUrl: string | null;
+  /** Nhóm sản phẩm dự định kinh doanh (người bán tự khai khi đăng ký). */
+  categories: string[];
+  status: StoreStatus;
+  reviewNote: string | null;
+  approvedAt: string | null;
+  approvedBy: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CartLine {
@@ -33,16 +65,91 @@ export interface OrderItem {
   unitPrice: number;
   quantity: number;
   lineTotal: number;
+  /** Cửa hàng bán mặt hàng này (bản chụp khi đặt). */
+  storeId: string | null;
+  sellerOrderId: string | null;
 }
 
 export interface OrderEvent {
   id: string;
   status: OrderStatus;
+  /** Trạng thái NGAY TRƯỚC lần chuyển này. null với sự kiện khởi tạo đơn. */
+  fromStatus: OrderStatus | null;
   note: string | null;
-  actorType: 'customer' | 'admin' | 'system';
+  actorType: 'customer' | 'admin' | 'seller' | 'system';
   actorId: string | null;
   source: string;
   createdAt: string;
+  /** Sự kiện thuộc đơn con của cửa hàng nào (null với sự kiện ở cấp đơn cha). */
+  sellerOrderId?: string | null;
+}
+
+/**
+ * ĐƠN CON của một cửa hàng trong đơn hàng.
+ * Người bán chỉ làm việc với đơn con của cửa hàng mình: tiền hàng, phí ship và trạng thái riêng.
+ */
+export interface SellerOrder {
+  id: string;
+  orderId: string;
+  storeId: string;
+  code: string;
+  storeName: string;
+  storeAddress: string | null;
+  storeLat: number | null;
+  storeLng: number | null;
+  subtotal: number;
+  shippingFee: number;
+  total: number;
+  status: OrderStatus;
+  carrier: string | null;
+  trackingCode: string | null;
+  routeDistanceM: number | null;
+  routeDurationS: number | null;
+  routeProvider: string | null;
+  routeStatus: string | null;
+  createdAt: string;
+  updatedAt: string;
+  items?: OrderItem[];
+  events?: OrderEvent[];
+}
+
+/**
+ * Đơn con kèm thông tin cần để NGƯỜI BÁN giao hàng (tên/điện thoại/địa chỉ người nhận của đơn tổng).
+ * Người bán chỉ nhận được bản ghi này cho đơn có sản phẩm của cửa hàng mình.
+ */
+export interface SellerOrderView extends SellerOrder {
+  parentCode: string;
+  parentStatus: OrderStatus;
+  customerName: string;
+  customerPhone: string;
+  customerEmail: string | null;
+  addressText: string;
+  addressNote: string | null;
+  lat: number | null;
+  lng: number | null;
+  /** Các bước người bán được phép chuyển tới — do máy chủ tính từ quy trình đơn hàng. */
+  allowedTransitions: OrderStatus[];
+  /** Đơn còn nằm trong tay người bán (cần xác nhận / chuẩn bị hàng). */
+  needsAction: boolean;
+}
+
+/** Số liệu bán hàng của một cửa hàng. */
+export interface SellerStats {
+  totalOrders: number;
+  byStatus: Record<string, number>;
+  /** Doanh thu ghi nhận = tổng tiền các đơn đã giao thành công. */
+  revenue: number;
+  /** Tiền của các đơn chưa giao và chưa huỷ. */
+  pendingRevenue: number;
+  unitsSold: number;
+  needsAction: number;
+}
+
+/** Bộ lọc đơn hàng trong Trung tâm người bán. */
+export interface SellerOrderFilterInfo {
+  key: string;
+  label: string;
+  hint: string;
 }
 
 export type AddressSource = 'gps' | 'search' | 'village' | 'manual';
@@ -75,11 +182,13 @@ export interface Order {
   updatedAt: string;
   items?: OrderItem[];
   events?: OrderEvent[];
+  /** Các đơn con theo cửa hàng (đơn đa cửa hàng được tách ở đây). */
+  sellerOrders?: SellerOrder[];
 }
 
 export interface SiteNotification {
   id: string;
-  audience: 'admin' | 'customer';
+  audience: 'admin' | 'customer' | 'seller';
   userEmail: string | null;
   orderId: string | null;
   title: string;

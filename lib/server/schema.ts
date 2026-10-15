@@ -15,6 +15,33 @@
  */
 
 export const SCHEMA_STATEMENTS: string[] = [
+  /*
+   * Cửa hàng (người bán). Mô hình ĐA NGƯỜI BÁN: mỗi tài khoản người bán sở hữu đúng một cửa hàng;
+   * sàn cũng có một cửa hàng của chính nó (owner_email = ADMIN_EMAIL) để 18 sản phẩm gốc vẫn có chủ.
+   * Trạng thái: pending (chờ duyệt) | active (đang bán) | suspended (tạm khóa) | rejected (từ chối).
+   */
+  `CREATE TABLE IF NOT EXISTS stores (
+    id TEXT PRIMARY KEY,
+    owner_email TEXT NOT NULL,
+    name TEXT NOT NULL,
+    slug TEXT NOT NULL UNIQUE,
+    description TEXT,
+    phone TEXT,
+    contact_name TEXT,
+    address_text TEXT,
+    address_note TEXT,
+    lat REAL,
+    lng REAL,
+    logo_url TEXT,
+    categories TEXT,
+    status TEXT NOT NULL DEFAULT 'pending',
+    review_note TEXT,
+    approved_at TEXT,
+    approved_by TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+
   `CREATE TABLE IF NOT EXISTS products (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
@@ -28,6 +55,36 @@ export const SCHEMA_STATEMENTS: string[] = [
     material TEXT,
     dimensions TEXT,
     active INTEGER NOT NULL DEFAULT 1,
+    updated_at TEXT NOT NULL
+  )`,
+
+  /*
+   * ĐƠN CON theo cửa hàng. Một đơn của khách (đơn cha trong bảng `orders`) có thể gồm nhiều cửa hàng,
+   * khi đó mỗi cửa hàng có một đơn con RIÊNG: tiền hàng, phí vận chuyển, trạng thái và mã vận đơn
+   * đều độc lập. Người bán CHỈ nhìn thấy đơn con của cửa hàng mình.
+   * `store_name` / `store_address` là bản chụp tại thời điểm đặt — sửa hồ sơ cửa hàng sau này không
+   * làm thay đổi đơn cũ.
+   */
+  `CREATE TABLE IF NOT EXISTS seller_orders (
+    id TEXT PRIMARY KEY,
+    order_id TEXT NOT NULL,
+    store_id TEXT NOT NULL,
+    code TEXT NOT NULL UNIQUE,
+    store_name TEXT NOT NULL,
+    store_address TEXT,
+    store_lat REAL,
+    store_lng REAL,
+    subtotal INTEGER NOT NULL,
+    shipping_fee INTEGER NOT NULL DEFAULT 0,
+    total INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    carrier TEXT,
+    tracking_code TEXT,
+    route_distance_m INTEGER,
+    route_duration_s INTEGER,
+    route_provider TEXT,
+    route_status TEXT,
+    created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
   )`,
 
@@ -75,6 +132,7 @@ export const SCHEMA_STATEMENTS: string[] = [
     id TEXT PRIMARY KEY,
     order_id TEXT NOT NULL,
     status TEXT NOT NULL,
+    from_status TEXT,
     note TEXT,
     actor_type TEXT NOT NULL,
     actor_id TEXT,
@@ -146,4 +204,37 @@ export const SCHEMA_STATEMENTS: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_notifications_audience ON notifications (audience, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_notifications_email ON notifications (user_email)`,
   `CREATE INDEX IF NOT EXISTS idx_email_log_order ON email_log (order_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_stores_owner ON stores (owner_email)`,
+  `CREATE INDEX IF NOT EXISTS idx_stores_status ON stores (status)`,
+  `CREATE INDEX IF NOT EXISTS idx_seller_orders_store ON seller_orders (store_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_seller_orders_order ON seller_orders (order_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_seller_orders_status ON seller_orders (status)`,
+];
+
+/**
+ * Nâng cấp cấu trúc cho cơ sở dữ liệu ĐÃ TỒN TẠI (không xoá dữ liệu, không tạo lại bảng).
+ *
+ * Vì sao cần: `CREATE TABLE IF NOT EXISTS` không thêm được cột vào bảng đã có, nên mọi thay đổi
+ * cột phải là câu ALTER chạy lại an toàn (idempotent). Lỗi "cột đã tồn tại" được bỏ qua có chủ đích
+ * ở lib/server/db.ts — mọi lỗi khác vẫn phải nổi lên để không che giấu sự cố thật.
+ */
+export const SCHEMA_MIGRATIONS: string[] = [
+  // "Trạng thái cũ" của mỗi lần chuyển trạng thái, để nhật ký kiểm toán ghi rõ từ đâu sang đâu.
+  `ALTER TABLE order_events ADD COLUMN from_status TEXT`,
+  // Cột phục vụ mô hình đa người bán (thêm vào bảng ĐÃ có, không xoá dữ liệu cũ).
+  `ALTER TABLE products ADD COLUMN store_id TEXT`,
+  `ALTER TABLE products ADD COLUMN description TEXT`,
+  `ALTER TABLE products ADD COLUMN weight_g INTEGER`,
+  `ALTER TABLE products ADD COLUMN preparation_days INTEGER`,
+  `ALTER TABLE products ADD COLUMN created_at TEXT`,
+  `ALTER TABLE order_items ADD COLUMN store_id TEXT`,
+  `ALTER TABLE order_items ADD COLUMN seller_order_id TEXT`,
+  `ALTER TABLE order_events ADD COLUMN seller_order_id TEXT`,
+  `ALTER TABLE users ADD COLUMN password_hash TEXT`,
+  `ALTER TABLE users ADD COLUMN phone TEXT`,
+
+  // Chỉ mục trên cột VỪA được thêm bằng ALTER ở trên: phải đặt SAU các câu ALTER, vì với cơ sở dữ
+  // liệu mới tạo, `CREATE INDEX ... (store_id)` chạy trước khi cột tồn tại sẽ làm hỏng cả bước khởi
+  // tạo schema (bảng products gốc chưa có cột store_id). Chạy lại an toàn nhờ "already exists".
+  `CREATE INDEX IF NOT EXISTS idx_products_store ON products (store_id)`,
 ];

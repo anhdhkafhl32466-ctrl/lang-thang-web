@@ -19,7 +19,7 @@ export interface ServerSessionUser {
 export interface ServerSessionState {
   authenticated: boolean;
   user: ServerSessionUser | null;
-  services: { googleClientId: boolean; sessionSecret: boolean };
+  services: { googleClientId: boolean; sessionSecret: boolean; adminAccessKey: boolean };
 }
 
 export async function fetchServerSession(): Promise<ServerSessionState | null> {
@@ -68,6 +68,37 @@ export async function establishEmailSession(
     return { ok: true, message: data.verification || 'Đã thiết lập phiên máy chủ.', isAdmin: data.user?.isAdmin };
   } catch {
     return { ok: false, message: 'Không kết nối được tới máy chủ để thiết lập phiên.' };
+  }
+}
+
+/**
+ * Đăng nhập quản trị bằng KHOÁ MÁY CHỦ (ADMIN_ACCESS_KEY).
+ * Khoá được gửi thẳng tới /api/auth/session để máy chủ so sánh bằng timingSafeEqual; khoá không
+ * bao giờ được lưu vào localStorage. Chỉ dùng khi chưa cấu hình được Google Client ID.
+ */
+export async function establishAdminKeySession(
+  adminKey: string
+): Promise<{ ok: boolean; message: string; isAdmin?: boolean; email?: string; name?: string }> {
+  try {
+    const res = await fetch('/api/auth/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminKey }),
+    });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      return { ok: false, message: data?.error?.message || 'Không thiết lập được phiên quản trị.' };
+    }
+    return {
+      ok: true,
+      message: data.verification || 'Đã thiết lập phiên quản trị.',
+      isAdmin: data.user?.isAdmin,
+      // Chỉ dùng để hiển thị (avatar/tên trên thanh điều hướng). Quyền vẫn do cookie máy chủ quyết định.
+      email: data.user?.email,
+      name: data.user?.name,
+    };
+  } catch {
+    return { ok: false, message: 'Không kết nối được tới máy chủ để thiết lập phiên quản trị.' };
   }
 }
 

@@ -9,6 +9,14 @@ import {
 } from '@/lib/server/session';
 import { recordSession } from '@/lib/server/users';
 import { getAdminEmail } from '@/lib/config/commerce';
+import {
+  assertAdminKeyAttemptAllowed,
+  callerId,
+  clearAdminKeyAttempts,
+  isAdminAccessKeyConfigured,
+  recordAdminKeyFailure,
+  verifyAdminAccessKey,
+} from '@/lib/server/adminKey';
 
 export const dynamic = 'force-dynamic';
 
@@ -82,6 +90,8 @@ export async function GET(request: NextRequest) {
       services: {
         googleClientId: Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID?.trim()),
         sessionSecret: isSessionSecretConfigured(),
+        // Chỉ là cờ báo "có bật đường đăng nhập bằng khoá quản trị hay không" — không lộ khoá.
+        adminAccessKey: isAdminAccessKeyConfigured(),
       },
     });
   } catch (error) {
@@ -97,7 +107,13 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     assertSameOrigin(request);
-    const body = await readJson<{ credential?: string; email?: string; name?: string; verifiedByMx?: boolean }>(request);
+    const body = await readJson<{
+      credential?: string;
+      email?: string;
+      name?: string;
+      verifiedByMx?: boolean;
+      adminKey?: string;
+    }>(request);
 
     let email: string;
     let name: string | null = null;
@@ -105,7 +121,32 @@ export async function POST(request: NextRequest) {
     let provider: string;
     let verification: string;
 
-    if (body.credential) {
+    if (body.adminKey !== undefined) {
+      // Đường khởi tạo quản trị: khoá bí mật ở máy chủ, cấp quyền cho ĐÚNG email ADMIN_EMAIL.
+      const id = callerId(request);
+      assertAdminKeyAttemptAllowed(id);
+
+      if (!isAdminAccessKeyConfigured()) {
+        throw new HttpError(
+          'Máy chủ chưa cấu hình ADMIN_ACCESS_KEY (tối thiểu 24 ký tự) nên chưa thể đăng nhập bằng khoá quản trị.',
+          503,
+          'admin_key_not_configured',
+          { missing: ['ADMIN_ACCESS_KEY'] }
+        );
+      }
+
+      if (!verifyAdminAccessKey(body.adminKey)) {
+        recordAdminKeyFailure(id);
+        throw new HttpError('Khoá quản trị không đúng.', 401, 'invalid_admin_key');
+      }
+
+      clearAdminKeyAttempts(id);
+      email = getAdminEmail();
+      name = 'Quản trị viên';
+      provider = 'admin-key';
+      verification =
+        'Khoá quản trị đã được máy chủ xác minh (so sánh timing-safe). Quyền quản trị gắn với email ADMIN_EMAIL đã cấu hình, không phải email do trình duyệt khai báo.';
+    } else if (body.credential) {
       const info = await verifyGoogleCredential(body.credential);
       email = String(info.email).toLowerCase();
       name = info.name || null;
@@ -156,8 +197,10 @@ export async function POST(request: NextRequest) {
       verification,
       adminNote:
         payload.role === 'admin'
-          ? 'Email này trùng với ADMIN_EMAIL trong cấu hình nên được cấp quyền quản trị.'
-          : 'Tài khoản thành viên: không có quyền truy cập trang quản trị đơn hàng.',
+          ? 'Email này trùng với ADMIN_EMAIL và danh tính đã được xác minh ở máy chủ nên được cấp quyền quản trị.'
+          : provider === 'email-mx' && email === getAdminEmail()
+            ? 'Đăng nhập bằng email chỉ kiểm tra MX/DNS nên KHÔNG đủ căn cứ cấp quyền quản trị. Hãy đăng nhập bằng Google đã xác minh hoặc dùng khoá quản trị ADMIN_ACCESS_KEY.'
+            : 'Tài khoản thành viên: không có quyền truy cập trang quản trị đơn hàng.',
     });
     applySessionCookie(response, token, maxAge);
     return response;

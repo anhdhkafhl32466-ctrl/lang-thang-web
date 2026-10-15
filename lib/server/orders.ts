@@ -5,6 +5,14 @@
  *  - Giá và tổng tiền được TÍNH LẠI Ở SERVER từ dữ liệu sản phẩm; client chỉ gửi mã sản phẩm + số lượng.
  *  - Trừ tồn kho và tạo đơn nằm trong cùng một giao dịch, có điều kiện `stock >= ?` để chống bán quá tồn.
  *  - Mỗi lần đổi trạng thái đều ghi một sự kiện (thời gian, người thực hiện, nguồn) và tạo thông báo.
+ *
+ * MÔ HÌNH ĐA NGƯỜI BÁN (đọc kỹ trước khi sửa):
+ *  - `orders` là ĐƠN TỔNG của khách (một lần thanh toán, một địa chỉ nhận hàng).
+ *  - `seller_orders` là ĐƠN CON của từng cửa hàng: tiền hàng, phí ship, trạng thái và mã vận đơn riêng.
+ *  - Mọi thay đổi trạng thái đi qua lib/server/sellerOrders.ts (đơn con), sau đó TRẠNG THÁI ĐƠN TỔNG
+ *    được TỔNG HỢP tự động từ các đơn con — không ai nhập tay trạng thái đơn tổng.
+ *  - Đơn cũ (tạo trước khi có mô hình này) không có đơn con: vẫn cập nhật được theo đường dự phòng,
+ *    nhờ vậy nâng cấp hệ thống không làm hỏng dữ liệu đang có.
  */
 
 import crypto from 'crypto';
@@ -12,8 +20,17 @@ import { execute, executeCount, query, queryOne, transaction } from './db';
 import { getProduct } from './catalog';
 import { HttpError, normalizeEmail, normalizePhone, requireString } from './http';
 import { createNotification } from './notifications';
-import { getWarehouse } from '@/lib/config/commerce';
-import { quoteShipping, getRouteFromWarehouse } from './shipping';
+import { getWarehouse, SHIPPING } from '@/lib/config/commerce';
+import { getRouteFromWarehouse, originForStoreRecord, quoteShippingFrom, warehouseOrigin } from './shipping';
+import { ensurePlatformStore, getStoreById } from './stores';
+import {
+  getSellerOrdersByParent,
+  insertSellerOrder,
+  notifySellerNewOrder,
+  syncParentStatus,
+  updateSellerOrderStatus,
+  type StoreOrderGroup,
+} from './sellerOrders';
 import {
   sendAdminNewOrderEmail,
   sendCustomerConfirmationEmail,
@@ -21,7 +38,15 @@ import {
   type EmailResult,
 } from './email';
 import { sendPushToEmail } from './push';
-import type { AddressSource, CreateOrderPayload, Order, OrderEvent, OrderItem } from '@/lib/orders/types';
+import type {
+  AddressSource,
+  CreateOrderPayload,
+  Order,
+  OrderEvent,
+  OrderItem,
+  SellerOrder,
+  Store,
+} from '@/lib/orders/types';
 import { canTransition, isOrderStatus, ORDER_STATUS_META, type OrderStatus } from '@/lib/orders/workflow';
 
 const MAX_LINES = 50;
@@ -126,16 +151,50 @@ function validateItems(raw: unknown): { productId: string; quantity: number }[] 
   return Array.from(merged.entries()).map(([productId, quantity]) => ({ productId, quantity }));
 }
 
+/** Cửa hàng của một sản phẩm, có bộ nhớ đệm trong một lần tạo đơn. */
+function createStoreResolver() {
+  const cache = new Map<string, Store>();
+  return async (storeId: string): Promise<Store> => {
+    const cached = cache.get(storeId);
+    if (cached) return cached;
+    // Sản phẩm chưa gán cửa hàng (store_id NULL) thuộc cửa hàng của sàn.
+    const store = (await getStoreById(storeId)) || (await ensurePlatformStore());
+    cache.set(storeId, store);
+    return store;
+  };
+}
+
+export interface SellerNotificationReport {
+  sellerOrderId: string;
+  storeId: string;
+  storeName: string;
+  notified: boolean;
+  email: EmailResult | null;
+  push: { sent: number; attempted: number; configured: boolean; errors: string[] };
+  skipped?: string;
+}
+
 export interface OrderCreationResult {
   order: Order;
+  /** Các đơn con đã tách theo cửa hàng — chính là thứ người bán nhìn thấy. */
+  sellerOrders: SellerOrder[];
   delivery: {
     adminEmail: EmailResult;
     customerEmail: EmailResult | null;
+    sellerNotifications: SellerNotificationReport[];
     push: { sent: number; attempted: number; errors: string[]; configured: boolean };
   };
 }
 
-/** Tạo đơn hàng mới. Trả về cả báo cáo gửi email/thông báo thật. */
+/**
+ * Tạo đơn hàng mới.
+ *
+ * Luồng xử lý (không được đảo thứ tự):
+ *  1. Xác thực thông tin người nhận + kiểm tra tồn kho, tính tiền từ dữ liệu máy chủ.
+ *  2. Nhóm hàng theo cửa hàng, tính riêng từng chặng giao hàng (tuyến đường + phí).
+ *  3. Một giao dịch: trừ tồn kho → tạo đơn tổng → tạo các đơn con + dòng hàng + lịch sử.
+ *  4. Sau giao dịch: thông báo trong website, email cho khách/quản trị/tỪNG người bán, thông báo đẩy.
+ */
 export async function createOrder(
   payload: CreateOrderPayload,
   context: { sessionEmail: string | null }
@@ -159,9 +218,22 @@ export async function createOrder(
   let lng = typeof payload?.address?.lng === 'number' && Number.isFinite(payload.address.lng) ? payload.address.lng : null;
 
   const items = validateItems(payload?.items);
+  const resolveStore = createStoreResolver();
 
-  // 1. Đọc sản phẩm + kiểm tra tồn kho, tính tiền từ dữ liệu máy chủ.
-  const detailed: { productId: string; quantity: number; name: string; villageName: string; image: string; unitPrice: number; lineTotal: number; stock: number }[] = [];
+  // 1. Đọc sản phẩm + kiểm tra tồn kho, tính tiền từ dữ liệu máy chủ và NHÓM THEO CỬA HÀNG.
+  type Line = {
+    productId: string;
+    quantity: number;
+    name: string;
+    villageName: string | null;
+    image: string | null;
+    unitPrice: number;
+    lineTotal: number;
+    storeId: string;
+    storeName: string;
+  };
+
+  const groups = new Map<string, { store: Store; items: Line[]; subtotal: number }>();
   let subtotal = 0;
 
   for (const line of items) {
@@ -171,6 +243,7 @@ export async function createOrder(
         productId: line.productId,
       });
     }
+    // Cửa hàng đang bị tạm khóa/từ chối coi như sản phẩm không còn bán (đã lọc trong getProduct).
     if (product.stock < line.quantity) {
       throw new HttpError(
         product.stock === 0
@@ -181,9 +254,13 @@ export async function createOrder(
         { productId: product.id, available: product.stock, requested: line.quantity }
       );
     }
+
+    const store = await resolveStore(product.storeId);
     const lineTotal = product.price * line.quantity;
     subtotal += lineTotal;
-    detailed.push({
+
+    const group = groups.get(store.id) || { store, items: [], subtotal: 0 };
+    group.items.push({
       productId: product.id,
       quantity: line.quantity,
       name: product.name,
@@ -191,43 +268,86 @@ export async function createOrder(
       image: product.image,
       unitPrice: product.price,
       lineTotal,
-      stock: product.stock,
+      storeId: store.id,
+      storeName: store.name,
+    });
+    group.subtotal += lineTotal;
+    groups.set(store.id, group);
+  }
+
+  // 2. Mỗi cửa hàng là một chặng giao hàng riêng: tuyến đường thật từ điểm xuất hàng của cửa hàng.
+  const storeGroups: StoreOrderGroup[] = [];
+  for (const group of Array.from(groups.values())) {
+    const origin = originForStoreRecord(group.store);
+    const quote = await quoteShippingFrom(origin, { subtotal: group.subtotal, lat, lng });
+    storeGroups.push({
+      storeId: group.store.id,
+      storeName: group.store.name,
+      storeAddress: group.store.addressText,
+      storeLat: group.store.lat,
+      storeLng: group.store.lng,
+      items: group.items.map((line: Line) => ({
+        productId: line.productId,
+        name: line.name,
+        villageName: line.villageName,
+        image: line.image,
+        unitPrice: line.unitPrice,
+        quantity: line.quantity,
+        lineTotal: line.lineTotal,
+      })),
+      subtotal: group.subtotal,
+      shippingFee: quote.fee,
+      total: group.subtotal + quote.fee,
+      route: {
+        distanceM: quote.distanceM,
+        durationS: quote.durationS,
+        provider: quote.provider,
+        status: quote.message,
+      },
     });
   }
 
-  // 2. Tuyến đường + phí vận chuyển. Nếu client đã gửi tuyến hợp lệ thì dùng lại, không thì tự tính.
-  let route = payload?.route && payload.route.distanceM != null
-    ? {
-        distanceM: payload.route.distanceM,
-        durationS: payload.route.durationS ?? null,
-        provider: payload.route.provider ?? null,
-        status: payload.route.status || 'Tuyến đường do khách chọn trên bản đồ.',
-      }
-    : await getRouteFromWarehouse(lat, lng);
-
-  const quote = await quoteShipping({ subtotal, lat, lng });
-  const shippingFee = quote.fee;
+  const shippingFee = storeGroups.reduce((sum, group) => sum + group.shippingFee, 0);
   const total = subtotal + shippingFee;
 
-  // 3. Giao dịch: trừ tồn kho có điều kiện + tạo đơn + dòng hàng + sự kiện.
+  // Tuyến đường tổng hợp của đơn (nhiều cửa hàng = nhiều chặng): ghi rõ cách cộng để không gây hiểu nhầm.
+  const legsWithRoute = storeGroups.filter((group) => group.route.distanceM != null);
+  const aggregateDistance = legsWithRoute.length
+    ? legsWithRoute.reduce((sum, group) => sum + (group.route.distanceM as number), 0)
+    : null;
+  const aggregateDuration = legsWithRoute.length
+    ? legsWithRoute.reduce((sum, group) => sum + (group.route.durationS || 0), 0)
+    : null;
+  const providers = Array.from(new Set(legsWithRoute.map((group) => group.route.provider).filter(Boolean))) as string[];
+  const aggregateProvider =
+    providers.length === 0 ? null : providers.length === 1 ? providers[0] : `${providers.length} nguồn định tuyến`;
+  const aggregateStatus =
+    storeGroups.length === 1
+      ? storeGroups[0].route.status
+      : `Tổng hợp ${storeGroups.length} chặng giao hàng từ ${storeGroups.length} cửa hàng; khoảng cách và phí là tổng của từng chặng.`;
+
+  // 3. Giao dịch: trừ tồn kho có điều kiện + tạo đơn tổng + tạo đơn con + dòng hàng + sự kiện.
   const warehouse = getWarehouse();
   const orderId = `ord_${crypto.randomUUID()}`;
   const code = await generateOrderCode();
   const now = new Date().toISOString();
+  const sellerOrderIds: string[] = [];
 
   await transaction(async () => {
-    for (const line of detailed) {
-      const updated = await executeCount(
-        `UPDATE products SET stock = stock - ?, updated_at = ? WHERE id = ? AND stock >= ? AND active = 1`,
-        [line.quantity, now, line.productId, line.quantity]
-      );
-      if (updated === 0) {
-        throw new HttpError(
-          `Sản phẩm "${line.name}" vừa hết hàng trong lúc đặt. Vui lòng thử lại.`,
-          409,
-          'insufficient_stock',
-          { productId: line.productId }
+    for (const group of storeGroups) {
+      for (const line of group.items) {
+        const updated = await executeCount(
+          `UPDATE products SET stock = stock - ?, updated_at = ? WHERE id = ? AND stock >= ? AND active = 1`,
+          [line.quantity, now, line.productId, line.quantity]
         );
+        if (updated === 0) {
+          throw new HttpError(
+            `Sản phẩm "${line.name}" vừa hết hàng trong lúc đặt. Vui lòng thử lại.`,
+            409,
+            'insufficient_stock',
+            { productId: line.productId }
+          );
+        }
       }
     }
 
@@ -253,12 +373,14 @@ export async function createOrder(
         subtotal,
         shippingFee,
         total,
+        // Đơn tổng khởi tạo bằng trạng thái của bước đầu; sau mỗi lần cập nhật đơn con, trạng thái
+        // đơn tổng được TỔNG HỢP lại (xem syncParentStatus).
         'pending_confirmation',
         payload?.paymentMethod?.trim() || 'cod',
-        route.distanceM,
-        route.durationS,
-        route.provider,
-        route.status,
+        aggregateDistance,
+        aggregateDuration,
+        aggregateProvider,
+        aggregateStatus,
         warehouse.id,
         warehouse.address,
         now,
@@ -266,49 +388,42 @@ export async function createOrder(
       ]
     );
 
-    for (const line of detailed) {
-      await execute(
-        `INSERT INTO order_items (id, order_id, product_id, name, village_name, image, unit_price, quantity, line_total)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-        [
-          `itm_${crypto.randomUUID()}`,
-          orderId,
-          line.productId,
-          line.name,
-          line.villageName,
-          line.image,
-          line.unitPrice,
-          line.quantity,
-          line.lineTotal,
-        ]
-      );
-    }
-
+    // from_status = NULL: đây là sự kiện khởi tạo, chưa có trạng thái trước đó.
     await execute(
-      `INSERT INTO order_events (id, order_id, status, note, actor_type, actor_id, source, created_at)
-       VALUES (?, ?, 'pending_confirmation', ?, 'customer', ?, ?, ?)`,
+      `INSERT INTO order_events (id, order_id, seller_order_id, status, from_status, note, actor_type, actor_id, source, created_at)
+       VALUES (?, ?, NULL, 'pending_confirmation', NULL, ?, 'customer', ?, ?, ?)`,
       [
         `evt_${crypto.randomUUID()}`,
         orderId,
-        'Đơn được tạo từ trang thanh toán của khách hàng.',
+        `Đơn được tạo từ trang thanh toán của khách hàng và tách thành ${storeGroups.length} đơn theo cửa hàng.`,
         customerEmail,
         'SYSTEM:ORDER_CREATED',
         now,
       ]
     );
+
+    for (let index = 0; index < storeGroups.length; index++) {
+      const sellerOrderId = await insertSellerOrder({
+        parentOrderId: orderId,
+        parentCode: code,
+        index,
+        group: storeGroups[index],
+        now,
+      });
+      sellerOrderIds.push(sellerOrderId);
+    }
   });
 
   const order = await getOrderById(orderId);
   if (!order) throw new HttpError('Không đọc lại được đơn hàng vừa tạo.', 500, 'order_readback_failed');
 
   // 4. Thông báo trong website (không làm hỏng đơn nếu bước này lỗi).
-  const notifications: string[] = [];
   try {
     await createNotification({
       audience: 'admin',
       orderId: order.id,
       title: `Đơn mới ${order.code}`,
-      body: `${order.customerName} · ${order.total.toLocaleString('vi-VN')} ₫ · ${order.addressText}`,
+      body: `${order.customerName} · ${order.total.toLocaleString('vi-VN')} ₫ · ${order.sellerOrders?.length || 1} cửa hàng · ${order.addressText}`,
       link: `/admin/don-hang?order=${order.id}`,
     });
     if (customerEmail) {
@@ -321,15 +436,43 @@ export async function createOrder(
         link: `/don-hang/${order.id}`,
       });
     }
-  } catch (error: any) {
-    notifications.push(error?.message || 'Lỗi tạo thông báo trong website.');
+  } catch {
+    /* thông báo lỗi không được làm hỏng đơn đã lưu */
   }
 
-  // 5. Email: kết quả thật từ nhà cung cấp.
+  // 5. Email cho quản trị viên và khách (kết quả thật từ nhà cung cấp).
   const adminEmail = await sendAdminNewOrderEmail(order);
   const customerEmailResult = await sendCustomerConfirmationEmail(order);
 
-  // 6. Web push.
+  // 6. Thông báo cho TỪNG người bán có sản phẩm trong đơn — không gửi cho người bán không liên quan.
+  const sellerNotifications: SellerNotificationReport[] = [];
+  for (const sellerOrderId of sellerOrderIds) {
+    const child = (order.sellerOrders || []).find((item) => item.id === sellerOrderId);
+    try {
+      const result = await notifySellerNewOrder(sellerOrderId);
+      sellerNotifications.push({
+        sellerOrderId,
+        storeId: child?.storeId || '',
+        storeName: child?.storeName || '',
+        notified: result.notified,
+        email: result.email,
+        push: result.push,
+        skipped: result.skipped,
+      });
+    } catch (error: any) {
+      sellerNotifications.push({
+        sellerOrderId,
+        storeId: child?.storeId || '',
+        storeName: child?.storeName || '',
+        notified: false,
+        email: null,
+        push: { sent: 0, attempted: 0, configured: false, errors: [] },
+        skipped: error?.message || 'Lỗi không xác định khi thông báo cho người bán.',
+      });
+    }
+  }
+
+  // 7. Web push cho khách.
   let push = { sent: 0, attempted: 0, errors: [] as string[], configured: false };
   try {
     push = await sendPushToEmail(customerEmail, {
@@ -344,7 +487,8 @@ export async function createOrder(
 
   return {
     order,
-    delivery: { adminEmail, customerEmail: customerEmailResult, push },
+    sellerOrders: order.sellerOrders || [],
+    delivery: { adminEmail, customerEmail: customerEmailResult, sellerNotifications, push },
   };
 }
 
@@ -359,6 +503,8 @@ export async function getOrderItems(orderId: string): Promise<OrderItem[]> {
     unitPrice: Number(row.unit_price),
     quantity: Number(row.quantity),
     lineTotal: Number(row.line_total),
+    storeId: row.store_id ?? null,
+    sellerOrderId: row.seller_order_id ?? null,
   }));
 }
 
@@ -369,14 +515,20 @@ export async function getOrderEvents(orderId: string): Promise<OrderEvent[]> {
   return rows.map((row) => ({
     id: row.id,
     status: row.status as OrderStatus,
+    fromStatus: isOrderStatus(row.from_status) ? row.from_status : null,
     note: row.note,
     actorType: row.actor_type,
     actorId: row.actor_id,
     source: row.source,
     createdAt: row.created_at,
+    sellerOrderId: row.seller_order_id ?? null,
   }));
 }
 
+/**
+ * Đọc một đơn hàng kèm dữ liệu chi tiết.
+ * `withDetails` = true: kèm dòng hàng, toàn bộ lịch sử và các đơn con (kèm lịch sử riêng của đơn con).
+ */
 export async function getOrderById(id: string, withDetails = true): Promise<Order | null> {
   const row = await queryOne<OrderRow>(`SELECT * FROM orders WHERE id = ? OR code = ?`, [id, id]);
   if (!row) return null;
@@ -384,7 +536,30 @@ export async function getOrderById(id: string, withDetails = true): Promise<Orde
   if (withDetails) {
     order.items = await getOrderItems(order.id);
     order.events = await getOrderEvents(order.id);
+    order.sellerOrders = await getSellerOrdersByParent(order.id, { withItems: true, withEvents: true });
+  } else {
+    order.sellerOrders = await getSellerOrdersByParent(order.id, { withItems: false, withEvents: false });
   }
+  return order;
+}
+
+/**
+ * Tra cứu đơn hàng cho KHÁCH CHƯA ĐĂNG NHẬP bằng MÃ ĐƠN + SỐ ĐIỆN THOẠI đã dùng khi đặt.
+ *
+ * Vì sao cần cả hai: mã đơn có thể đoán/đánh hơi được, nên KHÔNG bao giờ cho xem địa chỉ,
+ * số điện thoại và lịch sử giao hàng chỉ với mã đơn. Số điện thoại đóng vai trò yếu tố bí mật
+ * thứ hai (giống cách các hãng vận chuyển cho tra cứu kiện hàng).
+ */
+export async function findOrderByCodeAndPhone(code: string, phoneDigits: string): Promise<Order | null> {
+  const row = await queryOne<OrderRow>(
+    `SELECT * FROM orders WHERE upper(code) = ? AND customer_phone = ?`,
+    [code.trim().toUpperCase(), phoneDigits]
+  );
+  if (!row) return null;
+  const order = toOrder(row);
+  order.items = await getOrderItems(order.id);
+  order.events = await getOrderEvents(order.id);
+  order.sellerOrders = await getSellerOrdersByParent(order.id, { withItems: true, withEvents: true });
   return order;
 }
 
@@ -394,7 +569,10 @@ export async function listOrdersForEmail(email: string, limit = 50): Promise<Ord
     [email.trim().toLowerCase()]
   );
   const orders = rows.map(toOrder);
-  for (const order of orders) order.items = await getOrderItems(order.id);
+  for (const order of orders) {
+    order.items = await getOrderItems(order.id);
+    order.sellerOrders = await getSellerOrdersByParent(order.id, { withItems: true, withEvents: false });
+  }
   return orders;
 }
 
@@ -410,6 +588,7 @@ export async function listAllOrders(params: { status?: string | null; limit?: nu
   for (const order of orders) {
     order.items = await getOrderItems(order.id);
     order.events = await getOrderEvents(order.id);
+    order.sellerOrders = await getSellerOrdersByParent(order.id, { withItems: true, withEvents: false });
   }
   return orders;
 }
@@ -427,20 +606,101 @@ export interface StatusUpdateResult {
   order: Order;
   emails: { customer: EmailResult | null; admin: EmailResult };
   push: { sent: number; attempted: number; configured: boolean; errors: string[] };
+  /** Khi đơn có nhiều cửa hàng: báo cáo kết quả cập nhật cho từng đơn con. */
+  sellerOrders?: { sellerOrderId: string; storeName: string; from: OrderStatus; to: OrderStatus | null; skipped?: string }[];
 }
 
 /**
- * Cập nhật trạng thái đơn theo quy trình. Từ chối mọi bước nhảy không hợp lệ.
- * Ghi sự kiện + thông báo + email + push cho khách hàng.
+ * Cập nhật trạng thái đơn ở CẤP ĐƠN TỔNG (quản trị viên sàn).
+ *
+ * Với đơn đa cửa hàng, bước chuyển được áp cho TỪNG đơn con nào đang cho phép bước đó, rồi trạng thái
+ * đơn tổng được tổng hợp lại. Cách này tránh việc quản trị viên vô tình đẩy một cửa hàng nhảy bước
+ * (ví dụ cửa hàng chưa chuẩn bị hàng mà đơn đã "đang giao") và không đụng tới các đơn con đã kết thúc.
  */
 export async function updateOrderStatus(options: StatusUpdateOptions): Promise<StatusUpdateResult> {
   const order = await getOrderById(options.orderId);
   if (!order) throw new HttpError('Không tìm thấy đơn hàng.', 404, 'order_not_found');
 
-  const current = order.status;
   if (!isOrderStatus(options.status)) {
     throw new HttpError('Trạng thái đơn hàng không hợp lệ.', 400, 'invalid_status');
   }
+
+  const children = order.sellerOrders || [];
+
+  // Đường dự phòng cho ĐƠN CŨ (tạo trước mô hình đa người bán) chưa có đơn con.
+  if (children.length === 0) {
+    return updateParentOrderStatusLegacy(order, options);
+  }
+
+  const note = options.note?.trim() || null;
+  const reports: NonNullable<StatusUpdateResult['sellerOrders']> = [];
+
+  for (const child of children) {
+    const current = child.status;
+    if (current === options.status) {
+      reports.push({
+        sellerOrderId: child.id,
+        storeName: child.storeName,
+        from: current,
+        to: null,
+        skipped: `Đã ở trạng thái "${ORDER_STATUS_META[options.status].label}".`,
+      });
+      continue;
+    }
+    if (!canTransition(current, options.status)) {
+      reports.push({
+        sellerOrderId: child.id,
+        storeName: child.storeName,
+        from: current,
+        to: null,
+        skipped: `Không thể chuyển từ "${ORDER_STATUS_META[current].label}".`,
+      });
+      continue;
+    }
+
+    await updateSellerOrderStatus({
+      sellerOrderId: child.id,
+      storeId: null, // quản trị viên sàn thao tác trên mọi cửa hàng
+      status: options.status,
+      note,
+      actorType: options.actorType === 'admin' ? 'admin' : 'system',
+      actorId: options.actorId ?? null,
+      source: options.source,
+    });
+
+    reports.push({ sellerOrderId: child.id, storeName: child.storeName, from: current, to: options.status });
+  }
+
+  const updatedCount = reports.filter((report) => report.to !== null).length;
+  if (updatedCount === 0) {
+    throw new HttpError(
+      `Không có cửa hàng nào chuyển được sang "${ORDER_STATUS_META[options.status].label}". ${reports
+        .map((report) => `${report.storeName}: ${report.skipped}`)
+        .join(' | ')}`,
+      409,
+      'invalid_transition',
+      { from: order.status, to: options.status, stores: reports }
+    );
+  }
+
+  const updated = await getOrderById(order.id);
+  if (!updated) throw new HttpError('Không đọc lại được đơn hàng sau khi cập nhật.', 500, 'order_readback_failed');
+
+  // updateSellerOrderStatus đã gửi thông báo/email/push cho khách. Ở đây chỉ trả về báo cáo.
+  return {
+    order: updated,
+    emails: { customer: null, admin: null as unknown as EmailResult },
+    push: { sent: 0, attempted: 0, configured: false, errors: [] },
+    sellerOrders: reports,
+  };
+}
+
+/** Cập nhật trực tiếp trên đơn KHÔNG có đơn con (đơn cũ trước khi nâng cấp đa người bán). */
+async function updateParentOrderStatusLegacy(
+  order: Order,
+  options: StatusUpdateOptions
+): Promise<StatusUpdateResult> {
+  const current = order.status;
   if (options.status === current) {
     throw new HttpError(`Đơn hàng đang ở trạng thái "${ORDER_STATUS_META[current].label}".`, 400, 'no_change');
   }
@@ -459,12 +719,13 @@ export async function updateOrderStatus(options: StatusUpdateOptions): Promise<S
   await transaction(async () => {
     await execute(`UPDATE orders SET status = ?, updated_at = ? WHERE id = ?`, [options.status, now, order.id]);
     await execute(
-      `INSERT INTO order_events (id, order_id, status, note, actor_type, actor_id, source, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO order_events (id, order_id, seller_order_id, status, from_status, note, actor_type, actor_id, source, created_at)
+       VALUES (?, ?, NULL, ?, ?, ?, ?, ?, ?, ?)`,
       [
         `evt_${crypto.randomUUID()}`,
         order.id,
         options.status,
+        current,
         note,
         options.actorType,
         options.actorId ?? null,
@@ -515,11 +776,12 @@ export async function updateOrderStatus(options: StatusUpdateOptions): Promise<S
   return { order: updated, emails, push };
 }
 
-/** Thống kê nhanh cho trang quản trị. */
+/** Thống kê nhanh cho trang quản trị (đơn tổng) + số liệu đã tách theo cửa hàng. */
 export async function getOrderStats(): Promise<{
   total: number;
   byStatus: Record<string, number>;
   revenue: number;
+  stores: { stores: number; active: number; pending: number; orders: number; delivered: number };
 }> {
   const rows = await query<{ status: string; count: number; revenue: number | null }>(
     `SELECT status, COUNT(*) AS count, SUM(total) AS revenue FROM orders GROUP BY status`
@@ -532,5 +794,38 @@ export async function getOrderStats(): Promise<{
     total += Number(row.count);
     if (row.status !== 'cancelled') revenue += Number(row.revenue ?? 0);
   }
-  return { total, byStatus, revenue };
+
+  const storeRow = await queryOne<{ stores: number; active: number; pending: number }>(
+    `SELECT COUNT(*) AS stores,
+            SUM(CASE WHEN status = 'active' THEN 1 ELSE 0 END) AS active,
+            SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) AS pending
+     FROM stores`
+  );
+  const sellerOrderRow = await queryOne<{ orders: number; delivered: number }>(
+    `SELECT COUNT(*) AS orders, SUM(CASE WHEN status = 'delivered' THEN 1 ELSE 0 END) AS delivered FROM seller_orders`
+  );
+
+  return {
+    total,
+    byStatus,
+    revenue,
+    stores: {
+      stores: Number(storeRow?.stores ?? 0),
+      active: Number(storeRow?.active ?? 0),
+      pending: Number(storeRow?.pending ?? 0),
+      orders: Number(sellerOrderRow?.orders ?? 0),
+      delivered: Number(sellerOrderRow?.delivered ?? 0),
+    },
+  };
 }
+
+/** Khoảng cách tối đa được tính cho một chặng (dùng cho thông báo của trang thanh toán). */
+export const SHIPPING_CONFIG = SHIPPING;
+
+/** Điểm xuất hàng mặc định của sàn — dùng khi hiển thị cho khách trên bản đồ. */
+export function defaultShippingOrigin() {
+  return warehouseOrigin();
+}
+
+/** Giữ tương thích: tuyến đường từ kho của sàn tới địa chỉ nhận hàng. */
+export { getRouteFromWarehouse };

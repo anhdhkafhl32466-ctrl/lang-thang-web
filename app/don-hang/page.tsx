@@ -2,12 +2,13 @@
 
 import React, { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { getCurrentUser, UserAccount } from '@/lib/authStorage';
 import { formatCurrencyVND } from '@/lib/utils';
 import { ORDER_STATUS_META } from '@/lib/orders/workflow';
 import type { Order } from '@/lib/orders/types';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
-import { PackageCheck, Loader2, RefreshCw, ArrowRight, ShoppingBag, Lock } from 'lucide-react';
+import { PackageCheck, Loader2, RefreshCw, ArrowRight, ShoppingBag, Lock, Search } from 'lucide-react';
 
 const TONE_CLASS: Record<string, string> = {
   pending: 'bg-amber-100 text-amber-800 border-amber-200',
@@ -17,12 +18,45 @@ const TONE_CLASS: Record<string, string> = {
 };
 
 export default function OrderHistoryPage() {
+  const router = useRouter();
   const [user, setUser] = useState<UserAccount | null>(null);
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [needsLogin, setNeedsLogin] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Tra cứu đơn cho khách vãng lai (không bắt buộc đăng nhập): mã đơn + số điện thoại đã dùng khi đặt.
+  const [lookupCode, setLookupCode] = useState('');
+  const [lookupPhone, setLookupPhone] = useState('');
+  const [lookupBusy, setLookupBusy] = useState(false);
+  const [lookupError, setLookupError] = useState<string | null>(null);
+
+  const handleLookup = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      setLookupError(null);
+      setLookupBusy(true);
+      try {
+        const res = await fetch('/api/orders/lookup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code: lookupCode.trim(), phone: lookupPhone.trim() }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) {
+          setLookupError(data?.error?.message || 'Không tra cứu được đơn hàng.');
+          return;
+        }
+        router.push(`/don-hang/${data.order.id}`);
+      } catch {
+        setLookupError('Không kết nối được tới máy chủ.');
+      } finally {
+        setLookupBusy(false);
+      }
+    },
+    [lookupCode, lookupPhone, router]
+  );
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -110,6 +144,43 @@ export default function OrderHistoryPage() {
                 Bạn đã đăng nhập ở giao diện với {user.email}, nhưng phiên máy chủ chưa được thiết lập. Hãy đăng nhập lại.
               </p>
             )}
+
+            {/* Khách không muốn đăng nhập vẫn tra cứu được đơn của mình */}
+            <div className="pt-5 border-t border-terracotta-100 text-left space-y-3">
+              <div className="flex items-center gap-2">
+                <Search className="w-4 h-4 text-terracotta-600" />
+                <span className="text-xs font-bold text-lacquer-900">Tra cứu đơn hàng không cần đăng nhập</span>
+              </div>
+              <p className="text-[11px] text-lacquer-800/70">
+                Nhập mã đơn hàng và số điện thoại bạn đã dùng khi đặt hàng. Cần đúng cả hai thông tin để
+                bảo vệ địa chỉ và số điện thoại của bạn.
+              </p>
+              <form onSubmit={handleLookup} className="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-2">
+                <input
+                  value={lookupCode}
+                  onChange={(event) => setLookupCode(event.target.value)}
+                  placeholder="Mã đơn (LT261014-1234)"
+                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs font-mono text-lacquer-900 bg-white"
+                />
+                <input
+                  value={lookupPhone}
+                  onChange={(event) => setLookupPhone(event.target.value)}
+                  placeholder="Số điện thoại khi đặt hàng"
+                  inputMode="tel"
+                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs text-lacquer-900 bg-white"
+                />
+                <button
+                  type="submit"
+                  disabled={lookupBusy || !lookupCode.trim() || !lookupPhone.trim()}
+                  className="px-4 py-2.5 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold shadow disabled:opacity-50"
+                >
+                  {lookupBusy ? 'Đang tra cứu...' : 'Tra cứu'}
+                </button>
+              </form>
+              {lookupError && (
+                <p className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-[11px] text-rose-700">{lookupError}</p>
+              )}
+            </div>
           </div>
         ) : loading && orders.length === 0 ? (
           <div className="p-16 text-center text-xs text-lacquer-800/60 flex items-center justify-center gap-2">

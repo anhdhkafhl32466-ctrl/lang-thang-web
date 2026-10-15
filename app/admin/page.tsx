@@ -2,12 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { CRAFT_VILLAGES } from '@/data/craftVillages';
 import { PRODUCTS } from '@/data/products';
 import { TOURS } from '@/data/tours';
+import { fetchServerSession } from '@/lib/client/serverSession';
+import { ADMIN_ORDERS_PATH, loginHref } from '@/lib/client/authRedirect';
 import {
   TrendingUp, Users, ShoppingCart, Compass, CheckCircle2,
-  XCircle, Sparkles, Award, Eye, Trash2, ArrowRight
+  XCircle, Sparkles, Award, Eye, Trash2, ArrowRight, Loader2, ShieldCheck
 } from 'lucide-react';
 
 interface SubmissionItem {
@@ -21,7 +24,11 @@ interface SubmissionItem {
 }
 
 export default function AdminDashboardPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<'overview' | 'submissions' | 'villages' | 'products'>('overview');
+  // Trang này trước đây KHÔNG kiểm tra quyền: bất kỳ ai biết đường dẫn /admin đều xem được.
+  // Quyền quản trị giờ lấy từ phiên máy chủ (cookie đã ký), không phải localStorage.
+  const [access, setAccess] = useState<'checking' | 'ok' | 'forbidden'>('checking');
   const [submissions, setSubmissions] = useState<SubmissionItem[]>([
     {
       id: 'sub-01',
@@ -42,6 +49,23 @@ export default function AdminDashboardPage() {
       status: 'Đã duyệt'
     }
   ]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const session = await fetchServerSession();
+      if (cancelled) return;
+      if (!session?.authenticated) {
+        // Chưa đăng nhập: yêu cầu đăng nhập trước rồi quay lại đúng trang này.
+        router.replace(loginHref('/admin'));
+        return;
+      }
+      setAccess(session.user?.isAdmin ? 'ok' : 'forbidden');
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [router]);
 
   useEffect(() => {
     try {
@@ -67,6 +91,46 @@ export default function AdminDashboardPage() {
     );
   };
 
+  if (access !== 'ok') {
+    return (
+      <div className="min-h-screen py-16 bg-dopaper-50">
+        <div className="max-w-xl mx-auto px-4">
+          <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <h1 className="font-serif text-xl font-bold text-lacquer-900">Bảng quản trị di sản</h1>
+            {access === 'checking' ? (
+              <p className="text-xs text-lacquer-800/70 flex items-center justify-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Đang kiểm tra quyền truy cập...</span>
+              </p>
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-rose-700">Tài khoản hiện tại không có quyền quản trị.</p>
+                <p className="text-[11px] text-lacquer-800/70">
+                  Quyền quản trị do máy chủ quyết định dựa trên danh tính đã xác minh, không thể tự khai báo từ trình duyệt.
+                </p>
+              </div>
+            )}
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              <Link
+                href={loginHref('/admin')}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-terracotta-500 to-gold-500 text-white text-sm font-bold shadow"
+              >
+                <ShieldCheck className="w-4 h-4" />
+                <span>Đăng nhập bằng tài khoản quản trị</span>
+              </Link>
+              <Link href="/" className="text-xs font-bold text-terracotta-600">
+                Về trang chủ
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -82,7 +146,7 @@ export default function AdminDashboardPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <Link
-              href="/admin/don-hang"
+              href={ADMIN_ORDERS_PATH}
               className="text-xs bg-terracotta-500 hover:bg-terracotta-600 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow"
             >
               <ShoppingCart className="w-3.5 h-3.5" />

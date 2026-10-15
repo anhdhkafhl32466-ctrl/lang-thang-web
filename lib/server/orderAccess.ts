@@ -18,7 +18,15 @@ const TTL_SECONDS = 60 * 60 * 24 * 90; // 90 ngày
 
 function secret(): string {
   const value = process.env.SESSION_SECRET?.trim();
-  return value && value.length >= 16 ? value : 'lang-thang-dev-session-secret-do-not-use-in-production';
+  if (value && value.length >= 16) return value;
+
+  // Ở production KHÔNG được ký cookie xem đơn bằng khoá dự phòng công khai: chữ ký HMAC chỉ còn là
+  // hình thức, ai đọc mã nguồn cũng tính được cookie hợp lệ cho BẤT KỲ mã đơn nào (đọc được tên,
+  // số điện thoại, địa chỉ giao hàng của khách vãng lai). Trả về chuỗi rỗng → mọi cookie cũ bị coi
+  // là không hợp lệ, và grantGuestOrderAccess sẽ từ chối phát cookie mới (xem hàm dưới).
+  if (process.env.NODE_ENV === 'production') return '';
+
+  return 'lang-thang-dev-session-secret-do-not-use-in-production';
 }
 
 function b64url(input: string | Buffer): string {
@@ -26,13 +34,16 @@ function b64url(input: string | Buffer): string {
 }
 
 function sign(data: string): string {
+  const key = secret();
+  if (!key) return '';
   // Tiền tố "order-access" tách miền khoá với cookie phiên đăng nhập.
-  return b64url(crypto.createHmac('sha256', secret()).update(`order-access:${data}`).digest());
+  return b64url(crypto.createHmac('sha256', key).update(`order-access:${data}`).digest());
 }
 
-function encode(ids: string[]): string {
+function encode(ids: string[]): string | null {
   const body = b64url(JSON.stringify(ids.slice(-MAX_TRACKED_ORDERS)));
-  return `${body}.${sign(body)}`;
+  const signature = sign(body);
+  return signature ? `${body}.${signature}` : null;
 }
 
 function decode(token: string | undefined): string[] {
@@ -40,8 +51,10 @@ function decode(token: string | undefined): string[] {
   const [body, signature] = token.split('.');
   if (!body || !signature) return [];
 
+  const expected = sign(body);
+  if (!expected) return [];
   const a = Buffer.from(signature);
-  const b = Buffer.from(sign(body));
+  const b = Buffer.from(expected);
   if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return [];
 
   try {
@@ -71,9 +84,13 @@ export function grantGuestOrderAccess(
 ): void {
   const existing = readGuestOrderIds(request).filter((id) => id !== orderId);
   const next = [...existing, orderId].slice(-MAX_TRACKED_ORDERS);
+  const token = encode(next);
+  // Không ký được (thiếu SESSION_SECRET ở production) thì KHÔNG phát cookie giả: khách vẫn xem được
+  // đơn ngay sau khi đặt trong phiên hiện tại, và có thể đăng nhập bằng email của đơn để xem lại sau.
+  if (!token) return;
   response.cookies.set({
     name: GUEST_ORDERS_COOKIE,
-    value: encode(next),
+    value: token,
     httpOnly: true,
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',

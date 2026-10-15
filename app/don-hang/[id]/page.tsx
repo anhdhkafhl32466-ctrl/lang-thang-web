@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { formatCurrencyVND } from '@/lib/utils';
@@ -9,7 +9,10 @@ import { ORDER_STATUS_META } from '@/lib/orders/workflow';
 import type { Order } from '@/lib/orders/types';
 import OrderProgress from '@/components/orders/OrderProgress';
 import AddressPickerMap from '@/components/orders/AddressPickerMap';
-import { ArrowLeft, Loader2, MapPin, Truck, History, AlertTriangle, ShieldCheck, PackageCheck } from 'lucide-react';
+import { ArrowLeft, Loader2, MapPin, Truck, History, AlertTriangle, ShieldCheck, PackageCheck, RefreshCw, Store } from 'lucide-react';
+
+/** Chu kỳ tự làm mới trạng thái (khớp với chu kỳ bên trang quản trị). */
+const SYNC_INTERVAL_MS = 30_000;
 
 interface WarehouseInfo {
   name: string;
@@ -27,6 +30,8 @@ export default function OrderTrackingPage() {
   const [routeGeometry, setRouteGeometry] = useState<LatLng[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [syncWarning, setSyncWarning] = useState<string | null>(null);
+  const [syncedAt, setSyncedAt] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -40,31 +45,56 @@ export default function OrderTrackingPage() {
     })();
   }, []);
 
-  useEffect(() => {
-    if (!orderId) return;
-    let cancelled = false;
-    (async () => {
-      setLoading(true);
+  /**
+   * Đọc lại trạng thái MỚI NHẤT từ máy chủ.
+   * `silent = true` dùng cho việc làm mới nền: không che giao diện và không xoá dữ liệu đang xem
+   * nếu mạng chập chờn. Không bao giờ tự suy diễn trạng thái ở phía khách.
+   */
+  const loadOrder = useCallback(
+    async (silent = false) => {
+      if (!orderId) return;
+      if (!silent) setLoading(true);
       try {
         const res = await fetch(`/api/orders/${orderId}`, { cache: 'no-store' });
         const data = await res.json();
-        if (cancelled) return;
         if (!res.ok || !data.ok) {
-          setError(data?.error?.message || 'Không tải được đơn hàng.');
+          if (!silent) setError(data?.error?.message || 'Không tải được đơn hàng.');
+          else setSyncWarning('Chưa đọc lại được trạng thái mới nhất. Đang thử lại...');
           return;
         }
         setOrder(data.order);
         setError(null);
+        setSyncWarning(null);
+        setSyncedAt(new Date().toLocaleTimeString('vi-VN'));
       } catch {
-        if (!cancelled) setError('Không kết nối được tới máy chủ.');
+        if (!silent) setError('Không kết nối được tới máy chủ.');
+        else setSyncWarning('Mất kết nối tới máy chủ. Đang thử lại...');
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!silent) setLoading(false);
       }
-    })();
-    return () => {
-      cancelled = true;
+    },
+    [orderId]
+  );
+
+  useEffect(() => {
+    loadOrder();
+  }, [loadOrder]);
+
+  // Đồng bộ với cập nhật của quản trị viên: làm mới khi quay lại tab và định kỳ 30 giây.
+  useEffect(() => {
+    if (!orderId) return;
+    const refreshWhenVisible = () => {
+      if (document.visibilityState === 'visible') loadOrder(true);
     };
-  }, [orderId]);
+    document.addEventListener('visibilitychange', refreshWhenVisible);
+    window.addEventListener('focus', refreshWhenVisible);
+    const interval = setInterval(refreshWhenVisible, SYNC_INTERVAL_MS);
+    return () => {
+      document.removeEventListener('visibilitychange', refreshWhenVisible);
+      window.removeEventListener('focus', refreshWhenVisible);
+      clearInterval(interval);
+    };
+  }, [loadOrder, orderId]);
 
   // Vẽ lại tuyến đường thật từ kho tới địa chỉ nhận hàng của đơn.
   useEffect(() => {
@@ -150,11 +180,29 @@ export default function OrderTrackingPage() {
               <span className="text-[11px] text-lacquer-800/60">Mã đơn hàng</span>
               <h1 className="font-mono text-xl font-bold text-lacquer-900">{order.code}</h1>
               <p className="text-[11px] text-lacquer-800/60">Đặt lúc {new Date(order.createdAt).toLocaleString('vi-VN')}</p>
+              {syncedAt && (
+                <p className="text-[10px] text-lacquer-800/50">Trạng thái đồng bộ lúc {syncedAt} · tự làm mới mỗi 30 giây</p>
+              )}
             </div>
-            <span className={`text-xs font-bold px-3 py-1.5 rounded-full border self-start ${meta.tone === 'danger' ? 'bg-rose-100 text-rose-800 border-rose-200' : meta.tone === 'success' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : 'bg-blue-100 text-blue-800 border-blue-200'}`}>
-              {meta.label}
-            </span>
+            <div className="flex items-center gap-2 self-start">
+              <span className={`text-xs font-bold px-3 py-1.5 rounded-full border ${meta.tone === 'danger' ? 'bg-rose-100 text-rose-800 border-rose-200' : meta.tone === 'success' ? 'bg-emerald-100 text-emerald-800 border-emerald-200' : 'bg-blue-100 text-blue-800 border-blue-200'}`}>
+                {meta.label}
+              </span>
+              <button
+                onClick={() => loadOrder(true)}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-terracotta-200 bg-white text-[11px] font-bold text-lacquer-800 hover:bg-dopaper-100"
+              >
+                <RefreshCw className="w-3 h-3" />
+                <span>Làm mới</span>
+              </button>
+            </div>
           </div>
+
+          {syncWarning && (
+            <p className="text-[11px] text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-3 py-2">
+              {syncWarning}
+            </p>
+          )}
 
           <OrderProgress status={order.status} hasCarrierEvent={hasCarrierEvent} />
         </div>
@@ -187,6 +235,109 @@ export default function OrderTrackingPage() {
                 <div className="flex justify-between text-sm border-t border-terracotta-200 pt-1.5"><span className="text-lacquer-800/70">Tổng cộng</span><strong className="text-terracotta-600">{formatCurrencyVND(order.total)}</strong></div>
               </div>
             </section>
+
+            {/*
+              Đơn đa cửa hàng: khách phải thấy rõ TỪNG cửa hàng đang xử lý phần nào, trạng thái riêng ra sao.
+              Trạng thái hiển thị ở đây là của đơn con do chính người bán cập nhật (không suy diễn ở trình duyệt).
+            */}
+            {(order.sellerOrders || []).length > 0 && (
+              <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+                <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
+                  <Store className="w-5 h-5 text-terracotta-600" />
+                  <span>
+                    Theo cửa hàng ({(order.sellerOrders || []).length}{' '}
+                    {(order.sellerOrders || []).length > 1 ? 'cửa hàng cùng xử lý' : 'cửa hàng'})
+                  </span>
+                </h2>
+
+                <div className="space-y-3">
+                  {(order.sellerOrders || []).map((child) => {
+                    const childMeta = ORDER_STATUS_META[child.status];
+                    return (
+                      <div key={child.id} className="rounded-2xl border border-terracotta-100 overflow-hidden">
+                        <div className="px-4 py-3 bg-dopaper-100 flex flex-wrap items-center justify-between gap-2">
+                          <div className="min-w-0">
+                            <span className="block text-sm font-bold text-lacquer-900 truncate">{child.storeName}</span>
+                            <span className="block text-[10px] font-mono text-lacquer-800/60">{child.code}</span>
+                            {child.storeAddress && (
+                              <span className="block text-[10px] text-lacquer-800/60">Xuất phát: {child.storeAddress}</span>
+                            )}
+                          </div>
+                          <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${
+                            childMeta.tone === 'danger'
+                              ? 'bg-rose-100 text-rose-800 border-rose-200'
+                              : childMeta.tone === 'success'
+                              ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                              : 'bg-blue-100 text-blue-800 border-blue-200'
+                          }`}>
+                            {childMeta.label}
+                          </span>
+                        </div>
+
+                        <div className="px-4 py-3 space-y-2">
+                          {(child.items || []).map((item) => (
+                            <div key={item.id} className="flex items-center gap-3 text-[11px]">
+                              {item.image && (
+                                <img src={item.image} alt={item.name} className="w-9 h-9 rounded-lg object-cover border border-terracotta-100" />
+                              )}
+                              <span className="flex-1 text-lacquer-900 line-clamp-1">{item.name}</span>
+                              <span className="text-lacquer-800/60">x{item.quantity}</span>
+                              <strong className="text-terracotta-600">{formatCurrencyVND(item.lineTotal)}</strong>
+                            </div>
+                          ))}
+
+                          <div className="flex flex-wrap justify-between gap-2 text-[11px] pt-2 border-t border-terracotta-100">
+                            <span className="text-lacquer-800/70">
+                              Tiền hàng {formatCurrencyVND(child.subtotal)} + ship {formatCurrencyVND(child.shippingFee)}
+                            </span>
+                            <strong className="text-terracotta-600">Phần này: {formatCurrencyVND(child.total)}</strong>
+                          </div>
+
+                          {(child.carrier || child.trackingCode) && (
+                            <p className="text-[11px] text-lacquer-800/80 flex items-center gap-1.5">
+                              <Truck className="w-3.5 h-3.5 text-terracotta-600" />
+                              <span>
+                                {child.carrier || 'Đơn vị vận chuyển chưa ghi tên'}
+                                {child.trackingCode ? ` · mã vận đơn ${child.trackingCode}` : ''}
+                                <span className="text-lacquer-800/50"> (do người bán cập nhật)</span>
+                              </span>
+                            </p>
+                          )}
+
+                          {(child.events || []).length > 0 && (
+                            <details className="text-[11px] text-lacquer-800/75">
+                              <summary className="cursor-pointer font-bold text-lacquer-900">
+                                Tiến trình của cửa hàng này ({(child.events || []).length})
+                              </summary>
+                              <ol className="mt-2 space-y-1.5">
+                                {(child.events || []).map((event) => (
+                                  <li key={event.id}>
+                                    <strong>
+                                      {event.fromStatus
+                                        ? `${ORDER_STATUS_META[event.fromStatus]?.label || event.fromStatus} → ${
+                                            ORDER_STATUS_META[event.status]?.label || event.status
+                                          }`
+                                        : `${ORDER_STATUS_META[event.status]?.label || event.status} (khởi tạo)`}
+                                    </strong>{' '}
+                                    — {new Date(event.createdAt).toLocaleString('vi-VN')}
+                                    {event.note ? ` · ${event.note}` : ''}
+                                  </li>
+                                ))}
+                              </ol>
+                            </details>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <p className="text-[10px] text-lacquer-800/60">
+                  Mỗi cửa hàng giao phần hàng của mình độc lập. Trạng thái chung ở trên là kết quả tổng hợp
+                  từ các phần này, nên đơn chỉ hoàn tất khi cửa hàng chậm nhất đã giao xong.
+                </p>
+              </section>
+            )}
 
             <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -251,7 +402,11 @@ export default function OrderTrackingPage() {
                         <span className="w-2 h-2 rounded-full bg-terracotta-500 mt-1.5 shrink-0" />
                         <div className="min-w-0">
                           <span className="block text-xs font-bold text-lacquer-900">
-                            {ORDER_STATUS_META[event.status]?.label || event.status}
+                            {event.fromStatus
+                              ? `${ORDER_STATUS_META[event.fromStatus]?.label || event.fromStatus} → ${
+                                  ORDER_STATUS_META[event.status]?.label || event.status
+                                }`
+                              : `${ORDER_STATUS_META[event.status]?.label || event.status} (khởi tạo đơn)`}
                           </span>
                           <span className="block text-[10px] text-lacquer-800/60">
                             {new Date(event.createdAt).toLocaleString('vi-VN')} ·{' '}

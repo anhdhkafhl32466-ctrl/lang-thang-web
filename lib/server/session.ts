@@ -20,9 +20,28 @@ import { upsertUser } from './users';
 export const SESSION_COOKIE = 'lt_session';
 const SESSION_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 ngày
 
+/**
+ * CHỈ những đường đăng nhập ĐÃ XÁC MINH DANH TÍNH mới được xét quyền quản trị:
+ *  - 'google'    : ID token do Google phát hành, máy chủ đã kiểm chữ ký/audience/email_verified.
+ *  - 'admin-key' : khoá bí mật ở máy chủ (ADMIN_ACCESS_KEY), so sánh timing-safe.
+ *
+ * Đường 'email-mx' CHỈ kiểm tra tên miền có bản ghi MX — nó chứng minh "tên miền có máy chủ mail",
+ * KHÔNG chứng minh người gửi sở hữu hộp thư. Nếu vẫn cấp quyền admin cho email trùng ADMIN_EMAIL thì
+ * bất kỳ ai gõ đúng email đó trong ô nhập đều trở thành quản trị viên.
+ */
+const TRUSTED_ADMIN_PROVIDERS = new Set(['google', 'admin-key']);
+
+export function canGrantAdminRole(provider: string): boolean {
+  return TRUSTED_ADMIN_PROVIDERS.has(provider);
+}
+
 export interface SessionPayload {
   userEmail: string;
-  role: 'member' | 'admin';
+  /**
+   * 'seller' là vai trò RIÊNG của tài khoản người bán, KHÔNG kế thừa quyền quản trị:
+   * người bán đăng nhập bằng mật khẩu của chính họ và chỉ chạm được dữ liệu cửa hàng mình.
+   */
+  role: 'member' | 'admin' | 'seller';
   name: string;
   avatar: string | null;
   issuedAt: number;
@@ -32,7 +51,20 @@ export interface SessionPayload {
 function sessionSecret(): string {
   const secret = process.env.SESSION_SECRET?.trim();
   if (secret && secret.length >= 16) return secret;
-  // Khoá dự phòng cho môi trường phát triển — production bắt buộc cấu hình SESSION_SECRET.
+
+  // Trên máy phát triển, dùng khoá dự phòng cho tiện. Nhưng ở production (ví dụ bản deploy Vercel)
+  // TUYỆT ĐỐI không được ký phiên bằng khoá ai cũng đọc được trong mã nguồn: làm vậy thì bất kỳ ai
+  // cũng có thể tự tạo cookie mang role 'admin' và vào thẳng trang quản trị sàn.
+  // Vì vậy production mà thiếu SESSION_SECRET thì TỪ CHỐI cấp phiên, kèm thông báo nói rõ cách sửa.
+  if (process.env.NODE_ENV === 'production') {
+    throw new HttpError(
+      'Máy chủ chưa cấu hình SESSION_SECRET nên không thể tạo phiên đăng nhập an toàn. Hãy đặt SESSION_SECRET (tối thiểu 16 ký tự) trong biến môi trường rồi khởi động lại.',
+      503,
+      'session_secret_missing',
+      { missing: ['SESSION_SECRET'] }
+    );
+  }
+
   return 'lang-thang-dev-session-secret-do-not-use-in-production';
 }
 
@@ -109,7 +141,8 @@ export async function establishSession(params: {
   userAgent?: string | null;
 }): Promise<{ token: string; payload: SessionPayload; maxAge: number }> {
   const email = params.email.trim().toLowerCase();
-  const role: 'member' | 'admin' = email === getAdminEmail() ? 'admin' : 'member';
+  const role: 'member' | 'admin' =
+    email === getAdminEmail() && canGrantAdminRole(params.provider) ? 'admin' : 'member';
   const name = params.name?.trim() || email.split('@')[0];
 
   await upsertUser({
@@ -126,6 +159,40 @@ export async function establishSession(params: {
     role,
     name,
     avatar: params.avatar || null,
+    issuedAt,
+    expiresAt: issuedAt + SESSION_TTL_SECONDS * 1000,
+  };
+
+  return { token: encodeSession(payload), payload, maxAge: SESSION_TTL_SECONDS };
+}
+
+/**
+ * Phiên dành cho NGƯỜI BÁN đã xác thực bằng mật khẩu riêng (scrypt) của tài khoản họ.
+ *
+ * Quyền 'seller' KHÔNG bao giờ được nâng thành 'admin' — kể cả khi email trùng ADMIN_EMAIL — vì
+ * mật khẩu người bán do người đăng ký tự đặt, không phải bằng chứng sở hữu email quản trị.
+ */
+export async function establishSellerSession(params: {
+  email: string;
+  name?: string | null;
+  userAgent?: string | null;
+}): Promise<{ token: string; payload: SessionPayload; maxAge: number }> {
+  const email = params.email.trim().toLowerCase();
+  const name = params.name?.trim() || email.split('@')[0];
+  const issuedAt = Date.now();
+
+  await upsertUser({
+    email,
+    name,
+    role: 'seller',
+    provider: 'seller-password',
+  });
+
+  const payload: SessionPayload = {
+    userEmail: email,
+    role: 'seller',
+    name,
+    avatar: null,
     issuedAt,
     expiresAt: issuedAt + SESSION_TTL_SECONDS * 1000,
   };

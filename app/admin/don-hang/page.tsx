@@ -2,13 +2,15 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ADMIN_ORDERS_PATH, loginHref } from '@/lib/client/authRedirect';
 import { formatCurrencyVND } from '@/lib/utils';
 import { formatDistance, formatDuration } from '@/lib/geo';
 import { ALLOWED_TRANSITIONS, ORDER_STATUS_META, ORDER_STATUSES, type OrderStatus } from '@/lib/orders/workflow';
 import type { Order } from '@/lib/orders/types';
 import {
   ShieldCheck, Loader2, RefreshCw, MapPin, Truck, PackageCheck, Lock, AlertTriangle, XCircle,
-  CheckCircle2, ArrowRight, History, BellRing,
+  CheckCircle2, ArrowRight, History, BellRing, Store,
 } from 'lucide-react';
 
 const TONE_CLASS: Record<string, string> = {
@@ -19,6 +21,7 @@ const TONE_CLASS: Record<string, string> = {
 };
 
 export default function AdminOrdersPage() {
+  const router = useRouter();
   // Đọc tham số ?order=<id> sau khi mount (không dùng useSearchParams để tránh ràng buộc
   // Suspense khi Next.js kết xuất tĩnh trang này).
   const [highlightOrderId, setHighlightOrderId] = useState<string | null>(null);
@@ -42,7 +45,9 @@ export default function AdminOrdersPage() {
       try {
         const res = await fetch('/api/admin/orders', { cache: 'no-store' });
         if (res.status === 401) {
+          // Chưa đăng nhập: yêu cầu đăng nhập trước, rồi quay lại ĐÚNG trang quản trị này.
           setAuthState('unauthenticated');
+          router.replace(loginHref(ADMIN_ORDERS_PATH));
           return;
         }
         if (res.status === 403) {
@@ -73,7 +78,7 @@ export default function AdminOrdersPage() {
         setLoading(false);
       }
     },
-    []
+    [router]
   );
 
   useEffect(() => {
@@ -100,11 +105,23 @@ export default function AdminOrdersPage() {
         }
         const emailStatus = data.delivery?.emails?.customer?.status || 'không gửi (khách không có email)';
         const nextStatus = data.order.status as OrderStatus;
+        // Đơn đa cửa hàng: máy chủ trả về bước chuyển đã áp cho từng đơn con — hiện đủ để người vận hành
+        // biết cửa hàng nào chuyển được, cửa hàng nào bị bỏ qua và vì sao.
+        const storeReports: { storeName: string; to: OrderStatus | null; skipped?: string }[] = data.sellerOrders || [];
+        const storeSummary = storeReports.length
+          ? ` Cửa hàng: ${storeReports
+              .map((report) =>
+                report.to
+                  ? `${report.storeName} → ${ORDER_STATUS_META[report.to].label}`
+                  : `${report.storeName} (bỏ qua: ${report.skipped || 'không hợp lệ'})`
+              )
+              .join('; ')}.`
+          : '';
         setFeedback({
           tone: 'ok',
           text: `Đơn ${data.order.code} → ${ORDER_STATUS_META[nextStatus].label}. Email cho khách: ${emailStatus}. Thông báo đẩy: ${
             data.delivery?.push?.configured ? `${data.delivery.push.sent}/${data.delivery.push.attempted} thiết bị` : 'chưa cấu hình VAPID'
-          }.`,
+          }.${storeSummary}`,
         });
         setNotes((prev) => ({ ...prev, [order.id]: '' }));
         setNewIds((prev) => {
@@ -143,20 +160,26 @@ export default function AdminOrdersPage() {
                 <span>Đang kiểm tra quyền truy cập...</span>
               </p>
             ) : authState === 'unauthenticated' ? (
-              <p className="text-xs text-lacquer-800/70">
-                Bạn cần đăng nhập. Quyền quản trị chỉ được cấp cho tài khoản Google đã xác minh trùng với
-                email quản trị đã cấu hình ở máy chủ (ADMIN_EMAIL).
+              <p className="text-xs text-lacquer-800/70 flex items-center justify-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Bạn cần đăng nhập trước. Đang chuyển tới trang đăng nhập...</span>
               </p>
             ) : (
-              <p className="text-xs text-rose-700 flex items-center justify-center gap-2">
-                <AlertTriangle className="w-4 h-4" />
-                <span>Tài khoản hiện tại không có quyền quản trị.</span>
-              </p>
+              <div className="space-y-2">
+                <p className="text-xs text-rose-700 flex items-center justify-center gap-2">
+                  <AlertTriangle className="w-4 h-4" />
+                  <span>Tài khoản hiện tại không có quyền quản trị.</span>
+                </p>
+                <p className="text-[11px] text-lacquer-800/70">
+                  Quyền quản trị chỉ được cấp khi máy chủ xác minh được danh tính: tài khoản Google trùng
+                  email quản trị đã cấu hình (ADMIN_EMAIL), hoặc đăng nhập bằng khoá quản trị ADMIN_ACCESS_KEY.
+                </p>
+              </div>
             )}
 
             <div className="flex flex-wrap items-center justify-center gap-2">
               <Link
-                href="/dang-nhap"
+                href={loginHref(ADMIN_ORDERS_PATH)}
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-2xl bg-gradient-to-r from-terracotta-500 to-gold-500 text-white text-sm font-bold shadow"
               >
                 <ShieldCheck className="w-4 h-4" />
@@ -334,7 +357,14 @@ export default function AdminOrdersPage() {
                       <div className="max-h-28 overflow-y-auto space-y-1">
                         {(order.events || []).map((event) => (
                           <div key={event.id} className="text-lacquer-800/75">
-                            <strong>{ORDER_STATUS_META[event.status]?.label || event.status}</strong> — {new Date(event.createdAt).toLocaleString('vi-VN')}
+                            <strong>
+                              {event.fromStatus
+                                ? `${ORDER_STATUS_META[event.fromStatus]?.label || event.fromStatus} → ${
+                                    ORDER_STATUS_META[event.status]?.label || event.status
+                                  }`
+                                : `${ORDER_STATUS_META[event.status]?.label || event.status} (khởi tạo đơn)`}
+                            </strong>{' '}
+                            — {new Date(event.createdAt).toLocaleString('vi-VN')}
                             <span className="text-lacquer-800/50"> · {event.actorType}{event.actorId ? ` (${event.actorId})` : ''} · {event.source}</span>
                           </div>
                         ))}
@@ -355,6 +385,58 @@ export default function AdminOrdersPage() {
                       ))}
                     </div>
                   </div>
+
+                  {/*
+                    Đơn đa cửa hàng được tách thành các đơn con: người vận hành cần thấy từng cửa hàng
+                    đang ở bước nào, phần tiền và mã vận đơn riêng, thay vì chỉ thấy một trạng thái chung.
+                  */}
+                  {(order.sellerOrders || []).length > 0 && (
+                    <div className="p-3 rounded-2xl border border-gold-300/60 bg-gold-50/40 space-y-2">
+                      <span className="text-[11px] font-bold text-lacquer-900 flex items-center gap-1.5">
+                        <Store className="w-3.5 h-3.5 text-gold-600" />
+                        <span>
+                          Đơn con theo cửa hàng ({(order.sellerOrders || []).length}) — mỗi cửa hàng giao độc lập
+                        </span>
+                      </span>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        {(order.sellerOrders || []).map((child) => {
+                          const childMeta = ORDER_STATUS_META[child.status];
+                          return (
+                            <div key={child.id} className="p-2.5 rounded-xl bg-white border border-terracotta-100 text-[11px] space-y-1">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="font-bold text-lacquer-900 truncate">{child.storeName}</span>
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${TONE_CLASS[childMeta.tone]}`}>
+                                  {childMeta.label}
+                                </span>
+                              </div>
+                              <span className="block font-mono text-[10px] text-lacquer-800/60">{child.code}</span>
+                              <span className="block text-lacquer-800/70">
+                                {(child.items || []).length} mặt hàng · tiền hàng {formatCurrencyVND(child.subtotal)} · ship{' '}
+                                {formatCurrencyVND(child.shippingFee)}
+                              </span>
+                              <span className="block text-terracotta-700 font-bold">
+                                Phần cửa hàng: {formatCurrencyVND(child.total)}
+                              </span>
+                              {child.storeAddress && (
+                                <span className="block text-lacquer-800/60">Xuất hàng: {child.storeAddress}</span>
+                              )}
+                              {(child.carrier || child.trackingCode) && (
+                                <span className="block text-lacquer-800/75">
+                                  {child.carrier || 'chưa ghi đơn vị vận chuyển'}
+                                  {child.trackingCode ? ` · ${child.trackingCode}` : ''} (do người bán cập nhật)
+                                </span>
+                              )}
+                              {(child.items || []).length > 0 && (
+                                <span className="block text-lacquer-800/60 line-clamp-2">
+                                  {(child.items || []).map((item) => `${item.quantity}× ${item.name}`).join(', ')}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
 
                   {nextStates.length > 0 ? (
                     <div className="space-y-2 pt-1 border-t border-terracotta-100">
