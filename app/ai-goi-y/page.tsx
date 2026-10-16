@@ -9,8 +9,10 @@ import {
   Sparkles, CheckCircle2, ArrowRight, RotateCcw, Clock, Compass,
   MapPin, Heart, Calendar, Utensils, Star, Award, MessageSquare, Send, Tag, Lightbulb, Info
 } from 'lucide-react';
+import OneTouchTourPlanner from '@/components/ai/OneTouchTourPlanner';
 
 export default function AiRecommendationPage() {
+  const [activeMode, setActiveMode] = useState<'one-touch-tour' | 'quiz-discovery'>('one-touch-tour');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({
     interests: [],
@@ -166,23 +168,60 @@ export default function AiRecommendationPage() {
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
             <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-            <span>Thuật Toán Khuyến Nghị AI Cá Nhân Hóa</span>
+            <span>Trợ Lý Du Lịch Làng Nghề Thông Minh 2.0</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Tìm làng nghề dành riêng cho bạn
+            Lập Tour 1-Chạm & Gợi Ý Làng Nghề Bằng AI
           </h1>
           <p className="text-xs sm:text-sm text-lacquer-800/70 max-w-xl mx-auto leading-relaxed">
-            Thuật toán AI phân tích đa chiều giữa sở thích, thời gian, cự ly và mô tả tự do của bạn để chọn ra điểm đến văn hóa Hà Nội tương thích nhất trong 16 làng nghề.
+            Chỉ với 1 chạm: Nhập ngân sách, thời gian và sở thích để AI tự động vạch lộ trình di chuyển tối ưu, đặt trước chỗ tại workshop và dự toán chi phí minh bạch.
           </p>
         </div>
 
-        {/* QUICK NATURAL LANGUAGE SEARCH / CHAT BAR (Option to skip quiz and describe directly) */}
-        {!results && (
-          <div className="bg-white rounded-3xl p-5 sm:p-6 border-2 border-gold-300 shadow-lg space-y-4">
-            <div className="flex items-center gap-2 text-xs font-bold text-lacquer-900">
-              <MessageSquare className="w-4 h-4 text-terracotta-600" />
-              <span>Hoặc tự mô tả chuyến đi mơ ước của bạn (Chat với AI):</span>
-            </div>
+        {/* Mode Switcher Tabs */}
+        <div className="flex justify-center">
+          <div className="bg-white/90 p-1.5 rounded-2xl border border-terracotta-200/90 shadow-md inline-flex gap-1.5 backdrop-blur-sm">
+            <button
+              type="button"
+              onClick={() => setActiveMode('one-touch-tour')}
+              className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeMode === 'one-touch-tour'
+                  ? 'bg-gradient-to-r from-terracotta-500 to-amber-600 text-white shadow-md'
+                  : 'text-lacquer-800/80 hover:bg-dopaper-100 hover:text-lacquer-950'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 fill-current text-gold-300" />
+              <span>⚡ LẬP TOUR 1-CHẠM (AI TOUR)</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gold-400 text-lacquer-950 font-bold ml-1 hidden sm:inline-block">
+                Mới
+              </span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveMode('quiz-discovery')}
+              className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeMode === 'quiz-discovery'
+                  ? 'bg-gradient-to-r from-terracotta-500 to-amber-600 text-white shadow-md'
+                  : 'text-lacquer-800/80 hover:bg-dopaper-100 hover:text-lacquer-950'
+              }`}
+            >
+              <Compass className="w-4 h-4" />
+              <span>🧭 KHẢO SÁT & TÌM LÀNG NGHỀ</span>
+            </button>
+          </div>
+        </div>
+
+        {activeMode === 'one-touch-tour' ? (
+          <OneTouchTourPlanner />
+        ) : (
+          <div className="space-y-10">
+            {/* QUICK NATURAL LANGUAGE SEARCH / CHAT BAR (Option to skip quiz and describe directly) */}
+            {!results && (
+              <div className="bg-white rounded-3xl p-5 sm:p-6 border-2 border-gold-300 shadow-lg space-y-4">
+                <div className="flex items-center gap-2 text-xs font-bold text-lacquer-900">
+                  <MessageSquare className="w-4 h-4 text-terracotta-600" />
+                  <span>Hoặc tự mô tả chuyến đi mơ ước của bạn (Chat với AI):</span>
+                </div>
 
             <form onSubmit={handleQuickChatSubmit} className="flex flex-col sm:flex-row gap-2">
               <div className="relative flex-1">
@@ -580,6 +619,8 @@ export default function AiRecommendationPage() {
             </div>
           </div>
         )}
+      </div>
+    )}
       </div>
     </div>
   );
