@@ -90,7 +90,7 @@ export default function EcosystemSection() {
                   delay: idx * 0.1,
                   ease: [0.22, 1, 0.36, 1],
                 }}
-                className="card-craft card-sheen bg-white rounded-3xl p-6 border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all flex flex-col justify-between group"
+                className="card-craft card-sheen bg-[#FAF5ED] rounded-3xl p-6 border border-[#d6c4ac] shadow-sm hover:shadow-xl hover:border-[#b89b78] transition-all flex flex-col justify-between group"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-terracotta-100 flex items-center justify-center text-terracotta-600 mb-4 group-hover:scale-110 transition-transform">
@@ -108,7 +108,7 @@ export default function EcosystemSection() {
                   </p>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-terracotta-100 space-y-2">
+                <div className="mt-6 pt-4 border-t border-[#d6c4ac]/60 space-y-2">
                   {p.benefits.map((b, bIdx) => (
                     <div key={bIdx} className="flex items-center gap-2 text-[11px] text-lacquer-800/80">
                       <CheckCircle2 className="w-3 h-3 text-bamboo-600 shrink-0" />

@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { CRAFT_VILLAGES, CraftVillage } from '@/data/craftVillages';
-import { MapPin, ArrowRight, Sparkles, Compass, Eye } from 'lucide-react';
+import { MapPin, ArrowRight, Sparkles, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function FlashCards() {
@@ -23,7 +23,7 @@ export default function FlashCards() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 texture-paper texture-paper--lotus relative overflow-hidden isolate">
+    <section className="py-16 sm:py-24 texture-paper relative overflow-hidden isolate">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />
@@ -38,7 +38,7 @@ export default function FlashCards() {
           className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4"
         >
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-800 text-xs font-semibold mb-2">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100/90 text-terracotta-800 text-xs font-semibold mb-2 border border-terracotta-200">
               <Compass className="w-3.5 h-3.5 text-terracotta-600" />
               <span>Hành Trình Di Sản Thăng Long</span>
             </div>
@@ -74,7 +74,7 @@ export default function FlashCards() {
               className={`btn-elastic px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                 activeCategory === tab.id
                   ? 'bg-lacquer-900 text-white shadow-sm'
-                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200/60'
+                  : 'bg-[#FAF5ED] text-lacquer-800/80 hover:bg-[#F2EAE0] border border-[#d6c4ac]'
               }`}
             >
               {tab.label}
@@ -89,7 +89,7 @@ export default function FlashCards() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-12 bg-white rounded-3xl border border-terracotta-200/90 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 group card-craft"
+            className="mb-12 bg-[#FAF5ED] rounded-3xl border border-[#b89b78]/60 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 group card-craft"
           >
             <div className="lg:col-span-7 relative min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] overflow-hidden bg-dopaper-100 card-sheen">
               <img
@@ -97,11 +97,11 @@ export default function FlashCards() {
                 alt={filteredVillages[0].name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-xs font-bold text-terracotta-800 border border-terracotta-200/60 shadow-sm">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-[#FAF5ED]/95 text-xs font-bold text-terracotta-800 border border-[#d6c4ac] shadow-xs">
                 {filteredVillages[0].category}
               </div>
               <div className="absolute bottom-4 left-4">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lacquer-950/80 backdrop-blur-md text-white text-xs font-medium">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-lacquer-950/85 backdrop-blur-xs text-white text-xs font-medium">
                   <MapPin className="w-3.5 h-3.5 text-gold-400" />
                   <span>{filteredVillages[0].location.district} • {filteredVillages[0].location.distanceFromCenter}</span>
                 </span>
@@ -132,7 +132,7 @@ export default function FlashCards() {
                   {(filteredVillages[0].tags || []).slice(0, 3).map((tag: string, i: number) => (
                     <span
                       key={i}
-                      className="px-2.5 py-1 rounded-lg bg-dopaper-100 text-[11px] font-medium text-lacquer-800 border border-terracotta-200/60"
+                      className="px-2.5 py-1 rounded-lg bg-[#F0E8D7] text-[11px] font-medium text-lacquer-800 border border-[#d6c4ac]"
                     >
                       {tag}
                     </span>
@@ -140,7 +140,7 @@ export default function FlashCards() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-terracotta-100 flex items-center justify-between">
+              <div className="pt-4 border-t border-[#d6c4ac]/60 flex items-center justify-between">
                 <div className="text-xs text-lacquer-800/60 font-medium">
                   Khởi lập: <strong className="text-lacquer-900 font-semibold">{filteredVillages[0].history.originPeriod}</strong>
                 </div>
@@ -169,7 +169,7 @@ export default function FlashCards() {
                 delay: idx * 0.08,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="card-craft card-sheen group bg-white rounded-3xl border border-terracotta-200/90 shadow-xs hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="card-craft card-sheen group bg-[#FAF5ED] rounded-3xl border border-[#d6c4ac] shadow-xs hover:shadow-xl hover:border-[#b89b78] transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
               <div>
                 {/* Photo container with pristine image, zero grey overlay */}
@@ -180,12 +180,12 @@ export default function FlashCards() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-terracotta-700 border border-terracotta-200/60 shadow-xs">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-[#FAF5ED]/95 text-[11px] font-bold text-terracotta-700 border border-[#d6c4ac] shadow-xs">
                     {village.category}
                   </div>
                   {village.gameUrl && (
                     <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-gold-400 text-lacquer-950 text-[10px] font-bold shadow-xs flex items-center gap-1">
-                      <Sparkles className="w-3 h-3" />
+                      <Sparkles className="w-3 3" />
                       <span>Xưởng ảo</span>
                     </div>
                   )}
@@ -193,7 +193,7 @@ export default function FlashCards() {
 
                 {/* Card body with clear metadata */}
                 <div className="p-5 sm:p-6 space-y-3">
-                  <div className="flex items-center justify-between text-[11px] text-lacquer-800/70 pb-1 border-b border-terracotta-100/60">
+                  <div className="flex items-center justify-between text-[11px] text-lacquer-800/70 pb-1 border-b border-[#d6c4ac]/60">
                     <span className="flex items-center gap-1 font-medium text-terracotta-700">
                       <MapPin className="w-3.5 h-3.5 text-terracotta-500 shrink-0" />
                       <span>{village.location.district}</span>
@@ -219,7 +219,7 @@ export default function FlashCards() {
 
               {/* Card Footer */}
               <div className="p-5 sm:p-6 pt-0">
-                <div className="pt-3 border-t border-terracotta-100 flex items-center justify-between">
+                <div className="pt-3 border-t border-[#d6c4ac]/60 flex items-center justify-between">
                   <span className="text-[11px] text-lacquer-800/60 font-medium line-clamp-1 max-w-[55%]">
                     {village.location.distanceFromCenter}
                   </span>

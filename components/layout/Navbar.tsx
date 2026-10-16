@@ -113,15 +113,15 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-cultural-moon bg-cover bg-center border-b border-terracotta-300/80 shadow-md ${
-          isScrolled ? 'py-2 shadow-lg' : 'py-2.5 sm:py-3'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-[#FAF5ED]/95 border-b border-[#b89b78]/60 shadow-sm texture-paper ${
+          isScrolled ? 'py-2 shadow-md' : 'py-2.5 sm:py-3'
         }`}
       >
         <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-4">
           {/* KHỐI 1: LOGO BÊN TRÁI (shrink-0) */}
           <div className="flex items-center shrink-0">
             <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-terracotta-300/80 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FAF5ED] border border-[#b89b78]/70 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
                 <img
                   src="/images/lang-thang-logo.png"
                   alt="Lang Thang — Làng Nghề Hà Nội"
@@ -253,8 +253,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
 
                 {/* Dropdown Menu */}
                 {userDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-2xl border border-terracotta-200 shadow-2xl py-2 z-50 animate-fadeIn text-xs">
-                    <div className="px-4 py-2.5 border-b border-terracotta-100">
+                  <div className="absolute right-0 mt-2 w-64 bg-[#FAF5ED] rounded-2xl border border-[#b89b78]/60 shadow-2xl py-2 z-50 animate-fadeIn text-xs border-antique">
+                    <div className="px-4 py-2.5 border-b border-[#d6c4ac]/60">
                       <span className="font-bold text-lacquer-900 block truncate">{user.name}</span>
                       <span className="text-[11px] text-lacquer-800/60 block truncate">{user.email}</span>
                       <span className="inline-flex items-center gap-1 text-[10px] text-emerald-600 font-semibold mt-1">
@@ -401,7 +401,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                   setMobileMenuOpen(false);
                   setLoginModalOpen(true);
                 }}
-                className="w-full py-2.5 px-4 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 font-bold text-xs flex items-center justify-center gap-2 shadow-sm mb-2"
+                className="w-full py-2.5 px-4 rounded-xl bg-[#FAF5ED] border border-[#d6c4ac] text-lacquer-900 font-bold text-xs flex items-center justify-center gap-2 shadow-sm mb-2"
               >
                 <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
@@ -414,7 +414,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             )}
 
             <div className="px-3 py-2.5 bg-terracotta-50 rounded-2xl border border-terracotta-200/80 mb-2 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full overflow-hidden border border-terracotta-300 bg-white shadow-sm shrink-0">
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-[#b89b78]/60 bg-[#FAF5ED] shadow-sm shrink-0">
                 <img
                   src="/images/lang-thang-logo.png"
                   alt="Lang Thang"

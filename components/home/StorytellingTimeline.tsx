@@ -84,7 +84,7 @@ export default function StorytellingTimeline() {
   ];
 
   return (
-    <section className="py-20 bg-cultural-village bg-cover bg-top border-y border-terracotta-300/80 relative overflow-hidden isolate shadow-inner">
+    <section className="py-20 texture-paper relative overflow-hidden isolate border-y border-[#b89b78]/40">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />
@@ -128,7 +128,7 @@ export default function StorytellingTimeline() {
                 className={`btn-elastic p-3 rounded-2xl border text-center transition-all flex flex-col items-center gap-1.5 ${
                   isSelected
                     ? 'bg-terracotta-500 text-white border-terracotta-500 shadow-md shadow-terracotta-500/30 scale-105'
-                    : 'bg-white text-lacquer-800/80 border-terracotta-200 hover:bg-terracotta-50'
+                    : 'bg-[#FAF5ED] text-lacquer-800/80 border-[#d6c4ac] hover:bg-[#F2EAE0]'
                 }`}
               >
                 <Icon className={`w-5 h-5 ${isSelected ? 'text-white' : 'text-terracotta-600'}`} />
@@ -139,7 +139,7 @@ export default function StorytellingTimeline() {
         </motion.div>
 
         {/* Active Step Showcase Card with AnimatePresence */}
-        <div className="bg-white rounded-3xl border border-terracotta-300/80 shadow-xl overflow-hidden card-craft">
+        <div className="bg-[#FAF5ED] rounded-3xl border border-[#b89b78]/60 shadow-xl overflow-hidden card-craft">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeStep}

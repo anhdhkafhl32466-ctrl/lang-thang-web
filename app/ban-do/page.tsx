@@ -240,7 +240,7 @@ export default function CraftMapPage() {
                 <button
                   type="button"
                   onClick={() => mapRef.current?.centerOnUser?.()}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-terracotta-200 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-400 transition-all"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-[#FAF5ED] border border-[#b89b78]/60 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-500 transition-all"
                 >
                   <Crosshair className="w-3.5 h-3.5 text-blue-600" />
                   <span>
@@ -253,7 +253,7 @@ export default function CraftMapPage() {
                 <button
                   type="button"
                   onClick={() => mapRef.current?.fitRoute?.()}
-                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-white/95 backdrop-blur-md border border-terracotta-200 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-400 transition-all"
+                  className="inline-flex items-center gap-2 px-3 py-2 rounded-2xl bg-[#FAF5ED] border border-[#b89b78]/60 text-lacquer-900 text-[11px] font-bold shadow-md hover:border-terracotta-500 transition-all"
                 >
                   <LocateFixed className="w-3.5 h-3.5 text-terracotta-600" />
                   <span>Xem toàn bộ tuyến đường</span>

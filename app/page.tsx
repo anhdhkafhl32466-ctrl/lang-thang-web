@@ -22,7 +22,7 @@ export default function HomePage() {
       <StorytellingTimeline />
 
       {/* 4. Interactive Map Teaser Section */}
-      <section className="py-20 texture-paper texture-paper--river relative overflow-hidden isolate">
+      <section className="py-20 texture-paper relative overflow-hidden isolate">
         {/* Seamless Section Top & Bottom Gradient Blends */}
         <div className="section-blend-top" />
         <div className="section-blend-bottom" />
@@ -33,11 +33,11 @@ export default function HomePage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-            className="card-craft bg-white rounded-3xl border border-terracotta-200/90 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12"
+            className="card-craft bg-[#FAF5ED] rounded-3xl border border-[#b89b78]/60 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12 border-antique"
           >
             <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-6">
               <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-3">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-3 border border-terracotta-200">
                   <Map className="w-3.5 h-3.5" />
                   <span>Bản Đồ Số Làng Nghề Hà Nội</span>
                 </div>
@@ -77,10 +77,10 @@ export default function HomePage() {
                 alt="Bản đồ làng nghề Hà Nội"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-white/30 via-transparent to-black/20" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF5ED]/30 via-transparent to-black/20" />
               
               {/* Floating village preview pin */}
-              <div className="absolute top-1/3 left-1/3 p-3 rounded-2xl bg-white/95 backdrop-blur-md shadow-2xl border border-terracotta-300 max-w-[200px] animate-float">
+              <div className="absolute top-1/3 left-1/3 p-3 rounded-2xl bg-[#FAF5ED] shadow-xl border border-[#b89b78]/60 max-w-[200px] animate-float">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">🏺</span>
                   <div>
@@ -90,7 +90,7 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="absolute bottom-8 right-8 p-3 rounded-2xl bg-white/95 backdrop-blur-md shadow-2xl border border-terracotta-300 max-w-[200px] animate-float [animation-delay:1.5s]">
+              <div className="absolute bottom-8 right-8 p-3 rounded-2xl bg-[#FAF5ED] shadow-xl border border-[#b89b78]/60 max-w-[200px] animate-float [animation-delay:1.5s]">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">👒</span>
                   <div>
@@ -105,7 +105,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Mini-game Experience Callout */}
-      <section className="py-20 texture-paper texture-paper--bamboo relative overflow-hidden isolate">
+      <section className="py-20 texture-paper relative overflow-hidden isolate">
         {/* Seamless Section Top & Bottom Gradient Blends */}
         <div className="section-blend-top" />
         <div className="section-blend-bottom" />
@@ -118,7 +118,7 @@ export default function HomePage() {
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="text-center max-w-2xl mx-auto mb-12"
           >
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold mb-2 border border-gold-400/40">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/25 text-lacquer-950 text-xs font-bold mb-2 border border-gold-400/40">
               <Sparkles className="w-3.5 h-3.5 text-gold-600" />
               <span>Workshop Ảo 2D & Canvas</span>
             </div>
@@ -137,7 +137,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="card-craft card-sheen bg-white rounded-3xl p-6 border-2 border-terracotta-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group"
+              className="card-craft card-sheen bg-[#FAF5ED] rounded-3xl p-6 border-2 border-[#b89b78]/70 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group border-antique"
             >
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
@@ -158,7 +158,7 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-terracotta-100 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-[#d6c4ac]/60 flex items-center justify-between">
                 <span className="text-xs text-gold-600 font-semibold flex items-center gap-1">
                   <Award className="w-4 h-4" /> Mở khóa huy hiệu nghệ nhân
                 </span>
@@ -177,7 +177,7 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-              className="card-craft card-sheen bg-white rounded-3xl p-6 border-2 border-gold-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group"
+              className="card-craft card-sheen bg-[#FAF5ED] rounded-3xl p-6 border-2 border-[#b89b78]/70 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group border-antique"
             >
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
@@ -198,7 +198,7 @@ export default function HomePage() {
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-gold-100 flex items-center justify-between">
+              <div className="mt-6 pt-4 border-t border-[#d6c4ac]/60 flex items-center justify-between">
                 <span className="text-xs text-gold-600 font-semibold flex items-center gap-1">
                   <Award className="w-4 h-4" /> Nhận huy hiệu thợ nón xứ Đoài
                 </span>
@@ -218,38 +218,43 @@ export default function HomePage() {
       <EcosystemSection />
 
       {/* 7. CTA: AI Recommendation Callout */}
-      <section className="py-16 bg-cultural-river bg-cover bg-center text-white relative overflow-hidden isolate shadow-2xl">
-        {/* Seamless Section Top Gradient Blend */}
+      <section className="py-20 texture-paper relative overflow-hidden isolate">
         <div className="section-blend-top" />
-        <div className="absolute inset-0 bg-lacquer-950/40 pointer-events-none" />
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.98, y: 16 }}
+            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative rounded-3xl p-8 sm:p-14 text-center space-y-6 overflow-hidden shadow-2xl bg-gradient-to-br from-[#1F1610] via-[#2A1D15] to-[#1a120d] border-2 border-[#b89b78]/60 border-antique-double text-white"
+          >
+            {/* Elegant SVG corner accents */}
+            <div className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-gold-400/50 pointer-events-none" />
+            <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-gold-400/50 pointer-events-none" />
+            <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-gold-400/50 pointer-events-none" />
+            <div className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-gold-400/50 pointer-events-none" />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98, y: 16 }}
-          whileInView={{ opacity: 1, scale: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-xs">
-            <Sparkles className="w-3.5 h-3.5 text-gold-300" />
-            <span>AI Đề Xuất Cá Nhân Hóa</span>
-          </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-bold">
-            Chưa biết cuối tuần này nên đi làng nghề nào?
-          </h2>
-          <p className="text-sm sm:text-base text-dopaper-100/90 max-w-2xl mx-auto leading-relaxed">
-            Chỉ với 4 câu hỏi trắc nghiệm nhanh về sở thích, ngân sách và đối tượng đi cùng, thuật toán AI sẽ chọn ra làng nghề phù hợp nhất và lên lịch trình hoàn chỉnh cho bạn!
-          </p>
-          <div className="pt-2">
-            <Link
-              href="/ai-goi-y"
-              className="btn-elastic inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
-            >
-              <span>Tìm làng nghề dành riêng cho bạn</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </motion.div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/20 text-gold-300 text-xs font-semibold border border-gold-400/30">
+              <Sparkles className="w-3.5 h-3.5 text-gold-400" />
+              <span>AI Đề Xuất Cá Nhân Hóa</span>
+            </div>
+            <h2 className="font-serif text-3xl sm:text-4xl font-bold text-white tracking-tight">
+              Chưa biết cuối tuần này nên đi làng nghề nào?
+            </h2>
+            <p className="text-sm sm:text-base text-dopaper-100/85 max-w-2xl mx-auto leading-relaxed">
+              Chỉ với 4 câu hỏi trắc nghiệm nhanh về sở thích, ngân sách và đối tượng đi cùng, thuật toán AI sẽ chọn ra làng nghề phù hợp nhất và lên lịch trình hoàn chỉnh cho bạn!
+            </p>
+            <div className="pt-2">
+              <Link
+                href="/ai-goi-y"
+                className="btn-elastic inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
+              >
+                <span>Tìm làng nghề dành riêng cho bạn</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </motion.div>
+        </div>
       </section>
     </div>
   );

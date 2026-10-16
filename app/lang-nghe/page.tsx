@@ -162,7 +162,7 @@ export default function CraftVillagesDirectoryPage() {
 
         {/* Quick Stats Metric Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Làng có nghề</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-terracotta-600">1.350</span>
@@ -170,7 +170,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Làng nghề công nhận</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-lacquer-900">327</span>
@@ -178,7 +178,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Nghề truyền thống</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-emerald-600">59</span>
@@ -186,7 +186,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Quận/Huyện có nghề</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-blue-600">24/30</span>
@@ -194,7 +194,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Di sản Quốc Gia</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-gold-600">8</span>
@@ -202,7 +202,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
             </div>
 
-            <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
+            <div className="bg-[#FAF5ED] p-3.5 rounded-2xl border border-[#d6c4ac] shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Nghề thủ công hội tụ</span>
               <div className="flex items-baseline gap-1 mt-1">
                 <span className="font-serif text-2xl font-black text-purple-600">47/52</span>
@@ -213,14 +213,14 @@ export default function CraftVillagesDirectoryPage() {
         </div>
 
         {/* Tab Navigation Controls */}
-        <div className="flex items-center justify-between gap-2 border-b border-terracotta-200 pb-2 overflow-x-auto no-scrollbar">
+        <div className="flex items-center justify-between gap-2 border-b border-[#d6c4ac] pb-2 overflow-x-auto no-scrollbar">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setActiveTab('map')}
               className={`px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
                 activeTab === 'map'
                   ? 'bg-terracotta-500 text-white shadow-md shadow-terracotta-500/20'
-                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200'
+                  : 'bg-[#FAF5ED] text-lacquer-800/80 hover:bg-[#F2EAE0] border border-[#d6c4ac]'
               }`}
             >
               <Map className="w-4 h-4" />
@@ -235,7 +235,7 @@ export default function CraftVillagesDirectoryPage() {
               className={`px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
                 activeTab === 'directory'
                   ? 'bg-terracotta-500 text-white shadow-md shadow-terracotta-500/20'
-                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200'
+                  : 'bg-[#FAF5ED] text-lacquer-800/80 hover:bg-[#F2EAE0] border border-[#d6c4ac]'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -250,7 +250,7 @@ export default function CraftVillagesDirectoryPage() {
               className={`px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
                 activeTab === 'featured'
                   ? 'bg-terracotta-500 text-white shadow-md shadow-terracotta-500/20'
-                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200'
+                  : 'bg-[#FAF5ED] text-lacquer-800/80 hover:bg-[#F2EAE0] border border-[#d6c4ac]'
               }`}
             >
               <LayoutGrid className="w-4 h-4" />
@@ -263,7 +263,7 @@ export default function CraftVillagesDirectoryPage() {
         {activeTab === 'map' && (
           <div className="space-y-6">
             {/* Search & Category Filter Controls */}
-            <div className="bg-white rounded-3xl p-4 sm:p-5 border border-terracotta-200 shadow-sm space-y-3">
+            <div className="bg-[#FAF5ED] rounded-3xl p-4 sm:p-5 border border-[#b89b78]/60 shadow-sm space-y-3">
               <div className="relative">
                 <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-lacquer-800/40" />
                 <input

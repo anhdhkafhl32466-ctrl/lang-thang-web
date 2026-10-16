@@ -50,8 +50,14 @@
      <div className="texture-paper texture-paper--village">            nền trang
      <section className="texture-paper texture-paper--lotus
                          texture-paper--medium texture-paper--tint-100">
-/* --- A. Họa tiết trang trí văn hóa trực tiếp (100% độ nét, không phủ mờ) --- */
+/* --- A. Họa tiết trang trí văn hóa tự nhiên (không phóng to kéo giãn, giữ đúng tỷ lệ sắc nét) --- */
 [class*='bg-cultural-'] {
+  background-size: 100% auto;
+  background-position: center top;
+  background-repeat: repeat-y;
+}
+
+.bg-cultural-cover {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -68,34 +74,26 @@
 .bg-cultural-river    { background-image: var(--bg-misty-river); }
 .bg-cultural-plum     { background-image: var(--bg-plum-blossom); }
 
-/* --- B. Nền giấy cổ trang hiển thị trực tiếp 100% (cố định trong từng section, không bị tràn khi cuộn) --- */
+/* --- B. Nền giấy Dó cổ trang nguyên bản bằng CSS Gradient + SVG Noise (sắc nét 100%, không vỡ hạt) --- */
 .texture-paper {
-  background-image: var(--paper-image, var(--bg-heritage-village));
-  background-size: cover;
-  background-position: var(--paper-position, center);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-color: #F5EFE6;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.4) 0%, transparent 75%),
+    linear-gradient(180deg, #F7F2E7 0%, #EFE5D4 50%, #F5EFE6 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto, 100% 100%, 180px 180px;
 }
-
-/* B1. Hình nền theo từng họa tiết */
-.texture-paper--village { --paper-image: var(--bg-heritage-village); --paper-position: center top; }
-.texture-paper--moon    { --paper-image: var(--bg-tranquil-moon); --paper-position: right top; }
-.texture-paper--silk    { --paper-image: var(--bg-silk-loom); --paper-position: left center; }
-.texture-paper--lotus   { --paper-image: var(--bg-lotus-pond); --paper-position: right center; }
-.texture-paper--pottery { --paper-image: var(--bg-terracotta-pottery); --paper-position: left center; }
-.texture-paper--bamboo  { --paper-image: var(--bg-bamboo-pavilion); --paper-position: left top; }
-.texture-paper--lantern { --paper-image: var(--bg-lantern-lacquer); --paper-position: left top; }
-.texture-paper--brocade { --paper-image: var(--bg-brocade-curve); --paper-position: right bottom; }
-.texture-paper--river   { --paper-image: var(--bg-misty-river); --paper-position: left bottom; }
-.texture-paper--plum    { --paper-image: var(--bg-plum-blossom); --paper-position: right top; }
 
 /* Nền giấy dó trơn thanh nhã tạo khoảng thở giữa các section */
 .texture-paper--calm {
-  background-image: none;
-  background-color: #F8F3E8;
+  background-image: 
+    linear-gradient(180deg, #F7F2E7 0%, #EFE5D4 50%, #F5EFE6 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.025'/%3E%3C/svg%3E");
+  background-color: #F5EFE6;
 }
 
-/* B2. Seamless Section Blending & Isolation (Nhiệm vụ 1) */
+/* B2. Seamless Section Blending & Isolation */
 .section-isolated {
   position: relative;
   overflow: hidden;
@@ -107,8 +105,8 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
-  background: linear-gradient(to bottom, #F8F3E8 0%, rgba(248, 243, 232, 0) 100%);
+  height: 56px;
+  background: linear-gradient(to bottom, #F5EFE6 0%, rgba(245, 239, 230, 0) 100%);
   pointer-events: none;
   z-index: 5;
 }
@@ -118,20 +116,33 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 64px;
-  background: linear-gradient(to top, #F8F3E8 0%, rgba(248, 243, 232, 0) 100%);
+  height: 56px;
+  background: linear-gradient(to top, #F5EFE6 0%, rgba(245, 239, 230, 0) 100%);
   pointer-events: none;
   z-index: 5;
 }
 
-/* Đường chỉ viền họa tiết cổ điển mảnh giữa các section */
+/* Đường chỉ viền & khung cổ trang mảnh vẽ bằng CSS (sắc nét 100%) */
 .section-divider-traditional {
   position: relative;
   height: 1px;
-  background: linear-gradient(90deg, transparent 0%, rgba(200, 90, 50, 0.25) 20%, rgba(212, 163, 68, 0.4) 50%, rgba(200, 90, 50, 0.25) 80%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(184, 155, 120, 0.4) 20%, rgba(212, 163, 68, 0.5) 50%, rgba(184, 155, 120, 0.4) 80%, transparent 100%);
 }
 
-/* B3. Micro-interactions & Card Sheen Effects (Nhiệm vụ 2) */
+.border-antique {
+  border: 1px solid rgba(184, 155, 120, 0.6);
+}
+
+.border-antique-double {
+  border: 1px solid rgba(184, 155, 120, 0.65);
+  box-shadow: inset 0 0 0 3px #FAF5ED, inset 0 0 0 4px rgba(184, 155, 120, 0.35);
+}
+
+.bg-paper-card {
+  background-color: #FAF5ED;
+}
+
+/* B3. Micro-interactions & Card Sheen Effects */
 .card-sheen {
   position: relative;
   overflow: hidden;
@@ -147,7 +158,7 @@
   background: linear-gradient(
     60deg,
     transparent 35%,
-    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.3) 50%,
     transparent 65%
   );
   transform: translateX(-100%) rotate(25deg);
@@ -167,9 +178,9 @@
 }
 
 .card-craft:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 30px -8px rgba(200, 90, 50, 0.16), 0 6px 12px -4px rgba(0, 0, 0, 0.05);
-  border-color: #DC9679;
+  transform: translateY(-5px);
+  box-shadow: 0 16px 30px -8px rgba(184, 155, 120, 0.25), 0 6px 12px -4px rgba(0, 0, 0, 0.04);
+  border-color: #b89b78;
 }
 
 .btn-elastic {
@@ -179,17 +190,18 @@
 }
 
 .btn-elastic:active {
-  transform: scale(0.95);
+  transform: scale(0.96);
 }
 
-body {
+body, main {
   color: var(--foreground);
-  background-color: #F8F3E8;
-  background-image: var(--bg-heritage-village);
-  background-size: cover;
-  background-position: center top;
-  background-attachment: scroll;
-  background-repeat: no-repeat;
+  background-color: #F5EFE6;
+  background-image: 
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.45) 0%, transparent 75%),
+    linear-gradient(180deg, #F7F2E7 0%, #EFE5D4 50%, #F5EFE6 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: auto, 100% 100%, 180px 180px;
   font-family: var(--font-sans), 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }

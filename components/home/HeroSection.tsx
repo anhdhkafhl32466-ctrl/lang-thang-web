@@ -7,13 +7,13 @@ import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-4 pb-14 lg:pt-6 lg:pb-18 texture-paper texture-paper--plum isolate">
+    <section className="relative overflow-hidden pt-4 pb-14 lg:pt-6 lg:pb-18 texture-paper isolate">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />
 
       {/* Subtle traditional motif background dot pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#b89b78_1px,transparent_1px)] [background-size:24px_24px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         {/* Editorial Cultural Masthead Note above Banner */}
@@ -21,7 +21,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="flex flex-wrap items-center justify-between gap-3 pt-1 border-b border-terracotta-200/50 pb-3"
+          className="flex flex-wrap items-center justify-between gap-3 pt-1 border-b border-[#b89b78]/40 pb-3"
         >
           <div className="inline-flex items-center gap-2.5 text-xs text-lacquer-800/80 font-medium">
             <span className="w-2 h-2 rounded-full bg-terracotta-500 animate-pulse" />
@@ -29,7 +29,7 @@ export default function HeroSection() {
             <span className="text-terracotta-300">•</span>
             <span className="tracking-wide">Số hóa không gian văn hóa &amp; Làng nghề truyền thống Thăng Long</span>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/15 text-gold-900 text-xs font-semibold border border-gold-400/30 shadow-xs">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/15 text-gold-900 text-xs font-semibold border border-gold-400/40 shadow-xs">
             <Award className="w-3.5 h-3.5 text-gold-600" />
             <span>327 Làng nghề được công nhận</span>
           </div>
@@ -40,19 +40,25 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.98, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-2xl border-2 border-terracotta-300/80 bg-white group card-craft"
+          className="relative max-w-5xl mx-auto rounded-3xl overflow-hidden shadow-xl border-2 border-[#b89b78]/70 bg-[#F4ECE0]/85 group card-craft border-antique-double"
         >
+          {/* Crisp traditional vector corner brackets */}
+          <div className="absolute top-3 left-3 w-5 h-5 border-t-2 border-l-2 border-[#b89b78] pointer-events-none z-20" />
+          <div className="absolute top-3 right-3 w-5 h-5 border-t-2 border-r-2 border-[#b89b78] pointer-events-none z-20" />
+          <div className="absolute bottom-3 left-3 w-5 h-5 border-b-2 border-l-2 border-[#b89b78] pointer-events-none z-20" />
+          <div className="absolute bottom-3 right-3 w-5 h-5 border-b-2 border-r-2 border-[#b89b78] pointer-events-none z-20" />
+
           {/* Main Illustration Image - Native 16:9 Aspect Ratio with Zero Cropping */}
-          <div className="relative w-full aspect-[16/9] overflow-hidden bg-dopaper-200">
+          <div className="relative w-full aspect-[16/9] overflow-hidden bg-transparent">
             <img
               src="/images/lang-thang-banner.png"
               alt="Lang Thang — Làng Nghề Hà Nội"
-              className="w-full h-full object-contain object-center transition-transform duration-700 group-hover:scale-[1.01]"
+              className="w-full h-full object-contain object-center mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.01]"
             />
 
             {/* MINIMALIST POETIC SLOGAN BADGE (Tucked in bottom-right corner, non-intrusive) */}
             <div className="absolute bottom-3 right-3 sm:bottom-4 sm:right-5 z-20 pointer-events-auto max-w-xs sm:max-w-sm">
-              <div className="bg-black/55 hover:bg-black/65 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-2xl border border-white/25 shadow-xl text-right transition-all animate-float">
+              <div className="bg-[#1F1610]/85 hover:bg-[#1F1610]/95 px-3 py-1.5 sm:px-4 sm:py-2.5 rounded-2xl border border-[#b89b78]/60 shadow-xl text-right transition-all animate-float">
                 <p className="font-serif text-[11px] sm:text-xs md:text-sm font-bold text-white tracking-wide leading-snug drop-shadow">
                   “Lang Thang ghé một ngôi làng
                   <br />
@@ -82,14 +88,14 @@ export default function HeroSection() {
             </Link>
             <Link
               href="/ban-do"
-              className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-terracotta-50 text-lacquer-900 text-xs sm:text-sm font-bold border border-terracotta-200 shadow-sm transition-all"
+              className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#FAF5ED] hover:bg-[#F2EAE0] text-lacquer-900 text-xs sm:text-sm font-bold border border-[#d6c4ac] shadow-sm transition-all"
             >
               <Map className="w-4 h-4 text-terracotta-600" />
               <span>Bản đồ ranh giới</span>
             </Link>
             <Link
               href="/cua-hang"
-              className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-white hover:bg-dopaper-100 text-lacquer-900 text-xs sm:text-sm font-bold border border-terracotta-200 shadow-sm transition-all"
+              className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#FAF5ED] hover:bg-[#F2EAE0] text-lacquer-900 text-xs sm:text-sm font-bold border border-[#d6c4ac] shadow-sm transition-all"
             >
               <Heart className="w-4 h-4 text-terracotta-600" />
               <span>Chợ di sản &amp; Xưởng nghề</span>
@@ -115,7 +121,7 @@ export default function HeroSection() {
           >
             <Link
               href="/lang-nghe"
-              className="card-craft card-sheen bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all group flex flex-col justify-between h-full"
+              className="card-craft card-sheen bg-[#FAF5ED] p-6 rounded-3xl border border-[#d6c4ac] shadow-xs hover:shadow-lg hover:border-[#b89b78] transition-all group flex flex-col justify-between h-full"
             >
               <div className="space-y-2">
                 <div className="w-10 h-10 rounded-2xl bg-terracotta-100 flex items-center justify-center text-terracotta-600 group-hover:scale-110 transition-transform">
@@ -128,7 +134,7 @@ export default function HeroSection() {
                   Rê chuột khám phá 16 vùng ranh giới địa lý tiêu biểu và hệ thống dữ liệu 327 làng nghề được công nhận trên khắp 24 quận, huyện.
                 </p>
               </div>
-              <div className="pt-4 mt-2 border-t border-terracotta-100 flex items-center justify-between text-xs font-bold text-terracotta-600">
+              <div className="pt-4 mt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between text-xs font-bold text-terracotta-600">
                 <span>Mở bản đồ phân vùng</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -144,7 +150,7 @@ export default function HeroSection() {
           >
             <Link
               href="/trai-nghiem"
-              className="card-craft card-sheen bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-gold-400 transition-all group flex flex-col justify-between h-full"
+              className="card-craft card-sheen bg-[#FAF5ED] p-6 rounded-3xl border border-[#d6c4ac] shadow-xs hover:shadow-lg hover:border-gold-500 transition-all group flex flex-col justify-between h-full"
             >
               <div className="space-y-2">
                 <div className="w-10 h-10 rounded-2xl bg-gold-100 flex items-center justify-center text-gold-700 group-hover:scale-110 transition-transform">
@@ -157,7 +163,7 @@ export default function HeroSection() {
                   Tự tay nắn vuốt bình gốm Bát Tràng, đan vành nón Chuông ngay trên màn hình và nhận mộc Hộ chiếu làng nghề độc bản.
                 </p>
               </div>
-              <div className="pt-4 mt-2 border-t border-gold-100 flex items-center justify-between text-xs font-bold text-gold-700">
+              <div className="pt-4 mt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between text-xs font-bold text-gold-700">
                 <span>Vào xưởng trải nghiệm</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -173,7 +179,7 @@ export default function HeroSection() {
           >
             <Link
               href="/cua-hang"
-              className="card-craft card-sheen bg-white p-6 rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl hover:border-emerald-400 transition-all group flex flex-col justify-between h-full"
+              className="card-craft card-sheen bg-[#FAF5ED] p-6 rounded-3xl border border-[#d6c4ac] shadow-xs hover:shadow-lg hover:border-emerald-500 transition-all group flex flex-col justify-between h-full"
             >
               <div className="space-y-2">
                 <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700 group-hover:scale-110 transition-transform">
@@ -186,7 +192,7 @@ export default function HeroSection() {
                   Ủng hộ trực tiếp các xưởng nghề: gốm men rạn Bát Tràng, lụa Vạn Phúc, hương thảo mộc Quảng Phú Cầu và mây tre Phú Vinh.
                 </p>
               </div>
-              <div className="pt-4 mt-2 border-t border-emerald-100 flex items-center justify-between text-xs font-bold text-emerald-700">
+              <div className="pt-4 mt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between text-xs font-bold text-emerald-700">
                 <span>Khám phá các xưởng nghề</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
@@ -200,7 +206,7 @@ export default function HeroSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-          className="card-craft bg-cultural-moon bg-cover bg-center rounded-2xl p-4 border-2 border-terracotta-300 shadow-md grid grid-cols-2 sm:grid-cols-4 gap-4 text-center"
+          className="card-craft bg-[#FAF5ED] border border-[#b89b78]/60 rounded-2xl p-4 shadow-sm border-antique grid grid-cols-2 sm:grid-cols-4 gap-4 text-center"
         >
           <div>
             <span className="font-serif text-2xl font-black text-terracotta-600">1.350+</span>
