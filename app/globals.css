@@ -68,22 +68,13 @@
 .bg-cultural-river    { background-image: var(--bg-misty-river); }
 .bg-cultural-plum     { background-image: var(--bg-plum-blossom); }
 
-/* --- B. Nền giấy cổ trang hiển thị trực tiếp 100% --- */
+/* --- B. Nền giấy cổ trang hiển thị trực tiếp 100% (cố định trong từng section, không bị tràn khi cuộn) --- */
 .texture-paper {
   background-image: var(--paper-image, var(--bg-heritage-village));
   background-size: cover;
   background-position: var(--paper-position, center);
   background-repeat: no-repeat;
-  background-attachment: fixed;
-}
-
-/* Thiết bị cảm ứng */
-@media (hover: none) and (pointer: coarse) {
-  .texture-paper {
-    background-attachment: scroll;
-    background-size: 100% auto;
-    background-repeat: repeat-y;
-  }
+  background-attachment: scroll;
 }
 
 /* B1. Hình nền theo từng họa tiết */
@@ -98,13 +89,106 @@
 .texture-paper--river   { --paper-image: var(--bg-misty-river); --paper-position: left bottom; }
 .texture-paper--plum    { --paper-image: var(--bg-plum-blossom); --paper-position: right top; }
 
+/* Nền giấy dó trơn thanh nhã tạo khoảng thở giữa các section */
+.texture-paper--calm {
+  background-image: none;
+  background-color: #F8F3E8;
+}
+
+/* B2. Seamless Section Blending & Isolation (Nhiệm vụ 1) */
+.section-isolated {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.section-blend-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(to bottom, #F8F3E8 0%, rgba(248, 243, 232, 0) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.section-blend-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: linear-gradient(to top, #F8F3E8 0%, rgba(248, 243, 232, 0) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Đường chỉ viền họa tiết cổ điển mảnh giữa các section */
+.section-divider-traditional {
+  position: relative;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(200, 90, 50, 0.25) 20%, rgba(212, 163, 68, 0.4) 50%, rgba(200, 90, 50, 0.25) 80%, transparent 100%);
+}
+
+/* B3. Micro-interactions & Card Sheen Effects (Nhiệm vụ 2) */
+.card-sheen {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-sheen::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 65%
+  );
+  transform: translateX(-100%) rotate(25deg);
+  transition: transform 0.75s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 20;
+}
+
+.card-sheen:hover::after {
+  transform: translateX(100%) rotate(25deg);
+}
+
+.card-craft {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.35s ease;
+}
+
+.card-craft:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 30px -8px rgba(200, 90, 50, 0.16), 0 6px 12px -4px rgba(0, 0, 0, 0.05);
+  border-color: #DC9679;
+}
+
+.btn-elastic {
+  transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.2s ease,
+              background-color 0.2s ease;
+}
+
+.btn-elastic:active {
+  transform: scale(0.95);
+}
+
 body {
   color: var(--foreground);
   background-color: #F8F3E8;
   background-image: var(--bg-heritage-village);
   background-size: cover;
   background-position: center top;
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-repeat: no-repeat;
   font-family: var(--font-sans), 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;

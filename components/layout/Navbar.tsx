@@ -14,6 +14,7 @@ import { ADMIN_ORDERS_PATH } from '@/lib/client/authRedirect';
 import { useCart } from '@/lib/client/cart';
 import GoogleLoginModal from '@/components/auth/GoogleLoginModal';
 import NotificationBell from '@/components/orders/NotificationBell';
+import { motion } from 'framer-motion';
 
 interface NavbarProps {
   onOpenPassport?: () => void;
@@ -146,16 +147,27 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-[13px] 2xl:text-sm font-semibold transition-all flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg whitespace-nowrap shrink-0 ${
+                  className={`relative text-[13px] 2xl:text-sm font-semibold transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 ${
                     active
-                      ? 'text-terracotta-700 bg-terracotta-100/80 font-bold'
+                      ? 'text-terracotta-900 font-bold'
                       : link.isSpecial
-                      ? 'text-gold-800 hover:text-gold-900 px-3 py-1.5 rounded-full bg-gold-400/20 border border-gold-400/40 hover:bg-gold-400/30'
-                      : 'text-lacquer-800/80 hover:text-terracotta-600 hover:bg-terracotta-50/80'
+                      ? 'text-gold-900 hover:text-gold-950 px-3 py-1.5 rounded-full bg-gold-400/20 border border-gold-400/40 hover:bg-gold-400/30'
+                      : 'text-lacquer-800/80 hover:text-terracotta-600 hover:bg-terracotta-50/60'
                   }`}
                 >
+                  {active && (
+                    <motion.div
+                      layoutId="activeTabPill"
+                      className="absolute inset-0 bg-terracotta-100/90 border border-terracotta-300/90 rounded-lg shadow-xs -z-10"
+                      transition={{
+                        type: 'spring',
+                        stiffness: 420,
+                        damping: 32,
+                      }}
+                    />
+                  )}
                   {link.isSpecial && <Sparkles className="w-3.5 h-3.5 text-gold-600 shrink-0" />}
-                  <span className="whitespace-nowrap shrink-0">{link.label}</span>
+                  <span className="relative z-10 whitespace-nowrap shrink-0">{link.label}</span>
                 </Link>
               );
             })}

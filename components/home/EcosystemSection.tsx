@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Compass, Sparkles, Users, ShoppingCart, ArrowRight, CheckCircle2, TrendingUp } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function EcosystemSection() {
   const pillars = [
@@ -45,10 +46,23 @@ export default function EcosystemSection() {
   ];
 
   return (
-    <section className="py-20 texture-paper texture-paper--brocade relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 texture-paper texture-paper--calm relative overflow-hidden isolate">
+      {/* Seamless Section Top & Bottom Gradient Blends */}
+      <div className="section-blend-top" />
+      <div className="section-blend-bottom" />
+
+      {/* Traditional divider motif line */}
+      <div className="section-divider-traditional max-w-5xl mx-auto mb-16" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-bamboo-50 border border-bamboo-200 text-bamboo-700 text-xs font-semibold mb-3">
             <TrendingUp className="w-3.5 h-3.5" />
             <span>Mô Hình Khởi Nghiệp Di Sản</span>
@@ -59,16 +73,24 @@ export default function EcosystemSection() {
           <p className="text-sm sm:text-base text-lacquer-800/70 mt-2">
             Không chỉ là website đọc thông tin, Làng Nghề Hà Nội là giải pháp toàn diện đưa di sản truyền thống hòa nhập vào nền kinh tế số đương đại.
           </p>
-        </div>
+        </motion.div>
 
-        {/* 4 Pillars Grid */}
+        {/* 4 Pillars Grid with Staggered Scroll Reveal */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          {pillars.map((p) => {
+          {pillars.map((p, idx) => {
             const Icon = p.icon;
             return (
-              <div
+              <motion.div
                 key={p.id}
-                className="bg-white rounded-3xl p-6 border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all flex flex-col justify-between group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: idx * 0.1,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="card-craft card-sheen bg-white rounded-3xl p-6 border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all flex flex-col justify-between group"
               >
                 <div>
                   <div className="w-12 h-12 rounded-2xl bg-terracotta-100 flex items-center justify-center text-terracotta-600 mb-4 group-hover:scale-110 transition-transform">
@@ -87,20 +109,26 @@ export default function EcosystemSection() {
                 </div>
 
                 <div className="mt-6 pt-4 border-t border-terracotta-100 space-y-2">
-                  {p.benefits.map((b, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-[11px] text-lacquer-800/80">
+                  {p.benefits.map((b, bIdx) => (
+                    <div key={bIdx} className="flex items-center gap-2 text-[11px] text-lacquer-800/80">
                       <CheckCircle2 className="w-3 h-3 text-bamboo-600 shrink-0" />
                       <span>{b}</span>
                     </div>
                   ))}
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Startup Flow Infographic */}
-        <div className="bg-gradient-to-br from-lacquer-900 to-lacquer-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 16 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="bg-gradient-to-br from-lacquer-900 to-lacquer-950 rounded-3xl p-8 sm:p-12 text-white shadow-2xl relative overflow-hidden"
+        >
           <div className="max-w-3xl">
             <span className="text-xs text-gold-400 font-semibold tracking-wider uppercase">
               User Journey & Startup Flywheel
@@ -115,19 +143,19 @@ export default function EcosystemSection() {
             <div className="mt-8 flex flex-wrap items-center gap-4">
               <Link
                 href="/ai-goi-y"
-                className="px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-600 text-lacquer-950 font-bold text-xs sm:text-sm shadow-lg transition-all"
+                className="btn-elastic px-6 py-3 rounded-xl bg-gold-500 hover:bg-gold-600 text-lacquer-950 font-bold text-xs sm:text-sm shadow-lg transition-all"
               >
                 Trắc nghiệm AI: Tìm làng nghề của bạn
               </Link>
               <Link
-                href="/chia-se-lang-nghe"
-                className="px-6 py-3 rounded-xl bg-white/15 hover:bg-white/25 text-white font-semibold text-xs sm:text-sm border border-white/25 transition-all"
+                href="/ban-do"
+                className="btn-elastic px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm border border-white/20 transition-all"
               >
-                Dành cho nghệ nhân: Đóng góp làng nghề
+                Xem bản đồ quy hoạch làng nghề
               </Link>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

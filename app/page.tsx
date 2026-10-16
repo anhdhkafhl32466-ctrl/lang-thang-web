@@ -1,28 +1,40 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import HeroSection from '@/components/home/HeroSection';
 import FlashCards from '@/components/home/FlashCards';
 import StorytellingTimeline from '@/components/home/StorytellingTimeline';
 import EcosystemSection from '@/components/home/EcosystemSection';
-import { Map, Sparkles, ArrowRight, Award, Compass, Heart, ShieldCheck } from 'lucide-react';
-import { CRAFT_VILLAGES } from '@/data/craftVillages';
+import { Map, Sparkles, ArrowRight, Award, Compass, Heart } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   return (
-    <div className="space-y-0">
-      {/* 1. Hero Section */}
+    <div className="space-y-0 selection:bg-terracotta-200 selection:text-terracotta-900">
+      {/* 1. Hero Section (Isolated, with Sacred Banner & Quick Stats) */}
       <HeroSection />
 
-      {/* 2. Flash Cards Làng Nghề */}
+      {/* 2. Flash Cards Làng Nghề (Lotus Pattern, Staggered Reveal) */}
       <FlashCards />
 
       {/* 3. Storytelling: Đất -> Đôi tay -> Nghệ nhân -> Tác phẩm -> Văn hóa -> Trải nghiệm -> Du lịch -> Thương mại */}
       <StorytellingTimeline />
 
       {/* 4. Interactive Map Teaser Section */}
-      <section className="py-20 texture-paper texture-paper--river texture-paper--tint-100 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-3xl border border-terracotta-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
+      <section className="py-20 texture-paper texture-paper--river relative overflow-hidden isolate">
+        {/* Seamless Section Top & Bottom Gradient Blends */}
+        <div className="section-blend-top" />
+        <div className="section-blend-bottom" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="card-craft bg-white rounded-3xl border border-terracotta-200/90 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12"
+          >
             <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-6">
               <div>
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-3">
@@ -51,7 +63,7 @@ export default function HomePage() {
               <div>
                 <Link
                   href="/ban-do"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm font-semibold shadow-md transition-all"
+                  className="btn-elastic inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-sm font-semibold shadow-md transition-all"
                 >
                   <span>Mở bản đồ toàn màn hình</span>
                   <ArrowRight className="w-4 h-4" />
@@ -59,7 +71,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="lg:col-span-7 relative min-h-[300px] lg:min-h-[420px] bg-dopaper-200">
+            <div className="lg:col-span-7 relative min-h-[300px] lg:min-h-[420px] bg-dopaper-200 card-sheen">
               <img
                 src="/images/villages/bat-trang/market.jpg"
                 alt="Bản đồ làng nghề Hà Nội"
@@ -88,15 +100,25 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* 5. Mini-game Experience Callout */}
-      <section className="py-20 texture-paper texture-paper--bamboo texture-paper--medium relative">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold mb-2">
+      <section className="py-20 texture-paper texture-paper--bamboo relative overflow-hidden isolate">
+        {/* Seamless Section Top & Bottom Gradient Blends */}
+        <div className="section-blend-top" />
+        <div className="section-blend-bottom" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center max-w-2xl mx-auto mb-12"
+          >
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold mb-2 border border-gold-400/40">
               <Sparkles className="w-3.5 h-3.5 text-gold-600" />
               <span>Workshop Ảo 2D & Canvas</span>
             </div>
@@ -106,26 +128,32 @@ export default function HomePage() {
             <p className="text-xs sm:text-sm text-lacquer-800/70 mt-2">
               Không cần đến tận lò gốm, bạn có thể tự tay tạo hình, tráng men và nung chín chiếc bình ảo, hoặc thử khâu từng mũi cước trên vành nón tre.
             </p>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {/* Pottery Game Card */}
-            <div className="bg-white rounded-3xl p-6 border-2 border-terracotta-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="card-craft card-sheen bg-white rounded-3xl p-6 border-2 border-terracotta-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group"
+            >
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
                   <img
                     src="/images/villages/bat-trang/artisan_wheel.jpg"
                     alt="Vuốt gốm ảo"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-terracotta-500 text-white text-[11px] font-bold">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-terracotta-500 text-white text-[11px] font-bold shadow-xs">
                     Tương tác Canvas vuốt tay
                   </div>
                 </div>
-                <h3 className="font-serif text-xl font-bold text-lacquer-900">
+                <h3 className="font-serif text-xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
                   Xưởng Làm Gốm Bát Tràng
                 </h3>
-                <p className="text-xs text-lacquer-800/70">
+                <p className="text-xs text-lacquer-800/70 leading-relaxed">
                   Chọn đất sét phù sa, kéo vuốt eo bình trên bàn xoay, phủ men lam hoặc men ngọc celadon và nung lò 1250°C.
                 </p>
               </div>
@@ -136,30 +164,36 @@ export default function HomePage() {
                 </span>
                 <Link
                   href="/trai-nghiem/gom"
-                  className="px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold transition-colors shadow"
+                  className="btn-elastic px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold transition-colors shadow"
                 >
                   Bắt đầu vuốt gốm
                 </Link>
               </div>
-            </div>
+            </motion.div>
 
             {/* Hat Weaving Game Card */}
-            <div className="bg-white rounded-3xl p-6 border-2 border-gold-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="card-craft card-sheen bg-white rounded-3xl p-6 border-2 border-gold-300 shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group"
+            >
               <div className="space-y-4">
                 <div className="aspect-[16/10] rounded-2xl overflow-hidden relative">
                   <img
                     src="/images/villages/chuong/non_la_museum.jpg"
                     alt="Đan nón Chuông ảo"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold-600 text-white text-[11px] font-bold">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-gold-600 text-white text-[11px] font-bold shadow-xs">
                     Trải nghiệm đan khâu nón
                   </div>
                 </div>
-                <h3 className="font-serif text-xl font-bold text-lacquer-900">
+                <h3 className="font-serif text-xl font-bold text-lacquer-900 group-hover:text-gold-700 transition-colors">
                   Khâu Nón Lá Bài Thơ Làng Chuông
                 </h3>
-                <p className="text-xs text-lacquer-800/70">
+                <p className="text-xs text-lacquer-800/70 leading-relaxed">
                   Chọn lá lụi, xếp 16 vành nón tre, đưa từng đường kim mũi cước và chèn câu thơ xứ Đoài ẩn hiện dưới ánh nắng.
                 </p>
               </div>
@@ -170,43 +204,52 @@ export default function HomePage() {
                 </span>
                 <Link
                   href="/trai-nghiem/dan-non"
-                  className="px-4 py-2 rounded-xl bg-lacquer-900 hover:bg-lacquer-800 text-white text-xs font-bold transition-colors shadow"
+                  className="btn-elastic px-4 py-2 rounded-xl bg-lacquer-900 hover:bg-lacquer-800 text-white text-xs font-bold transition-colors shadow"
                 >
                   Bắt đầu khâu nón
                 </Link>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* 6. Startup Ecosystem 4 Pillars */}
+      {/* 6. Startup Ecosystem 4 Pillars (Breathing Room Section) */}
       <EcosystemSection />
 
       {/* 7. CTA: AI Recommendation Callout */}
-      <section className="py-16 bg-cultural-river bg-cover bg-center text-white relative overflow-hidden shadow-2xl">
-        <div className="absolute inset-0 bg-lacquer-950/35 pointer-events-none" />
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold">
+      <section className="py-16 bg-cultural-river bg-cover bg-center text-white relative overflow-hidden isolate shadow-2xl">
+        {/* Seamless Section Top Gradient Blend */}
+        <div className="section-blend-top" />
+        <div className="absolute inset-0 bg-lacquer-950/40 pointer-events-none" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98, y: 16 }}
+          whileInView={{ opacity: 1, scale: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10"
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold backdrop-blur-xs">
             <Sparkles className="w-3.5 h-3.5 text-gold-300" />
             <span>AI Đề Xuất Cá Nhân Hóa</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold">
             Chưa biết cuối tuần này nên đi làng nghề nào?
           </h2>
-          <p className="text-sm sm:text-base text-dopaper-100/90 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-dopaper-100/90 max-w-2xl mx-auto leading-relaxed">
             Chỉ với 4 câu hỏi trắc nghiệm nhanh về sở thích, ngân sách và đối tượng đi cùng, thuật toán AI sẽ chọn ra làng nghề phù hợp nhất và lên lịch trình hoàn chỉnh cho bạn!
           </p>
           <div className="pt-2">
             <Link
               href="/ai-goi-y"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
+              className="btn-elastic inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-gold-400 hover:bg-gold-300 text-lacquer-950 font-bold text-sm shadow-xl hover:scale-105 transition-all"
             >
               <span>Tìm làng nghề dành riêng cho bạn</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );
