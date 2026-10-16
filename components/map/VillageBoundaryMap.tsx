@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { CraftVillage } from '@/data/craftVillages';
-import { VILLAGE_BOUNDARIES } from '@/data/villageBoundaries';
 
 interface VillageBoundaryMapProps {
   villages: CraftVillage[];
@@ -11,7 +10,27 @@ interface VillageBoundaryMapProps {
   onSelectVillage?: (village: CraftVillage) => void;
 }
 
-// Concise short names for markers
+// Bảng màu nhận diện văn hóa theo từng ngành nghề
+export const CATEGORY_COLORS: Record<string, string> = {
+  'gom-su': '#C85A32',
+  'lua-det': '#E11D48',
+  'may-tre-dan': '#16A34A',
+  'non-la': '#CA8A04',
+  'dat-vang': '#D4A344',
+  'nghe-thuat-dan-gian': '#0284C7',
+  'hoa-nong-nghiep': '#EC4899',
+  'do-choi-dan-gian': '#8B5CF6',
+  'huong-thao-moc': '#DC2626',
+  'son-mai-kham-trai': '#0D9488',
+  'dieu-khac-go': '#78350F',
+  'am-thuc-truyen-thong': '#10B981',
+};
+
+export function getCategoryColor(categorySlug: string): string {
+  return CATEGORY_COLORS[categorySlug] || '#C85A32';
+}
+
+// Tên ngắn gọn hiển thị rõ ràng trên marker bản đồ
 const SHORT_NAMES: Record<string, string> = {
   'bat-trang': 'Bát Tràng',
   'van-phuc': 'Vạn Phúc',
@@ -22,7 +41,7 @@ const SHORT_NAMES: Record<string, string> = {
   'tay-tuu': 'Tây Tựu',
   'xuan-la': 'Xuân La',
   'quang-phu-cau': 'Quảng Phú Cầu',
-  'chuon-ngo': 'Chuôn Ngọ',
+  'chuyen-my': 'Chuôn Ngọ',
   'ha-thai': 'Hạ Thái',
   'son-dong': 'Sơn Đồng',
   'trach-xa': 'Trạch Xá',
@@ -59,14 +78,15 @@ function setPinActive(marker: any, active: boolean, color: string) {
 
   if (active) {
     if (avatar) {
-      avatar.style.transform = 'scale(1.25)';
-      avatar.style.boxShadow = '0 6px 18px rgba(0,0,0,0.35)';
+      avatar.style.transform = 'scale(1.22)';
+      avatar.style.boxShadow = '0 8px 22px rgba(0,0,0,0.38)';
       avatar.style.borderColor = '#C79A46';
     }
     if (badge) {
       badge.style.background = color;
       badge.style.color = '#ffffff';
       badge.style.borderColor = color;
+      badge.style.transform = 'scale(1.05)';
     }
   } else {
     if (avatar) {
@@ -75,9 +95,10 @@ function setPinActive(marker: any, active: boolean, color: string) {
       avatar.style.borderColor = '#ffffff';
     }
     if (badge) {
-      badge.style.background = 'rgba(255, 255, 255, 0.95)';
+      badge.style.background = 'rgba(255, 255, 255, 0.96)';
       badge.style.color = '#1E293B';
-      badge.style.borderColor = '#E2E8F0';
+      badge.style.borderColor = '#CBD5E1';
+      badge.style.transform = 'none';
     }
   }
 }
@@ -93,10 +114,9 @@ export default function VillageBoundaryMap({
   const baseTileLayerRef = useRef<any>(null);
   const refTileLayerRef = useRef<any>(null);
   const layersGroupRef = useRef<any>(null);
-  const polygonsRef = useRef<{ [key: string]: any }>({});
   const markersRef = useRef<{ [key: string]: any }>({});
 
-  // Map mode: 'minimal' (ESRI Light Gray Canvas - simplified roads/creeks) vs 'standard' (OpenStreetMap)
+  // Chế độ bản đồ: 'minimal' (ESRI Canvas tinh gọn, không rườm rà đường nhỏ) vs 'standard' (OpenStreetMap)
   const [mapStyle, setMapStyle] = useState<'minimal' | 'standard'>('minimal');
 
   const onHoverRef = useRef(onHoverVillage);
@@ -104,7 +124,7 @@ export default function VillageBoundaryMap({
   const onSelectRef = useRef(onSelectVillage);
   onSelectRef.current = onSelectVillage;
 
-  // 1. Initialize Leaflet Map ONCE on mount
+  // 1. Khởi tạo Leaflet Map khi component mount
   useEffect(() => {
     if (typeof window === 'undefined' || !mapContainerRef.current) return;
 
@@ -120,15 +140,15 @@ export default function VillageBoundaryMap({
         delete (mapContainerRef.current as any)._leaflet_id;
       }
 
-      // Hanoi view
+      // Khung nhìn bao quát Hà Nội
       const map = L.map(mapContainerRef.current, {
-        center: [20.98, 105.78],
+        center: [20.95, 105.78],
         zoom: 10.5,
         zoomControl: true,
         scrollWheelZoom: true,
       });
 
-      // Default: ESRI Light Gray Canvas — completely removes small roads, minor canals & alleys!
+      // Lớp nền ESRI Light Gray Canvas - tinh gọn, tôn vinh các điểm đánh dấu
       const baseLayer = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
         {
@@ -137,7 +157,6 @@ export default function VillageBoundaryMap({
         }
       ).addTo(map);
 
-      // Subtle city/province text labels overlay
       const refLayer = L.tileLayer(
         'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',
         {
@@ -153,72 +172,22 @@ export default function VillageBoundaryMap({
       layersGroupRef.current = layersGroup;
       mapInstanceRef.current = map;
 
-      renderLayers(L, map, layersGroup);
+      renderMarkers(L, map, layersGroup);
     }
 
-    function renderLayers(L: any, map: any, layersGroup: any) {
+    function renderMarkers(L: any, map: any, layersGroup: any) {
       if (!isMounted) return;
       layersGroup.clearLayers();
-      polygonsRef.current = {};
       markersRef.current = {};
 
-      const allPoints: [number, number][] = [];
+      const points: [number, number][] = [];
 
       villages.forEach((village) => {
-        const boundaryInfo = VILLAGE_BOUNDARIES[village.slug];
-        if (!boundaryInfo) return;
+        const coords = village.location.coordinates;
+        if (!coords || coords.length < 2) return;
+        points.push(coords);
 
-        // Clean, vibrant boundary style ALWAYS VISIBLE by default as requested!
-        const defaultPolyStyle = {
-          color: boundaryInfo.color,
-          weight: 2,
-          opacity: 0.9,
-          fillColor: boundaryInfo.fillColor,
-          fillOpacity: 0.22,
-          dashArray: ''
-        };
-
-        const highlightPolyStyle = {
-          color: boundaryInfo.color,
-          weight: 4,
-          opacity: 1,
-          fillColor: boundaryInfo.fillColor,
-          fillOpacity: 0.45,
-          dashArray: ''
-        };
-
-        const polygon = L.polygon(boundaryInfo.boundary, defaultPolyStyle);
-        polygon.addTo(layersGroup);
-
-        boundaryInfo.boundary.forEach((pt) => allPoints.push(pt));
-
-        // Hover events on boundary polygon
-        polygon.on('mouseover', () => {
-          try {
-            polygon.setStyle(highlightPolyStyle);
-            polygon.bringToFront();
-            const m = markersRef.current[village.slug];
-            if (m) setPinActive(m, true, boundaryInfo.color);
-          } catch (e) {}
-          onHoverRef.current?.(village);
-        });
-
-        polygon.on('mouseout', () => {
-          try {
-            polygon.setStyle(defaultPolyStyle);
-            const m = markersRef.current[village.slug];
-            if (m) setPinActive(m, false, boundaryInfo.color);
-          } catch (e) {}
-          onHoverRef.current?.(null);
-        });
-
-        polygon.on('click', () => {
-          onSelectRef.current?.(village);
-        });
-
-        polygonsRef.current[village.slug] = polygon;
-
-        // Sleek Pin Marker
+        const color = getCategoryColor(village.categorySlug);
         const shortName = SHORT_NAMES[village.slug] || village.name.replace('Làng nghề ', '').replace('Làng ', '');
         const emoji = getEmojiForCategory(village.categorySlug);
 
@@ -234,30 +203,30 @@ export default function VillageBoundaryMap({
               user-select: none;
             ">
               <div class="pin-avatar" style="
-                width: 34px;
-                height: 34px;
+                width: 36px;
+                height: 36px;
                 border-radius: 50%;
-                background: ${boundaryInfo.color};
+                background: ${color};
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
                 border: 2.5px solid white;
-                font-size: 16px;
-                transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+                font-size: 17px;
+                transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
               ">
                 ${emoji}
               </div>
               <div class="pin-badge" style="
-                margin-top: 2px;
-                background: rgba(255, 255, 255, 0.95);
+                margin-top: 3px;
+                background: rgba(255, 255, 255, 0.96);
                 backdrop-filter: blur(4px);
                 color: #1E293B;
-                padding: 1.5px 6px;
+                padding: 2px 7px;
                 border-radius: 99px;
-                border: 1px solid #E2E8F0;
+                border: 1px solid #CBD5E1;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-                font-size: 10.5px;
+                font-size: 11px;
                 font-weight: 700;
                 white-space: nowrap;
                 pointer-events: none;
@@ -267,26 +236,25 @@ export default function VillageBoundaryMap({
               </div>
             </div>
           `,
-          iconSize: [54, 50],
-          iconAnchor: [27, 25]
+          iconSize: [60, 56],
+          iconAnchor: [30, 28]
         });
 
-        const marker: any = L.marker(village.location.coordinates, { icon: pinIcon });
+        const marker: any = L.marker(coords, { icon: pinIcon, zIndexOffset: 50 });
         marker.addTo(layersGroup);
 
         marker.on('mouseover', () => {
           try {
-            polygon.setStyle(highlightPolyStyle);
-            polygon.bringToFront();
-            setPinActive(marker, true, boundaryInfo.color);
+            marker.setZIndexOffset(1000);
+            setPinActive(marker, true, color);
           } catch (e) {}
           onHoverRef.current?.(village);
         });
 
         marker.on('mouseout', () => {
           try {
-            polygon.setStyle(defaultPolyStyle);
-            setPinActive(marker, false, boundaryInfo.color);
+            marker.setZIndexOffset(50);
+            setPinActive(marker, false, color);
           } catch (e) {}
           onHoverRef.current?.(null);
         });
@@ -298,10 +266,10 @@ export default function VillageBoundaryMap({
         markersRef.current[village.slug] = marker;
       });
 
-      if (allPoints.length > 0) {
+      if (points.length > 0) {
         try {
-          const bounds = L.latLngBounds(allPoints);
-          map.fitBounds(bounds, { padding: [40, 40], maxZoom: 11.5 });
+          const bounds = L.latLngBounds(points);
+          map.fitBounds(bounds, { padding: [50, 50], maxZoom: 12 });
         } catch (e) {}
       }
     }
@@ -320,18 +288,16 @@ export default function VillageBoundaryMap({
     };
   }, []);
 
-  // 2. Switch basemap style (minimalist vs standard OSM)
+  // 2. Chuyển đổi kiểu bản đồ (tinh gọn vs OpenStreetMap tiêu chuẩn)
   useEffect(() => {
     if (!mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
 
     import('leaflet').then((L) => {
-      // Remove old tile layers
       if (baseTileLayerRef.current) map.removeLayer(baseTileLayerRef.current);
       if (refTileLayerRef.current) map.removeLayer(refTileLayerRef.current);
 
       if (mapStyle === 'minimal') {
-        // ESRI Light Gray Base (simplified: no small roads, no tangled creeks, clean background)
         baseTileLayerRef.current = L.tileLayer(
           'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
           {
@@ -348,10 +314,8 @@ export default function VillageBoundaryMap({
           }
         ).addTo(map);
 
-        // Ensure layersGroup stays on top
         if (layersGroupRef.current) layersGroupRef.current.bringToFront();
       } else {
-        // Standard OpenStreetMap (full roads & transit networks)
         baseTileLayerRef.current = L.tileLayer(
           'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           {
@@ -366,7 +330,7 @@ export default function VillageBoundaryMap({
     });
   }, [mapStyle]);
 
-  // 3. Update layers when villages array changes
+  // 3. Cập nhật markers khi danh sách làng nghề thay đổi
   useEffect(() => {
     if (!mapInstanceRef.current || !layersGroupRef.current) return;
 
@@ -376,63 +340,16 @@ export default function VillageBoundaryMap({
 
       const layersGroup = layersGroupRef.current;
       layersGroup.clearLayers();
-      polygonsRef.current = {};
       markersRef.current = {};
 
-      const allPoints: [number, number][] = [];
+      const points: [number, number][] = [];
 
       villages.forEach((village) => {
-        const boundaryInfo = VILLAGE_BOUNDARIES[village.slug];
-        if (!boundaryInfo) return;
+        const coords = village.location.coordinates;
+        if (!coords || coords.length < 2) return;
+        points.push(coords);
 
-        const defaultPolyStyle = {
-          color: boundaryInfo.color,
-          weight: 2,
-          opacity: 0.9,
-          fillColor: boundaryInfo.fillColor,
-          fillOpacity: 0.22,
-          dashArray: ''
-        };
-
-        const highlightPolyStyle = {
-          color: boundaryInfo.color,
-          weight: 4,
-          opacity: 1,
-          fillColor: boundaryInfo.fillColor,
-          fillOpacity: 0.45,
-          dashArray: ''
-        };
-
-        const polygon = L.polygon(boundaryInfo.boundary, defaultPolyStyle);
-        polygon.addTo(layersGroup);
-
-        boundaryInfo.boundary.forEach((pt) => allPoints.push(pt));
-
-        polygon.on('mouseover', () => {
-          try {
-            polygon.setStyle(highlightPolyStyle);
-            polygon.bringToFront();
-            const m = markersRef.current[village.slug];
-            if (m) setPinActive(m, true, boundaryInfo.color);
-          } catch (e) {}
-          onHoverRef.current?.(village);
-        });
-
-        polygon.on('mouseout', () => {
-          try {
-            polygon.setStyle(defaultPolyStyle);
-            const m = markersRef.current[village.slug];
-            if (m) setPinActive(m, false, boundaryInfo.color);
-          } catch (e) {}
-          onHoverRef.current?.(null);
-        });
-
-        polygon.on('click', () => {
-          onSelectRef.current?.(village);
-        });
-
-        polygonsRef.current[village.slug] = polygon;
-
+        const color = getCategoryColor(village.categorySlug);
         const shortName = SHORT_NAMES[village.slug] || village.name.replace('Làng nghề ', '').replace('Làng ', '');
         const emoji = getEmojiForCategory(village.categorySlug);
 
@@ -448,30 +365,30 @@ export default function VillageBoundaryMap({
               user-select: none;
             ">
               <div class="pin-avatar" style="
-                width: 34px;
-                height: 34px;
+                width: 36px;
+                height: 36px;
                 border-radius: 50%;
-                background: ${boundaryInfo.color};
+                background: ${color};
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 3px 10px rgba(0, 0, 0, 0.22);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
                 border: 2.5px solid white;
-                font-size: 16px;
-                transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+                font-size: 17px;
+                transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
               ">
                 ${emoji}
               </div>
               <div class="pin-badge" style="
-                margin-top: 2px;
-                background: rgba(255, 255, 255, 0.95);
+                margin-top: 3px;
+                background: rgba(255, 255, 255, 0.96);
                 backdrop-filter: blur(4px);
                 color: #1E293B;
-                padding: 1.5px 6px;
+                padding: 2px 7px;
                 border-radius: 99px;
-                border: 1px solid #E2E8F0;
+                border: 1px solid #CBD5E1;
                 box-shadow: 0 2px 5px rgba(0,0,0,0.12);
-                font-size: 10.5px;
+                font-size: 11px;
                 font-weight: 700;
                 white-space: nowrap;
                 pointer-events: none;
@@ -481,26 +398,25 @@ export default function VillageBoundaryMap({
               </div>
             </div>
           `,
-          iconSize: [54, 50],
-          iconAnchor: [27, 25]
+          iconSize: [60, 56],
+          iconAnchor: [30, 28]
         });
 
-        const marker: any = L.marker(village.location.coordinates, { icon: pinIcon });
+        const marker: any = L.marker(coords, { icon: pinIcon, zIndexOffset: 50 });
         marker.addTo(layersGroup);
 
         marker.on('mouseover', () => {
           try {
-            polygon.setStyle(highlightPolyStyle);
-            polygon.bringToFront();
-            setPinActive(marker, true, boundaryInfo.color);
+            marker.setZIndexOffset(1000);
+            setPinActive(marker, true, color);
           } catch (e) {}
           onHoverRef.current?.(village);
         });
 
         marker.on('mouseout', () => {
           try {
-            polygon.setStyle(defaultPolyStyle);
-            setPinActive(marker, false, boundaryInfo.color);
+            marker.setZIndexOffset(50);
+            setPinActive(marker, false, color);
           } catch (e) {}
           onHoverRef.current?.(null);
         });
@@ -518,51 +434,35 @@ export default function VillageBoundaryMap({
     };
   }, [villages]);
 
-  // 4. React to programmatic hover from outside
+  // 4. Đồng bộ hiệu ứng hover từ bên ngoài (khi người dùng rê chuột vào thẻ danh sách làng)
   useEffect(() => {
-    if (!polygonsRef.current) return;
+    if (!markersRef.current) return;
 
-    Object.keys(polygonsRef.current).forEach((slug) => {
-      const poly = polygonsRef.current[slug];
-      const boundaryInfo = VILLAGE_BOUNDARIES[slug];
-      const marker = markersRef.current[slug];
-      if (!poly || !boundaryInfo) return;
+    villages.forEach((village) => {
+      const marker = markersRef.current[village.slug];
+      if (!marker) return;
+      const color = getCategoryColor(village.categorySlug);
 
-      if (hoveredVillageId === slug) {
+      if (hoveredVillageId === village.slug) {
         try {
-          poly.setStyle({
-            color: boundaryInfo.color,
-            weight: 4,
-            opacity: 1,
-            fillColor: boundaryInfo.fillColor,
-            fillOpacity: 0.45,
-            dashArray: ''
-          });
-          poly.bringToFront();
-          if (marker) setPinActive(marker, true, boundaryInfo.color);
+          marker.setZIndexOffset(1000);
+          setPinActive(marker, true, color);
         } catch (e) {}
       } else {
         try {
-          poly.setStyle({
-            color: boundaryInfo.color,
-            weight: 2,
-            opacity: 0.9,
-            fillColor: boundaryInfo.fillColor,
-            fillOpacity: 0.22,
-            dashArray: ''
-          });
-          if (marker) setPinActive(marker, false, boundaryInfo.color);
+          marker.setZIndexOffset(50);
+          setPinActive(marker, false, color);
         } catch (e) {}
       }
     });
-  }, [hoveredVillageId]);
+  }, [hoveredVillageId, villages]);
 
   return (
     <div className="relative isolate z-10 w-full h-full min-h-[600px] rounded-3xl overflow-hidden shadow-inner border border-terracotta-200">
-      {/* Map DOM node */}
+      {/* Khung bản đồ Leaflet */}
       <div ref={mapContainerRef} className="w-full h-full min-h-[600px]" />
 
-      {/* Map Style Switcher (Bottom-Left: locked inside map container at z-20) */}
+      {/* Bộ chuyển đổi kiểu bản đồ (Góc dưới bên trái) */}
       <div className="absolute bottom-4 left-4 z-20 flex items-center gap-1.5 bg-[#FAF5ED]/95 p-1 rounded-2xl border border-[#b89b78]/60 shadow-md pointer-events-auto">
         <button
           onClick={() => setMapStyle('minimal')}
@@ -571,7 +471,7 @@ export default function VillageBoundaryMap({
               ? 'bg-[#33455E] text-white shadow-sm'
               : 'text-[#5A5348] hover:text-[#1E293B]'
           }`}
-          title="Bản đồ tinh gọn: loại bỏ các tuyến đường nhỏ & kênh rạch vụn vặt"
+          title="Bản đồ tinh gọn: làm nổi bật các điểm đánh dấu làng nghề"
         >
           ✨ Tinh gọn (ít đường nhỏ)
         </button>

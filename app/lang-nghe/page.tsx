@@ -28,7 +28,7 @@ const VillageBoundaryMap = dynamic(
         <div className="text-center space-y-2">
           <div className="w-10 h-10 border-4 border-terracotta-500 border-t-transparent rounded-full animate-spin mx-auto" />
           <p className="text-xs font-semibold text-lacquer-800/70">
-            Đang tải bản đồ phân vùng ranh giới làng nghề Hà Nội...
+            Đang tải bản đồ vị trí 16 làng nghề Hà Nội...
           </p>
         </div>
       </div>
@@ -224,9 +224,9 @@ export default function CraftVillagesDirectoryPage() {
               }`}
             >
               <Map className="w-4 h-4" />
-              <span>Bản đồ phân vùng ranh giới</span>
+              <span>Bản đồ 16 làng nghề tiêu biểu</span>
               <span className="px-2 py-0.5 rounded-full text-[10px] bg-white/20 font-mono">
-                {CRAFT_VILLAGES.length} vùng
+                {CRAFT_VILLAGES.length} điểm
               </span>
             </button>
 
@@ -370,10 +370,10 @@ export default function CraftVillagesDirectoryPage() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <h3 className="font-serif text-lg font-bold text-lacquer-900">
-                  16 Vùng ranh giới làng nghề tiêu biểu hiển thị trên bản đồ
+                  16 Làng nghề tiêu biểu hiển thị trên bản đồ
                 </h3>
                 <span className="text-xs text-lacquer-800/60 hidden sm:inline">
-                  Rê chuột vào thẻ để làm sáng vùng ranh giới tương ứng trên bản đồ
+                  Rê chuột vào thẻ để làm nổi bật vị trí làng nghề trên bản đồ
                 </span>
               </div>
 

@@ -91,7 +91,7 @@ export default function HeroSection() {
               className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#FAF5ED] hover:bg-[#F2EAE0] text-lacquer-900 text-xs sm:text-sm font-bold border border-[#d6c4ac] shadow-sm transition-all"
             >
               <Map className="w-4 h-4 text-terracotta-600" />
-              <span>Bản đồ ranh giới</span>
+              <span>Bản đồ làng nghề</span>
             </Link>
             <Link
               href="/cua-hang"
@@ -112,7 +112,7 @@ export default function HeroSection() {
 
         {/* Bottom Feature Columns & Quick Navigation Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
-          {/* Card 1: Bản đồ phân vùng */}
+          {/* Card 1: Bản đồ làng nghề */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -128,14 +128,14 @@ export default function HeroSection() {
                   <Compass className="w-5 h-5" />
                 </div>
                 <h3 className="font-serif text-lg font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
-                  Bản đồ ranh giới làng nghề
+                  Bản đồ 16 làng nghề tiêu biểu
                 </h3>
                 <p className="text-xs text-lacquer-800/70 leading-relaxed">
-                  Rê chuột khám phá 16 vùng ranh giới địa lý tiêu biểu và hệ thống dữ liệu 327 làng nghề được công nhận trên khắp 24 quận, huyện.
+                  Khám phá vị trí địa lý chuẩn xác của 16 làng nghề tiêu biểu và dữ liệu tra cứu 327 làng nghề được công nhận trên khắp 24 quận, huyện Hà Nội.
                 </p>
               </div>
               <div className="pt-4 mt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between text-xs font-bold text-terracotta-600">
-                <span>Mở bản đồ phân vùng</span>
+                <span>Mở bản đồ làng nghề</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>
