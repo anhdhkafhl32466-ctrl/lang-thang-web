@@ -65,6 +65,7 @@ export async function generateCraftAiArt(params: {
   seed?: number;
 }): Promise<{
   imageUrl: string;
+  fallbackUrl?: string;
   promptEnriched: string;
   style: CraftArtStyle;
 }> {
@@ -72,10 +73,20 @@ export async function generateCraftAiArt(params: {
   const enrichedPrompt = buildCraftArtPrompt({ prompt, blank, style });
 
   // URL an toàn qua proxy nội bộ của Next.js (chống CORS, cache tự động)
-  const proxyUrl = `/api/ai/image-proxy?prompt=${encodeURIComponent(enrichedPrompt)}&seed=${seed}&style=${style}`;
+  const proxyUrl = `/api/ai/image-proxy?prompt=${encodeURIComponent(enrichedPrompt)}&seed=${seed}&style=${style}&blankId=${blank.id}`;
+
+  let fallbackUrl = '/images/villages/bat-trang/blue_glaze_vase.jpg';
+  if (blank.id === 'lua') {
+    fallbackUrl = '/images/villages/van-phuc/lua_van_phuc.jpg';
+  } else if (blank.id === 'non-la') {
+    fallbackUrl = '/images/villages/chuong/conical_hat1.jpg';
+  } else if (blank.id === 'tranh-khac-go') {
+    fallbackUrl = '/images/villages/ha-thai/lacquer_box2.jpg';
+  }
 
   return {
     imageUrl: proxyUrl,
+    fallbackUrl,
     promptEnriched: enrichedPrompt,
     style,
   };

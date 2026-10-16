@@ -45,6 +45,7 @@ interface CocreateResult {
   svg: string;
   dataUri: string;
   aiArtUrl?: string;
+  fallbackUrl?: string;
   promptEnriched?: string;
   style?: CraftArtStyle;
   specSheet: { label: string; value: string }[];
@@ -110,7 +111,18 @@ export default function BespokeStudio() {
   const [viewMode, setViewMode] = useState<'art' | '3d'>('art');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [currentArtUrl, setCurrentArtUrl] = useState<string>('');
   const [rotation, setRotation] = useState(24);
+
+  // Safety timeout: không bao giờ để vòng xoay xoay quá 5 giây
+  useEffect(() => {
+    if (!currentArtUrl) return;
+    setImageLoaded(false);
+    const timer = setTimeout(() => {
+      setImageLoaded(true);
+    }, 5500);
+    return () => clearTimeout(timer);
+  }, [currentArtUrl]);
 
   const [artisans, setArtisans] = useState<ArtisanOption[]>([]);
   const [storeId, setStoreId] = useState<string>('');
@@ -198,11 +210,14 @@ export default function BespokeStudio() {
           throw new Error(data?.error?.message || 'Không sáng tạo được tác phẩm lúc này.');
         }
         setSeed(useSeed);
+        const artUrl = data.aiArtUrl || data.fallbackUrl || '';
+        setCurrentArtUrl(artUrl);
         setResult({
           spec: data.spec,
           svg: data.svg,
           dataUri: data.dataUri,
           aiArtUrl: data.aiArtUrl,
+          fallbackUrl: data.fallbackUrl,
           promptEnriched: data.promptEnriched,
           style: data.style || artStyle,
           specSheet: data.specSheet || [],
@@ -378,24 +393,43 @@ export default function BespokeStudio() {
                     <div className="space-y-4 animate-fadeIn">
                       <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-lacquer-950/5 border border-terracotta-200 shadow-md group">
                         <img
-                          src={result.aiArtUrl}
+                          src={currentArtUrl || result.aiArtUrl}
                           alt={result.spec.title}
                           onLoad={() => setImageLoaded(true)}
+                          onError={() => {
+                            if (result.fallbackUrl && currentArtUrl !== result.fallbackUrl) {
+                              setCurrentArtUrl(result.fallbackUrl);
+                            }
+                            setImageLoaded(true);
+                          }}
                           className={`w-full h-full object-cover transition-all duration-700 ${
                             imageLoaded ? 'scale-100 opacity-100' : 'scale-105 opacity-0 blur-sm'
                           }`}
                         />
 
                         {!imageLoaded && (
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-dopaper-100/90 gap-3">
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-dopaper-100/95 gap-3 p-4">
                             <Loader2 className="w-8 h-8 animate-spin text-terracotta-600" />
-                            <div className="text-center px-4">
+                            <div className="text-center px-2">
                               <p className="text-xs font-bold text-lacquer-900">
                                 AI đang hoàn thiện tác phẩm chân thực...
                               </p>
                               <p className="text-[11px] text-lacquer-800/60 mt-0.5">
                                 Mô phỏng ánh sáng studio và chi tiết thủ công {blank.name}
                               </p>
+                              {result.fallbackUrl && (
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    if (result.fallbackUrl) setCurrentArtUrl(result.fallbackUrl);
+                                    setImageLoaded(true);
+                                  }}
+                                  className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-terracotta-200 text-terracotta-700 hover:bg-terracotta-50 text-[11px] font-semibold shadow-xs"
+                                >
+                                  <span>Xem trước mẫu tác phẩm ngay</span>
+                                  <span>→</span>
+                                </button>
+                              )}
                             </div>
                           </div>
                         )}
@@ -411,7 +445,7 @@ export default function BespokeStudio() {
                             <ZoomIn className="w-4 h-4" />
                           </button>
                           <a
-                            href={result.aiArtUrl}
+                            href={currentArtUrl || result.aiArtUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             download={`tac-pham-${blank.id}.jpg`}
@@ -729,13 +763,13 @@ export default function BespokeStudio() {
                 <StepHeader step={3} title="Duyệt tác phẩm AI & phiếu kỹ thuật" />
 
                 <div className="flex flex-col sm:flex-row gap-4 items-start rounded-2xl bg-dopaper-50 border border-dopaper-300 p-4">
-                  {result.aiArtUrl && (
+                  {(currentArtUrl || result.aiArtUrl) && (
                     <div
                       onClick={() => setLightboxOpen(true)}
                       className="group relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden border border-terracotta-300 shadow cursor-pointer shrink-0"
                     >
                       <img
-                        src={result.aiArtUrl}
+                        src={currentArtUrl || result.aiArtUrl}
                         alt={result.spec.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform"
                       />
@@ -1086,7 +1120,7 @@ export default function BespokeStudio() {
 
             <div className="flex-1 overflow-auto bg-black flex items-center justify-center min-h-[300px]">
               <img
-                src={result.aiArtUrl}
+                src={currentArtUrl || result.aiArtUrl}
                 alt={result.spec.title}
                 className="max-h-[65vh] w-auto object-contain mx-auto"
               />
@@ -1098,7 +1132,7 @@ export default function BespokeStudio() {
               </p>
               <div className="flex items-center gap-2 shrink-0">
                 <a
-                  href={result.aiArtUrl}
+                  href={currentArtUrl || result.aiArtUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   download={`tac-pham-${blank.id}.jpg`}

@@ -94,6 +94,7 @@ export async function POST(request: NextRequest) {
       spec: generation.spec,
       svg,
       aiArtUrl: art.imageUrl,
+      fallbackUrl: art.fallbackUrl,
       promptEnriched: art.promptEnriched,
       style: art.style,
       /** Dùng trực tiếp trong thẻ <img> hoặc làm ảnh nền CSS. */
