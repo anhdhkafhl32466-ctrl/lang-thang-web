@@ -273,6 +273,17 @@ export default function CraftVillageDetailPage() {
                 <Navigation className="w-4 h-4" />
                 <span>Chỉ đường tới làng nghề</span>
               </Link>
+
+              {/* Xem video giới thiệu */}
+              {village.youtubeId && (
+                <a
+                  href="#video-gioi-thieu"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-2xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm shadow-xl transition-all hover:scale-105"
+                >
+                  <Play className="w-4 h-4 fill-white" />
+                  <span>Xem video giới thiệu</span>
+                </a>
+              )}
             </div>
           </div>
         </div>
@@ -301,6 +312,48 @@ export default function CraftVillageDetailPage() {
             </span>
           </div>
         </div>
+
+        {/* 2.1 Video Giới Thiệu Làng Nghề */}
+        {village.youtubeId && (
+          <section id="video-gioi-thieu" className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/90 shadow-sm space-y-6 scroll-mt-24">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terracotta-100 pb-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-700 text-xs font-bold uppercase tracking-wider mb-2 border border-red-200">
+                  <Play className="w-3.5 h-3.5 fill-red-600 text-red-600" />
+                  <span>Thước Phim Di Sản • Giới Thiệu Làng Nghề</span>
+                </div>
+                <h2 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">
+                  Video tài liệu giới thiệu {village.name}
+                </h2>
+                <p className="text-xs sm:text-sm text-lacquer-800/70 mt-1">
+                  Khám phá vẻ đẹp, nhịp sống làng nghề truyền thống và đôi bàn tay tài hoa của người nghệ nhân qua thước phim sống động.
+                </p>
+              </div>
+
+              {village.videoUrl && (
+                <a
+                  href={village.videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs shadow hover:scale-105 transition-all self-start sm:self-auto shrink-0"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Xem trên YouTube</span>
+                </a>
+              )}
+            </div>
+
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-lg border border-terracotta-200/60">
+              <iframe
+                src={`https://www.youtube-nocookie.com/embed/${village.youtubeId}?rel=0`}
+                title={`Video giới thiệu ${village.name}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="absolute inset-0 w-full h-full border-0"
+              />
+            </div>
+          </section>
+        )}
 
         {/* 2.2 Mục Ảnh Lưu Niệm Cá Nhân Hóa (Phân loại theo làng nghề này) */}
         <section className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-terracotta-200/90 shadow-sm space-y-6">

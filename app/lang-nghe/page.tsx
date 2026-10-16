@@ -16,7 +16,7 @@ import {
   Search, MapPin, Compass, ArrowRight, Sparkles, Map,
   LayoutGrid, Clock, Eye, Info, CheckCircle2, Award,
   ChevronDown, ChevronUp, BookOpen, Filter, ExternalLink,
-  Flame, X, Building2, MapPinned, Star, Share2
+  Flame, X, Building2, MapPinned, Star, Share2, Play
 } from 'lucide-react';
 
 const VillageBoundaryMap = dynamic(
@@ -327,6 +327,12 @@ export default function CraftVillagesDirectoryPage() {
                     <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-terracotta-600 text-white text-[10px] font-bold shadow">
                       {hoveredVillage.category}
                     </div>
+                    {hoveredVillage.youtubeId && (
+                      <div className="absolute top-2 right-2 px-2 py-0.5 rounded-full bg-red-600 text-white text-[10px] font-bold shadow flex items-center gap-1">
+                        <Play className="w-2.5 h-2.5 fill-current" />
+                        <span>Video</span>
+                      </div>
+                    )}
                     <div className="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[11px] font-medium drop-shadow bg-black/50 px-2 py-0.5 rounded-md">
                       <MapPin className="w-3 h-3 text-gold-400" />
                       <span>{hoveredVillage.location.district}</span>
@@ -728,6 +734,13 @@ export default function CraftVillagesDirectoryPage() {
                       <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-gold-400 text-lacquer-950 text-[10px] font-bold shadow-xs flex items-center gap-1">
                         <Sparkles className="w-3 h-3" />
                         <span>Xưởng ảo</span>
+                      </div>
+                    )}
+
+                    {village.youtubeId && (
+                      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-red-600 text-white text-[10px] font-bold shadow flex items-center gap-1">
+                        <Play className="w-2.5 h-2.5 fill-current" />
+                        <span>Có video</span>
                       </div>
                     )}
                   </div>

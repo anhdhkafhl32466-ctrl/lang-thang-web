@@ -68,6 +68,8 @@ export interface CraftVillage {
     image: string;
   }[];
   gameUrl?: string;
+  videoUrl?: string;
+  youtubeId?: string;
   bestTimeToVisit: string;
   openingHours: string;
   ticketPrice: string;
@@ -98,6 +100,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'gom-su',
     tagline: 'Ngàn năm giữ lửa – Nơi đất hóa thành nghệ thuật',
     shortDescription: 'Làng gốm cổ truyền bên bờ tả ngạn sông Hồng với gần 700 năm lịch sử (dấu tích gốm đã được ghi chép từ thế kỷ XIV), nổi tiếng với nước men rạn, men lam và nghệ thuật vuốt tay điêu luyện.',
+    videoUrl: 'https://www.youtube.com/watch?v=-torp_m3KoQ',
+    youtubeId: '-torp_m3KoQ',
     location: {
       address: 'Xã Bát Tràng, Huyện Gia Lâm',
       district: 'Huyện Gia Lâm',
@@ -374,6 +378,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'lua-det',
     tagline: 'Vẻ đẹp nghìn năm dệt từ sợi tơ vàng xứ Đoài',
     shortDescription: 'Làng nghề dệt lụa tơ tằm cổ xưa nhất Việt Nam, nơi sản sinh lụa Vân cung đình quý phái nhẹ như cánh ve, mát rượi ngày hè và ấm áp ngày đông.',
+    videoUrl: 'https://www.youtube.com/watch?v=kqMj8s5-e2M',
+    youtubeId: 'kqMj8s5-e2M',
     location: {
       address: 'Phường Vạn Phúc, Quận Hà Đông',
       district: 'Quận Hà Đông',
@@ -557,6 +563,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'may-tre-dan',
     tagline: 'Sợi mây hóa ngọc – Đỉnh cao nghệ thuật đan lát',
     shortDescription: 'Nơi những nan tre, sợi mây thanh mảnh được đan cài tinh xảo như thêu tranh, tạo nên các sản phẩm đồ gia dụng và mỹ nghệ xuất khẩu sang hơn 50 quốc gia.',
+    videoUrl: 'https://www.youtube.com/watch?v=MW-88Rn9A_0',
+    youtubeId: 'MW-88Rn9A_0',
     location: {
       address: 'Xã Phú Nghĩa, Huyện Chương Mỹ',
       district: 'Huyện Chương Mỹ',
@@ -710,6 +718,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'non-la',
     tagline: 'Vành nón quai thao – Nét duyên thầm xứ Đoài bên dòng Đáy',
     shortDescription: 'Làng nón cổ kính hơn 300 năm bên bờ sông Đáy, nổi tiếng với nón quai thao (nón ba tầm) thanh tao cùng nón chóp, nón lá đậm đà bản sắc Bắc Bộ.',
+    videoUrl: 'https://www.youtube.com/watch?v=P-vktwr_QI4',
+    youtubeId: 'P-vktwr_QI4',
     location: {
       address: 'Xã Phương Trung, Huyện Thanh Oai',
       district: 'Huyện Thanh Oai',
@@ -857,6 +867,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'dat-vang',
     tagline: 'Vàng quỳ thếp ngọc – Tinh hoa son thếp đền chùa Thăng Long',
     shortDescription: 'Làng nghề dát vàng quỳ độc nhất vô nhị ở Việt Nam, nơi biến một chỉ vàng thật thành cả nghìn lá vàng quỳ siêu mỏng để thếp tượng Phật và hoành phi câu đối.',
+    videoUrl: 'https://www.youtube.com/watch?v=Xs17GVPz0eI',
+    youtubeId: 'Xs17GVPz0eI',
     location: {
       address: 'Xã Kiêu Kỵ, Huyện Gia Lâm',
       district: 'Huyện Gia Lâm',
@@ -996,6 +1008,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'nghe-thuat-dan-gian',
     tagline: 'Mặt nước làm sân khấu – Khúc đồng dao sống dậy nghìn năm',
     shortDescription: 'Làng múa rối nước dân gian độc đáo bên bờ sông Cà Lồ, nơi các nghệ nhân nông dân tự tay đục đẽo quân rối gỗ sung và biểu diễn những tích trò truyền thống say đắm lòng người.',
+    videoUrl: 'https://www.youtube.com/watch?v=5kJfZK3XVqM',
+    youtubeId: '5kJfZK3XVqM',
     location: {
       address: 'Xã Thụy Lâm, Huyện Đông Anh',
       district: 'Huyện Đông Anh',
@@ -1140,6 +1154,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'hoa-nong-nghiep',
     tagline: 'Thung lũng ngàn hoa – Bừng nở sắc xuân giữa lòng Thủ đô',
     shortDescription: 'Vựa hoa lớn và lâu đời bậc nhất Thủ đô, nơi cung cấp sắc hoa rực rỡ quanh năm cho toàn bộ Hà Nội và các tỉnh thành phía Bắc.',
+    videoUrl: 'https://www.youtube.com/watch?v=iRrwQ7cyhtI',
+    youtubeId: 'iRrwQ7cyhtI',
     location: {
       address: 'Phường Tây Tựu, Quận Bắc Từ Liêm',
       district: 'Quận Bắc Từ Liêm',
@@ -1268,6 +1284,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'do-choi-dan-gian',
     tagline: 'Sắc màu tuổi thơ – Nghệ thuật nặn bột dân gian độc nhất vô nhị',
     shortDescription: 'Làng nghề nặn tò he duy nhất của Việt Nam, nơi từ bột gạo nếp dẻo thơm và màu rau củ tự nhiên, nghệ nhân nhào nặn nên thế giới cổ tích đầy màu sắc.',
+    videoUrl: 'https://www.youtube.com/watch?v=XEYz7XAzkQE',
+    youtubeId: 'XEYz7XAzkQE',
     location: {
       address: 'Xã Phượng Dực, Huyện Phú Xuyên',
       district: 'Huyện Phú Xuyên',
@@ -1403,6 +1421,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'huong-thao-moc',
     tagline: 'Sắc đỏ chân hương – Hương trầm thơm ngát đất trời Thăng Long',
     shortDescription: 'Làng hương hơn 100 năm tuổi với những đóa hoa hương xòe cánh rực rỡ dưới nắng, là điểm đến nhiếp ảnh nổi tiếng quốc tế và lưu giữ bí quyết hương thơm thảo mộc tự nhiên.',
+    videoUrl: 'https://www.youtube.com/watch?v=WPwukx_sXYE',
+    youtubeId: 'WPwukx_sXYE',
     location: {
       address: 'Xã Quảng Phú Cầu, Huyện Ứng Hòa',
       district: 'Huyện Ứng Hòa',
@@ -1564,6 +1584,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'son-mai-kham-trai',
     tagline: 'Nghệ thuật cẩn xà cừ nghìn năm – Ánh ngọc trai lấp lánh đất Thăng Long',
     shortDescription: 'Làng nghề khảm trai xà cừ hơn 1.000 năm tuổi từ thời nhà Lý, nổi danh với kỹ thuật cẩn ốc đỏ, xà cừ tinh xảo trên gỗ quý tạo nên những kiệt tác nội thất cung đình.',
+    videoUrl: 'https://www.youtube.com/watch?v=F0zDeSvhMQI',
+    youtubeId: 'F0zDeSvhMQI',
     location: {
       address: 'Làng Chuôn Ngọ, Xã Chuyên Mỹ, Huyện Phú Xuyên',
       district: 'Huyện Phú Xuyên',
@@ -1719,6 +1741,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'son-mai-kham-trai',
     tagline: 'Sắc sơn lung linh – Đẳng cấp mỹ thuật sơn mài Thường Tín',
     shortDescription: 'Làng nghề sơn mài danh tiếng hơn 200 năm, cái nôi kết hợp kỹ thuật sơn son thếp vàng truyền thống với hội họa mỹ thuật Đông Dương, xuất khẩu sang hơn 30 quốc gia.',
+    videoUrl: 'https://www.youtube.com/watch?v=ajeu7bnYdvk',
+    youtubeId: 'ajeu7bnYdvk',
     location: {
       address: 'Xã Duyên Thái, Huyện Thường Tín',
       district: 'Huyện Thường Tín',
@@ -1861,6 +1885,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'dieu-khac-go',
     tagline: 'Thổi hồn vào gỗ – Thiên đường đồ thờ tâm linh xứ Đoài',
     shortDescription: 'Làng nghề tạc tượng lâu đời (truyền thuyết gắn với tướng Đào Trực thời Lê Đại Hành), chuyên tạc tượng Phật giáo, tượng danh nhân và đồ thờ sơn son thếp vàng cho nhiều di tích đền chùa miền Bắc.',
+    videoUrl: 'https://www.youtube.com/watch?v=UNEctV5AaN8',
+    youtubeId: 'UNEctV5AaN8',
     location: {
       address: 'Xã Sơn Đồng, Huyện Hoài Đức',
       district: 'Huyện Hoài Đức',
@@ -2007,6 +2033,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'lua-det',
     tagline: 'Một nghìn năm giữ nét kim luồn – Nôi sinh tà áo dài Việt Nam',
     shortDescription: 'Làng nghề may áo dài cổ truyền hơn 1.000 năm tuổi với kỹ thuật cầm kim dọc độc nhất vô nhị, nơi các nghệ nhân nam giới khâu tay những tà áo dài giấu chỉ phẳng mượt.',
+    videoUrl: 'https://www.youtube.com/watch?v=_FJPriJ1MSI',
+    youtubeId: '_FJPriJ1MSI',
     location: {
       address: 'Thôn Trạch Xá, Xã Hòa Lâm, Huyện Ứng Hòa',
       district: 'Huyện Ứng Hòa',
@@ -2149,6 +2177,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'do-choi-dan-gian',
     tagline: 'Kỳ diệu thăng bằng tre mộc – Ký ức tuổi thơ dưới chân Tây Phương Cổ Tự',
     shortDescription: 'Làng nghề nổi tiếng nép mình dưới chân chùa Tây Phương, nơi khai sinh những chú chuồn chuồn tre có khả năng tự thăng bằng ngoạn mục trên bất kỳ đầu ngón tay hay cành cây.',
+    videoUrl: 'https://www.youtube.com/watch?v=q_eNBFqALV8',
+    youtubeId: 'q_eNBFqALV8',
     location: {
       address: 'Xã Thạch Xá, Huyện Thạch Thất',
       district: 'Huyện Thạch Thất',
@@ -2290,6 +2320,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'nghe-thuat-dan-gian',
     tagline: 'Quạt Chàng Sơn đón gió nghìn năm – Tinh hoa mộc cổ truyền xứ Đoài',
     shortDescription: 'Làng nghề cổ truyền từ thời Hùng Vương nổi danh với những chiếc quạt giấy, quạt lụa chạm khắc tinh tế từng trưng bày tại Paris thế kỷ XIX, cùng nghề làm mộc nhà cổ nức tiếng.',
+    videoUrl: 'https://www.youtube.com/watch?v=O0mjHQaXJ74',
+    youtubeId: 'O0mjHQaXJ74',
     location: {
       address: 'Xã Chàng Sơn, Huyện Thạch Thất',
       district: 'Huyện Thạch Thất',
@@ -2436,6 +2468,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
     categorySlug: 'am-thuc-truyen-thong',
     tagline: 'Hương cốm mùa thu – Tinh túy ẩm thực nghìn năm Thăng Long',
     shortDescription: 'Di sản văn hóa phi vật thể quốc gia, nơi lưu giữ tinh hoa làm cốm mộc nếp cái hoa vàng từ hàng trăm năm, từng được chọn chiêu đãi Tổng thống Mỹ và các nguyên thủ quốc tế.',
+    videoUrl: 'https://www.youtube.com/watch?v=iO626uNnlCw',
+    youtubeId: 'iO626uNnlCw',
     location: {
       address: 'Phường Mễ Trì, Quận Nam Từ Liêm',
       district: 'Quận Nam Từ Liêm',
