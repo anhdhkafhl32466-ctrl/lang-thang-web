@@ -20,7 +20,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
       <Navbar onOpenPassport={() => setPassportOpen(true)} />
 
-      <main className="flex-grow pt-20 lg:pt-24">
+      <main className="flex-grow pt-16 sm:pt-20 lg:pt-24 pb-16 md:pb-0">
         {children}
       </main>
 

@@ -20,8 +20,34 @@ body {
   background-size: 24px 24px;
 }
 
-h1, h2, h3, .font-serif {
+/* Typography: Primary Headlines & Editorial Titles */
+h1, h2, .font-serif {
   font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+}
+
+/* Base UI Controls & Vietnamese Font Smoothing */
+body, button, input, select, textarea {
+  font-family: var(--font-sans), 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Cultural Editorial Typography Tokens */
+.font-editorial-heading {
+  font-family: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.font-editorial-body {
+  font-family: var(--font-sans), 'Be Vietnam Pro', sans-serif;
+  line-height: 1.65;
+}
+
+.font-editorial-label {
+  font-family: var(--font-sans), 'Be Vietnam Pro', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
 }
 
 /* Custom scrollbar */

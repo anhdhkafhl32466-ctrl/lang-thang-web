@@ -17,6 +17,11 @@ export default function SplashScreen({
   const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('langthang_splash_seen')) {
+      setIsMounted(false);
+      return;
+    }
+
     const startTime = Date.now();
     const intervalTime = 25;
 
@@ -30,6 +35,9 @@ export default function SplashScreen({
         clearInterval(timer);
         setTimeout(() => {
           setIsExiting(true);
+          try {
+            sessionStorage.setItem('langthang_splash_seen', 'true');
+          } catch (_) {}
           setTimeout(() => {
             setIsMounted(false);
             onFinish?.();

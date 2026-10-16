@@ -106,7 +106,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 14 km về phía Đông Nam',
       travelTime: '30 - 45 phút bằng xe máy / xe buýt số 47A'
     },
-    heroImage: '/images/villages/bat-trang/hero.jpg',
+    heroImage: '/images/villages/bat-trang/artisan_wheel.jpg',
     gallery: [
       {
         url: '/images/villages/bat-trang/market.jpg',
@@ -382,7 +382,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 10 km về phía Tây Nam',
       travelTime: '25 - 35 phút bằng tàu điện Cát Linh - Hà Đông (ga Vạn Phúc)'
     },
-    heroImage: '/images/villages/van-phuc/hero.jpg',
+    heroImage: '/images/villages/van-phuc/jacquard_weaver.jpg',
     gallery: [
       {
         url: '/images/villages/van-phuc/loom.jpg',
@@ -565,7 +565,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 27 km về phía Tây Nam theo Quốc lộ 6',
       travelTime: '50 - 60 phút bằng ô tô hoặc xe buýt 57, 72'
     },
-    heroImage: '/images/villages/phu-vinh/hero.jpg',
+    heroImage: '/images/villages/phu-vinh/weaving_bamboo_basket.jpg',
     gallery: [
       {
         url: '/images/villages/phu-vinh/hero.jpg',
@@ -718,7 +718,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 30 km về phía Tây Nam',
       travelTime: '55 phút theo Quốc lộ 21B'
     },
-    heroImage: '/images/villages/chuong/hero.jpg',
+    heroImage: '/images/villages/chuong/conical_hat_making.jpg',
     gallery: [
       {
         url: '/images/villages/chuong/non_la_museum.jpg',
@@ -865,7 +865,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 16 km về phía Đông',
       travelTime: '35 phút theo hướng cầu Vĩnh Tuy - Vinhomes Ocean Park'
     },
-    heroImage: '/images/villages/kieu-ky/hero.jpg',
+    heroImage: '/images/villages/kieu-ky/gilding_buddha_statue.jpg',
     gallery: [
       {
         url: '/images/villages/kieu-ky/hero.jpg',
@@ -1004,7 +1004,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 28 km về phía Bắc',
       travelTime: '50 phút qua cầu Nhật Tân hoặc cầu Đông Trù'
     },
-    heroImage: '/images/villages/dao-thuc/puppet_show.jpg',
+    heroImage: '/images/villages/dao-thuc/water_puppeteers_2017.jpg',
     gallery: [
       {
         url: '/images/villages/dao-thuc/hero.jpg',
@@ -1148,7 +1148,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 15 km về phía Tây Bắc',
       travelTime: '30 phút theo tuyến đường Hồ Tùng Mậu - Cầu Diễn'
     },
-    heroImage: '/images/villages/tay-tuu/hero.jpg',
+    heroImage: '/images/villages/tay-tuu/flower_nursery.jpg',
     gallery: [
       {
         url: '/images/villages/tay-tuu/flower_market.jpg',
@@ -1276,7 +1276,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 40 km về phía Nam theo Quốc lộ 1A',
       travelTime: '60 phút bằng ô tô hoặc xe buýt'
     },
-    heroImage: '/images/villages/xuan-la/hero.jpg',
+    heroImage: '/images/villages/xuan-la/to_he_2.jpg',
     gallery: [
       {
         url: '/images/villages/xuan-la/to_he1.jpg',
@@ -1411,7 +1411,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 35 km về phía Tây Nam',
       travelTime: '50 - 60 phút theo trục QL21B hoặc xe buýt số 91'
     },
-    heroImage: '/images/villages/quang-phu-cau/hero.jpg',
+    heroImage: '/images/villages/quang-phu-cau/drying_incense_courtyard.jpg',
     gallery: [
       {
         url: '/images/villages/quang-phu-cau/incense_drying.jpg',
@@ -1572,7 +1572,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 40 km về phía Nam',
       travelTime: '60 phút theo cao tốc Pháp Vân - Cầu Giẽ'
     },
-    heroImage: '/images/villages/chuyen-my/hero.jpg',
+    heroImage: '/images/villages/chuyen-my/inlaying_pearl_tray.jpg',
     gallery: [
       {
         url: '/images/villages/chuyen-my/inlay_screen.jpg',
@@ -1727,7 +1727,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 17 km về phía Nam',
       travelTime: '30 - 35 phút theo Quốc lộ 1A'
     },
-    heroImage: '/images/villages/ha-thai/hero.jpg',
+    heroImage: '/images/villages/ha-thai/grinding_lacquer_water.jpg',
     gallery: [
       {
         url: '/images/villages/ha-thai/lacquer_box.jpg',
@@ -1869,7 +1869,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 18 km về phía Tây',
       travelTime: '30 - 40 phút theo Đại lộ Thăng Long hoặc đường 32'
     },
-    heroImage: '/images/villages/son-dong/hero.jpg',
+    heroImage: '/images/villages/son-dong/buddha_wood_statue.jpg',
     gallery: [
       {
         url: '/images/villages/son-dong/buddha_statue.jpg',
@@ -2015,7 +2015,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 45 km về phía Nam',
       travelTime: '60 - 70 phút theo QL21B'
     },
-    heroImage: '/images/villages/trach-xa/hero.jpg',
+    heroImage: '/images/villages/trach-xa/ao_dai_nghe.jpg',
     gallery: [
       {
         url: '/images/villages/trach-xa/ao_dai1.jpg',
@@ -2157,7 +2157,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 30 km về phía Tây',
       travelTime: '40 phút theo Đại lộ Thăng Long'
     },
-    heroImage: '/images/villages/thach-xa/hero.jpg',
+    heroImage: '/images/villages/thach-xa/bamboo_dragonfly.jpg',
     gallery: [
       {
         url: '/images/villages/thach-xa/bamboo_dragonfly.jpg',
@@ -2298,7 +2298,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 32 km về phía Tây',
       travelTime: '45 phút theo Đại lộ Thăng Long'
     },
-    heroImage: '/images/villages/chang-son/hero.jpg',
+    heroImage: '/images/villages/chang-son/artisan_painting_fan.jpg',
     gallery: [
       {
         url: '/images/villages/chang-son/traditional_fan.jpg',
@@ -2444,7 +2444,7 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       distanceFromCenter: 'Khoảng 8 km về phía Tây',
       travelTime: '20 phút từ trung tâm Hoàn Kiếm'
     },
-    heroImage: '/images/villages/me-tri/hero.jpg',
+    heroImage: '/images/villages/me-tri/wrapping_com_lotus_leaves.jpg',
     gallery: [
       {
         url: '/images/villages/me-tri/banh_com.jpg',

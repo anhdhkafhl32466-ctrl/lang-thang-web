@@ -67,29 +67,28 @@ export default function FlashCards() {
 
         {/* EDITORIAL SHOWCASE: Featured Lead Story (Village #0) */}
         {filteredVillages.length > 0 && (
-          <div className="mb-12 bg-white rounded-3xl border border-terracotta-200/90 overflow-hidden shadow-lg grid grid-cols-1 lg:grid-cols-12 group">
-            <div className="lg:col-span-7 relative min-h-[320px] lg:min-h-[440px] overflow-hidden bg-gray-100">
+          <div className="mb-12 bg-white rounded-3xl border border-terracotta-200/90 overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 group">
+            <div className="lg:col-span-7 relative min-h-[280px] sm:min-h-[360px] lg:min-h-[440px] overflow-hidden bg-dopaper-100">
               <img
                 src={filteredVillages[0].heroImage}
                 alt={filteredVillages[0].name}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-lacquer-950/70 via-transparent to-black/20" />
-              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-xs font-bold text-terracotta-800 shadow">
+              <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 backdrop-blur-md text-xs font-bold text-terracotta-800 border border-terracotta-200/60 shadow-sm">
                 {filteredVillages[0].category}
               </div>
-              <div className="absolute bottom-4 left-4 text-white">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-gold-300">
-                  <MapPin className="w-4 h-4" />
+              <div className="absolute bottom-4 left-4">
+                <div className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-full bg-lacquer-900/80 backdrop-blur-md text-dopaper-100 border border-white/10 shadow-sm">
+                  <MapPin className="w-3.5 h-3.5 text-gold-400 shrink-0" />
                   <span>{filteredVillages[0].location.district}, Hà Nội</span>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-5 p-8 sm:p-10 flex flex-col justify-between space-y-6">
+            <div className="lg:col-span-5 p-6 sm:p-10 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center gap-2 text-xs font-semibold text-terracotta-700 uppercase tracking-widest">
-                  <span>Tiêu điểm di sản</span>
+                <div className="flex items-center gap-2 text-xs font-semibold text-terracotta-700 tracking-wider">
+                  <span className="uppercase text-[11px] font-bold">Tiêu điểm di sản</span>
                   <span>•</span>
                   <span>{filteredVillages[0].history.originPeriod}</span>
                 </div>
@@ -98,11 +97,11 @@ export default function FlashCards() {
                   {filteredVillages[0].name}
                 </h3>
 
-                <blockquote className="border-l-2 border-gold-500 pl-4 py-1 italic text-xs sm:text-sm text-lacquer-800/85">
+                <blockquote className="border-l-3 border-gold-500 pl-4 py-1 italic font-serif text-xs sm:text-sm text-lacquer-800/85">
                   "{filteredVillages[0].tagline}"
                 </blockquote>
 
-                <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
+                <p className="text-xs sm:text-sm text-lacquer-800/75 leading-relaxed">
                   {filteredVillages[0].shortDescription}
                 </p>
 
@@ -110,7 +109,7 @@ export default function FlashCards() {
                   {(filteredVillages[0].tags || []).slice(0, 3).map((sig, idx) => (
                     <span
                       key={idx}
-                      className="px-2.5 py-1 rounded-lg bg-dopaper-100 border border-terracotta-200/60 text-[11px] font-medium text-lacquer-900"
+                      className="px-2.5 py-1 rounded-lg bg-dopaper-100 border border-terracotta-200/70 text-[11px] font-medium text-lacquer-900"
                     >
                       {sig}
                     </span>
@@ -148,58 +147,65 @@ export default function FlashCards() {
           {filteredVillages.slice(1).map((village) => (
             <article
               key={village.id}
-              className="group bg-white rounded-3xl border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400/80 transition-all duration-300 flex flex-col justify-between overflow-hidden"
+              className="group bg-white rounded-3xl border border-terracotta-200/90 shadow-xs hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col justify-between overflow-hidden"
             >
               <div>
-                <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                {/* Photo container with pristine image, zero grey overlay */}
+                <div className="relative aspect-[16/10] overflow-hidden bg-dopaper-100">
                   <img
                     src={village.heroImage}
                     alt={village.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-sm text-[11px] font-bold text-terracotta-700 shadow">
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-terracotta-700 border border-terracotta-200/60 shadow-xs">
                     {village.category}
                   </div>
-                  <div className="absolute bottom-3 left-3 flex items-center gap-1 text-white text-xs font-medium drop-shadow">
-                    <MapPin className="w-3.5 h-3.5 text-gold-400" />
-                    <span>{village.location.district}</span>
-                  </div>
                   {village.gameUrl && (
-                    <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-gold-500 text-white text-[10px] font-bold flex items-center gap-1 shadow">
+                    <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-gold-400 text-lacquer-950 text-[10px] font-bold shadow-xs flex items-center gap-1">
                       <Sparkles className="w-3 h-3" />
-                      <span>Mini-game</span>
+                      <span>Xưởng ảo</span>
                     </div>
                   )}
                 </div>
 
-                <div className="p-6 space-y-3">
-                  <div className="text-[11px] text-terracotta-600 font-semibold uppercase tracking-wider">
-                    {village.history.originPeriod}
+                {/* Card body with clear metadata */}
+                <div className="p-5 sm:p-6 space-y-3">
+                  <div className="flex items-center justify-between text-[11px] text-lacquer-800/70 pb-1 border-b border-terracotta-100/60">
+                    <span className="flex items-center gap-1 font-medium text-terracotta-700">
+                      <MapPin className="w-3.5 h-3.5 text-terracotta-500 shrink-0" />
+                      <span>{village.location.district}</span>
+                    </span>
+                    <span className="font-medium text-lacquer-800/60">
+                      {village.history.originPeriod}
+                    </span>
                   </div>
-                  <h3 className="font-serif text-lg font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors line-clamp-1">
+
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors line-clamp-1">
                     {village.name}
                   </h3>
-                  <div className="pl-3 border-l-2 border-gold-400 italic text-xs text-lacquer-800/80 line-clamp-2">
+
+                  <div className="pl-3 border-l-2 border-gold-400 italic font-serif text-xs text-lacquer-800/80 line-clamp-1">
                     "{village.tagline}"
                   </div>
+
                   <p className="text-xs text-lacquer-800/70 line-clamp-2 leading-relaxed">
                     {village.shortDescription}
                   </p>
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
-                <div className="pt-4 border-t border-terracotta-100 flex items-center justify-between">
-                  <span className="text-[11px] text-lacquer-800/60 font-medium">
-                    {village.location.distanceFromCenter} từ trung tâm
+              {/* Card Footer */}
+              <div className="p-5 sm:p-6 pt-0">
+                <div className="pt-3 border-t border-terracotta-100 flex items-center justify-between">
+                  <span className="text-[11px] text-lacquer-800/60 font-medium line-clamp-1 max-w-[55%]">
+                    {village.location.distanceFromCenter}
                   </span>
                   <Link
                     href={`/lang-nghe/${village.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-terracotta-600 hover:text-terracotta-700 group-hover:translate-x-1 transition-transform"
+                    className="inline-flex items-center gap-1 text-xs font-bold text-terracotta-600 hover:text-terracotta-700 group-hover:translate-x-1 transition-transform"
                   >
-                    <span>Xem câu chuyện</span>
+                    <span>Khám phá</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

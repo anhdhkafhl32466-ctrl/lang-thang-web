@@ -709,44 +709,42 @@ export default function CraftVillagesDirectoryPage() {
                 <div
                   key={village.id}
                   onClick={() => handleVillageClick(village)}
-                  className="bg-white rounded-3xl border border-terracotta-200/80 shadow-sm hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
+                  className="bg-white rounded-3xl border border-terracotta-200/90 shadow-xs hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                  <div className="relative aspect-[16/10] overflow-hidden bg-dopaper-100">
                     <img
                       src={village.heroImage}
                       alt={village.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
-
-                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-white/95 backdrop-blur-sm text-xs font-bold text-terracotta-700 shadow">
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md text-[11px] font-bold text-terracotta-700 border border-terracotta-200/60 shadow-xs">
                       {village.category}
                     </div>
 
                     {village.gameUrl && (
-                      <div className="absolute top-3 right-3 px-2 py-1 rounded-full bg-gold-500 text-white text-[11px] font-bold shadow flex items-center gap-1">
+                      <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-gold-400 text-lacquer-950 text-[10px] font-bold shadow-xs flex items-center gap-1">
                         <Sparkles className="w-3 h-3" />
-                        <span>Mini-game</span>
+                        <span>Xưởng ảo</span>
                       </div>
                     )}
-
-                    <div className="absolute bottom-3 left-3 flex items-center gap-1 text-white text-xs font-medium drop-shadow">
-                      <MapPin className="w-3.5 h-3.5 text-gold-400" />
-                      <span>{village.location.address}</span>
-                    </div>
                   </div>
 
-                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <div className="flex items-center justify-between">
-                        <h3 className="font-serif text-xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
-                          {village.name}
-                        </h3>
+                      <div className="flex items-center justify-between text-[11px] text-lacquer-800/70 pb-1 border-b border-terracotta-100/60 mb-2">
+                        <span className="flex items-center gap-1 font-medium text-terracotta-700">
+                          <MapPin className="w-3.5 h-3.5 text-terracotta-500 shrink-0" />
+                          <span>{village.location.district}</span>
+                        </span>
+                        <span className="font-medium text-lacquer-800/60">
+                          {village.history.originPeriod}
+                        </span>
                       </div>
-                      <p className="text-xs font-semibold text-terracotta-600 mt-0.5">
-                        {village.history.originPeriod}
-                      </p>
+
+                      <h3 className="font-serif text-lg sm:text-xl font-bold text-lacquer-900 group-hover:text-terracotta-600 transition-colors">
+                        {village.name}
+                      </h3>
 
                       <p className="text-xs italic text-gold-600 line-clamp-1 font-serif mt-1">
                         "{village.tagline}"
