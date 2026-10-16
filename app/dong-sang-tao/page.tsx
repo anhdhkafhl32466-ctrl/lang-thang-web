@@ -5,9 +5,9 @@ import BespokeStudio from '@/components/ai/BespokeStudio';
 import { CRAFT_BLANKS } from '@/lib/craftBlanks';
 
 export const metadata: Metadata = {
-  title: 'Đồng sáng tạo cùng AI | Lang Thang — Làng Nghề Hà Nội',
+  title: 'Sáng tạo tác phẩm cùng AI | Lang Thang — Làng Nghề Hà Nội',
   description:
-    'Cùng trí tuệ nhân tạo phác hoa văn lên phôi gốm Bát Tràng, lụa Vạn Phúc, nón làng Chuông và tranh khắc gỗ Hạ Thái, rồi đặt nghệ nhân của chính làng nghề đó chế tác thành sản phẩm độc bản.',
+    'Cùng trí tuệ nhân tạo sáng tạo tác phẩm nghệ thuật chân thực lên phôi gốm Bát Tràng, lụa Vạn Phúc, nón làng Chuông và tranh khắc gỗ Hạ Thái, rồi đặt nghệ nhân của chính làng nghề đó chế tác thành sản phẩm độc bản.',
 };
 
 const STEPS = [
@@ -18,13 +18,13 @@ const STEPS = [
   },
   {
     icon: Sparkles,
-    title: 'Kể ý tưởng, AI phác hoa văn',
-    body: 'AI chọn hoạ tiết, bảng màu và lối bố cục; xưởng dựng hình vector lên phôi ngay trước mắt bạn.',
+    title: 'Kể ý tưởng, AI vẽ tác phẩm chân thực',
+    body: 'Mô hình AI tạo ảnh nghệ thuật chân thực chuẩn 8K sống động, dựng bản phác hoa văn và bảng màu ngay trước mắt bạn.',
   },
   {
     icon: Palette,
-    title: 'Duyệt phiếu kỹ thuật',
-    body: 'Bản thiết kế đi kèm phiếu ghi rõ màu, hoạ tiết, mật độ — thứ nghệ nhân thực sự cần để chép lại.',
+    title: 'Duyệt ảnh AI & phiếu kỹ thuật',
+    body: 'Bản thiết kế gồm ảnh mô phỏng nghệ thuật sắc nét và phiếu kỹ thuật ghi rõ màu sắc, hoạ tiết để nghệ nhân chép lại.',
   },
   {
     icon: Hammer,
@@ -40,15 +40,13 @@ export default function DongSangTaoPage() {
         {/* ---------------------------------- mở đầu --------------------------------- */}
         <header className="max-w-3xl">
           <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-terracotta-700 bg-terracotta-50 border border-terracotta-200 rounded-full px-3 py-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> Đồng sáng tạo & đặt làm theo yêu cầu
+            <Sparkles className="w-3.5 h-3.5" /> Sáng tạo & đặt làm theo yêu cầu
           </span>
           <h1 className="font-serif text-3xl sm:text-4xl lg:text-[42px] leading-tight font-bold text-lacquer-900 mt-4">
-            Bạn và AI cùng phác, nghệ nhân làng nghề làm ra tác phẩm chỉ có một trên đời
+            Bạn và AI cùng sáng tạo, nghệ nhân làng nghề làm ra tác phẩm độc bản
           </h1>
           <p className="text-lacquer-800/80 leading-relaxed mt-4">
-            Mô tả ý tưởng bằng lời, trí tuệ nhân tạo sẽ phác hoa văn lên phôi bạn chọn. Bản thiết kế được chuyển
-            thẳng tới nghệ nhân của chính làng nghề làm ra phôi đó, kèm phiếu kỹ thuật để họ chép lại bằng tay.
-            Không có sản phẩm thứ hai giống hệt.
+            Mô tả ý tưởng bằng lời, AI sẽ tạo nên bức tranh nghệ thuật chân thực tuyệt mỹ mô phỏng trực tiếp trên phôi làng nghề bạn chọn. Bản thiết kế đi kèm ảnh tác phẩm độ nét cao và phiếu kỹ thuật chi tiết để chuyển tới tận tay nghệ nhân làng nghề chế tác thủ công.
           </p>
         </header>
 

@@ -4,6 +4,7 @@ import { assertRateLimit, callerId, recordRateLimitHit } from '@/lib/server/rate
 import { generatePatternSpec } from '@/lib/server/patternAi';
 import { blankById, blankSizeById } from '@/lib/craftBlanks';
 import { buildSpecSheet, renderPatternSvg, svgToDataUri } from '@/lib/patternStudio';
+import { generateCraftAiArt, CraftArtStyle } from '@/lib/server/craftImageAi';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,6 +17,7 @@ interface CocreateBody {
   prompt?: string;
   blankId?: string;
   sizeId?: string;
+  style?: CraftArtStyle;
   seed?: number;
   apiKey?: string;
 }
@@ -75,6 +77,14 @@ export async function POST(request: NextRequest) {
 
     const svg = renderPatternSvg(generation.spec, { size: 900 });
 
+    const style = (body.style as CraftArtStyle) || 'photorealistic';
+    const art = await generateCraftAiArt({
+      prompt,
+      blank,
+      style,
+      seed: baseSeed,
+    });
+
     recordRateLimitHit(`cocreate:${caller}`, RATE_LIMIT.windowMs);
 
     return NextResponse.json({
@@ -83,6 +93,9 @@ export async function POST(request: NextRequest) {
       sizeId: size.id,
       spec: generation.spec,
       svg,
+      aiArtUrl: art.imageUrl,
+      promptEnriched: art.promptEnriched,
+      style: art.style,
       /** Dùng trực tiếp trong thẻ <img> hoặc làm ảnh nền CSS. */
       dataUri: svgToDataUri(renderPatternSvg(generation.spec, { size: 600 })),
       specSheet: buildSpecSheet(generation.spec, `${blank.name} — ${size.label}`, size.note),

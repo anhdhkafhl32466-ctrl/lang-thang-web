@@ -93,7 +93,7 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
     { href: '/du-lich', label: 'Du lịch' },
     { href: '/san-pham', label: 'Sản phẩm' },
     { href: '/ai-goi-y', label: 'AI Gợi ý', isSpecial: true },
-    { href: '/dong-sang-tao', label: 'Đồng sáng tạo', isSpecial: true },
+    { href: '/dong-sang-tao', label: 'Sáng tạo', isSpecial: true },
   ];
 
   const isActive = (path: string) => {
