@@ -1,8 +1,14 @@
 import { CRAFT_VILLAGES, CraftVillage } from '@/data/craftVillages';
 
+export interface ChatHistoryItem {
+  sender: 'bot' | 'user';
+  text: string;
+}
+
 export interface AiResponseResult {
   reply: string;
-  source: 'gemini-1.5-flash' | 'local-expert-engine';
+  source: 'gemini-3.5-flash' | 'gemini-3.5-flash-lite' | 'gemini-3.1-flash-lite' | 'gemini-cloud-ai' | 'local-expert-engine';
+  modelUsed?: string;
   suggestedFollowUps?: string[];
   relatedVillageSlug?: string;
 }
@@ -982,10 +988,98 @@ ${tours}
     };
   }
 
-  // 11. GREETINGS & CASUAL TALK
+  // 11. CREATIVE POETRY & FOLK RHYMES (Sáng tác thơ ca dân gian)
+  if (hasAnyPhrase(n, ['lam tho', 'sang tac tho', 'bai tho', 'luc bat', 'ngam tho', 'viet tho'])) {
+    if (mentionedVillages.length > 0) {
+      const v = mentionedVillages[0];
+      const villagePoems: Record<string, string> = {
+        'thach-xa': `🌿 **Thơ Lục Bát Về Làng Chuồn Chuồn Tre Thạch Xá:**\n\n*Mời người về với Tây Phương,\nĐá ong trầm mặc, mái chùa cổ phong.\nChuồn chuồn tre mộc mây vờn,\nĐậu trên đầu ngón, xoay vần gió mây.\n\nSơn mài rực rỡ men say,\nBàn tay nghệ nhân khéo dệt hồn quê.\nTrải qua mưa nắng dãi dề,\nChuồn chuồn giữ mộng say mê lòng người.*`,
+        'bat-trang': `🏺 **Thơ Lục Bát Về Làng Gốm Bát Tràng:**\n\n*Bát Tràng soi bóng sông Hồng,\nLò bầu đỏ lửa, ngàn năm giữ nghề.\nĐất sét nhào nặn say mê,\nBàn xoay vuốt khéo men lam hiện hình.\n\nMen rạn cổ kính lung linh,\nCanh măng mực ngọt đượm tình Tràng An.\nTách trà thơm ngát cung đàn,\nĐất thô hóa ngọc muôn vàn sắc xuân.*`,
+        'quang-phu-cau': `🏮 **Thơ Lục Bát Về Làng Hương Quảng Phú Cầu:**\n\n*Về thăm Phú Cầu chiều nay,\nSân đình rực đỏ mê say lòng người.\nChân hương xòe cánh hoa tươi,\nThảo mộc ngào ngạt đất trời ngát thơm.\n\nKhói trầm lan tỏa hoàng hôn,\nLời ru tiên tổ bồn chồn nhớ mong.\nBiển đỏ rạng rỡ sắc hồng,\nNét son di sản non sông ngàn đời.*`,
+        'van-phuc': `🧣 **Thơ Lục Bát Về Làng Lụa Vạn Phúc:**\n\n*Vạn Phúc vang tiếng thoi đưa,\nBà Chúa Lụa dạy ngàn xưa còn truyền.\nTơ vàng óng ả tơ duyên,\nLụa Vân mềm mướt dịu hiền nắng mai.\n\nÁo dài tha thướt bờ vai,\nCon đường ô ngập sắc hoa nụ cười.\nHà Đông lụa quý tuyệt vời,\nNghìn năm dệt gấm trao người tri âm.*`,
+        'me-tri': `🌾 **Thơ Lục Bát Về Làng Cốm Mễ Trì:**\n\n*Mễ Trì thơm nức đồng xanh,\nTiếng chày nhịp giã tan tành sương mai.\nCốm non gói lá sen ngời,\nSợi rơm vàng buộc thắm lời yêu thương.\n\nThu về rải khắp phố phường,\nXôi dừa hạt sen vấn vương tình người.\nThức quà thanh khiết tinh khôi,\nĐậm đà phong vị đất trời Thăng Long.*`
+      };
+
+      const poem = villagePoems[v.slug] || `🏮 **Bài Thơ Dành Tặng ${v.name}:**\n\n*Trăm năm gìn giữ tinh hoa,\nĐôi tay nghệ nhân dệt gấm thêu hoa cho đời.\n${v.name} thắm nét rạng ngời,\nTheo chân văn hóa, mở ngàn điều hay.*`;
+
+      return {
+        reply: `${poem}\n\n💡 **Cảm hứng:** Bạn có muốn tôi viết tặng thêm một khổ thơ riêng theo tên bạn hoặc lên lịch trình đến thăm **${v.name}** cuối tuần này không?`,
+        source: 'local-expert-engine',
+        suggestedFollowUps: [
+          `Đường đi đến ${v.name}?`,
+          `Món ngon nổi tiếng ở ${v.name}?`,
+          `Góc chụp ảnh đẹp nhất tại ${v.name}?`
+        ],
+        relatedVillageSlug: v.slug
+      };
+    }
+
+    return {
+      reply: `🏮 **Bài Thơ Lục Bát: Vọng Hồn Làng Nghề Thăng Long**\n\n*Lang Thang ghé một ngôi làng,\nTheo chân văn hóa mở ngàn điều hay.\nBát Tràng gốm vuốt men say,\nVạn Phúc dệt lụa ngất ngây tơ vàng.\n\nQuảng Phú Cầu đỏ chân nhang,\nMễ Trì cốm mộc nồng nàn thu sang.\nTrạch Xá kim khâu nhịp nhàng,\nChuồn chuồn Thạch Xá thênh thang gió trời.\n\nBàn tay nghệ nhân ngàn đời,\nĐắp bồi phù sa, vẽ ngời non sông.*`,
+      source: 'local-expert-engine',
+      suggestedFollowUps: [
+        'Làm thơ về làng chuồn chuồn tre Thạch Xá',
+        'Làm thơ về làng gốm Bát Tràng',
+        'Làm thơ về làng lụa Vạn Phúc'
+      ]
+    };
+  }
+
+  // 12. ROMANCE & DATING (Hẹn hò cặp đôi lãng mạn)
+  if (hasAnyPhrase(n, ['hen ho', 'nguoi yeu', 'cap doi', 'lang man', 'ban gai', 'ban trai', 'crush', 'tinh yeu'])) {
+    return {
+      reply: `💑 **Gợi Ý Kế Hoạch Hẹn Hò Lãng Mạn 1 Ngày Bên Nhau Tại Làng Nghề:**
+
+✨ **Ý tưởng 1: "Chuyện Tình Sông Hồng" tại Làng Gốm Bát Tràng (Cách trung tâm 14km)**
+- **14:00:** Cùng nhau ngồi bên bàn xoay gốm, hai bàn tay lấm lem đất sét cùng nặn chung chiếc cốc đôi khắc tên hai bạn (cực kỳ tình cảm như phim *Ghost*).
+- **16:30:** Nắm tay dạo bước chiêm ngưỡng kiến trúc 7 cánh xoắn ốc tại Bảo tàng Gốm Bát Tràng.
+- **17:30:** Ghé quán cà phê bên bờ sông Hồng ngắm hoàng hôn đỏ rực buông xuống mặt nước.
+
+✨ **Ý tưởng 2: "Mùa Thu Dịu Dàng" tại Làng Cốm Mễ Trì & Lụa Vạn Phúc (Rất gần, đi tàu điện)**
+- **08:30:** Đi tàu điện Cát Linh trên cao ngắm phố phường thảnh thơi sang Vạn Phúc.
+- **09:30:** Chụp ảnh đôi rạng rỡ dưới con đường ô sắc màu và chọn mua một dải khăn lụa tơ tằm tặng người thương.
+- **11:30:** Ghé Mễ Trì nhâm nhi xôi cốm hạt sen dừa dẻo ngọt và tách trà sen thơm nức.
+
+💡 **Mách bạn:** Buổi hẹn hò ở làng nghề vừa có chiều sâu văn hóa, vừa có sản phẩm kỷ niệm đem về và góc ảnh check-in độc đáo!`,
+      source: 'local-expert-engine',
+      suggestedFollowUps: [
+        'Cách đi xe buýt đến Bát Tràng?',
+        'Quán cà phê view đẹp gần Bát Tràng?',
+        'Chi phí hẹn hò 1 ngày hết bao nhiêu?'
+      ]
+    };
+  }
+
+  // 13. PHOTOGRAPHY & VINTAGE CONCEPT MASTERCLASS
+  if (hasAnyPhrase(n, ['concept', 'vintage', 'mau phim', 'co phuc', 'may anh', 'ong kinh', 'chup chan dung'])) {
+    return {
+      reply: `📸 **Cẩm Nang Sáng Tạo Concept Chụp Ảnh Di Sản Đẹp "Triệu View":**
+
+1. 🏮 **Concept "Sắc Đỏ Rực Rỡ" — Làng Hương Quảng Phú Cầu:**
+   - **Trang phục lý tưởng:** Áo dài trắng, váy trắng hoặc trang phục màu vàng mù tạt/be mộc (tương phản hoàn hảo với thảm chân hương đỏ son).
+   - **Thời điểm vàng:** 07:30 – 09:30 sáng khi nắng sớm xiên qua từng bó hương xòe hoa, tạo hiệu ứng ven sáng lấp lánh.
+   - **Góc chụp:** Góc máy cao (flycam hoặc từ thang tre chụp xuống) và góc cận cảnh nghệ nhân bó hương.
+
+2. 🧣 **Concept "Tiểu Thư Hà Thành Thập Niên 90" — Làng Lụa Vạn Phúc:**
+   - **Trang phục:** Áo dài lụa ngũ thân hoặc áo dài hoa nhí vintage, tóc kẹp càng cua hoặc búi thấp.
+   - **Bối cảnh:** Cổng chùa Vạn Phúc rêu phong, bức tường bích họa dệt lụa và ngõ gạch cổ kính.
+
+3. 🏺 **Concept "Nghệ Thuật Mộc Mạc & Đất Sét" — Làng Gốm Bát Tràng:**
+   - **Trang phục:** Quần áo vải linen, đũi mộc mạc tông nâu đất, be hoặc trắng kem.
+   - **Góc chụp:** Đôi bàn tay vuốt đất sét trên bàn xoay, sân phơi gốm mộc ngõ nhỏ.`,
+      source: 'local-expert-engine',
+      suggestedFollowUps: [
+        'Đường đi đến làng hương Quảng Phú Cầu?',
+        'Thời gian chụp ảnh đẹp nhất ở Quảng Phú Cầu?',
+        'Giá vé chụp ảnh tại các xưởng làng nghề?'
+      ]
+    };
+  }
+
+  // 14. GREETINGS & CASUAL TALK
   if (hasAnyPhrase(n, ['chao', 'hi', 'hello', 'alo', 'ban la ai', 'lam duoc gi', 'tro ly'])) {
     return {
-      reply: `Xin chào bạn! Tôi là **Trợ lý Thông Minh Làng Nghề Hà Nội 2.0** 🏮.
+      reply: `Xin chào bạn! Tôi là **Trợ lý Thông Minh Làng Nghề Hà Nội** 🏮.
 
 Tôi nắm trọn vẹn dữ liệu thực tế của **16 làng nghề truyền thống tiêu biểu của Thủ đô**:
 🏺 Gốm Bát Tràng | 🌾 Cốm Mễ Trì | 🧣 Lụa Vạn Phúc | 🏮 Hương Quảng Phú Cầu
@@ -993,65 +1087,100 @@ Tôi nắm trọn vẹn dữ liệu thực tế của **16 làng nghề truyền
 👒 Nón Chuông | 🧺 Mây tre Phú Vinh | 🪡 Áo dài Trạch Xá | 🪵 Tạc tượng Sơn Đồng
 ✨ Khảm trai Chuyên Mỹ | 🎨 Sơn mài Hạ Thái | 🪙 Dát vàng Kiêu Kỵ | 🪭 Quạt Chàng Sơn
 
-Bạn muốn tôi tư vấn về điều gì hôm nay? (Lịch trình, cách đi xe buýt, địa điểm chụp ảnh sống ảo, quán ăn ngon hay chi phí chuyến đi?)`,
+Bạn muốn tôi tư vấn điều gì hôm nay? (Lập lịch trình du lịch, cách đi xe buýt, gợi ý góc chụp ảnh, món ăn đặc sản hay sáng tác một bài thơ?)`,
       source: 'local-expert-engine',
       suggestedFollowUps: defaultChips
     };
   }
 
-  // 12. SMART DYNAMIC FALLBACK
+  // 15. DYNAMIC SEMANTIC SYNTHESIS FALLBACK
   return {
-    reply: `Cảm ơn bạn đã hỏi! Về yêu cầu **"${rawQuery}"**, tôi có thể tư vấn chi tiết cho bạn:
+    reply: `Cảm ơn bạn đã hỏi về **"${rawQuery}"**! 
 
-Hà Nội có **16 làng nghề truyền thống** độc đáo phân bố từ nội đô đến ngoại thành:
-- **Nếu bạn muốn đi gần (< 15km, chỉ 2-3 tiếng):** Hãy ghé **Làng Cốm Mễ Trì** (8km) thưởng thức ẩm thực, **Làng Lụa Vạn Phúc** (11km) đi tàu điện Cát Linh, hoặc **Làng Gốm Bát Tràng** (14km) vuốt gốm bàn xoay.
-- **Nếu bạn thích chụp ảnh sống ảo "triệu view":** Hãy đến **Làng Hương Quảng Phú Cầu** (35km) ngắm thảm chân hương đỏ thắm rực rỡ hoặc **Làng Hoa Tây Tựu** (13km).
-- **Nếu đi cùng gia đình & trẻ nhỏ:** Hãy chọn **Làng Rối Nước Đào Thục** (bé được lội nước điều khiển chú Tễu), **Làng Tò He Xuân La** hoặc **Làng Chuồn Chuồn Tre Thạch Xá**.
+Hà Nội là mảnh đất ngàn năm văn hiến sở hữu hơn **1.350 làng có nghề** và **327 làng nghề được công nhận chính thức**. Để giải đáp trọn vẹn mong muốn của bạn, tôi xin gợi ý 3 hướng trải nghiệm đặc sắc nhất:
 
-Bạn muốn tìm hiểu kỹ hơn về làng nghề nào, hoặc muốn tôi lên lịch trình chi tiết cho chuyến đi của bạn?`,
+1. 🏺 **Trải nghiệm gần trung tâm & ẩm thực tinh hoa (< 15km):**
+   - **Làng Cốm Mễ Trì** (8km): Thưởng thức xôi cốm hạt sen, chả cốm giòn thơm, tham quan lò rang thủ công.
+   - **Làng Lụa Vạn Phúc** (11km): Đi tàu điện trên cao Cát Linh dạo con đường ô sắc màu rực rỡ.
+   - **Làng Gốm Bát Tràng** (14km): Ngồi bàn xoay tự tay vuốt gốm và chiêm ngưỡng Bảo tàng gốm 7 tầng xoắn ốc.
+
+2. 📸 **Tọa độ sống ảo & Cảnh quan thị giác mãn nhãn:**
+   - **Làng Hương Quảng Phú Cầu** (35km): Biển chân hương đỏ thắm từng lên báo quốc tế (CNN, National Geographic).
+   - **Làng Hoa Tây Tựu** (13km): Cánh đồng cúc, ly bạt ngàn trong sớm mai.
+
+3. 👨‍👩‍👧‍👦 **Trải nghiệm gia đình, nhóm bạn & khéo tay:**
+   - **Làng Rối Nước Đào Thục** (bé được lội nước điều khiển con rối), **Tò He Xuân La** và **Chuồn Chuồn Tre Thạch Xá**.
+
+Bạn muốn tìm hiểu sâu hơn về làng nghề nào, hoặc muốn tôi lên lịch trình chi tiết kèm chi phí và đường đi cho bạn?`,
     source: 'local-expert-engine',
     suggestedFollowUps: defaultChips
   };
 }
 
-// Main AI Assistant Interface that supports Google Gemini Cloud LLM
+// Main AI Assistant Interface that supports Google Gemini Cloud LLM with Multi-turn Memory
 export async function askEnhancedCraftAssistant(
   userQuery: string,
-  userGeminiKey?: string
+  userGeminiKey?: string,
+  history?: ChatHistoryItem[]
 ): Promise<AiResponseResult> {
   const activeKey = (userGeminiKey || process.env.GEMINI_API_KEY || '').trim();
 
   // 1. If Gemini API key is available, call official Google Gemini models
   if (activeKey && activeKey.length > 10) {
-    const systemPrompt = `Bạn là Trợ lý Ảo AI chuyên gia cao cấp của nền tảng "Lang Thang — Làng Nghề Hà Nội" (Slogan: "Lang Thang ghé một ngôi làng / Theo chân văn hóa, mở ngàn điều hay").
-Bạn am hiểu tường tận toàn bộ 16 Làng Nghề Truyền Thống của Hà Nội:
-- Bát Tràng (Gốm sứ, lò bầu, vuốt gốm, Bảo tàng 7 tầng xoắn ốc, canh măng mực, buýt 47A)
-- Mễ Trì (Cốm non mộc lá sen, xôi cốm dừa hạt sen, chả cốm giòn thơm, buýt 33, 50, 74)
-- Vạn Phúc (Lụa tơ tằm, con đường ô dù, bún chả Cầu Am, tàu điện Cát Linh - Hà Đông)
-- Quảng Phú Cầu (Hương đỏ triệu view, vịt cỏ Vân Đình, buýt 91)
-- Tây Tựu (Đồng hoa bạt ngàn, bún đậu làng Đăm, ổi đào)
-- Đào Thục (Rối nước Thủy đình cổ, lội nước điều khiển chú Tễu cùng nghệ nhân)
-- Xuân La (Tò he bột nếp ngũ sắc duy nhất Việt Nam, bánh đa gấc)
-- Thạch Xá (Chuồn chuồn tre thăng bằng, Chùa Tây Phương 239 bậc đá ong, chè lam)
-- Làng Chuông (Nón lá bài thơ, chợ phiên rạng sáng đê sông Đáy, bánh đúc tương bần)
-- Phú Vinh (Mây tre đan xuất khẩu châu Âu, decor sống xanh vintage)
-- Trạch Xá (Cội nguồn áo dài hơn 1000 năm, khâu tay giấu chỉ độc nhất)
-- Sơn Đồng (Tạc tượng Phật, đồ thờ sơn son thếp vàng, nem Phùng)
-- Chuyên Mỹ (Khảm xà cừ vỏ ốc cửu khổng ngũ sắc từ thời Lý, bún bung hoa chuối)
-- Hạ Thái (Sơn mài mỹ thuật, dát vỏ trứng và mài nước kỳ công)
-- Kiêu Kỵ (Làng dát vàng quỳ độc nhất Việt Nam, đập 1 chỉ vàng thành ngàn lá quỳ)
-- Chàng Sơn (Quạt giấy dó, quạt lụa từng dự triển lãm Paris, bánh tẻ lá dong).
+    const systemPrompt = `Bạn là "Trợ lý Trí tuệ Nhân tạo Di sản Làng nghề Hà Nội — Nền tảng Lang Thang" (Slogan: "Lang Thang ghé một ngôi làng / Theo chân văn hóa, mở ngàn điều hay").
+Bạn là một chuyên gia nghiên cứu văn hóa dân gian Thăng Long, đồng thời là một travel blogger sành sỏi, lịch thiệp và vô cùng sáng tạo.
 
-Nhiệm vụ của bạn là tư vấn du lịch, gợi ý lịch trình, phương tiện (xe buýt, xe máy, tàu điện), ẩm thực, chi phí, góc chụp ảnh sống ảo và lịch sử văn hóa một cách nhiệt tình, đĩnh đạc, ấm áp, có cấu trúc rõ ràng với icon sinh động, tiếng Việt chuẩn mực.
+NHIỆM VỤ & PHONG CÁCH CỦA BẠN:
+1. TRẢ LỜI MỌI CÂU HỎI MỘT CÁCH THÔNG MINH, SÁNG TẠO VÀ TỰ NHIÊN:
+   - KHÔNG BAO GIỜ trả lời rập khuôn, máy móc hay nói "tôi chỉ biết trả lời câu hỏi có sẵn". Bạn có khả năng trả lời bất kỳ câu hỏi nào về du lịch, lịch sử, văn hóa, ẩm thực, nhiếp ảnh, chi phí hay đời sống.
+   - SẴN SÀNG SÁNG TẠO: Làm thơ (lục bát, tứ tuyệt, thơ tự do), viết tản văn cảm xúc, viết kịch bản du lịch, viết caption sống ảo Facebook/Instagram/TikTok hay thư tình lãng mạn gắn liền với hình tượng làng nghề.
+   - LẬP KẾ HOẠCH TINH TẾ: Khi được yêu cầu lên kế hoạch (hẹn hò cặp đôi, du lịch gia đình có trẻ nhỏ, phượt sinh viên, team building công ty, tiếp khách quốc tế), hãy tư vấn có thời gian biểu (timeline) cụ thể từng giờ, chi phí ước tính, phương tiện và lưu ý trang phục.
+   - SO SÁNH SÂU SẮC: Khi được yêu cầu so sánh (ví dụ: gốm Bát Tràng vs gốm Phù Lãng; lụa Vạn Phúc vs lụa Mã Châu/Nha Xá; cốm Mễ Trì vs cốm Vòng), hãy phân tích sâu sắc về kỹ thuật chế tác, lịch sử và cảm xúc thẩm mỹ.
 
-Hãy trả lời câu hỏi sau của người dùng: "${userQuery}"`;
+2. CƠ SỞ DỮ LIỆU CHUYÊN SÂU 16 LÀNG NGHỀ TRUYỀN THỐNG HÀ NỘI:
+   - Bát Tràng (Gia Lâm, 14km): Gốm sứ, bàn xoay vuốt tay, bảo tàng xoắn ốc đất nung 7 tầng, canh măng mực, buýt 47A.
+   - Mễ Trì (Nam Từ Liêm, 8km): Cốm non mộc lá sen, xôi cốm dừa hạt sen, chả cốm giòn thơm, chè cốm hoa bưởi, buýt 33, 50, 74.
+   - Vạn Phúc (Hà Đông, 11km): Lụa tơ tằm, con đường ô dù, bà chúa lụa A Lã Thị Nương, bún chả Cầu Am, tàu điện Cát Linh ga Vạn Phúc.
+   - Quảng Phú Cầu (Ứng Hòa, 35km): Biển chân hương đỏ thắm triệu view, vịt cỏ Vân Đình nướng giòn, buýt 91.
+   - Tây Tựu (Bắc Từ Liêm, 13km): Đồng hoa bạt ngàn sớm mai, bún đậu làng Đăm, buýt 29.
+   - Đào Thục (Đông Anh, 25km): Thủy đình múa rối nước cổ, lội nước cầm sào điều khiển chú Tễu cùng nghệ nhân.
+   - Xuân La (Phú Xuyên, 40km): Làng tò he duy nhất Việt Nam, nặn bột nếp ngũ sắc tự nhiên, bánh đa gấc.
+   - Thạch Xá (Thạch Thất, 32km): Chuồn chuồn tre tự giữ thăng bằng kỳ diệu, chùa Tây Phương 239 bậc đá ong, chè lam xứ Đoài.
+   - Làng Chuông (Thanh Oai, 30km): Nón lá bài thơ, chợ nón sớm đê sông Đáy, bánh đúc tương bần, buýt 103A.
+   - Phú Vinh (Chương Mỹ, 27km): Mây tre đan mắt cáo, giỏ hoa, đèn lồng xuất khẩu châu Âu, phong cách vintage.
+   - Trạch Xá (Ứng Hòa, 45km): Cội nguồn áo dài hơn 1000 năm, khâu tay dọc giấu chỉ độc nhất vô nhị.
+   - Sơn Đồng (Hoài Đức, 20km): Tạc tượng Phật gỗ mít, đồ thờ sơn son thếp vàng, nem Phùng.
+   - Chuyên Mỹ (Phú Xuyên, 42km): Khảm trai ốc xà cừ ngũ sắc thời Lý, bún bung hoa chuối.
+   - Hạ Thái (Thường Tín, 17km): Sơn mài mỹ thuật, cẩn vỏ trứng, mài nước then bóng loáng.
+   - Kiêu Kỵ (Gia Lâm, 16km): Dát vàng quỳ độc nhất Việt Nam, đập 1 chỉ vàng thành 1000 lá quỳ mỏng như cánh ve.
+   - Chàng Sơn (Thạch Thất, 30km): Quạt giấy dó, quạt lụa từng dự triển lãm Paris thế kỷ trước, bánh tẻ lá dong.
+
+3. ĐỊNH DẠNG TRÌNH BÀY:
+   - Dùng Markdown đẹp mắt (tiêu đề, in đậm, gạch đầu dòng, bảng so sánh nếu cần).
+   - Thêm emoji tinh tế, tạo cảm giác thân thiện, hào sảng và mến khách của người Hà Nội.
+   - Cuối câu trả lời, hãy gợi mở 2-3 câu hỏi thú vị để người dùng tiếp tục khám phá.`;
 
     const candidateModels = [
-      'gemini-3.6-flash',
-      'gemini-3.5-flash',
       'gemini-3.5-flash-lite',
+      'gemini-3.1-flash-lite',
+      'gemini-3.5-flash',
       'gemini-flash-latest'
     ];
+
+    // Build conversation history for multi-turn conversational context
+    const chatContents: { role: 'user' | 'model'; parts: { text: string }[] }[] = [];
+    if (history && history.length > 0) {
+      for (const h of history.slice(-6)) {
+        chatContents.push({
+          role: h.sender === 'user' ? 'user' : 'model',
+          parts: [{ text: h.text }]
+        });
+      }
+    }
+    chatContents.push({
+      role: 'user',
+      parts: [{ text: userQuery }]
+    });
 
     for (const model of candidateModels) {
       try {
@@ -1059,14 +1188,13 @@ Hãy trả lời câu hỏi sau của người dùng: "${userQuery}"`;
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: systemPrompt }]
-              }
-            ],
+            system_instruction: {
+              parts: [{ text: systemPrompt }]
+            },
+            contents: chatContents,
             generationConfig: {
-              temperature: 0.7,
-              maxOutputTokens: 1200
+              temperature: 0.8,
+              maxOutputTokens: 2048
             }
           })
         });
@@ -1078,18 +1206,19 @@ Hãy trả lời câu hỏi sau của người dùng: "${userQuery}"`;
             const localFallback = generateSmartLocalAnswer(userQuery);
             return {
               reply: text,
-              source: 'gemini-1.5-flash',
+              source: 'gemini-cloud-ai',
+              modelUsed: model,
               suggestedFollowUps: localFallback.suggestedFollowUps || [
-                'Làng nghề nào gần trung tâm nhất?',
-                'Tọa độ chụp ảnh sống ảo đẹp nhất?',
-                'Món ngon đặc sản không thể bỏ lỡ?'
+                'Gợi ý lịch trình 1 ngày chi tiết?',
+                'Món ngon đặc sản không thể bỏ qua?',
+                'Cách đi xe buýt tiết kiệm nhất?'
               ],
               relatedVillageSlug: localFallback.relatedVillageSlug
             };
           }
         }
-      } catch (err) {
-        // Continue to next model if this one fails
+      } catch {
+        // Continue to next candidate model
       }
     }
   }
@@ -1097,4 +1226,5 @@ Hãy trả lời câu hỏi sau của người dùng: "${userQuery}"`;
   // 2. High-performance offline Expert Engine (Instant, zero latency, highly accurate)
   return generateSmartLocalAnswer(userQuery);
 }
+
 

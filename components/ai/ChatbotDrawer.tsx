@@ -34,14 +34,14 @@ export default function ChatbotDrawer() {
     {
       id: 'msg-welcome',
       sender: 'bot',
-      text: 'Xin chào! Tôi là **Trợ lý Thông Minh Làng Nghề Hà Nội 2.0** 🏮.\n\nTôi nắm rõ toàn bộ dữ liệu chi tiết của **16 làng nghề truyền thống Thủ đô** (lịch trình, cách đi xe buýt, món ăn đặc sản, góc chụp ảnh sống ảo triệu view và chi phí chi tiết). Bạn muốn khám phá điều gì hôm nay?',
+      text: 'Xin chào! Tôi là **Trợ lý Trí Tuệ Nhân Tạo Làng Nghề Thăng Long - Hà Nội** 🏮✨.\n\nTôi được tích hợp mô hình ngôn ngữ lớn thông minh cùng kho tri thức văn hóa sâu rộng về **327 làng nghề Hà Nội & 16 di sản thủ công tiêu biểu**. Tôi có thể giúp bạn:\n\n• ✍️ **Sáng tác thơ ca, lục bát, câu đối** về bất kỳ làng nghề nào\n• 💑 **Thiết kế lịch trình hẹn hò lãng mạn** cho cặp đôi hoặc gia đình\n• 📸 **Tư vấn concept chụp ảnh vintage**, góc check-in nghệ thuật ngàn like\n• 🔍 **So sánh kỹ thuật thủ công, ẩm thực & hướng dẫn xe buýt** cực kỳ tiết kiệm\n\nBạn muốn khám phá hay cần tôi sáng tạo nội dung gì hôm nay?',
       timestamp: 'Vừa xong',
       source: 'local-expert-engine',
       suggestedFollowUps: [
-        'Làng nghề nào gần trung tâm nhất?',
-        'Tọa độ chụp ảnh sống ảo triệu view?',
-        'Gia đình có trẻ nhỏ nên đi đâu?',
-        'Có 300k thì nên trải nghiệm gì?'
+        '🎋 Làm bài thơ về chuồn chuồn tre Thạch Xá',
+        '💑 Kế hoạch hẹn hò lãng mạn 1 ngày cho cặp đôi?',
+        '📸 Tư vấn concept chụp ảnh áo dài vintage?',
+        '🍲 So sánh cốm Mễ Trì và cốm Làng Vòng?'
       ]
     }
   ]);
@@ -50,12 +50,12 @@ export default function ChatbotDrawer() {
 
   // Quick initial prompts
   const quickPrompts = [
-    'Thèm ăn cốm tươi và đặc sản?',
-    'Chỉ rảnh 2-3 tiếng gần trung tâm?',
-    'Gia đình có trẻ nhỏ nên đi đâu?',
-    'Chụp ảnh sống ảo triệu view?',
-    'Có 300k đi xe buýt thế nào?',
-    'Tour 1 ngày kết hợp 2 làng nghề?'
+    '🎋 Thơ về chuồn chuồn tre Thạch Xá',
+    '💑 Kế hoạch hẹn hò 1 ngày lãng mạn?',
+    '📸 Concept chụp ảnh áo dài hoài niệm?',
+    '🍲 So sánh cốm Mễ Trì & cốm Vòng?',
+    '🚌 Đi phượt làng nghề bằng xe buýt < 200k?',
+    '👨‍👩‍👧‍👦 Dẫn bé 5 tuổi đi trải nghiệm gì?'
   ];
 
   // Load user API key from localStorage
@@ -146,13 +146,19 @@ export default function ChatbotDrawer() {
     try {
       let resData: AiResponseResult | null = null;
 
-      // 1. Attempt call to backend /api/chat (passes apiKey if configured)
+      // 1. Attempt call to backend /api/chat (passes apiKey if configured and conversation history)
       try {
+        const historyPayload = messages.slice(-8).map((m) => ({
+          sender: m.sender,
+          text: m.text
+        }));
+
         const res = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             message: textToSend,
+            history: historyPayload,
             apiKey: activeApiKey
           })
         });
@@ -238,7 +244,11 @@ export default function ChatbotDrawer() {
                 </div>
                 <span className="text-[11px] text-dopaper-200 flex items-center gap-1">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  {activeApiKey ? 'Đã bật Gemini 1.5 Flash Cloud LLM ⚡' : 'Engine Chuyên Gia 16 Làng Nghề 🧠'}
+                  {activeApiKey
+                    ? 'AI Gemini Cloud (Khóa riêng) ⚡'
+                    : sharedAiConfigured
+                      ? 'Trí tuệ AI Gemini 3.5 Cloud ✨'
+                      : 'Engine Chuyên Gia 16 Làng Nghề 🧠'}
                 </span>
               </div>
             </div>
@@ -376,7 +386,9 @@ export default function ChatbotDrawer() {
                     <div className="flex items-center justify-between text-[10px] mt-1.5">
                       {m.sender === 'bot' && (
                         <span className="text-lacquer-800/40">
-                          {m.source === 'gemini-1.5-flash' ? '⚡ Gemini 1.5 Flash' : '🧠 Engine Làng Nghề 2.0'}
+                          {m.source?.startsWith('gemini')
+                            ? `⚡ Trí tuệ AI Gemini (${m.source})`
+                            : '🧠 Engine Chuyên Gia Làng Nghề'}
                         </span>
                       )}
                       <span className={m.sender === 'user' ? 'text-white/70 ml-auto' : 'text-lacquer-800/40 ml-auto'}>
@@ -435,7 +447,7 @@ export default function ChatbotDrawer() {
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Hỏi về lịch trình, món ăn, xe buýt, ngân sách..."
+                placeholder="Hỏi bất cứ điều gì: sáng tác thơ, lịch trình hẹn hò, xe buýt, câu chuyện lịch sử..."
                 className="flex-1 bg-dopaper-100 text-lacquer-900 text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:outline-none focus:border-terracotta-500"
               />
               <button
