@@ -132,11 +132,10 @@ export default function CraftVillagesDirectoryPage() {
   };
 
   return (
-    <div className="min-h-screen py-6 sm:py-10 bg-dopaper-50">
+    <div className="min-h-screen py-6 sm:py-10 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Top Header & Context */}
-        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-6 sm:p-8 overflow-hidden shadow-xs">
-          <div className="absolute inset-0 bg-cultural-pottery opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+        <div className="relative rounded-3xl bg-cultural-pottery bg-cover bg-right border-2 border-terracotta-300 shadow-md p-6 sm:p-8 overflow-hidden">
           <div className="relative z-10 space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-800 text-xs font-bold border border-terracotta-200">

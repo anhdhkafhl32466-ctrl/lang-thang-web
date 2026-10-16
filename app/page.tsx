@@ -20,7 +20,7 @@ export default function HomePage() {
       <StorytellingTimeline />
 
       {/* 4. Interactive Map Teaser Section */}
-      <section className="py-20 bg-dopaper-100/50 relative overflow-hidden">
+      <section className="py-20 texture-paper texture-paper--river texture-paper--tint-100 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="bg-white rounded-3xl border border-terracotta-200 shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-12">
             <div className="lg:col-span-5 p-8 sm:p-12 flex flex-col justify-between space-y-6">
@@ -93,7 +93,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Mini-game Experience Callout */}
-      <section className="py-20 bg-gradient-to-b from-dopaper-50 to-terracotta-50/40 relative">
+      <section className="py-20 texture-paper texture-paper--bamboo texture-paper--medium relative">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold mb-2">
@@ -184,9 +184,8 @@ export default function HomePage() {
       <EcosystemSection />
 
       {/* 7. CTA: AI Recommendation Callout */}
-      <section className="py-16 bg-terracotta-500 text-white relative overflow-hidden">
-        {/* Cultural riverboat backdrop */}
-        <div className="absolute inset-0 bg-cultural-river opacity-20 mix-blend-screen pointer-events-none bg-cover bg-center" />
+      <section className="py-16 bg-cultural-river bg-cover bg-center text-white relative overflow-hidden shadow-2xl">
+        <div className="absolute inset-0 bg-lacquer-950/35 pointer-events-none" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-gold-300" />

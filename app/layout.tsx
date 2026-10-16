@@ -155,7 +155,7 @@ export default function RootLayout({
           crossOrigin=""
         />
       </head>
-      <body className="font-sans antialiased bg-dopaper-50 text-lacquer-900 selection:bg-terracotta-100 selection:text-terracotta-900">
+      <body className="font-sans antialiased bg-transparent text-lacquer-900 selection:bg-terracotta-100 selection:text-terracotta-900">
         <AppShell>{children}</AppShell>
       </body>
     </html>

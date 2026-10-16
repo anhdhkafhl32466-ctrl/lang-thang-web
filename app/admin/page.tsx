@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
 
   if (access !== 'ok') {
     return (
-      <div className="min-h-screen py-16 bg-dopaper-50">
+      <div className="min-h-screen texture-paper texture-paper--moon py-16">
         <div className="max-w-xl mx-auto px-4">
           <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
             <div className="w-14 h-14 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto">
@@ -143,7 +143,7 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
+    <div className="min-h-screen texture-paper texture-paper--moon py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terracotta-200 pb-6">

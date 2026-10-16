@@ -84,11 +84,10 @@ export default function CraftShopsDirectoryPage() {
   }, [shops, search, selectedCategory]);
 
   return (
-    <div className="min-h-screen bg-dopaper-50 py-10 sm:py-14">
+    <div className="min-h-screen texture-paper texture-paper--bamboo py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Banner tiêu đề phong cách văn hoá làng nghề — Vietnamese Cultural Editorial Masthead */}
-        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-12 overflow-hidden shadow-sm">
-          <div className="absolute inset-0 bg-cultural-lantern opacity-30 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+        <div className="relative rounded-3xl bg-cultural-lantern bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-12 overflow-hidden shadow-md">
           <div className="relative z-10 max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-400/20 text-gold-900 border border-gold-400/30 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-gold-600" />

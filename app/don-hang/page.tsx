@@ -94,7 +94,7 @@ export default function OrderHistoryPage() {
   }, [load]);
 
   return (
-    <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
+    <div className="min-h-screen texture-paper texture-paper--moon py-10 sm:py-14">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>

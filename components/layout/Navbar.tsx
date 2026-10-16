@@ -112,10 +112,8 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-white/95 backdrop-blur-lg shadow-sm border-b border-terracotta-200/60 py-2'
-            : 'bg-dopaper-50/90 backdrop-blur-md border-b border-terracotta-200/40 py-2.5 sm:py-3'
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-cultural-moon bg-cover bg-center border-b border-terracotta-300/80 shadow-md ${
+          isScrolled ? 'py-2 shadow-lg' : 'py-2.5 sm:py-3'
         }`}
       >
         <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-4">
@@ -348,10 +346,10 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
 
         {/* Mobile Dropdown Menu (min-[1150px]:hidden) */}
         {mobileMenuOpen && (
-          <div className="min-[1150px]:hidden bg-dopaper-50/98 border-b border-terracotta-200 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-xl max-h-[85vh] overflow-y-auto">
+          <div className="min-[1150px]:hidden bg-cultural-moon bg-cover bg-center border-b border-terracotta-300 px-4 pt-3 pb-6 space-y-2 animate-fadeIn shadow-2xl max-h-[85vh] overflow-y-auto">
             {/* User info banner if logged in */}
             {user ? (
-              <div className="p-3 bg-white rounded-2xl border border-terracotta-200 flex items-center justify-between mb-2">
+              <div className="p-3 bg-dopaper-100/90 rounded-2xl border border-terracotta-200 flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2.5">
                   <img src={user.avatar} alt={user.name} className="w-9 h-9 rounded-full object-cover border border-terracotta-200" />
                   <div>

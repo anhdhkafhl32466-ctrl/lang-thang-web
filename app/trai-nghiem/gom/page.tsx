@@ -10,7 +10,7 @@ export default function PotteryGamePage() {
   const battrangProducts = PRODUCTS.filter((p) => p.villageId === 'bat-trang');
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 bg-dopaper-50">
+    <div className="min-h-screen texture-paper texture-paper--pottery py-8 sm:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Navigation Breadcrumb */}
         <div className="flex items-center justify-between">

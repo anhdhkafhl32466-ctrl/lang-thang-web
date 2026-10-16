@@ -12,5 +12,10 @@ export const metadata: Metadata = {
  * Quyền truy cập do máy chủ quyết định ở từng API; layout chỉ lo giao diện và trạng thái cửa hàng.
  */
 export default function SellerLayout({ children }: { children: React.ReactNode }) {
-  return <SellerGate>{children}</SellerGate>;
+  return (
+    /* Nền giấy văn hoá cho toàn khu vực người bán (Nhóm 5 — ưu tiên dễ đọc) */
+    <div className="min-h-[70vh] texture-paper texture-paper--silk">
+      <SellerGate>{children}</SellerGate>
+    </div>
+  );
 }

@@ -283,7 +283,7 @@ export default function CheckoutPage() {
 
   if (createdOrder) {
     return (
-      <div className="min-h-screen py-14 bg-dopaper-50">
+      <div className="min-h-screen texture-paper texture-paper--silk py-14">
         <div className="max-w-2xl mx-auto px-4 space-y-5">
           <div className="bg-white rounded-3xl border border-emerald-200 p-8 text-center space-y-4 shadow-xl">
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
@@ -413,7 +413,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
+    <div className="min-h-screen texture-paper texture-paper--silk py-10 sm:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <div>
           <h1 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">

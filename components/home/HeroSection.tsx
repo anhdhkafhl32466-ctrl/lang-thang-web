@@ -6,7 +6,7 @@ import { Compass, Sparkles, ArrowRight, MapPin, Award, Map, Heart } from 'lucide
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-4 pb-12 lg:pt-6 lg:pb-16 bg-gradient-to-b from-dopaper-100 via-dopaper-50 to-dopaper-100">
+    <section className="relative overflow-hidden pt-4 pb-12 lg:pt-6 lg:pb-16 texture-paper texture-paper--plum texture-paper--medium">
       {/* Background traditional wave & cloud motifs */}
       <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#e5a882_1px,transparent_1px)] [background-size:20px_20px]" />
 
@@ -154,7 +154,7 @@ export default function HeroSection() {
         </div>
 
         {/* Quick Statistics Strip */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-terracotta-200 shadow-sm grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div className="bg-cultural-moon bg-cover bg-center rounded-2xl p-4 border-2 border-terracotta-300 shadow-md grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
           <div>
             <span className="font-serif text-2xl font-black text-terracotta-600">1.350+</span>
             <p className="text-[11px] text-lacquer-800/70 font-semibold">Làng có nghề (1/3 cả nước)</p>

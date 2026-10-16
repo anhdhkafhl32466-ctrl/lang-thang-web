@@ -10,7 +10,10 @@
   --primary-terracotta: #C85A32;
   --gold-accent: #D4A344;
 
-  /* 10 Vietnamese Cultural Background Tokens */
+  /* ------------------------------------------------------------------
+     1. TOKEN ẢNH — 10 background văn hoá Việt Nam
+     (nguồn: public/images/backgrounds/, không tự tạo ảnh mới)
+     ------------------------------------------------------------------ */
   --bg-heritage-village: url('/images/backgrounds/bg-heritage-village.png');
   --bg-tranquil-moon: url('/images/backgrounds/bg-tranquil-moon.png');
   --bg-silk-loom: url('/images/backgrounds/bg-silk-loom.png');
@@ -21,86 +24,90 @@
   --bg-brocade-curve: url('/images/backgrounds/bg-brocade-curve.png');
   --bg-misty-river: url('/images/backgrounds/bg-misty-river.png');
   --bg-plum-blossom: url('/images/backgrounds/bg-plum-blossom.png');
+
+  /* ------------------------------------------------------------------
+     2. TOKEN GIẤY DÓ — màu nền & độ phủ lớp phủ giấy
+     ------------------------------------------------------------------ */
+  --paper-50: #FDFBF7;   /* Giấy dó thanh tao (nền trang) */
+  --paper-100: #F9F5EC;  /* Giấy dó ngà (dải nội dung) */
+  --paper-200: #F0E8D7;  /* Giấy dó đậm (dải trang trí) */
+  --paper-veil-rgb: 253, 251, 247; /* Màu màng giấy phủ trên họa tiết */
+  --paper-veil-subtle: 0.92; /* Nền trang dài, nhiều chữ */
+  --paper-veil-medium: 0.84; /* Khối nội dung lớn */
+  --paper-veil-vivid: 0.72;  /* Hero / dải trang trí */
 }
 
-/* Cultural Background Utilities with Non-Intrusive Blend */
-.bg-cultural-village {
-  background-image: var(--bg-heritage-village);
+/* ==========================================================================
+   HỆ THỐNG NỀN VĂN HOÁ (Cultural Background System)
+   --------------------------------------------------------------------------
+   A. .bg-cultural-*   → lớp họa tiết TRANG TRÍ phủ lên một khối màu
+                          (độ hiện do Tailwind opacity-* + mix-blend-*)   
+   B. .texture-paper    → NỀN GIẤY có họa tiết, dùng cho nền trắng/giấy
+                          của trang & section. 1 lớp phủ giấy bán trong suốt
+                          giữ độ tương phản chữ, ảnh chỉ góp phần tạo chất.
+   --------------------------------------------------------------------------
+   Cách dùng:
+     <div className="texture-paper texture-paper--village">            nền trang
+     <section className="texture-paper texture-paper--lotus
+                         texture-paper--medium texture-paper--tint-100">
+/* --- A. Họa tiết trang trí văn hóa trực tiếp (100% độ nét, không phủ mờ) --- */
+[class*='bg-cultural-'] {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
-.bg-cultural-moon {
-  background-image: var(--bg-tranquil-moon);
+.bg-cultural-village  { background-image: var(--bg-heritage-village); }
+.bg-cultural-moon     { background-image: var(--bg-tranquil-moon); }
+.bg-cultural-silk     { background-image: var(--bg-silk-loom); }
+.bg-cultural-lotus    { background-image: var(--bg-lotus-pond); }
+.bg-cultural-pottery  { background-image: var(--bg-terracotta-pottery); }
+.bg-cultural-bamboo   { background-image: var(--bg-bamboo-pavilion); }
+.bg-cultural-lantern  { background-image: var(--bg-lantern-lacquer); }
+.bg-cultural-brocade  { background-image: var(--bg-brocade-curve); }
+.bg-cultural-river    { background-image: var(--bg-misty-river); }
+.bg-cultural-plum     { background-image: var(--bg-plum-blossom); }
+
+/* --- B. Nền giấy cổ trang hiển thị trực tiếp 100% --- */
+.texture-paper {
+  background-image: var(--paper-image, var(--bg-heritage-village));
   background-size: cover;
-  background-position: center;
+  background-position: var(--paper-position, center);
   background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-.bg-cultural-silk {
-  background-image: var(--bg-silk-loom);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+/* Thiết bị cảm ứng */
+@media (hover: none) and (pointer: coarse) {
+  .texture-paper {
+    background-attachment: scroll;
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+  }
 }
 
-.bg-cultural-lotus {
-  background-image: var(--bg-lotus-pond);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-pottery {
-  background-image: var(--bg-terracotta-pottery);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-bamboo {
-  background-image: var(--bg-bamboo-pavilion);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-lantern {
-  background-image: var(--bg-lantern-lacquer);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-brocade {
-  background-image: var(--bg-brocade-curve);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-river {
-  background-image: var(--bg-misty-river);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.bg-cultural-plum {
-  background-image: var(--bg-plum-blossom);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
+/* B1. Hình nền theo từng họa tiết */
+.texture-paper--village { --paper-image: var(--bg-heritage-village); --paper-position: center top; }
+.texture-paper--moon    { --paper-image: var(--bg-tranquil-moon); --paper-position: right top; }
+.texture-paper--silk    { --paper-image: var(--bg-silk-loom); --paper-position: left center; }
+.texture-paper--lotus   { --paper-image: var(--bg-lotus-pond); --paper-position: right center; }
+.texture-paper--pottery { --paper-image: var(--bg-terracotta-pottery); --paper-position: left center; }
+.texture-paper--bamboo  { --paper-image: var(--bg-bamboo-pavilion); --paper-position: left top; }
+.texture-paper--lantern { --paper-image: var(--bg-lantern-lacquer); --paper-position: left top; }
+.texture-paper--brocade { --paper-image: var(--bg-brocade-curve); --paper-position: right bottom; }
+.texture-paper--river   { --paper-image: var(--bg-misty-river); --paper-position: left bottom; }
+.texture-paper--plum    { --paper-image: var(--bg-plum-blossom); --paper-position: right top; }
 
 body {
   color: var(--foreground);
-  background-color: var(--background);
+  background-color: #F8F3E8;
+  background-image: var(--bg-heritage-village);
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   font-family: var(--font-sans), 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
-  background-image: radial-gradient(rgba(200, 90, 50, 0.03) 1px, transparent 0);
-  background-size: 24px 24px;
 }
 
 /* Typography: Primary Headlines & Editorial Titles */

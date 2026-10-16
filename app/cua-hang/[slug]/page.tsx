@@ -123,7 +123,7 @@ export default function StoreFrontPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-xs text-lacquer-800/60 gap-2 bg-dopaper-50">
+      <div className="min-h-screen flex items-center justify-center text-xs text-lacquer-800/60 gap-2 texture-paper texture-paper--brocade">
         <Loader2 className="w-5 h-5 animate-spin text-terracotta-600" />
         <span>Đang mở gian hàng di sản...</span>
       </div>
@@ -132,7 +132,7 @@ export default function StoreFrontPage() {
 
   if (error || !store) {
     return (
-      <div className="min-h-screen py-20 text-center space-y-4 bg-dopaper-50">
+      <div className="min-h-screen py-20 text-center space-y-4 texture-paper texture-paper--brocade">
         <p className="text-sm text-rose-700">{error || 'Không tìm thấy cửa hàng này.'}</p>
         <Link
           href="/cua-hang"
@@ -146,7 +146,7 @@ export default function StoreFrontPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dopaper-50 pb-16">
+    <div className="min-h-screen texture-paper texture-paper--brocade pb-16">
       {/* Banner bìa cửa hàng */}
       <div className="relative h-56 sm:h-72 lg:h-80 w-full bg-[#1c1613] overflow-hidden">
         {store.bannerUrl ? (

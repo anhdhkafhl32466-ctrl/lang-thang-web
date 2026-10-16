@@ -138,7 +138,7 @@ export default function CraftVillageDetailPage() {
   const villageTours = TOURS.filter((t) => t.villageId === village.id);
 
   return (
-    <div className="min-h-screen bg-dopaper-50 pb-20">
+    <div className="min-h-screen texture-paper texture-paper--village pb-20">
       {/* Stamp Notification Popup */}
       {stampNotification && (
         <div className="fixed top-24 right-4 z-50 bg-white border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">

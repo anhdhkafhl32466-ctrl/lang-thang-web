@@ -162,7 +162,7 @@ export default function AiRecommendationPage() {
   const currentQ = questions[currentQuestion];
 
   return (
-    <div className="min-h-screen py-10 sm:py-16 bg-dopaper-50">
+    <div className="min-h-screen py-10 sm:py-16 texture-paper texture-paper--lotus">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Header */}
         <div className="text-center space-y-3">

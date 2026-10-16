@@ -139,7 +139,7 @@ export default function OrderTrackingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-xs text-lacquer-800/60 gap-2">
+      <div className="min-h-screen texture-paper texture-paper--lotus flex items-center justify-center text-xs text-lacquer-800/60 gap-2">
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>Đang tải đơn hàng...</span>
       </div>
@@ -148,7 +148,7 @@ export default function OrderTrackingPage() {
 
   if (error || !order) {
     return (
-      <div className="min-h-screen py-20 text-center space-y-4">
+      <div className="min-h-screen texture-paper texture-paper--lotus py-20 text-center space-y-4">
         <p className="text-sm text-rose-700 flex items-center justify-center gap-2">
           <AlertTriangle className="w-4 h-4" />
           <span>{error || 'Không tìm thấy đơn hàng.'}</span>
@@ -167,7 +167,7 @@ export default function OrderTrackingPage() {
   );
 
   return (
-    <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
+    <div className="min-h-screen texture-paper texture-paper--lotus py-10 sm:py-14">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <Link href="/don-hang" className="inline-flex items-center gap-1.5 text-xs font-semibold text-lacquer-800/70 hover:text-terracotta-600">
           <ArrowLeft className="w-3.5 h-3.5" />

@@ -22,7 +22,7 @@ export default function FlashCards() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 bg-dopaper-50 relative">
+    <section className="py-16 sm:py-24 texture-paper texture-paper--lotus relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">

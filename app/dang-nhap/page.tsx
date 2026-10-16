@@ -82,7 +82,7 @@ export default function LoginPage() {
   );
 
   return (
-    <div className="min-h-screen py-16 bg-dopaper-50 flex items-center justify-center p-4">
+    <div className="min-h-screen py-16 texture-paper texture-paper--lotus flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-4">
         <div className="bg-white rounded-3xl p-8 border border-terracotta-200 shadow-xl text-center space-y-6">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-terracotta-500 to-gold-500 text-white flex items-center justify-center mx-auto shadow-md">

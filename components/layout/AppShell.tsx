@@ -14,7 +14,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <CartProvider>
-    <div className="min-h-screen flex flex-col bg-dopaper-50 text-lacquer-900 selection:bg-terracotta-200 selection:text-terracotta-900">
+    <div className="min-h-screen flex flex-col bg-transparent text-lacquer-900 selection:bg-terracotta-200 selection:text-terracotta-900">
       {/* Màn hình Splash Screen màu nước Lang Thang nghệ thuật */}
       <SplashScreen />
 

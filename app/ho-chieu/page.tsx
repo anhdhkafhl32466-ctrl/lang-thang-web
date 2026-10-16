@@ -118,7 +118,7 @@ export default function PassportPage() {
   };
 
   return (
-    <div className="min-h-screen bg-dopaper-50 pb-20">
+    <div className="min-h-screen texture-paper texture-paper--village pb-20">
       {/* Hidden file input */}
       <input
         type="file"
@@ -147,9 +147,8 @@ export default function PassportPage() {
       )}
 
       {/* Hero Header */}
-      <div className="bg-gradient-to-r from-terracotta-800 via-terracotta-700 to-terracotta-900 text-white pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        {/* Background Hoa mai/mo mua xuan tao nha */}
-        <div className="absolute inset-0 bg-cultural-plum opacity-20 mix-blend-screen pointer-events-none bg-cover bg-right" />
+      <div className="bg-cultural-plum bg-cover bg-right text-white pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden shadow-2xl border-b-2 border-gold-500/50">
+        <div className="absolute inset-0 bg-lacquer-950/45 pointer-events-none" />
         <div className="max-w-6xl mx-auto space-y-6 relative z-10">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-dopaper-200/80">

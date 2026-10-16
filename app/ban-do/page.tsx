@@ -85,11 +85,10 @@ export default function CraftMapPage() {
   const gpsPosition = planner.geo.position;
 
   return (
-    <div className="min-h-screen bg-dopaper-50 py-6 sm:py-10">
+    <div className="min-h-screen texture-paper texture-paper--village py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-6 sm:p-7 overflow-hidden shadow-xs mb-6">
-          <div className="absolute inset-0 bg-cultural-river opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+        <div className="relative rounded-3xl bg-cultural-river bg-cover bg-right border-2 border-terracotta-300 p-6 sm:p-7 overflow-hidden shadow-md mb-6">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-1">
