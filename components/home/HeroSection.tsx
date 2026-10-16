@@ -83,7 +83,7 @@ export default function HeroSection() {
               href="/lang-nghe"
               className="btn-elastic flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs sm:text-sm font-bold shadow-lg shadow-terracotta-500/25 hover:-translate-y-0.5 transition-all"
             >
-              <span>Khám phá 327 làng nghề</span>
+              <span>Khám phá</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
