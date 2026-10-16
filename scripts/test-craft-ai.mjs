@@ -7,18 +7,25 @@ if (!process.env.GEMINI_API_KEY && fs.existsSync('.env.local')) {
   if (match) process.env.GEMINI_API_KEY = match[1].trim();
 }
 
-console.log('Key loaded:', Boolean(process.env.GEMINI_API_KEY));
+const key = process.env.GEMINI_API_KEY;
+console.log('Gemini API Key configured:', Boolean(key));
 
-const { askEnhancedCraftAssistant } = await import('../lib/craftAiEngine.ts');
-
-const queries = [
-  'Hãy sáng tác một bài thơ tình lãng mạn gắn với làng gốm Bát Tràng?',
-  'Tôi muốn dẫn bạn gái đi chơi cuối tuần, thích chỗ yên tĩnh ngắm hoàng hôn, gợi ý giúp tôi?'
-];
-
-for (const q of queries) {
-  console.log('\n--- QUESTION:', q);
-  const res = await askEnhancedCraftAssistant(q);
-  console.log('SOURCE:', res.source, '| MODEL:', res.modelUsed);
-  console.log('REPLY:\n', res.reply.slice(0, 350));
+async function testGemini(prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent?key=${key}`;
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }]
+    })
+  });
+  if (!res.ok) {
+    throw new Error(`API error ${res.status}: ${await res.text()}`);
+  }
+  const data = await res.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text;
 }
+
+const poem = await testGemini('Hãy sáng tác một bài thơ lục bát 4 câu về làng gốm Bát Tràng và men lam truyền thống.');
+console.log('\n--- KẾT QUẢ THỬ NGHIỆM TRÍ TUỆ AI GEMINI ---:\n', poem);
+
