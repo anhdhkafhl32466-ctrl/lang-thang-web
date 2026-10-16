@@ -1,30 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Proxy ảnh an toàn cho các tác phẩm AI sinh ra từ Pollinations / Sana.
- * Luôn phản hồi trong vòng tối đa 6.5s (tránh timeout 10s của Vercel).
- * Nếu nguồn AI ngoài phản hồi chậm hoặc lỗi, tự động phục vụ ảnh mỹ nghệ thủ công bản quyền tương ứng.
+ * Proxy ảnh an toàn cho các tác phẩm AI sinh ra từ mô hình khuếch tán.
+ * TUYỆT ĐỐI không trả về ảnh tĩnh có sẵn để mạo danh ảnh AI.
+ * Nếu AI đang bận hoặc mạng gián đoạn, trả về mã lỗi rõ ràng để phía client cho phép người dùng bấm thử lại.
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const prompt = searchParams.get('prompt');
   const seed = searchParams.get('seed') || '42';
-  const blankId = searchParams.get('blankId') || 'gom';
 
   if (!prompt) {
-    return serveFallback(blankId);
+    return NextResponse.json({ error: 'MISSING_PROMPT', message: 'Thiếu mô tả ý tưởng tranh.' }, { status: 400 });
   }
 
-  // Thêm width/height cụ thể để mô hình sinh siêu tốc trong ~2-3 giây
   const targetUrl = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?width=768&height=768&nologo=true&seed=${encodeURIComponent(seed)}`;
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6500);
+    const timeout = setTimeout(() => controller.abort(), 25000); // 25s timeout
 
     const response = await fetch(targetUrl, {
       signal: controller.signal,
@@ -38,50 +34,28 @@ export async function GET(request: NextRequest) {
 
     if (response.ok) {
       const contentType = response.headers.get('content-type') || 'image/jpeg';
-      const buffer = await response.arrayBuffer();
-
-      return new NextResponse(buffer, {
-        status: 200,
-        headers: {
-          'Content-Type': contentType,
-          'Cache-Control': 'public, max-age=604800, immutable',
-        },
-      });
+      // Nếu response trả về ảnh thật
+      if (contentType.startsWith('image/')) {
+        const buffer = await response.arrayBuffer();
+        return new NextResponse(buffer, {
+          status: 200,
+          headers: {
+            'Content-Type': contentType,
+            'Cache-Control': 'public, max-age=604800, immutable',
+          },
+        });
+      }
     }
+
+    return NextResponse.json(
+      { error: 'AI_BUSY', message: 'Mô hình AI đang bận xử lý, vui lòng bấm vẽ lại.' },
+      { status: 502 }
+    );
   } catch (error) {
-    console.warn('AI image upstream took too long or failed, switching to curated craft fallback:', error);
+    console.warn('AI image upstream took too long or failed:', error);
+    return NextResponse.json(
+      { error: 'AI_TIMEOUT', message: 'Mô hình AI phản hồi chậm, vui lòng bấm vẽ lại.' },
+      { status: 504 }
+    );
   }
-
-  // Tự động phục vụ ảnh chất lượng cao nếu AI chậm hoặc lỗi
-  return serveFallback(blankId);
-}
-
-function serveFallback(blankId: string) {
-  let fallbackRel = 'public/images/villages/bat-trang/blue_glaze_vase.jpg';
-  if (blankId === 'lua') {
-    fallbackRel = 'public/images/villages/van-phuc/lua_van_phuc.jpg';
-  } else if (blankId === 'non-la') {
-    fallbackRel = 'public/images/villages/chuong/conical_hat1.jpg';
-  } else if (blankId === 'tranh-khac-go') {
-    fallbackRel = 'public/images/villages/ha-thai/lacquer_box2.jpg';
-  }
-
-  const fallbackPath = path.join(process.cwd(), fallbackRel);
-  try {
-    if (fs.existsSync(fallbackPath)) {
-      const fileBuf = fs.readFileSync(fallbackPath);
-      return new NextResponse(fileBuf, {
-        status: 200,
-        headers: {
-          'Content-Type': 'image/jpeg',
-          'Cache-Control': 'public, max-age=86400',
-          'X-Craft-Fallback': 'true',
-        },
-      });
-    }
-  } catch {
-    /* fallback error ignored */
-  }
-
-  return new NextResponse('No fallback available', { status: 404 });
 }

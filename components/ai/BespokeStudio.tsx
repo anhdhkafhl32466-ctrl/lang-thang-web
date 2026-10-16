@@ -45,7 +45,7 @@ interface CocreateResult {
   svg: string;
   dataUri: string;
   aiArtUrl?: string;
-  fallbackUrl?: string;
+  proxyArtUrl?: string;
   promptEnriched?: string;
   style?: CraftArtStyle;
   specSheet: { label: string; value: string }[];
@@ -111,18 +111,20 @@ export default function BespokeStudio() {
   const [viewMode, setViewMode] = useState<'art' | '3d'>('art');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [artLoadError, setArtLoadError] = useState(false);
+  const [elapsedSec, setElapsedSec] = useState(0);
   const [currentArtUrl, setCurrentArtUrl] = useState<string>('');
   const [rotation, setRotation] = useState(24);
 
-  // Safety timeout: không bao giờ để vòng xoay xoay quá 5 giây
+  // Bộ đếm giây khi AI đang vẽ tác phẩm
   useEffect(() => {
-    if (!currentArtUrl) return;
-    setImageLoaded(false);
-    const timer = setTimeout(() => {
-      setImageLoaded(true);
-    }, 5500);
-    return () => clearTimeout(timer);
-  }, [currentArtUrl]);
+    if (!currentArtUrl || imageLoaded || artLoadError) return;
+    setElapsedSec(0);
+    const interval = setInterval(() => {
+      setElapsedSec((s) => s + 1);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [currentArtUrl, imageLoaded, artLoadError]);
 
   const [artisans, setArtisans] = useState<ArtisanOption[]>([]);
   const [storeId, setStoreId] = useState<string>('');
@@ -210,14 +212,16 @@ export default function BespokeStudio() {
           throw new Error(data?.error?.message || 'Không sáng tạo được tác phẩm lúc này.');
         }
         setSeed(useSeed);
-        const artUrl = data.aiArtUrl || data.fallbackUrl || '';
+        const artUrl = data.aiArtUrl || data.proxyArtUrl || '';
         setCurrentArtUrl(artUrl);
+        setImageLoaded(false);
+        setArtLoadError(false);
         setResult({
           spec: data.spec,
           svg: data.svg,
           dataUri: data.dataUri,
           aiArtUrl: data.aiArtUrl,
-          fallbackUrl: data.fallbackUrl,
+          proxyArtUrl: data.proxyArtUrl,
           promptEnriched: data.promptEnriched,
           style: data.style || artStyle,
           specSheet: data.specSheet || [],
@@ -228,7 +232,6 @@ export default function BespokeStudio() {
           suggestedPrepDays: data.suggestedPrepDays,
         });
         setViewMode('art');
-        setImageLoaded(false);
         setRotation(24);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Không sáng tạo được tác phẩm lúc này.');
@@ -395,82 +398,130 @@ export default function BespokeStudio() {
                         <img
                           src={currentArtUrl || result.aiArtUrl}
                           alt={result.spec.title}
-                          onLoad={() => setImageLoaded(true)}
-                          onError={() => {
-                            if (result.fallbackUrl && currentArtUrl !== result.fallbackUrl) {
-                              setCurrentArtUrl(result.fallbackUrl);
-                            }
+                          onLoad={() => {
                             setImageLoaded(true);
+                            setArtLoadError(false);
+                          }}
+                          onError={() => {
+                            if (result.proxyArtUrl && currentArtUrl !== result.proxyArtUrl) {
+                              setCurrentArtUrl(result.proxyArtUrl);
+                            } else {
+                              setArtLoadError(true);
+                              setImageLoaded(false);
+                            }
                           }}
                           className={`w-full h-full object-cover transition-all duration-700 ${
-                            imageLoaded ? 'scale-100 opacity-100' : 'scale-105 opacity-0 blur-sm'
+                            imageLoaded && !artLoadError ? 'scale-100 opacity-100' : 'scale-105 opacity-0 blur-sm'
                           }`}
                         />
 
-                        {!imageLoaded && (
-                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-dopaper-100/95 gap-3 p-4">
-                            <Loader2 className="w-8 h-8 animate-spin text-terracotta-600" />
-                            <div className="text-center px-2">
-                              <p className="text-xs font-bold text-lacquer-900">
-                                AI đang hoàn thiện tác phẩm chân thực...
-                              </p>
-                              <p className="text-[11px] text-lacquer-800/60 mt-0.5">
-                                Mô phỏng ánh sáng studio và chi tiết thủ công {blank.name}
-                              </p>
-                              {result.fallbackUrl && (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    if (result.fallbackUrl) setCurrentArtUrl(result.fallbackUrl);
-                                    setImageLoaded(true);
-                                  }}
-                                  className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-terracotta-200 text-terracotta-700 hover:bg-terracotta-50 text-[11px] font-semibold shadow-xs"
-                                >
-                                  <span>Xem trước mẫu tác phẩm ngay</span>
-                                  <span>→</span>
-                                </button>
-                              )}
+                        {/* Màn hình hiển thị tiến trình vẽ AI thực tế */}
+                        {!imageLoaded && !artLoadError && (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-dopaper-100/95 gap-3 p-5 text-center">
+                            <div className="relative flex items-center justify-center">
+                              <Loader2 className="w-10 h-10 animate-spin text-terracotta-600" />
+                              <Sparkles className="w-4 h-4 text-gold-500 absolute" />
                             </div>
+                            <div className="max-w-xs space-y-1.5">
+                              <p className="text-sm font-bold text-lacquer-900 flex items-center justify-center gap-1.5">
+                                <span>🎨 AI đang vẽ tác phẩm độc bản...</span>
+                                <span className="text-xs px-2 py-0.5 rounded-full bg-gold-100 text-gold-900 border border-gold-300 font-mono font-bold">
+                                  {elapsedSec}s
+                                </span>
+                              </p>
+                              <p className="text-xs text-lacquer-800/70 leading-relaxed">
+                                {elapsedSec <= 3 && `Đang phân tích phôi ${blank.name} và họa tiết mỹ nghệ...`}
+                                {elapsedSec > 3 && elapsedSec <= 8 && 'Mô hình khuếch tán đang tạo tác phẩm chi tiết chuẩn 8K...'}
+                                {elapsedSec > 8 && 'Đang tinh chỉnh chất liệu và hiệu ứng ánh sáng studio...'}
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => generate(seed + 12345)}
+                              className="mt-2 text-[11px] text-terracotta-600 hover:text-terracotta-700 font-semibold underline underline-offset-2"
+                            >
+                              Đổi seed ngẫu nhiên khác
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Màn hình thông báo lỗi kết nối - KHÔNG dùng ảnh giả mạo */}
+                        {artLoadError && (
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-rose-50/95 gap-3 p-5 text-center">
+                            <AlertCircle className="w-9 h-9 text-rose-500" />
+                            <div className="space-y-1">
+                              <p className="text-sm font-bold text-rose-900">
+                                Kết nối mô hình AI đang bận
+                              </p>
+                              <p className="text-xs text-rose-700/80 max-w-xs">
+                                Mô hình tạo ảnh đang có lượng truy cập cao. Hãy bấm nút dưới đây để AI vẽ lại ngay lập tức.
+                              </p>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setArtLoadError(false);
+                                setImageLoaded(false);
+                                generate(Math.floor(Math.random() * 100000));
+                              }}
+                              className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-terracotta-500 text-white text-xs font-bold shadow hover:bg-terracotta-600 transition-colors"
+                            >
+                              <RefreshCw className="w-3.5 h-3.5" /> Bấm để AI vẽ lại ngay
+                            </button>
                           </div>
                         )}
 
                         {/* Floating Buttons on Hover */}
-                        <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button
-                            type="button"
-                            onClick={() => setLightboxOpen(true)}
-                            className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white shadow-lg transition-transform hover:scale-105"
-                            title="Phóng to toàn màn hình"
-                          >
-                            <ZoomIn className="w-4 h-4" />
-                          </button>
-                          <a
-                            href={currentArtUrl || result.aiArtUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            download={`tac-pham-${blank.id}.jpg`}
-                            className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white shadow-lg transition-transform hover:scale-105"
-                            title="Tải ảnh HD về máy"
-                          >
-                            <Download className="w-4 h-4" />
-                          </a>
-                        </div>
+                        {imageLoaded && !artLoadError && (
+                          <div className="absolute top-3 right-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <button
+                              type="button"
+                              onClick={() => setLightboxOpen(true)}
+                              className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white shadow-lg transition-transform hover:scale-105"
+                              title="Phóng to toàn màn hình"
+                            >
+                              <ZoomIn className="w-4 h-4" />
+                            </button>
+                            <a
+                              href={currentArtUrl || result.aiArtUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              download={`tac-pham-${blank.id}.jpg`}
+                              className="p-2 rounded-xl bg-black/60 hover:bg-black/80 backdrop-blur-sm text-white shadow-lg transition-transform hover:scale-105"
+                              title="Tải ảnh HD về máy"
+                            >
+                              <Download className="w-4 h-4" />
+                            </a>
+                          </div>
+                        )}
 
-                        <div className="absolute bottom-2.5 left-2.5 right-2.5 px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md text-white flex items-center justify-between text-[11px]">
-                          <span className="flex items-center gap-1.5 font-medium truncate">
-                            <Sparkles className="w-3.5 h-3.5 text-gold-400 shrink-0" />
-                            <span className="truncate">{result.spec.title}</span>
-                          </span>
-                          <span className="shrink-0 text-gold-300 font-bold ml-2">8K Masterpiece</span>
-                        </div>
+                        {imageLoaded && !artLoadError && (
+                          <div className="absolute bottom-2.5 left-2.5 right-2.5 px-3 py-1.5 rounded-xl bg-black/60 backdrop-blur-md text-white flex items-center justify-between text-[11px]">
+                            <span className="flex items-center gap-1.5 font-medium truncate">
+                              <Sparkles className="w-3.5 h-3.5 text-gold-400 shrink-0" />
+                              <span className="truncate">{result.spec.title}</span>
+                            </span>
+                            <span className="shrink-0 text-gold-300 font-bold ml-2">8K AI Generated</span>
+                          </div>
+                        )}
                       </div>
 
                       <div className="p-3.5 bg-dopaper-50 rounded-2xl border border-dopaper-300 space-y-2">
                         <div className="flex items-center justify-between">
                           <p className="font-serif font-bold text-base text-lacquer-900">{result.spec.title}</p>
-                          <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-900 border border-gold-300">
-                            {CRAFT_ART_STYLES.find((s) => s.id === result.style)?.name || 'Siêu thực 3D'}
-                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-gold-100 text-gold-900 border border-gold-300">
+                              {CRAFT_ART_STYLES.find((s) => s.id === result.style)?.name || 'Siêu thực 3D'}
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => generate(seed + 9876)}
+                              className="text-[11px] font-bold text-terracotta-700 bg-white border border-terracotta-200 px-2.5 py-0.5 rounded-full hover:bg-terracotta-50 transition-colors flex items-center gap-1 shadow-xs"
+                              title="Vẽ một biến thể khác từ cùng ý tưởng"
+                            >
+                              <RefreshCw className="w-3 h-3" /> Biến thể khác
+                            </button>
+                          </div>
                         </div>
                         <p className="text-xs text-lacquer-800/80 leading-relaxed">{result.spec.story}</p>
                         <div className="pt-2 border-t border-dopaper-200 flex items-center justify-between text-[11px]">
