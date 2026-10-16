@@ -255,6 +255,54 @@ export const SCHEMA_STATEMENTS: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_seller_orders_status ON seller_orders (status)`,
   `CREATE INDEX IF NOT EXISTS idx_warehouses_store ON warehouses (store_id)`,
   `CREATE INDEX IF NOT EXISTS idx_customer_addresses_email ON customer_addresses (user_email)`,
+
+  /*
+   * YÊU CẦU ĐẶT LÀM ĐỘC BẢN (đồng sáng tạo cùng AI).
+   * Khách và AI cùng phác hoa văn trên một phôi (gốm, lụa, nón lá, tranh khắc gỗ), rồi gửi bản thiết kế
+   * cho nghệ nhân của LÀNG NGHỀ TƯƠNG ỨNG trên sàn để báo giá và chế tác. Hoa văn được lưu ngay trong
+   * bản ghi (SVG + đặc tả JSON) nên nghệ nhân luôn xem lại được đúng phiên bản khách đã duyệt.
+   */
+  `CREATE TABLE IF NOT EXISTS bespoke_requests (
+    id TEXT PRIMARY KEY,
+    code TEXT NOT NULL UNIQUE,
+    customer_email TEXT,
+    customer_name TEXT NOT NULL,
+    customer_phone TEXT,
+    store_id TEXT NOT NULL,
+    store_name TEXT NOT NULL,
+    village_slug TEXT,
+    village_name TEXT,
+    blank_id TEXT NOT NULL,
+    blank_name TEXT NOT NULL,
+    size_id TEXT,
+    size_label TEXT NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 1,
+    prompt TEXT NOT NULL,
+    pattern_title TEXT NOT NULL,
+    pattern_story TEXT,
+    pattern_layout TEXT,
+    pattern_density INTEGER,
+    pattern_motifs TEXT,
+    palette TEXT,
+    background TEXT,
+    spec_json TEXT,
+    svg TEXT,
+    note TEXT,
+    budget_vnd INTEGER,
+    status TEXT NOT NULL,
+    quote_price_vnd INTEGER,
+    quote_days INTEGER,
+    quote_note TEXT,
+    quoted_at TEXT,
+    decided_at TEXT,
+    completed_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+
+  `CREATE INDEX IF NOT EXISTS idx_bespoke_store ON bespoke_requests (store_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_bespoke_customer ON bespoke_requests (customer_email, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_bespoke_status ON bespoke_requests (status)`,
 ];
 
 /**

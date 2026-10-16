@@ -96,7 +96,9 @@ hanoi-craft-villages/
 ## 3. HƯỚNG DẪN KHỞI CHẠY DỰ ÁN
 
 ### Yêu cầu môi trường
-- **Node.js:** phiên bản `18.17.0` trở lên (Khuyến nghị Node.js 20 LTS)
+- **Node.js:** `22.5.0` trở lên nếu chạy bằng SQLite nhúng sẵn của Node (`node:sqlite` — dùng khi KHÔNG
+  khai báo `DATABASE_URL`). Khi đã cấu hình `DATABASE_URL` trỏ tới PostgreSQL thì Node 20 LTS là đủ.
+  Máy chủ dùng Node 20 mà không có `DATABASE_URL` sẽ báo `ERR_UNKNOWN_BUILTIN_MODULE: node:sqlite`.
 - **Trình quản lý gói:** `npm`, `pnpm` hoặc `yarn`
 
 ### Các bước cài đặt và chạy
@@ -183,6 +185,25 @@ Dự án được thiết kế với **Kiến trúc 2 tầng (Two-layer architec
   cùng giao diện.
 - **Nhánh PostgreSQL chưa từng chạy thử** ở máy phát triển (máy không có Postgres). Hãy chạy
   `npm run test:e2e` trỏ vào bản deploy trước khi cho người bán thật đăng ký.
+
+### Kiểm thử luồng đồng sáng tạo & đặt làm độc bản
+
+Luồng "khách + AI phác hoa văn rồi nghệ nhân chế tác" có bài kiểm thử end-to-end riêng, chạy trên một
+máy chủ đã khởi động:
+
+```bash
+npm run build
+PORT=4330 SELLER_AUTO_APPROVE=true npm start
+# cửa sổ khác:
+BASE=http://127.0.0.1:4330 node scripts/e2e-bespoke.mjs
+```
+
+Bài kiểm thử đi qua đúng giao diện người dùng thật (sinh hoa văn, gửi yêu cầu, nghệ nhân báo giá, khách
+xác nhận, chuyển tiến độ) và kiểm cả các trường hợp PHẢI bị từ chối: người ngoài xem đơn của người khác,
+khách tự báo giá thay nghệ nhân, yêu cầu gửi từ nguồn khác (CSRF). Không đạt thì script thoát với mã lỗi 1.
+
+> `SELLER_AUTO_APPROVE=true` để cửa hàng thử nghiệm được duyệt ngay. Cửa hàng chờ duyệt KHÔNG báo giá được
+> — đó là hành vi đúng, không phải lỗi.
 
 ### Triển khai bằng Docker
 Dự án có thể đóng gói dễ dàng với `Dockerfile` tiêu chuẩn của Next.js Standalone mode và chạy trên các máy chủ VPS (Ubuntu/Debian, AWS EC2, Google Cloud Run).
