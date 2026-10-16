@@ -23,7 +23,7 @@ export default function FlashCards() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 texture-paper relative overflow-hidden isolate">
+    <section className="py-16 sm:py-24 texture-paper texture-paper--lotus relative overflow-hidden isolate">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />

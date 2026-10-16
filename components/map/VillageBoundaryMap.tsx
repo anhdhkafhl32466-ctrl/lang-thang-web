@@ -558,12 +558,12 @@ export default function VillageBoundaryMap({
   }, [hoveredVillageId]);
 
   return (
-    <div className="relative w-full h-full min-h-[600px] rounded-3xl overflow-hidden shadow-inner border border-terracotta-200">
+    <div className="relative isolate z-10 w-full h-full min-h-[600px] rounded-3xl overflow-hidden shadow-inner border border-terracotta-200">
       {/* Map DOM node */}
       <div ref={mapContainerRef} className="w-full h-full min-h-[600px]" />
 
-      {/* Map Style Switcher (Bottom-Left) */}
-      <div className="absolute bottom-4 left-4 z-[400] flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1 rounded-2xl border border-terracotta-200 shadow-md">
+      {/* Map Style Switcher (Bottom-Left: locked inside map container at z-20) */}
+      <div className="absolute bottom-4 left-4 z-20 flex items-center gap-1.5 bg-[#FAF5ED]/95 p-1 rounded-2xl border border-[#b89b78]/60 shadow-md pointer-events-auto">
         <button
           onClick={() => setMapStyle('minimal')}
           className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${

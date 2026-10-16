@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden pt-4 pb-14 lg:pt-6 lg:pb-18 texture-paper isolate">
+    <section className="relative overflow-hidden pt-4 pb-14 lg:pt-6 lg:pb-18 texture-paper texture-paper--village isolate">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />

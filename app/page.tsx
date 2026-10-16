@@ -22,7 +22,7 @@ export default function HomePage() {
       <StorytellingTimeline />
 
       {/* 4. Interactive Map Teaser Section */}
-      <section className="py-20 texture-paper relative overflow-hidden isolate">
+      <section className="py-20 texture-paper texture-paper--river relative overflow-hidden isolate">
         {/* Seamless Section Top & Bottom Gradient Blends */}
         <div className="section-blend-top" />
         <div className="section-blend-bottom" />
@@ -105,7 +105,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Mini-game Experience Callout */}
-      <section className="py-20 texture-paper relative overflow-hidden isolate">
+      <section className="py-20 texture-paper texture-paper--bamboo relative overflow-hidden isolate">
         {/* Seamless Section Top & Bottom Gradient Blends */}
         <div className="section-blend-top" />
         <div className="section-blend-bottom" />
@@ -218,7 +218,7 @@ export default function HomePage() {
       <EcosystemSection />
 
       {/* 7. CTA: AI Recommendation Callout */}
-      <section className="py-20 texture-paper relative overflow-hidden isolate">
+      <section className="py-20 texture-paper texture-paper--silk relative overflow-hidden isolate">
         <div className="section-blend-top" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <motion.div

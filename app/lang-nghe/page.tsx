@@ -294,7 +294,7 @@ export default function CraftVillagesDirectoryPage() {
             </div>
 
             {/* MAP CONTAINER */}
-            <div className="relative h-[620px] w-full rounded-3xl overflow-hidden shadow-xl border border-terracotta-300">
+            <div className="relative isolate z-10 h-[620px] w-full rounded-3xl overflow-hidden shadow-xl border border-terracotta-300">
               <VillageBoundaryMap
                 villages={filteredMapVillages}
                 hoveredVillageId={hoveredVillage?.slug}
@@ -304,7 +304,7 @@ export default function CraftVillagesDirectoryPage() {
 
               {/* Map Guide Overlay Banner (Top-Left) */}
               <div className="absolute top-4 left-4 z-20 pointer-events-none">
-                <div className="bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-terracotta-200/90 shadow-md flex items-center gap-2">
+                <div className="bg-[#FAF5ED]/95 px-3.5 py-1.5 rounded-full border border-[#b89b78]/60 shadow-md flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="text-xs font-semibold text-lacquer-900">
                     Chọn hoặc rê chuột vào biểu tượng làng nghề để xem thông tin
@@ -316,9 +316,9 @@ export default function CraftVillagesDirectoryPage() {
               {hoveredVillage && (
                 <div
                   onClick={() => handleVillageClick(hoveredVillage)}
-                  className="absolute top-4 right-4 z-30 w-80 sm:w-96 bg-white/98 backdrop-blur-xl rounded-3xl p-4 shadow-2xl border-2 border-terracotta-400 cursor-pointer animate-fadeIn hover:scale-[1.02] transition-transform"
+                  className="absolute top-4 right-4 z-30 w-80 sm:w-96 bg-[#FAF5ED]/98 rounded-3xl p-4 shadow-2xl border-2 border-terracotta-400 cursor-pointer animate-fadeIn hover:scale-[1.02] transition-transform"
                 >
-                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-gray-100 mb-3">
+                  <div className="relative aspect-[16/9] rounded-2xl overflow-hidden bg-dopaper-100 mb-3">
                     <img
                       src={hoveredVillage.heroImage}
                       alt={hoveredVillage.name}
@@ -327,7 +327,7 @@ export default function CraftVillagesDirectoryPage() {
                     <div className="absolute top-2 left-2 px-2.5 py-0.5 rounded-full bg-terracotta-600 text-white text-[10px] font-bold shadow">
                       {hoveredVillage.category}
                     </div>
-                    <div className="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[11px] font-medium drop-shadow bg-black/40 px-2 py-0.5 rounded-md backdrop-blur-sm">
+                    <div className="absolute bottom-2 left-2 flex items-center gap-1 text-white text-[11px] font-medium drop-shadow bg-black/50 px-2 py-0.5 rounded-md">
                       <MapPin className="w-3 h-3 text-gold-400" />
                       <span>{hoveredVillage.location.district}</span>
                     </div>
@@ -351,7 +351,7 @@ export default function CraftVillagesDirectoryPage() {
                       {hoveredVillage.shortDescription}
                     </p>
 
-                    <div className="pt-2 border-t border-terracotta-100 flex items-center justify-between">
+                    <div className="pt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between">
                       <span className="text-[11px] text-lacquer-800/60 flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {hoveredVillage.location.travelTime.split('bằng')[0]}
@@ -378,7 +378,7 @@ export default function CraftVillagesDirectoryPage() {
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
-                {filteredMapVillages.map((v) => {
+                {CRAFT_VILLAGES.map((v) => {
                   const bInfo = VILLAGE_BOUNDARIES[v.slug];
                   const isHovered = hoveredVillage?.slug === v.slug;
                   return (
@@ -387,10 +387,10 @@ export default function CraftVillagesDirectoryPage() {
                       onMouseEnter={() => setHoveredVillage(v)}
                       onMouseLeave={() => setHoveredVillage(null)}
                       onClick={() => handleVillageClick(v)}
-                      className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
+                      className={`col-span-1 p-3.5 rounded-2xl border-2 cursor-pointer transition-all flex flex-col justify-between ${
                         isHovered
-                          ? 'bg-white border-terracotta-500 shadow-lg scale-[1.03]'
-                          : 'bg-white border-terracotta-200/80 hover:border-terracotta-300'
+                          ? 'bg-[#FAF5ED] border-terracotta-500 shadow-lg scale-[1.03]'
+                          : 'bg-[#FAF5ED] border-[#d6c4ac] hover:border-terracotta-400'
                       }`}
                     >
                       <div className="flex items-center gap-2.5">

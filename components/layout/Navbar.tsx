@@ -113,45 +113,45 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-[#FAF5ED]/95 border-b border-[#b89b78]/60 shadow-sm texture-paper ${
-          isScrolled ? 'py-2 shadow-md' : 'py-2.5 sm:py-3'
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#FAF5ED]/95 border-b border-[#b89b78]/60 shadow-sm texture-paper ${
+          isScrolled ? 'py-1.5 shadow-md' : 'py-2 sm:py-2.5'
         }`}
       >
-        <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-4">
+        <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-4 lg:px-6 flex items-center justify-between gap-2 xl:gap-3">
           {/* KHỐI 1: LOGO BÊN TRÁI (shrink-0) */}
           <div className="flex items-center shrink-0">
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
-              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#FAF5ED] border border-[#b89b78]/70 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
+            <Link href="/" className="flex items-center gap-2 group shrink-0 select-none">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#FAF5ED] border border-[#b89b78]/70 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
                 <img
                   src="/images/lang-thang-logo.png"
                   alt="Lang Thang — Làng Nghề Hà Nội"
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="flex items-baseline gap-2 shrink-0">
-                <span className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap shrink-0">
+              <div className="flex items-baseline gap-1.5 shrink-0">
+                <span className="font-serif text-lg sm:text-xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap shrink-0">
                   Lang Thang
                 </span>
-                <span className="hidden 2xl:inline-block text-[11px] uppercase tracking-wider font-semibold text-terracotta-700/80 border-l border-terracotta-300/80 pl-2 whitespace-nowrap shrink-0">
+                <span className="hidden min-[1350px]:inline-block text-[10px] uppercase tracking-wider font-semibold text-terracotta-700/80 border-l border-terracotta-300/80 pl-1.5 whitespace-nowrap shrink-0">
                   Di Sản Làng Nghề
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* KHỐI 2: MENU ĐIỀU HƯỚNG Ở GIỮA (shrink-0, ẩn dưới 1150px để dùng Hamburger) */}
-          <nav className="hidden min-[1150px]:flex items-center justify-center gap-1 xl:gap-2 2xl:gap-3 shrink-0">
+          {/* KHỐI 2: MENU ĐIỀU HƯỚNG Ở GIỮA (shrink-0) */}
+          <nav className="hidden min-[1100px]:flex items-center justify-center gap-1 xl:gap-1.5 shrink-0">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`relative text-[13px] 2xl:text-sm font-semibold transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg whitespace-nowrap shrink-0 ${
+                  className={`relative text-xs xl:text-[13px] font-semibold transition-colors flex items-center gap-1 px-2 xl:px-2.5 py-1 xl:py-1.5 rounded-lg whitespace-nowrap shrink-0 ${
                     active
                       ? 'text-terracotta-900 font-bold'
                       : link.isSpecial
-                      ? 'text-gold-900 hover:text-gold-950 px-3 py-1.5 rounded-full bg-gold-400/20 border border-gold-400/40 hover:bg-gold-400/30'
+                      ? 'text-gold-900 hover:text-gold-950 px-2.5 py-1 rounded-full bg-gold-400/20 border border-gold-400/40 hover:bg-gold-400/30'
                       : 'text-lacquer-800/80 hover:text-terracotta-600 hover:bg-terracotta-50/60'
                   }`}
                 >
@@ -173,18 +173,18 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             })}
           </nav>
 
-          {/* KHỐI 3: CÁC NÚT HÀNH ĐỘNG BÊN PHẢI (shrink-0, phân tách rõ ràng) */}
-          <div className="flex items-center justify-end gap-1.5 sm:gap-2 xl:gap-2.5 shrink-0 pl-3 xl:pl-4 border-l border-terracotta-200/60 ml-2 xl:ml-3">
+          {/* KHỐI 3: CÁC NÚT HÀNH ĐỘNG BÊN PHẢI (shrink-0, không bị tràn màn hình) */}
+          <div className="flex items-center justify-end gap-1 sm:gap-1.5 xl:gap-2 shrink-0 pl-1.5 sm:pl-2.5 border-l border-[#d6c4ac] ml-1">
             {/* Shopping Cart */}
             <Link
               href="/gio-hang"
-              className="relative p-2 text-lacquer-800 hover:text-terracotta-600 hover:bg-terracotta-50 rounded-full transition-colors shrink-0"
+              className="relative p-1.5 text-lacquer-800 hover:text-terracotta-600 hover:bg-terracotta-50 rounded-full transition-colors shrink-0"
               title="Giỏ hàng"
               aria-label="Giỏ hàng"
             >
-              <ShoppingCart className="w-5 h-5" />
+              <ShoppingCart className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
               {cart.totalCount > 0 && (
-                <span className="absolute top-0.5 right-0.5 min-w-[18px] h-[18px] px-1 bg-terracotta-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center shadow-xs">
+                <span className="absolute top-0 right-0 min-w-[16px] h-[16px] px-1 bg-terracotta-600 text-white rounded-full text-[9px] font-bold flex items-center justify-center shadow-xs">
                   {cart.totalCount}
                 </span>
               )}
@@ -196,21 +196,21 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             {/* Passport Button */}
             <button
               onClick={onOpenPassport}
-              className="hidden md:inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full text-xs font-semibold text-lacquer-800 bg-gold-400/15 border border-gold-400/30 hover:bg-gold-400/25 transition-colors shrink-0 whitespace-nowrap"
+              className="hidden sm:inline-flex items-center gap-1 px-2 xl:px-2.5 py-1 rounded-full text-xs font-semibold text-lacquer-800 bg-gold-400/15 border border-gold-400/30 hover:bg-gold-400/25 transition-colors shrink-0 whitespace-nowrap"
               title="Hộ chiếu Làng nghề của bạn"
             >
               <Award className="w-3.5 h-3.5 text-gold-600 shrink-0" />
               <span className="whitespace-nowrap">Hộ chiếu</span>
-              <span className="text-[10px] font-bold text-gold-900 bg-gold-400/30 px-1.5 py-0.5 rounded-full leading-none">
+              <span className="text-[10px] font-bold text-gold-900 bg-gold-400/30 px-1 py-0.5 rounded-full leading-none">
                 {badgeCount}
               </span>
             </button>
 
-            {/* Seller Portal Link (on 2xl screens or inside user dropdown) */}
+            {/* Seller Portal Link */}
             {!sellerStore && (
               <Link
                 href="/dang-ky-nguoi-ban"
-                className="hidden 2xl:inline-flex items-center gap-1 text-xs font-semibold text-terracotta-700 hover:text-terracotta-800 px-2.5 py-1.5 rounded-lg hover:bg-terracotta-50 transition-colors shrink-0 whitespace-nowrap"
+                className="hidden lg:inline-flex items-center gap-1 text-xs font-semibold text-terracotta-800 hover:text-terracotta-900 px-2 xl:px-2.5 py-1 rounded-full bg-terracotta-100/70 border border-terracotta-200 hover:bg-terracotta-200/70 transition-colors shrink-0 whitespace-nowrap"
                 title="Đăng ký mở gian hàng trên Lang Thang"
               >
                 <Store className="w-3.5 h-3.5 text-terracotta-600 shrink-0" />
@@ -218,11 +218,11 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
               </Link>
             )}
 
-            {/* GMAIL LOGIN BUTTON - LUÔN HIỂN THỊ RÕ RÀNG VÀ ĐẸP MẮT */}
+            {/* GMAIL LOGIN BUTTON - Gọn gàng, vừa vặn không tràn */}
             {!user ? (
               <button
                 onClick={() => setLoginModalOpen(true)}
-                className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full bg-lacquer-900 hover:bg-terracotta-600 text-white text-xs font-bold transition-all shadow-xs shrink-0 whitespace-nowrap"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-lacquer-900 hover:bg-terracotta-600 text-white text-xs font-bold transition-all shadow-xs shrink-0 whitespace-nowrap"
                 title="Đăng nhập tài khoản"
               >
                 {/* Google G logo SVG */}

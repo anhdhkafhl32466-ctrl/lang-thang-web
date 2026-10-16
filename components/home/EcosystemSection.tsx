@@ -46,7 +46,7 @@ export default function EcosystemSection() {
   ];
 
   return (
-    <section className="py-20 texture-paper texture-paper--calm relative overflow-hidden isolate">
+    <section className="py-20 texture-paper texture-paper--moon relative overflow-hidden isolate">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />

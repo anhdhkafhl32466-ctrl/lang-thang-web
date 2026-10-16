@@ -84,7 +84,7 @@ export default function StorytellingTimeline() {
   ];
 
   return (
-    <section className="py-20 texture-paper relative overflow-hidden isolate border-y border-[#b89b78]/40">
+    <section className="py-20 texture-paper texture-paper--pottery relative overflow-hidden isolate border-y border-[#b89b78]/40">
       {/* Seamless Section Top & Bottom Gradient Blends */}
       <div className="section-blend-top" />
       <div className="section-blend-bottom" />
