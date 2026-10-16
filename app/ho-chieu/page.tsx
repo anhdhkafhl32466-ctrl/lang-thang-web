@@ -148,6 +148,8 @@ export default function PassportPage() {
 
       {/* Hero Header */}
       <div className="bg-gradient-to-r from-terracotta-800 via-terracotta-700 to-terracotta-900 text-white pt-24 pb-14 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background Hoa mai/mo mua xuan tao nha */}
+        <div className="absolute inset-0 bg-cultural-plum opacity-20 mix-blend-screen pointer-events-none bg-cover bg-right" />
         <div className="max-w-6xl mx-auto space-y-6 relative z-10">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-xs text-dopaper-200/80">

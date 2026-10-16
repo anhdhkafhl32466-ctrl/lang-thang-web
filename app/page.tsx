@@ -185,6 +185,8 @@ export default function HomePage() {
 
       {/* 7. CTA: AI Recommendation Callout */}
       <section className="py-16 bg-terracotta-500 text-white relative overflow-hidden">
+        {/* Cultural riverboat backdrop */}
+        <div className="absolute inset-0 bg-cultural-river opacity-20 mix-blend-screen pointer-events-none bg-cover bg-center" />
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6 relative z-10">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-white text-xs font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-gold-300" />

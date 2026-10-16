@@ -49,34 +49,37 @@ export default function CraftProductsPage() {
   return (
     <div className="min-h-screen py-10 sm:py-16 bg-dopaper-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
-            <ShoppingBag className="w-3.5 h-3.5 text-gold-600" />
-            <span>Sàn Tinh Hoa Thủ Công Mỹ Nghệ</span>
-          </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Tuyệt Tác Thủ Công Làng Nghề Hà Nội
-          </h1>
-          <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed max-w-2xl mx-auto">
-            Trực tiếp kết nối tới các lò gốm, khung cửi và xưởng thủ công mỹ nghệ. Đơn hàng được xác thực trong hệ thống,
-            vận chuyển cẩn trọng từ chính xưởng của nghệ nhân đến tận tay bạn.
-          </p>
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-10 overflow-hidden shadow-xs text-center max-w-4xl mx-auto">
+          <div className="absolute inset-0 bg-cultural-brocade opacity-30 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 max-w-3xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
+              <ShoppingBag className="w-3.5 h-3.5 text-gold-600" />
+              <span>Sàn Tinh Hoa Thủ Công Mỹ Nghệ</span>
+            </div>
+            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
+              Tuyệt Tác Thủ Công Làng Nghề Hà Nội
+            </h1>
+            <p className="text-xs sm:text-sm text-lacquer-800/80 leading-relaxed max-w-2xl mx-auto">
+              Trực tiếp kết nối tới các lò gốm, khung cửi và xưởng thủ công mỹ nghệ. Đơn hàng được xác thực trong hệ thống,
+              vận chuyển cẩn trọng từ chính xưởng của nghệ nhân đến tận tay bạn.
+            </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
-            <Link
-              href="/gio-hang"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold shadow"
-            >
-              <ShoppingCart className="w-3.5 h-3.5" />
-              <span>Giỏ hàng ({cart.totalCount})</span>
-            </Link>
-            <Link
-              href="/don-hang"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold hover:bg-dopaper-100"
-            >
-              <PackageCheck className="w-3.5 h-3.5 text-terracotta-600" />
-              <span>Đơn hàng của tôi</span>
-            </Link>
+            <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+              <Link
+                href="/gio-hang"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-bold shadow"
+              >
+                <ShoppingCart className="w-3.5 h-3.5" />
+                <span>Giỏ hàng ({cart.totalCount})</span>
+              </Link>
+              <Link
+                href="/don-hang"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold hover:bg-dopaper-100"
+              >
+                <PackageCheck className="w-3.5 h-3.5 text-terracotta-600" />
+                <span>Đơn hàng của tôi</span>
+              </Link>
+            </div>
           </div>
         </div>
 

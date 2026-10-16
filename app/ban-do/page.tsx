@@ -88,30 +88,33 @@ export default function CraftMapPage() {
     <div className="min-h-screen bg-dopaper-50 py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-1">
-              <Compass className="w-3.5 h-3.5" />
-              <span>Bản Đồ Di Sản Địa Lý</span>
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-6 sm:p-7 overflow-hidden shadow-xs mb-6">
+          <div className="absolute inset-0 bg-cultural-river opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-1">
+                <Compass className="w-3.5 h-3.5" />
+                <span>Bản Đồ Di Sản Địa Lý</span>
+              </div>
+              <h1 className="font-serif text-2xl sm:text-4xl font-bold text-lacquer-900">
+                Bản đồ làng nghề Hà Nội
+              </h1>
+              <p className="text-xs text-lacquer-800/60 mt-1">
+                Định vị GPS thật và tính lộ trình theo mạng lưới đường bộ OpenStreetMap (OSRM).
+              </p>
             </div>
-            <h1 className="font-serif text-2xl sm:text-4xl font-bold text-lacquer-900">
-              Bản đồ làng nghề Hà Nội
-            </h1>
-            <p className="text-xs text-lacquer-800/60 mt-1">
-              Định vị GPS thật và tính lộ trình theo mạng lưới đường bộ OpenStreetMap (OSRM).
-            </p>
-          </div>
 
-          {/* Quick Search */}
-          <div className="relative max-w-md w-full">
-            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-lacquer-800/40" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm kiếm làng nghề hoặc quận huyện..."
-              className="w-full bg-white text-lacquer-900 pl-10 pr-4 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 shadow-sm"
-            />
+            {/* Quick Search */}
+            <div className="relative max-w-md w-full">
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-lacquer-800/40" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Tìm kiếm làng nghề hoặc quận huyện..."
+                className="w-full bg-white text-lacquer-900 pl-10 pr-4 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 shadow-sm"
+              />
+            </div>
           </div>
         </div>
 

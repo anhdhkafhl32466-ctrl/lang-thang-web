@@ -198,15 +198,18 @@ export default function SellerRegisterPage() {
   return (
     <div className="min-h-screen py-10 sm:py-14 bg-dopaper-50">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <header className="text-center space-y-3">
-          <div className="w-14 h-14 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center mx-auto">
-            <Building2 className="w-7 h-7" />
+        <header className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-10 overflow-hidden shadow-xs text-center space-y-3">
+          <div className="absolute inset-0 bg-cultural-moon opacity-20 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 space-y-3">
+            <div className="w-14 h-14 rounded-2xl bg-terracotta-100 text-terracotta-700 flex items-center justify-center mx-auto shadow-xs">
+              <Building2 className="w-7 h-7" />
+            </div>
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">Đăng ký bán hàng trên sàn Lang Thang</h1>
+            <p className="text-xs text-lacquer-800/70 max-w-2xl mx-auto leading-relaxed">
+              Dành cho nghệ nhân, hộ sản xuất và cửa hàng thủ công mỹ nghệ của các làng nghề Hà Nội. Mỗi tài khoản
+              có một cửa hàng riêng, đơn hàng được tách theo cửa hàng nên bạn chỉ xử lý phần của mình.
+            </p>
           </div>
-          <h1 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">Đăng ký bán hàng trên sàn Lang Thang</h1>
-          <p className="text-xs text-lacquer-800/70 max-w-2xl mx-auto leading-relaxed">
-            Dành cho nghệ nhân, hộ sản xuất và cửa hàng thủ công mỹ nghệ của các làng nghề Hà Nội. Mỗi tài khoản
-            có một cửa hàng riêng, đơn hàng được tách theo cửa hàng nên bạn chỉ xử lý phần của mình.
-          </p>
         </header>
 
         {loggedInCustomer && (

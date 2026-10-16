@@ -54,17 +54,20 @@ export default function SubmitVillagePage() {
     <div className="min-h-screen py-10 sm:py-16 bg-dopaper-50">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Header */}
-        <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Cổng Tiếp Nhận Dữ Liệu Cộng Đồng</span>
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-10 overflow-hidden shadow-xs text-center space-y-3">
+          <div className="absolute inset-0 bg-cultural-lotus opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Cổng Tiếp Nhận Dữ Liệu Cộng Đồng</span>
+            </div>
+            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
+              Bạn biết một làng nghề truyền thống?
+            </h1>
+            <p className="text-xs sm:text-sm text-lacquer-800/70 max-w-xl mx-auto leading-relaxed">
+              Hãy cùng chúng tôi số hóa và quảng bá vẻ đẹp của các làng nghề Hà Nội tới hàng triệu bạn trẻ và du khách quốc tế.
+            </p>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Bạn biết một làng nghề truyền thống?
-          </h1>
-          <p className="text-xs sm:text-sm text-lacquer-800/70 max-w-xl mx-auto leading-relaxed">
-            Hãy cùng chúng tôi số hóa và quảng bá vẻ đẹp của các làng nghề Hà Nội tới hàng triệu bạn trẻ và du khách quốc tế.
-          </p>
         </div>
 
         {submitted ? (

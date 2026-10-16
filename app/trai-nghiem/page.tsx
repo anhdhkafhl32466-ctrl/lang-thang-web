@@ -90,17 +90,20 @@ export default function ExperienceHubPage() {
     <div className="min-h-screen py-10 sm:py-16 bg-dopaper-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
-            <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-            <span>Xưởng Nghề Tương Tác Ảo</span>
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-10 overflow-hidden shadow-xs text-center max-w-4xl mx-auto">
+          <div className="absolute inset-0 bg-cultural-silk opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-left" />
+          <div className="relative z-10 max-w-3xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
+              <Sparkles className="w-3.5 h-3.5 text-gold-600" />
+              <span>Xưởng Nghề Tương Tác Ảo</span>
+            </div>
+            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
+              Tự tay làm nghề – Chạm vào tinh hoa
+            </h1>
+            <p className="text-sm sm:text-base text-lacquer-800/70 leading-relaxed">
+              Mô phỏng chân thực các bước làm nghề truyền thống bằng công nghệ tương tác Canvas 2D. Hoàn thành sản phẩm ảo để nhận huy hiệu và chiêm ngưỡng các tác phẩm thật từ nghệ nhân!
+            </p>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Tự tay làm nghề – Chạm vào tinh hoa
-          </h1>
-          <p className="text-sm sm:text-base text-lacquer-800/70 leading-relaxed">
-            Mô phỏng chân thực các bước làm nghề truyền thống bằng công nghệ tương tác Canvas 2D. Hoàn thành sản phẩm ảo để nhận huy hiệu và chiêm ngưỡng các tác phẩm thật từ nghệ nhân!
-          </p>
         </div>
 
         {/* Passport Status Quick Banner */}

@@ -9,6 +9,89 @@
   --foreground: #1F1610;
   --primary-terracotta: #C85A32;
   --gold-accent: #D4A344;
+
+  /* 10 Vietnamese Cultural Background Tokens */
+  --bg-heritage-village: url('/images/backgrounds/bg-heritage-village.png');
+  --bg-tranquil-moon: url('/images/backgrounds/bg-tranquil-moon.png');
+  --bg-silk-loom: url('/images/backgrounds/bg-silk-loom.png');
+  --bg-lotus-pond: url('/images/backgrounds/bg-lotus-pond.png');
+  --bg-terracotta-pottery: url('/images/backgrounds/bg-terracotta-pottery.png');
+  --bg-bamboo-pavilion: url('/images/backgrounds/bg-bamboo-pavilion.png');
+  --bg-lantern-lacquer: url('/images/backgrounds/bg-lantern-lacquer.png');
+  --bg-brocade-curve: url('/images/backgrounds/bg-brocade-curve.png');
+  --bg-misty-river: url('/images/backgrounds/bg-misty-river.png');
+  --bg-plum-blossom: url('/images/backgrounds/bg-plum-blossom.png');
+}
+
+/* Cultural Background Utilities with Non-Intrusive Blend */
+.bg-cultural-village {
+  background-image: var(--bg-heritage-village);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-moon {
+  background-image: var(--bg-tranquil-moon);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-silk {
+  background-image: var(--bg-silk-loom);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-lotus {
+  background-image: var(--bg-lotus-pond);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-pottery {
+  background-image: var(--bg-terracotta-pottery);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-bamboo {
+  background-image: var(--bg-bamboo-pavilion);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-lantern {
+  background-image: var(--bg-lantern-lacquer);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-brocade {
+  background-image: var(--bg-brocade-curve);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-river {
+  background-image: var(--bg-misty-river);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.bg-cultural-plum {
+  background-image: var(--bg-plum-blossom);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 body {

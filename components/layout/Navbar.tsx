@@ -118,28 +118,30 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
             : 'bg-dopaper-50/90 backdrop-blur-md border-b border-terracotta-200/40 py-2.5 sm:py-3'
         }`}
       >
-        <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-2 sm:gap-4">
-          {/* Brand Logo & Editorial Masthead Title */}
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-terracotta-300/80 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
-              <img
-                src="/images/lang-thang-logo.png"
-                alt="Lang Thang — Làng Nghề Hà Nội"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap">
-                Lang Thang
-              </span>
-              <span className="hidden 2xl:inline-block text-[11px] uppercase tracking-wider font-semibold text-terracotta-700/80 border-l border-terracotta-300/80 pl-2 whitespace-nowrap">
-                Di Sản Làng Nghề
-              </span>
-            </div>
-          </Link>
+        <div className="max-w-[1440px] w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 flex items-center justify-between gap-4">
+          {/* KHỐI 1: LOGO BÊN TRÁI (shrink-0) */}
+          <div className="flex items-center shrink-0">
+            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink-0 select-none">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-terracotta-300/80 shadow-xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform shrink-0">
+                <img
+                  src="/images/lang-thang-logo.png"
+                  alt="Lang Thang — Làng Nghề Hà Nội"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex items-baseline gap-2 shrink-0">
+                <span className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900 tracking-tight group-hover:text-terracotta-600 transition-colors whitespace-nowrap shrink-0">
+                  Lang Thang
+                </span>
+                <span className="hidden 2xl:inline-block text-[11px] uppercase tracking-wider font-semibold text-terracotta-700/80 border-l border-terracotta-300/80 pl-2 whitespace-nowrap shrink-0">
+                  Di Sản Làng Nghề
+                </span>
+              </div>
+            </Link>
+          </div>
 
-          {/* Desktop Editorial Navigation (Visible from 1150px+ so Laptop 1280x800 has full navigation without wrapping) */}
-          <nav className="hidden min-[1150px]:flex items-center gap-1 xl:gap-2 2xl:gap-3 shrink min-w-0">
+          {/* KHỐI 2: MENU ĐIỀU HƯỚNG Ở GIỮA (shrink-0, ẩn dưới 1150px để dùng Hamburger) */}
+          <nav className="hidden min-[1150px]:flex items-center justify-center gap-1 xl:gap-2 2xl:gap-3 shrink-0">
             {navLinks.map((link) => {
               const active = isActive(link.href);
               return (
@@ -155,14 +157,14 @@ export default function Navbar({ onOpenPassport }: NavbarProps) {
                   }`}
                 >
                   {link.isSpecial && <Sparkles className="w-3.5 h-3.5 text-gold-600 shrink-0" />}
-                  <span className="whitespace-nowrap">{link.label}</span>
+                  <span className="whitespace-nowrap shrink-0">{link.label}</span>
                 </Link>
               );
             })}
           </nav>
 
-          {/* Right Action Items — Cleanly separated with subtle divider */}
-          <div className="flex items-center gap-1.5 sm:gap-2 xl:gap-2.5 shrink-0 pl-3 xl:pl-4 border-l border-terracotta-200/60 ml-2 xl:ml-3">
+          {/* KHỐI 3: CÁC NÚT HÀNH ĐỘNG BÊN PHẢI (shrink-0, phân tách rõ ràng) */}
+          <div className="flex items-center justify-end gap-1.5 sm:gap-2 xl:gap-2.5 shrink-0 pl-3 xl:pl-4 border-l border-terracotta-200/60 ml-2 xl:ml-3">
             {/* Shopping Cart */}
             <Link
               href="/gio-hang"

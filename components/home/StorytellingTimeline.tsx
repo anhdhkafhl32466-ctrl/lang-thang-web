@@ -84,7 +84,9 @@ export default function StorytellingTimeline() {
 
   return (
     <section className="py-20 bg-dopaper-100/70 border-y border-terracotta-200/60 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background Hoa van lang que van hoa truyen thong */}
+      <div className="absolute inset-0 bg-cultural-village opacity-15 mix-blend-multiply pointer-events-none bg-cover bg-top" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/20 text-lacquer-900 text-xs font-semibold mb-3 border border-gold-400/30">

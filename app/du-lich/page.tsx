@@ -67,17 +67,20 @@ export default function TourismPage() {
     <div className="min-h-screen py-10 sm:py-16 bg-dopaper-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
-            <Compass className="w-3.5 h-3.5" />
-            <span>Du Lịch Trực Tuyến & Hành Trình Thực Tế</span>
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-8 sm:p-10 overflow-hidden shadow-xs text-center max-w-4xl mx-auto">
+          <div className="absolute inset-0 bg-cultural-bamboo opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 max-w-3xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
+              <Compass className="w-3.5 h-3.5" />
+              <span>Du Lịch Trực Tuyến & Hành Trình Thực Tế</span>
+            </div>
+            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
+              Trải nghiệm & Tour làng nghề Hà Nội
+            </h1>
+            <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
+              Khám phá các điểm đến di sản trực tuyến ngay tại nhà, hoặc đặt các workshop và tour trải nghiệm 1-kèm-1 cùng nghệ nhân bản địa.
+            </p>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Trải nghiệm & Tour làng nghề Hà Nội
-          </h1>
-          <p className="text-xs sm:text-sm text-lacquer-800/70 leading-relaxed">
-            Khám phá các điểm đến di sản trực tuyến ngay tại nhà, hoặc đặt các workshop và tour trải nghiệm 1-kèm-1 cùng nghệ nhân bản địa.
-          </p>
         </div>
 
         {/* SECTION 1: DU LỊCH ONLINE (VIRTUAL 360 HOTSPOTS) */}

@@ -135,7 +135,9 @@ export default function CraftVillagesDirectoryPage() {
     <div className="min-h-screen py-6 sm:py-10 bg-dopaper-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Top Header & Context */}
-        <div className="space-y-4">
+        <div className="relative rounded-3xl bg-dopaper-50/90 border border-terracotta-200/90 p-6 sm:p-8 overflow-hidden shadow-xs">
+          <div className="absolute inset-0 bg-cultural-pottery opacity-25 mix-blend-multiply pointer-events-none bg-cover bg-right" />
+          <div className="relative z-10 space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-800 text-xs font-bold border border-terracotta-200">
               <Compass className="w-3.5 h-3.5 text-terracotta-600" />
@@ -157,8 +159,9 @@ export default function CraftVillagesDirectoryPage() {
               </p>
             </div>
           </div>
+        </div>
 
-          {/* Quick Stats Metric Grid */}
+        {/* Quick Stats Metric Grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-2">
             <div className="bg-white p-3.5 rounded-2xl border border-terracotta-200 shadow-sm flex flex-col justify-between">
               <span className="text-[11px] font-semibold text-lacquer-800/70">Làng có nghề</span>
