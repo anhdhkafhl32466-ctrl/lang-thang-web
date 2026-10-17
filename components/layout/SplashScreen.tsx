@@ -89,7 +89,7 @@ export default function SplashScreen({
         <div className="relative w-full aspect-[16/9] max-h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-terracotta-200/70 bg-[#faede6] group">
           {/* Tranh vẽ màu nước chính xác theo mẫu của người dùng */}
           <img
-            src="/images/splash-screen.jpg"
+            src="/images/splash-screen-v2.jpg"
             alt="Lang Thang — Khám phá • Truyền tải • Kết nối"
             className="w-full h-full object-cover sm:object-contain object-center transition-transform duration-1000 ease-out scale-100"
           />
