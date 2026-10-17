@@ -491,7 +491,7 @@ body, button, input, select, textarea {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(252, 248, 240, 0.05) 0%, rgba(250, 244, 233, 0.12) 50%, rgba(247, 240, 227, 0.22) 100%);
+    linear-gradient(180deg, rgba(252, 248, 240, 0.02) 0%, rgba(250, 244, 233, 0.06) 50%, rgba(247, 240, 227, 0.12) 100%);
 }
 
 /*
