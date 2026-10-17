@@ -94,13 +94,17 @@ export default function SplashScreen({
             className="w-full h-full object-cover sm:object-contain object-center transition-transform duration-1000 ease-out scale-100"
           />
 
-          {/* Thanh tiến trình tải — chỉ giữ thanh load, bỏ chữ */}
+          {/* Thanh tiến trình tải + chữ Đang tải */}
           <div className="absolute bottom-3 sm:bottom-5 left-0 right-0 z-20 flex flex-col items-center justify-center px-4 pointer-events-none">
             <div className="w-48 sm:w-64 h-1.5 sm:h-2 bg-white/70 backdrop-blur-md rounded-full overflow-hidden border border-black/10 shadow-inner">
               <div
                 className="h-full bg-gradient-to-r from-terracotta-500 via-amber-500 to-emerald-600 rounded-full transition-all duration-100 ease-out shadow-[0_0_10px_rgba(200,90,50,0.6)]"
                 style={{ width: `${progress}%` }}
               />
+            </div>
+            <div className="mt-1.5 flex items-center gap-2 text-[11px] sm:text-xs font-semibold text-lacquer-900 bg-white/85 backdrop-blur-md px-3.5 py-0.5 rounded-full border border-terracotta-200 shadow-sm">
+              <span className="w-1.5 h-1.5 rounded-full bg-terracotta-500 animate-ping" />
+              <span>Đang tải... {progress}%</span>
             </div>
           </div>
         </div>
