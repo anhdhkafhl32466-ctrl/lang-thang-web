@@ -73,7 +73,7 @@ export default function SellerNotificationsPage() {
 
   return (
     <div className="space-y-5">
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -132,12 +132,12 @@ export default function SellerNotificationsPage() {
       </section>
 
       {loading ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
           <Loader2 className="w-4 h-4 animate-spin" />
           Đang tải thông báo...
         </div>
       ) : items.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center text-sm text-lacquer-800/70">
           Chưa có thông báo nào. Khi có đơn mới hoặc cửa hàng thay đổi trạng thái, thông báo sẽ xuất hiện ở đây.
         </div>
       ) : (
@@ -146,7 +146,7 @@ export default function SellerNotificationsPage() {
             <li key={item.id}>
               <button
                 onClick={() => openItem(item)}
-                className={`w-full text-left bg-white rounded-2xl border p-4 hover:border-terracotta-300 transition-colors ${
+                className={`w-full text-left paper-panel rounded-2xl border p-4 hover:border-terracotta-300 transition-colors ${
                   item.readAt ? 'border-terracotta-100 opacity-80' : 'border-terracotta-200'
                 }`}
               >

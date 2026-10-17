@@ -210,7 +210,7 @@ export default function SellerWarehousesPage() {
   return (
     <div className="space-y-6">
       {/* Tiêu đề & Giới thiệu */}
-      <div className="bg-white rounded-3xl border border-terracotta-200 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <WarehouseIcon className="w-5 h-5 text-terracotta-600" />
@@ -249,7 +249,7 @@ export default function SellerWarehousesPage() {
 
       {/* Form thêm / sửa kho */}
       {showForm && (
-        <div className="bg-white rounded-3xl border-2 border-terracotta-300 p-6 space-y-5 shadow-md animate-fadeIn">
+        <div className="paper-panel rounded-3xl border-2 border-terracotta-300 p-6 space-y-5 shadow-md animate-fadeIn">
           <div className="flex items-center justify-between pb-3 border-b border-terracotta-100">
             <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
               <WarehouseIcon className="w-4 h-4 text-terracotta-600" />
@@ -334,7 +334,7 @@ export default function SellerWarehousesPage() {
               <button
                 type="button"
                 onClick={handleGetCurrentLocation}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-terracotta-200 text-[11px] font-bold text-terracotta-600 hover:bg-dopaper-100 shadow-xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl paper-panel border border-terracotta-200 text-[11px] font-bold text-terracotta-600 hover:bg-dopaper-100 shadow-xs"
               >
                 <Navigation className="w-3.5 h-3.5" />
                 <span>Lấy vị trí GPS hiện tại</span>
@@ -376,12 +376,12 @@ export default function SellerWarehousesPage() {
 
       {/* Danh sách kho hàng */}
       {loading ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-12 flex items-center justify-center gap-2 text-xs text-lacquer-800/60">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 flex items-center justify-center gap-2 text-xs text-lacquer-800/60">
           <Loader2 className="w-4 h-4 animate-spin text-terracotta-600" />
           <span>Đang tải danh sách kho...</span>
         </div>
       ) : warehouses.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
           <WarehouseIcon className="w-12 h-12 text-lacquer-800/40 mx-auto" />
           <h3 className="font-serif text-base font-bold text-lacquer-900">Chưa có kho hàng nào</h3>
           <p className="text-xs text-lacquer-800/70 max-w-md mx-auto">
@@ -400,7 +400,7 @@ export default function SellerWarehousesPage() {
           {warehouses.map((wh) => (
             <div
               key={wh.id}
-              className={`bg-white rounded-3xl border p-5 sm:p-6 space-y-4 shadow-xs transition-all relative ${
+              className={`paper-panel rounded-3xl border p-5 sm:p-6 space-y-4 shadow-xs transition-all relative ${
                 wh.isDefault ? 'border-terracotta-400 ring-1 ring-terracotta-300' : 'border-terracotta-200'
               }`}
             >

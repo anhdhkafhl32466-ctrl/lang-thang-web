@@ -108,7 +108,7 @@ export default function HatWeavingGamePage() {
               className={`py-2 text-center rounded-xl text-xs font-bold border transition-all ${
                 step === s.step || (step === 5 && s.step === 4)
                   ? 'bg-gold-500 text-lacquer-950 border-gold-500 shadow-md'
-                  : 'bg-white text-lacquer-800/60 border-terracotta-200'
+                  : 'paper-panel text-lacquer-800/60 border-terracotta-200'
               }`}
             >
               {s.label}
@@ -117,7 +117,7 @@ export default function HatWeavingGamePage() {
         </div>
 
         {/* Interactive Workshop Board */}
-        <div className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <div className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Visual Interactive Stage Preview */}
           <div className="lg:col-span-6 flex flex-col items-center justify-center p-8 bg-dopaper-100/60 rounded-2xl border border-terracotta-200/70 min-h-[340px] relative overflow-hidden">
             {/* Cone / Hat SVG representation */}
@@ -386,7 +386,7 @@ export default function HatWeavingGamePage() {
         </div>
 
         {/* Real Product Section */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-terracotta-600 uppercase tracking-wider">

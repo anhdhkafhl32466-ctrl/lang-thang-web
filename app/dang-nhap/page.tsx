@@ -84,7 +84,7 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen py-16 texture-paper texture-paper--lotus flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-4">
-        <div className="bg-white rounded-3xl p-8 border border-terracotta-200 shadow-xl text-center space-y-6">
+        <div className="paper-panel rounded-3xl p-8 border border-terracotta-200 shadow-xl text-center space-y-6">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-terracotta-500 to-gold-500 text-white flex items-center justify-center mx-auto shadow-md">
             <Sparkles className="w-8 h-8" />
           </div>
@@ -127,7 +127,7 @@ export default function LoginPage() {
         </div>
 
         {/* Đăng nhập quản trị bằng khoá máy chủ (khi chưa có Google Client ID) */}
-        <div className="bg-white rounded-3xl p-6 border border-terracotta-200 shadow-sm space-y-3">
+        <div className="paper-panel rounded-3xl p-6 border border-terracotta-200 shadow-sm space-y-3">
           <div className="flex items-start gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-lacquer-900/5 text-lacquer-900 flex items-center justify-center shrink-0">
               <KeyRound className="w-4 h-4" />
@@ -158,7 +158,7 @@ export default function LoginPage() {
               onChange={(event) => setKeyInput(event.target.value)}
               placeholder="Dán khoá quản trị (ADMIN_ACCESS_KEY)"
               autoComplete="off"
-              className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs font-mono text-lacquer-900 bg-white"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs font-mono text-lacquer-900 paper-panel"
             />
             <button
               type="submit"

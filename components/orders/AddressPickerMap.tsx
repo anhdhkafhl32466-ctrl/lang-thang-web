@@ -285,7 +285,7 @@ export default function AddressPickerMap({
             type="button"
             onClick={() => resolveAddress(draft.lat, draft.lng, value?.source === 'gps' ? 'gps' : 'manual')}
             disabled={resolving}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-terracotta-300 bg-white hover:bg-dopaper-50 text-lacquer-900 text-xs font-bold disabled:opacity-60"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-terracotta-300 paper-panel hover:bg-dopaper-50 text-lacquer-900 text-xs font-bold disabled:opacity-60"
           >
             {resolving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle2 className="w-3.5 h-3.5" />}
             <span>Xác nhận điểm đã chọn</span>
@@ -316,12 +316,12 @@ export default function AddressPickerMap({
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Tìm số nhà, đường, phường/xã... (hoặc bấm trực tiếp lên bản đồ)"
-          className="w-full bg-white border border-terracotta-200 rounded-xl pl-9 pr-3 py-2.5 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500"
+          className="w-full paper-panel border border-terracotta-200 rounded-xl pl-9 pr-3 py-2.5 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500"
         />
         {searching && <Loader2 className="w-3.5 h-3.5 absolute right-3 top-1/2 -translate-y-1/2 animate-spin text-terracotta-500" />}
 
         {suggestions.length > 0 && (
-          <div className="absolute z-30 mt-1 w-full bg-white border border-terracotta-200 rounded-xl shadow-xl max-h-56 overflow-y-auto">
+          <div className="absolute z-30 mt-1 w-full paper-panel border border-terracotta-200 rounded-xl shadow-xl max-h-56 overflow-y-auto">
             {suggestions.map((suggestion, index) => (
               <button
                 key={`${suggestion.lat}-${suggestion.lng}-${index}`}

@@ -316,7 +316,7 @@ export default function ChatbotDrawer() {
                   value={apiKeyInput}
                   onChange={(e) => setApiKeyInput(e.target.value)}
                   placeholder="Dán Gemini API Key (AIzaSy...)"
-                  className="flex-1 px-3 py-1.5 rounded-lg border border-amber-300 text-xs bg-white text-gray-900 outline-none focus:border-terracotta-500 font-mono"
+                  className="flex-1 px-3 py-1.5 rounded-lg border border-amber-300 text-xs paper-panel text-gray-900 outline-none focus:border-terracotta-500 font-mono"
                 />
                 <button
                   type="submit"
@@ -343,7 +343,7 @@ export default function ChatbotDrawer() {
                 key={idx}
                 onClick={() => handleSend(prompt)}
                 disabled={loading}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-white text-lacquer-900 text-[11px] font-medium border border-terracotta-200 hover:border-terracotta-400 hover:bg-terracotta-50 transition-colors shrink-0 disabled:opacity-50 shadow-xs"
+                className="whitespace-nowrap px-2.5 py-1 rounded-full paper-panel text-lacquer-900 text-[11px] font-medium border border-terracotta-200 hover:border-terracotta-400 hover:bg-terracotta-50 transition-colors shrink-0 disabled:opacity-50 shadow-xs"
               >
                 {prompt}
               </button>
@@ -365,7 +365,7 @@ export default function ChatbotDrawer() {
                     className={`max-w-[86%] rounded-2xl px-3.5 py-3 shadow-sm leading-relaxed ${
                       m.sender === 'user'
                         ? 'bg-terracotta-500 text-white rounded-br-none'
-                        : 'bg-white text-lacquer-900 border border-terracotta-200/80 rounded-bl-none'
+                        : 'paper-panel text-lacquer-900 border border-terracotta-200/80 rounded-bl-none'
                     }`}
                   >
                     <div className="whitespace-pre-line leading-relaxed">{m.text}</div>
@@ -435,7 +435,7 @@ export default function ChatbotDrawer() {
           </div>
 
           {/* Input Area */}
-          <div className="p-3 bg-white border-t border-terracotta-200 shrink-0">
+          <div className="p-3 paper-panel border-t border-terracotta-200 shrink-0">
             <form
               onSubmit={(e) => {
                 e.preventDefault();

@@ -27,6 +27,10 @@ export interface CatalogProduct {
   preparationDays?: number | null;
   warehouseId?: string | null;
   warehouseName?: string | null;
+  /** Điểm đánh giá trung bình (0 = chưa có đánh giá nào). */
+  ratingAverage?: number;
+  /** Số lượt đánh giá đang hiển thị. */
+  reviewCount?: number;
 }
 
 export type StoreStatus = 'pending' | 'active' | 'suspended' | 'rejected';

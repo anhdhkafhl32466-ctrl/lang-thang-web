@@ -138,7 +138,7 @@ export default function SellerProfilePage() {
 
   return (
     <form onSubmit={save} className="space-y-5">
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
           <StoreIcon className="w-4 h-4 text-terracotta-600" />
           Hồ sơ cửa hàng
@@ -249,7 +249,7 @@ export default function SellerProfilePage() {
         </div>
       </section>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex items-start justify-between gap-3">
           <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
             <MapPin className="w-4 h-4 text-terracotta-600" />
@@ -278,7 +278,7 @@ export default function SellerProfilePage() {
         </p>
       </section>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
         {error && (
           <p className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-[11px] flex items-start gap-2">
             <AlertTriangle className="w-3.5 h-3.5 mt-0.5" />

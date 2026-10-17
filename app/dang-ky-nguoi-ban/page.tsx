@@ -154,7 +154,7 @@ export default function SellerRegisterPage() {
   if (created) {
     return (
       <div className="min-h-[70vh] flex items-center justify-center px-4 py-10">
-        <div className="max-w-2xl w-full bg-white rounded-3xl border border-emerald-200 p-8 space-y-4 text-center">
+        <div className="max-w-2xl w-full paper-panel rounded-3xl border border-emerald-200 p-8 space-y-4 text-center">
           <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
             <CheckCircle2 className="w-8 h-8" />
           </div>
@@ -198,7 +198,7 @@ export default function SellerRegisterPage() {
   return (
     <div className="min-h-screen texture-paper texture-paper--plum py-10 sm:py-14">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-        <header className="relative rounded-3xl bg-cultural-moon bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center space-y-3">
+        <header className="relative rounded-3xl heritage-hero bg-cultural-moon bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center space-y-3">
           <div className="relative z-10 space-y-3">
             <div className="w-14 h-14 rounded-2xl bg-terracotta-100 text-terracotta-700 flex items-center justify-center mx-auto shadow-xs">
               <Building2 className="w-7 h-7" />
@@ -255,7 +255,7 @@ export default function SellerRegisterPage() {
 
         <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <h2 className="font-serif text-lg font-bold text-lacquer-900">1. Thông tin người bán</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <label className="space-y-1.5 text-xs">
@@ -327,7 +327,7 @@ export default function SellerRegisterPage() {
               </div>
             </section>
 
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <div className="flex items-start justify-between gap-3">
                 <h2 className="font-serif text-lg font-bold text-lacquer-900">2. Địa chỉ xuất hàng của cửa hàng</h2>
                 <span className="text-[10px] text-lacquer-800/60 flex items-center gap-1 text-right">
@@ -382,7 +382,7 @@ export default function SellerRegisterPage() {
               </p>
             </section>
 
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <h2 className="font-serif text-lg font-bold text-lacquer-900">3. Giới thiệu cửa hàng</h2>
 
               <label className="space-y-1.5 text-xs block">
@@ -413,7 +413,7 @@ export default function SellerRegisterPage() {
                         className={`px-3 py-1.5 rounded-xl border text-[11px] font-semibold transition-colors ${
                           active
                             ? 'bg-terracotta-50 border-terracotta-300 text-terracotta-700'
-                            : 'bg-white border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50'
+                            : 'paper-panel border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50'
                         }`}
                       >
                         {category}
@@ -436,7 +436,7 @@ export default function SellerRegisterPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28">
+            <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28">
               <h2 className="font-serif text-lg font-bold text-lacquer-900">Hoàn tất đăng ký</h2>
 
               <ul className="text-[11px] text-lacquer-800/75 space-y-2">

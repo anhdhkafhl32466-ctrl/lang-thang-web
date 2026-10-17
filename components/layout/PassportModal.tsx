@@ -254,7 +254,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                       key={v.id}
                       className={`p-3 rounded-xl border flex flex-col justify-between transition-all ${
                         isVisited
-                          ? 'bg-white border-terracotta-400 shadow-sm'
+                          ? 'paper-panel border-terracotta-400 shadow-sm'
                           : 'bg-dopaper-100/50 border-terracotta-200/60'
                       }`}
                     >
@@ -373,7 +373,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                       className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors ${
                         selectedVillageFilter === 'all'
                           ? 'bg-terracotta-500 text-white shadow'
-                          : 'bg-white border border-terracotta-200 text-lacquer-800 hover:bg-dopaper-100'
+                          : 'paper-panel border border-terracotta-200 text-lacquer-800 hover:bg-dopaper-100'
                       }`}
                     >
                       Tất cả ({totalPhotos})
@@ -387,7 +387,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                           className={`px-3 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-colors ${
                             selectedVillageFilter === v.slug
                               ? 'bg-terracotta-500 text-white shadow'
-                              : 'bg-white border border-terracotta-200 text-lacquer-800 hover:bg-dopaper-100'
+                              : 'paper-panel border border-terracotta-200 text-lacquer-800 hover:bg-dopaper-100'
                           }`}
                         >
                           {v.name} ({count})
@@ -407,7 +407,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                         return (
                           <div
                             key={v.slug}
-                            className="bg-white rounded-2xl p-4 border border-terracotta-200/90 shadow-sm space-y-3"
+                            className="paper-panel rounded-2xl p-4 border border-terracotta-200/90 shadow-sm space-y-3"
                           >
                             {/* Village Group Header */}
                             <div className="flex items-center justify-between gap-2 border-b border-terracotta-100 pb-2.5">
@@ -506,7 +506,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                     key={badge.id}
                     className={`p-3.5 rounded-xl border transition-all flex items-start gap-3 ${
                       isUnlocked
-                        ? 'bg-white border-terracotta-300 shadow-sm'
+                        ? 'paper-panel border-terracotta-300 shadow-sm'
                         : 'bg-dopaper-100/60 border-terracotta-200/50 opacity-60'
                     }`}
                   >
@@ -565,7 +565,7 @@ export default function PassportModal({ isOpen, onClose }: PassportModalProps) {
                   {passport.creations.map((c) => (
                     <div
                       key={c.id}
-                      className="p-3 bg-white rounded-xl border border-terracotta-200 shadow-sm flex items-center gap-3"
+                      className="p-3 paper-panel rounded-xl border border-terracotta-200 shadow-sm flex items-center gap-3"
                     >
                       <div className="w-10 h-10 rounded-lg bg-terracotta-50 flex items-center justify-center text-xl">
                         {c.type === 'pottery' ? '🏺' : '👒'}

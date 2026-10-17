@@ -88,7 +88,7 @@ export default function SellerOrderDetailPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+      <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
         <Loader2 className="w-4 h-4 animate-spin" />
         Đang tải đơn hàng...
       </div>
@@ -97,7 +97,7 @@ export default function SellerOrderDetailPage() {
 
   if (error || !order) {
     return (
-      <div className="bg-white rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
+      <div className="paper-panel rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
         <AlertTriangle className="w-6 h-6 text-rose-600 mx-auto" />
         <p className="text-sm text-lacquer-800/80">{error || 'Không tìm thấy đơn hàng.'}</p>
         <Link href="/ban-hang/don-hang" className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-terracotta-500 text-white text-xs font-bold">
@@ -123,7 +123,7 @@ export default function SellerOrderDetailPage() {
         </span>
       </div>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h1 className="font-serif text-xl font-bold text-lacquer-900 font-mono">{order.code}</h1>
@@ -184,7 +184,7 @@ export default function SellerOrderDetailPage() {
         </div>
       </section>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
         <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
           <Package className="w-4 h-4 text-terracotta-600" />
           Sản phẩm của cửa hàng trong đơn
@@ -221,7 +221,7 @@ export default function SellerOrderDetailPage() {
         </div>
       </section>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
         <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-terracotta-600" />
           Xử lý & giao hàng
@@ -302,7 +302,7 @@ export default function SellerOrderDetailPage() {
         )}
       </section>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
         <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
           <History className="w-4 h-4 text-terracotta-600" />
           Lịch sử đơn của cửa hàng

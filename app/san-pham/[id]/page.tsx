@@ -2,16 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useCart } from '@/lib/client/cart';
 import { formatCurrencyVND } from '@/lib/utils';
 import type { CatalogProduct } from '@/lib/orders/types';
+import ProductReviews, { Stars } from '@/components/reviews/ProductReviews';
+import ProductQuestions from '@/components/reviews/ProductQuestions';
 import {
   ShoppingCart, ArrowLeft, PackageCheck, Truck, ShieldCheck, Loader2, AlertTriangle, Minus, Plus, ArrowRight, Store,
+  Zap,
 } from 'lucide-react';
 
 export default function ProductDetailPage() {
   const params = useParams<{ id: string }>();
+  const router = useRouter();
   const productId = params?.id;
   const cart = useCart();
 
@@ -54,6 +58,18 @@ export default function ProductDetailPage() {
     setTimeout(() => setToast(null), 3500);
   };
 
+  /** Mua ngay: thêm đúng số lượng rồi chuyển thẳng tới trang thanh toán. */
+  const buyNow = () => {
+    if (!product) return;
+    const result = cart.addToCart(product.id, quantity);
+    if (!result.ok) {
+      setToast({ tone: 'error', text: result.message });
+      setTimeout(() => setToast(null), 3500);
+      return;
+    }
+    router.push('/thanh-toan');
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen texture-paper texture-paper--silk flex items-center justify-center text-xs text-lacquer-800/60 gap-2">
@@ -88,7 +104,7 @@ export default function ProductDetailPage() {
           <span>Danh sách sản phẩm</span>
         </Link>
 
-        <div className="bg-white rounded-3xl border border-terracotta-200 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 shadow-sm overflow-hidden grid grid-cols-1 lg:grid-cols-2">
           <div className="aspect-[4/3] lg:aspect-auto lg:h-full bg-gray-100">
             <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
           </div>
@@ -97,8 +113,18 @@ export default function ProductDetailPage() {
             <div className="space-y-2">
               <span className="text-[11px] font-bold text-gold-600 uppercase">{product.villageName} · {product.category}</span>
               <h1 className="font-serif text-2xl sm:text-3xl font-bold text-lacquer-900">{product.name}</h1>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <span className="text-2xl font-serif font-bold text-terracotta-600">{formatCurrencyVND(product.price)}</span>
+                {product.reviewCount ? (
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-lacquer-800/70">
+                    <Stars value={product.ratingAverage || 0} size="w-3.5 h-3.5" />
+                    <span>
+                      {(product.ratingAverage || 0).toFixed(1)} · {product.reviewCount} đánh giá
+                    </span>
+                  </span>
+                ) : (
+                  <span className="text-[11px] text-lacquer-800/50">Chưa có đánh giá</span>
+                )}
                 <span
                   className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${
                     outOfStock ? 'bg-rose-100 text-rose-700' : 'bg-emerald-100 text-emerald-700'
@@ -119,7 +145,7 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Thông tin NGƯỜI BÁN & KHO XUẤT HÀNG: sàn đa người bán */}
-            <div className="p-4 rounded-2xl border border-terracotta-200 bg-white space-y-2 text-xs">
+            <div className="p-4 rounded-2xl border border-terracotta-200 paper-panel space-y-2 text-xs">
               <div className="flex items-center justify-between">
                 <span className="flex items-center gap-1.5 font-bold text-lacquer-900">
                   <Store className="w-3.5 h-3.5 text-terracotta-600" />
@@ -210,9 +236,17 @@ export default function ProductDetailPage() {
                 <ShoppingCart className="w-4 h-4" />
                 <span>Thêm vào giỏ hàng</span>
               </button>
+              <button
+                onClick={buyNow}
+                disabled={outOfStock}
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-gold-600 hover:bg-gold-700 disabled:bg-gray-300 text-white text-sm font-bold shadow"
+              >
+                <Zap className="w-4 h-4" />
+                <span>Mua ngay</span>
+              </button>
               <Link
                 href="/gio-hang"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-sm font-bold hover:bg-dopaper-100"
+                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl paper-panel border border-terracotta-200 text-lacquer-900 text-sm font-bold hover:bg-dopaper-100"
               >
                 <PackageCheck className="w-4 h-4 text-terracotta-600" />
                 <span>Xem giỏ hàng ({cart.totalCount})</span>
@@ -239,6 +273,9 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
+
+        <ProductReviews productId={product.id} />
+        <ProductQuestions productId={product.id} />
       </div>
     </div>
   );

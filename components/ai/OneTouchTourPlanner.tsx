@@ -287,7 +287,7 @@ export default function OneTouchTourPlanner() {
       </div>
 
       {/* INPUT FORM CARDS */}
-      <div className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-xl space-y-8">
+      <div className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-xl space-y-8">
         {/* Step 1: Ngân sách */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
@@ -462,7 +462,7 @@ export default function OneTouchTourPlanner() {
 
       {/* LOADING ANIMATION */}
       {isGenerating && (
-        <div className="bg-white rounded-3xl p-8 sm:p-12 border-2 border-gold-300 shadow-xl text-center space-y-6 animate-pulse">
+        <div className="paper-panel rounded-3xl p-8 sm:p-12 border-2 border-gold-300 shadow-xl text-center space-y-6 animate-pulse">
           <div className="w-16 h-16 rounded-3xl bg-gold-400/20 text-terracotta-600 flex items-center justify-center mx-auto text-2xl font-bold">
             <Sparkles className="w-8 h-8 animate-spin text-terracotta-600" />
           </div>
@@ -548,7 +548,7 @@ export default function OneTouchTourPlanner() {
       {tourPlan && (
         <div className="space-y-8 animate-fadeIn">
           {/* Top Result Banner */}
-          <div className="bg-white rounded-3xl border-2 border-gold-400 shadow-2xl overflow-hidden">
+          <div className="paper-panel rounded-3xl border-2 border-gold-400 shadow-2xl overflow-hidden">
             {/* Header info */}
             <div className="p-6 sm:p-8 bg-gradient-to-r from-terracotta-600 via-terracotta-700 to-amber-700 text-white space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2">
@@ -641,7 +641,7 @@ export default function OneTouchTourPlanner() {
                         <span className="text-xs text-lacquer-800/70">Thời gian ước tính: {tourPlan.transitSummary.travelDuration}</span>
                       </div>
                     </div>
-                    <div className="text-xs font-bold text-terracotta-700 bg-white px-3 py-1.5 rounded-xl border border-terracotta-200 self-start sm:self-auto">
+                    <div className="text-xs font-bold text-terracotta-700 paper-panel px-3 py-1.5 rounded-xl border border-terracotta-200 self-start sm:self-auto">
                       Vé khứ hồi: ~{tourPlan.transitSummary.cost.toLocaleString('vi-VN')}đ
                     </div>
                   </div>
@@ -679,9 +679,9 @@ export default function OneTouchTourPlanner() {
                   {tourPlan.itinerary.map((stop, sIdx) => (
                     <div key={sIdx} className="relative group">
                       {/* Timeline dot */}
-                      <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-white border-4 border-terracotta-500 group-hover:scale-125 transition-transform" />
+                      <div className="absolute -left-[31px] top-1 w-4 h-4 rounded-full paper-panel border-4 border-terracotta-500 group-hover:scale-125 transition-transform" />
 
-                      <div className="p-4 sm:p-5 rounded-2xl bg-white border border-terracotta-200/90 shadow-xs hover:shadow-md transition-shadow space-y-2">
+                      <div className="p-4 sm:p-5 rounded-2xl paper-panel border border-terracotta-200/90 shadow-xs hover:shadow-md transition-shadow space-y-2">
                         <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="text-xs font-bold text-terracotta-700 bg-terracotta-50 px-2.5 py-1 rounded-lg border border-terracotta-200 flex items-center gap-1">
                             <Clock className="w-3 h-3 text-terracotta-600" />
@@ -753,7 +753,7 @@ export default function OneTouchTourPlanner() {
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-2xl bg-white border border-gold-300 shadow-xs flex flex-col items-end shrink-0">
+                    <div className="p-4 rounded-2xl paper-panel border border-gold-300 shadow-xs flex flex-col items-end shrink-0">
                       <span className="text-[11px] text-gray-400 line-through">
                         Giá tại xưởng: {tourPlan.workshop.priceOriginal.toLocaleString('vi-VN')}đ
                       </span>
@@ -815,7 +815,7 @@ export default function OneTouchTourPlanner() {
                     <span className="col-span-6 sm:col-span-3 text-right">Dự toán VNĐ</span>
                   </div>
 
-                  <div className="divide-y divide-terracotta-100 bg-white text-xs">
+                  <div className="divide-y divide-terracotta-100 paper-panel text-xs">
                     {tourPlan.costBreakdown.map((item, cIdx) => (
                       <div key={cIdx} className="p-3.5 grid grid-cols-12 items-center hover:bg-dopaper-50/50 transition-colors">
                         <div className="col-span-6 sm:col-span-5 flex items-center gap-2">
@@ -884,7 +884,7 @@ export default function OneTouchTourPlanner() {
       {/* BOOKING MODAL */}
       {isBookingOpen && tourPlan?.workshop && (
         <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 animate-fadeIn">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-gold-300 space-y-5 animate-scaleUp">
+          <div className="paper-panel rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border-2 border-gold-300 space-y-5 animate-scaleUp">
             <div className="flex items-center justify-between pb-3 border-b border-terracotta-100">
               <div className="flex items-center gap-2">
                 <div className="w-9 h-9 rounded-xl bg-gold-400 text-lacquer-950 flex items-center justify-center font-bold">
@@ -1002,7 +1002,7 @@ export default function OneTouchTourPlanner() {
 
       {/* SAVED BOOKINGS SECTION (If user previously booked) */}
       {savedBookings.length > 0 && !tourPlan && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-md space-y-4">
+        <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-md space-y-4">
           <div className="flex items-center justify-between">
             <h3 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
               <Ticket className="w-4 h-4 text-terracotta-600" />

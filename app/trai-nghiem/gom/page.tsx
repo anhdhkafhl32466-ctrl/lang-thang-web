@@ -51,7 +51,7 @@ export default function PotteryGamePage() {
         <BatTrangPotteryGame />
 
         {/* Featured Real Products from Artisans below game */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200 shadow-sm space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <span className="text-xs font-bold text-terracotta-600 uppercase tracking-wider">

@@ -37,6 +37,8 @@ interface ProductRow {
   store_status: string | null;
   warehouse_id: string | null;
   warehouse_name: string | null;
+  review_avg: number | null;
+  review_count: number | null;
   active: number;
 }
 
@@ -44,10 +46,14 @@ const PRODUCT_SELECT = `
   SELECT p.id, p.name, p.village_id, p.village_name, p.category, p.price, p.stock, p.image,
          p.artisan_name, p.material, p.dimensions, p.description, p.weight_g, p.preparation_days,
          p.store_id, p.warehouse_id, p.active, s.name AS store_name, s.slug AS store_slug, s.status AS store_status,
-         w.name AS warehouse_name
+         w.name AS warehouse_name, rv.avg_rating AS review_avg, rv.review_count AS review_count
   FROM products p
   LEFT JOIN stores s ON s.id = p.store_id
-  LEFT JOIN warehouses w ON w.id = p.warehouse_id`;
+  LEFT JOIN warehouses w ON w.id = p.warehouse_id
+  LEFT JOIN (
+    SELECT product_id, AVG(rating) AS avg_rating, COUNT(*) AS review_count
+    FROM product_reviews WHERE status = 'published' GROUP BY product_id
+  ) rv ON rv.product_id = p.id`;
 
 export function toProduct(row: ProductRow): CatalogProduct {
   return {
@@ -72,6 +78,10 @@ export function toProduct(row: ProductRow): CatalogProduct {
     storeStatus: ((row.store_status || 'active') as StoreStatus),
     warehouseId: row.warehouse_id || null,
     warehouseName: row.warehouse_name || null,
+    // Điểm đánh giá THẬT từ bảng product_reviews; chưa có đánh giá thì bằng 0 (giao diện hiện
+    // "Chưa có đánh giá" thay vì bịa sao).
+    ratingAverage: row.review_avg == null ? 0 : Math.round(Number(row.review_avg) * 10) / 10,
+    reviewCount: Number(row.review_count || 0),
   };
 }
 

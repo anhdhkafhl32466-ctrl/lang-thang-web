@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import {
   AlertTriangle, BadgeCheck, Bell, BarChart3, ClipboardList, LayoutDashboard, Loader2, LogOut,
   Package, PackagePlus, RefreshCw, ShieldAlert, Store as StoreIcon, Truck, UserCircle, Wand2, Warehouse as WarehouseIcon, XCircle,
+  MessageSquareQuote,
 } from 'lucide-react';
 import { fetchSellerState, logoutSeller, type SellerAreaState } from '@/lib/client/sellerApi';
 import { logout as clearDisplayedAccount } from '@/lib/authStorage';
@@ -60,6 +61,7 @@ const NAV_GROUPS: { title: string; items: { href: string; label: string; icon: R
   {
     title: 'Cửa hàng',
     items: [
+      { href: '/ban-hang/danh-gia', label: 'Đánh giá & hỏi đáp', icon: MessageSquareQuote },
       { href: '/ban-hang/thong-ke', label: 'Thống kê bán hàng', icon: BarChart3 },
       { href: '/ban-hang/thong-bao', label: 'Thông báo', icon: Bell },
       { href: '/ban-hang/kho-hang', label: 'Kho & điểm lấy hàng', icon: WarehouseIcon },
@@ -139,7 +141,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   if (queryError) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="max-w-lg w-full bg-white rounded-3xl border border-rose-200 p-8 space-y-4 text-center shadow-sm">
+        <div className="max-w-lg w-full paper-panel rounded-3xl border border-rose-200 p-8 space-y-4 text-center shadow-sm">
           <div className="w-14 h-14 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
             <AlertTriangle className="w-7 h-7" />
           </div>
@@ -167,7 +169,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   if (!state?.authenticated || !state.isSeller) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="max-w-lg w-full bg-white rounded-3xl border border-terracotta-200 p-8 space-y-4 text-center shadow-sm">
+        <div className="max-w-lg w-full paper-panel rounded-3xl border border-terracotta-200 p-8 space-y-4 text-center shadow-sm">
           <div className="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
             <AlertTriangle className="w-7 h-7" />
           </div>
@@ -189,7 +191,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
             </Link>
             <Link
               href="/dang-ky-nguoi-ban"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl paper-panel border border-terracotta-200 text-lacquer-900 text-xs font-bold"
             >
               <StoreIcon className="w-4 h-4" />
               Đăng ký bán hàng
@@ -204,7 +206,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   if (!state.store) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="max-w-lg w-full bg-white rounded-3xl border border-amber-200 p-8 space-y-4 text-center shadow-sm">
+        <div className="max-w-lg w-full paper-panel rounded-3xl border border-amber-200 p-8 space-y-4 text-center shadow-sm">
           <div className="w-14 h-14 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
             <StoreIcon className="w-7 h-7" />
           </div>
@@ -224,7 +226,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
             </button>
             <Link
               href="/dang-ky-nguoi-ban"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl paper-panel border border-terracotta-200 text-lacquer-900 text-xs font-bold"
             >
               <StoreIcon className="w-4 h-4" />
               Đăng ký cửa hàng
@@ -241,7 +243,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
   return (
     <SellerContext.Provider value={value}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-        <header className="bg-white rounded-3xl border border-terracotta-200 p-5 sm:p-6 mb-6 space-y-3">
+        <header className="paper-panel rounded-3xl border border-terracotta-200 p-5 sm:p-6 mb-6 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0">
               {store?.logoUrl ? (
@@ -306,7 +308,7 @@ export default function SellerGate({ children }: { children: React.ReactNode }) 
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-6">
-          <nav className="lg:sticky lg:top-28 self-start bg-white rounded-3xl border border-terracotta-200 p-4 space-y-4">
+          <nav className="lg:sticky lg:top-28 self-start paper-panel rounded-3xl border border-terracotta-200 p-4 space-y-4">
             {NAV_GROUPS.map((group) => (
               <div key={group.title} className="space-y-1">
                 <span className="px-2 text-[10px] font-bold uppercase tracking-wide text-lacquer-800/50">

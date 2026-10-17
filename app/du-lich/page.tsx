@@ -67,7 +67,7 @@ export default function TourismPage() {
     <div className="min-h-screen texture-paper texture-paper--river py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Header */}
-        <div className="relative rounded-3xl bg-cultural-bamboo bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-bamboo bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
           <div className="relative z-10 max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
               <Compass className="w-3.5 h-3.5" />
@@ -145,7 +145,7 @@ export default function TourismPage() {
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-2 bg-white p-1.5 rounded-2xl border border-terracotta-200 shadow-sm shrink-0">
+            <div className="flex items-center gap-2 paper-panel p-1.5 rounded-2xl border border-terracotta-200 shadow-sm shrink-0">
               {[
                 { id: 'all', label: 'Tất cả tour' },
                 { id: 'workshop', label: 'Workshop làm nghề' },
@@ -171,7 +171,7 @@ export default function TourismPage() {
             {filteredTours.map((tour) => (
               <div
                 key={tour.id}
-                className="bg-white rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                className="paper-panel rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
               >
                 <div>
                   <div className="relative aspect-[16/10] overflow-hidden bg-gray-100">
@@ -248,7 +248,7 @@ export default function TourismPage() {
       {/* Booking Modal */}
       {selectedTour && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-lacquer-950/70 backdrop-blur-sm animate-fadeIn">
-          <div className="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border-2 border-terracotta-300 relative max-h-[90vh] overflow-y-auto">
+          <div className="paper-panel rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border-2 border-terracotta-300 relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setSelectedTour(null)}
               className="absolute top-4 right-4 p-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-lacquer-900"

@@ -135,7 +135,7 @@ export default function CraftVillagesDirectoryPage() {
     <div className="min-h-screen py-6 sm:py-10 bg-transparent">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Top Header & Context */}
-        <div className="relative rounded-3xl bg-cultural-pottery bg-cover bg-right border-2 border-terracotta-300 shadow-md p-6 sm:p-8 overflow-hidden">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-pottery bg-cover bg-right border-2 border-terracotta-300 shadow-md p-6 sm:p-8 overflow-hidden">
           <div className="relative z-10 space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-terracotta-100 text-terracotta-800 text-xs font-bold border border-terracotta-200">
@@ -424,7 +424,7 @@ export default function CraftVillagesDirectoryPage() {
         {activeTab === 'directory' && (
           <div className="space-y-6">
             {/* Search & Filter Header Box */}
-            <div className="bg-white rounded-3xl p-5 sm:p-7 border border-terracotta-200 shadow-sm space-y-5">
+            <div className="paper-panel rounded-3xl p-5 sm:p-7 border border-terracotta-200 shadow-sm space-y-5">
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                 <div>
                   <h2 className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900">
@@ -510,7 +510,7 @@ export default function CraftVillagesDirectoryPage() {
                     className={`px-3 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                       selectedDistrict === 'all'
                         ? 'bg-terracotta-600 text-white shadow'
-                        : 'bg-white text-lacquer-800/70 border border-terracotta-200 hover:bg-terracotta-50'
+                        : 'paper-panel text-lacquer-800/70 border border-terracotta-200 hover:bg-terracotta-50'
                     }`}
                   >
                     Toàn thành phố ({HANOI_CRAFT_OVERVIEW.recognizedCraftVillages})
@@ -522,7 +522,7 @@ export default function CraftVillagesDirectoryPage() {
                       className={`px-3 py-1 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
                         selectedDistrict === d.districtSlug
                           ? 'bg-terracotta-600 text-white shadow'
-                          : 'bg-white text-lacquer-800/70 border border-terracotta-200 hover:bg-terracotta-50'
+                          : 'paper-panel text-lacquer-800/70 border border-terracotta-200 hover:bg-terracotta-50'
                       }`}
                     >
                       {d.districtName.replace('Huyện ', '').replace('Quận ', '')} ({d.recognizedCount})
@@ -535,7 +535,7 @@ export default function CraftVillagesDirectoryPage() {
             {/* DIRECTORY DISTRICT GROUPS */}
             <div className="space-y-6">
               {filteredDirectory.length === 0 ? (
-                <div className="text-center py-12 bg-white rounded-3xl border border-terracotta-200 p-8 space-y-3">
+                <div className="text-center py-12 paper-panel rounded-3xl border border-terracotta-200 p-8 space-y-3">
                   <div className="w-12 h-12 rounded-full bg-terracotta-100 text-terracotta-600 flex items-center justify-center mx-auto text-xl font-bold">
                     ?
                   </div>
@@ -562,7 +562,7 @@ export default function CraftVillagesDirectoryPage() {
                   return (
                     <div
                       key={district.districtSlug}
-                      className="bg-white rounded-3xl border border-terracotta-200/90 shadow-sm overflow-hidden transition-all"
+                      className="paper-panel rounded-3xl border border-terracotta-200/90 shadow-sm overflow-hidden transition-all"
                     >
                       {/* District Accordion Header */}
                       <div
@@ -621,7 +621,7 @@ export default function CraftVillagesDirectoryPage() {
                               return (
                                 <div
                                   key={vIdx}
-                                  className={`p-4 rounded-2xl border transition-all bg-white flex flex-col justify-between space-y-3 ${
+                                  className={`p-4 rounded-2xl border transition-all paper-panel flex flex-col justify-between space-y-3 ${
                                     hasFeaturedProfile
                                       ? 'border-terracotta-300 shadow-sm hover:border-terracotta-500 hover:shadow-md'
                                       : 'border-terracotta-200/80 hover:border-terracotta-300'
@@ -698,7 +698,7 @@ export default function CraftVillagesDirectoryPage() {
         {/* TAB 3: 16 FEATURED VILLAGES WITH FULL 360° & MINI-GAMES */}
         {activeTab === 'featured' && (
           <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-5 rounded-3xl border border-terracotta-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 paper-panel p-5 rounded-3xl border border-terracotta-200">
               <div>
                 <h2 className="font-serif text-xl sm:text-2xl font-bold text-lacquer-900">
                   16 Làng nghề tiêu biểu có hồ sơ khám phá 360° & Mini-game
@@ -717,7 +717,7 @@ export default function CraftVillagesDirectoryPage() {
                 <div
                   key={village.id}
                   onClick={() => handleVillageClick(village)}
-                  className="bg-white rounded-3xl border border-terracotta-200/90 shadow-xs hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
+                  className="paper-panel rounded-3xl border border-terracotta-200/90 shadow-xs hover:shadow-xl hover:border-terracotta-400 transition-all duration-300 flex flex-col overflow-hidden group cursor-pointer"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden bg-dopaper-100">
                     <img
@@ -791,7 +791,7 @@ export default function CraftVillagesDirectoryPage() {
         {/* Quick Modal for Recognized Village Details */}
         {selectedModalVillage && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-terracotta-300 animate-fadeIn space-y-4 relative">
+            <div className="paper-panel rounded-3xl max-w-md w-full p-6 shadow-2xl border-2 border-terracotta-300 animate-fadeIn space-y-4 relative">
               <button
                 onClick={() => setSelectedModalVillage(null)}
                 className="absolute top-4 right-4 w-8 h-8 rounded-full bg-dopaper-100 flex items-center justify-center text-lacquer-800 hover:bg-terracotta-100"

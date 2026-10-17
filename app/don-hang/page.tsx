@@ -109,7 +109,7 @@ export default function OrderHistoryPage() {
           <div className="flex items-center gap-2">
             <button
               onClick={load}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-terracotta-200 bg-white text-xs font-semibold text-lacquer-800 hover:bg-dopaper-100"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-terracotta-200 paper-panel text-xs font-semibold text-lacquer-800 hover:bg-dopaper-100"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Làm mới</span>
@@ -125,7 +125,7 @@ export default function OrderHistoryPage() {
         </div>
 
         {needsLogin ? (
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
             <div className="w-14 h-14 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto">
               <Lock className="w-6 h-6" />
             </div>
@@ -160,14 +160,14 @@ export default function OrderHistoryPage() {
                   value={lookupCode}
                   onChange={(event) => setLookupCode(event.target.value)}
                   placeholder="Mã đơn (LT261014-1234)"
-                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs font-mono text-lacquer-900 bg-white"
+                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs font-mono text-lacquer-900 paper-panel"
                 />
                 <input
                   value={lookupPhone}
                   onChange={(event) => setLookupPhone(event.target.value)}
                   placeholder="Số điện thoại khi đặt hàng"
                   inputMode="tel"
-                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs text-lacquer-900 bg-white"
+                  className="px-3.5 py-2.5 rounded-xl border border-terracotta-200 focus:border-terracotta-500 outline-none text-xs text-lacquer-900 paper-panel"
                 />
                 <button
                   type="submit"
@@ -190,7 +190,7 @@ export default function OrderHistoryPage() {
         ) : error ? (
           <p className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">{error}</p>
         ) : orders.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
             <p className="text-sm text-lacquer-800/70">Bạn chưa có đơn hàng nào trong hệ thống.</p>
             <Link href="/san-pham" className="inline-flex items-center gap-1.5 text-xs font-bold text-terracotta-600">
               <span>Khám phá sản phẩm làng nghề</span>
@@ -205,7 +205,7 @@ export default function OrderHistoryPage() {
                 <Link
                   key={order.id}
                   href={`/don-hang/${order.id}`}
-                  className="block bg-white rounded-2xl border border-terracotta-200 p-5 hover:shadow-lg transition-shadow"
+                  className="block paper-panel rounded-2xl border border-terracotta-200 p-5 hover:shadow-lg transition-shadow"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div className="space-y-1">

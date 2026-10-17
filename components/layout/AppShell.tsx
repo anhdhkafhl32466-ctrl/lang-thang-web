@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
+import CraftBackdrop from './CraftBackdrop';
 import Footer from './Footer';
 import MobileNav from './MobileNav';
 import PassportModal from './PassportModal';
@@ -18,6 +19,9 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <CartProvider>
     <div className="min-h-screen flex flex-col bg-transparent text-lacquer-900 selection:bg-terracotta-200 selection:text-terracotta-900">
+      {/* Tờ giấy dó văn hoá phủ kín khung nhìn, đứng sau toàn bộ nội dung */}
+      <CraftBackdrop />
+
       {/* Màn hình Splash Screen màu nước Lang Thang nghệ thuật */}
       <SplashScreen />
 

@@ -100,7 +100,7 @@ export default function SilkGame() {
           <div className="flex items-center gap-3">
             <Link
               href="/trai-nghiem"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-dopaper-200 hover:border-terracotta-400 text-xs font-semibold text-lacquer-800 hover:text-terracotta-600 transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl paper-panel border border-dopaper-200 hover:border-terracotta-400 text-xs font-semibold text-lacquer-800 hover:text-terracotta-600 transition-colors shadow-sm"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Trung tâm trải nghiệm</span>
@@ -119,7 +119,7 @@ export default function SilkGame() {
             <button
               onClick={toggleSound}
               title={soundEnabled ? 'Tắt âm thanh' : 'Bật âm thanh'}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-dopaper-200 hover:bg-dopaper-100 text-xs font-medium text-lacquer-800 shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl paper-panel border border-dopaper-200 hover:bg-dopaper-100 text-xs font-medium text-lacquer-800 shadow-sm transition-colors"
             >
               {soundEnabled ? (
                 <>
@@ -140,7 +140,7 @@ export default function SilkGame() {
                 setShowHelpModal(true);
               }}
               title="Tìm hiểu về nghề dệt lụa Vạn Phúc"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-dopaper-200 hover:bg-gold-50 text-xs font-medium text-lacquer-800 shadow-sm transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl paper-panel border border-dopaper-200 hover:bg-gold-50 text-xs font-medium text-lacquer-800 shadow-sm transition-colors"
             >
               <BookOpen className="w-4 h-4 text-gold-600" />
               <span className="text-[11px]">Cẩm nang nghề</span>
@@ -263,7 +263,7 @@ export default function SilkGame() {
            ===================================================================== */}
         {showHelpModal && (
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
-            <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-dopaper-300 space-y-5 relative animate-scaleUp">
+            <div className="paper-panel rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-dopaper-300 space-y-5 relative animate-scaleUp">
               <button
                 onClick={() => setShowHelpModal(false)}
                 className="absolute top-5 right-5 p-2 rounded-full hover:bg-dopaper-100 text-lacquer-800 transition-colors"

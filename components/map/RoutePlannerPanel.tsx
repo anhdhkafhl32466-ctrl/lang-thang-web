@@ -219,7 +219,7 @@ function EndpointPicker({
             className={`px-2 py-1 rounded-lg text-[10px] font-bold transition-all ${
               tab === key
                 ? 'bg-terracotta-500 text-white'
-                : 'bg-white text-lacquer-800/70 border border-terracotta-200'
+                : 'paper-panel text-lacquer-800/70 border border-terracotta-200'
             }`}
           >
             {label}
@@ -273,7 +273,7 @@ function EndpointPicker({
             const village = villages.find((v) => v.slug === e.target.value);
             if (village) onUseVillage(village);
           }}
-          className="w-full bg-white text-lacquer-900 px-2.5 py-2 rounded-xl border border-terracotta-200 text-xs focus:outline-none focus:border-terracotta-500"
+          className="w-full paper-panel text-lacquer-900 px-2.5 py-2 rounded-xl border border-terracotta-200 text-xs focus:outline-none focus:border-terracotta-500"
         >
           <option value="">— Chọn làng nghề —</option>
           {villages.map((village) => (
@@ -311,7 +311,7 @@ export default function RoutePlannerPanel({ planner, villages, onClose }: RouteP
         <button
           type="button"
           onClick={onClose}
-          className="shrink-0 w-7 h-7 rounded-full bg-white border border-terracotta-200 flex items-center justify-center text-lacquer-800/70 hover:text-terracotta-600"
+          className="shrink-0 w-7 h-7 rounded-full paper-panel border border-terracotta-200 flex items-center justify-center text-lacquer-800/70 hover:text-terracotta-600"
           aria-label="Đóng bảng chỉ đường"
         >
           <X className="w-3.5 h-3.5" />
@@ -453,7 +453,7 @@ export default function RoutePlannerPanel({ planner, villages, onClose }: RouteP
                     {route.steps.map((step, index) => (
                       <li
                         key={`${index}-${step.instruction}`}
-                        className="flex items-start gap-2 rounded-xl border border-terracotta-100 bg-white p-2"
+                        className="flex items-start gap-2 rounded-xl border border-terracotta-100 paper-panel p-2"
                       >
                         <span className="mt-0.5 w-5 h-5 shrink-0 rounded-full bg-dopaper-100 text-lacquer-900 text-[10px] font-bold flex items-center justify-center">
                           {index + 1}
@@ -540,7 +540,7 @@ export default function RoutePlannerPanel({ planner, villages, onClose }: RouteP
                       Tuyến buýt đi qua cả hai khu vực
                     </p>
                     {transit.directLines.map((option, index) => (
-                      <div key={index} className="rounded-xl border border-terracotta-100 bg-white p-2 space-y-1">
+                      <div key={index} className="rounded-xl border border-terracotta-100 paper-panel p-2 space-y-1">
                         <p className="text-[11px] font-bold text-lacquer-900">
                           {option.line.ref ? `Tuyến ${option.line.ref}` : option.line.name || 'Tuyến không có số hiệu trong OSM'}
                         </p>

@@ -38,7 +38,7 @@ export default function SellerStatsPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+      <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
         <Loader2 className="w-4 h-4 animate-spin" />
         Đang tính số liệu bán hàng...
       </div>
@@ -47,7 +47,7 @@ export default function SellerStatsPage() {
 
   if (error || !data) {
     return (
-      <div className="bg-white rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
+      <div className="paper-panel rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
         <AlertTriangle className="w-6 h-6 text-rose-600 mx-auto" />
         <p className="text-sm text-lacquer-800/80">{error || 'Không có dữ liệu.'}</p>
         <button onClick={load} className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-terracotta-500 text-white text-xs font-bold">
@@ -62,7 +62,7 @@ export default function SellerStatsPage() {
 
   return (
     <div className="space-y-5">
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex items-center justify-between gap-3">
           <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
             <BarChart3 className="w-4 h-4 text-terracotta-600" />
@@ -105,7 +105,7 @@ export default function SellerStatsPage() {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+        <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
           <h2 className="font-serif text-base font-bold text-lacquer-900">Doanh thu 7 ngày gần nhất</h2>
           <div className="flex items-end justify-between gap-2 h-40">
             {data.daily.map((point) => (
@@ -127,7 +127,7 @@ export default function SellerStatsPage() {
           </p>
         </section>
 
-        <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+        <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
           <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
             <Trophy className="w-4 h-4 text-gold-600" />
             Sản phẩm bán chạy
@@ -157,7 +157,7 @@ export default function SellerStatsPage() {
         </section>
       </div>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
         <h2 className="font-serif text-base font-bold text-lacquer-900">Đơn theo trạng thái</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {data.byStatusDetail.map((item) => (

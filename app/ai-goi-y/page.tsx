@@ -217,7 +217,7 @@ export default function AiRecommendationPage() {
           <div className="space-y-10">
             {/* QUICK NATURAL LANGUAGE SEARCH / CHAT BAR (Option to skip quiz and describe directly) */}
             {!results && (
-              <div className="bg-white rounded-3xl p-5 sm:p-6 border-2 border-gold-300 shadow-lg space-y-4">
+              <div className="paper-panel rounded-3xl p-5 sm:p-6 border-2 border-gold-300 shadow-lg space-y-4">
                 <div className="flex items-center gap-2 text-xs font-bold text-lacquer-900">
                   <MessageSquare className="w-4 h-4 text-terracotta-600" />
                   <span>Hoặc tự mô tả chuyến đi mơ ước của bạn (Chat với AI):</span>
@@ -266,7 +266,7 @@ export default function AiRecommendationPage() {
 
         {/* QUIZ INTERFACE */}
         {!results ? (
-          <div className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl space-y-8">
+          <div className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl space-y-8">
             {/* Progress indicator */}
             <div className="space-y-2">
               <div className="flex justify-between text-xs font-bold text-lacquer-900">
@@ -396,7 +396,7 @@ export default function AiRecommendationPage() {
           /* RECOMMENDATION RESULTS DISPLAY */
           <div className="space-y-10 animate-fadeIn">
             {/* Action Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-terracotta-200">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 paper-panel p-4 rounded-2xl border border-terracotta-200">
               <div className="flex items-center gap-2 text-xs font-bold text-terracotta-700">
                 <CheckCircle2 className="w-4 h-4 text-bamboo-600" />
                 <span>
@@ -418,7 +418,7 @@ export default function AiRecommendationPage() {
             {(() => {
               const top1 = results[0];
               return (
-                <div className="bg-white rounded-3xl border-2 border-gold-400 shadow-2xl overflow-hidden">
+                <div className="paper-panel rounded-3xl border-2 border-gold-400 shadow-2xl overflow-hidden">
                   <div className="relative aspect-[21/9] sm:aspect-[24/9] bg-gray-100">
                     <img
                       src={top1.village.heroImage}
@@ -492,7 +492,7 @@ export default function AiRecommendationPage() {
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {top1.itinerary.map((item, idx) => (
-                          <div key={idx} className="p-3.5 rounded-xl bg-white border border-terracotta-100 shadow-sm text-xs">
+                          <div key={idx} className="p-3.5 rounded-xl paper-panel border border-terracotta-100 shadow-sm text-xs">
                             <span className="font-bold text-terracotta-600 block">{item.time}</span>
                             <span className="text-lacquer-800/85 mt-1 block leading-relaxed">{item.action}</span>
                           </div>
@@ -560,7 +560,7 @@ export default function AiRecommendationPage() {
                 {results.slice(1, 3).map((res, rankIdx) => (
                   <div
                     key={res.village.id}
-                    className="bg-white rounded-3xl border border-terracotta-200 p-5 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
+                    className="paper-panel rounded-3xl border border-terracotta-200 p-5 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between"
                   >
                     <div className="space-y-3">
                       <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-gray-100">

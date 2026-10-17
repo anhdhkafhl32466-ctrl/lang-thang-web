@@ -79,7 +79,7 @@ export default function CartPage() {
             <span>Đang tải giỏ hàng...</span>
           </div>
         ) : cart.lines.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-dopaper-100 text-terracotta-600 flex items-center justify-center mx-auto">
               <ShoppingBag className="w-8 h-8" />
             </div>
@@ -100,7 +100,7 @@ export default function CartPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Cảnh báo sản phẩm không còn tồn tại */}
               {missingLines.length > 0 && (
-                <div className="bg-white rounded-2xl border border-rose-200 p-4 space-y-2">
+                <div className="paper-panel rounded-2xl border border-rose-200 p-4 space-y-2">
                   <p className="text-xs font-bold text-rose-700 flex items-center gap-1.5">
                     <AlertTriangle className="w-4 h-4" />
                     <span>Có {missingLines.length} sản phẩm không còn kinh doanh:</span>
@@ -123,7 +123,7 @@ export default function CartPage() {
               {groupedByStore.map((group) => (
                 <div
                   key={group.storeId}
-                  className="bg-white rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm"
+                  className="paper-panel rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm"
                 >
                   {/* Shop Header */}
                   <div className="px-5 py-3.5 bg-dopaper-100/70 border-b border-terracotta-100 flex flex-wrap items-center justify-between gap-2">
@@ -137,7 +137,7 @@ export default function CartPage() {
                           className="font-serif text-sm font-bold text-lacquer-900 hover:text-terracotta-600 transition-colors flex items-center gap-1.5"
                         >
                           <span>{group.storeName}</span>
-                          <span className="text-[10px] font-normal px-2 py-0.5 rounded-full bg-white border border-terracotta-200 text-terracotta-700">
+                          <span className="text-[10px] font-normal px-2 py-0.5 rounded-full paper-panel border border-terracotta-200 text-terracotta-700">
                             Xem shop &rarr;
                           </span>
                         </Link>
@@ -195,7 +195,7 @@ export default function CartPage() {
                             </div>
 
                             <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
-                              <div className="inline-flex items-center border border-terracotta-200 rounded-xl overflow-hidden bg-white">
+                              <div className="inline-flex items-center border border-terracotta-200 rounded-xl overflow-hidden paper-panel">
                                 <button
                                   type="button"
                                   onClick={() => cart.setQuantity(product.id, line.quantity - 1)}
@@ -249,7 +249,7 @@ export default function CartPage() {
 
             {/* Sidebar tóm tắt đơn hàng */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28 shadow-sm">
+              <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28 shadow-sm">
                 <h2 className="font-serif text-lg font-bold text-lacquer-900">Tóm tắt đơn hàng</h2>
 
                 <div className="space-y-2.5 text-xs">

@@ -82,7 +82,7 @@ export default function SellerProductsPage() {
 
   return (
     <div className="space-y-5">
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -135,12 +135,12 @@ export default function SellerProductsPage() {
       </section>
 
       {loading ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
           <Loader2 className="w-4 h-4 animate-spin" />
           Đang tải sản phẩm...
         </div>
       ) : products.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-3">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center space-y-3">
           <p className="text-sm text-lacquer-800/70">Cửa hàng chưa có sản phẩm nào.</p>
           <Link
             href={canSell ? '/ban-hang/san-pham/moi' : '#'}
@@ -153,7 +153,7 @@ export default function SellerProductsPage() {
       ) : (
         <ul className="space-y-3">
           {products.map((product) => (
-            <li key={product.id} className="bg-white rounded-3xl border border-terracotta-200 p-4">
+            <li key={product.id} className="paper-panel rounded-3xl border border-terracotta-200 p-4">
               <div className="flex flex-wrap items-start gap-3">
                 <img
                   src={product.image}

@@ -49,7 +49,7 @@ export default function CraftProductsPage() {
   return (
     <div className="min-h-screen py-10 sm:py-16 texture-paper texture-paper--moon">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
-        <div className="relative rounded-3xl bg-cultural-brocade bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-brocade bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
           <div className="relative z-10 max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
               <ShoppingBag className="w-3.5 h-3.5 text-gold-600" />
@@ -73,7 +73,7 @@ export default function CraftProductsPage() {
               </Link>
               <Link
                 href="/don-hang"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-xs font-bold hover:bg-dopaper-100"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl paper-panel border border-terracotta-200 text-lacquer-900 text-xs font-bold hover:bg-dopaper-100"
               >
                 <PackageCheck className="w-3.5 h-3.5 text-terracotta-600" />
                 <span>Đơn hàng của tôi</span>
@@ -102,7 +102,7 @@ export default function CraftProductsPage() {
           </div>
         )}
 
-        <div className="bg-white rounded-3xl p-6 border border-terracotta-200/90 shadow-sm space-y-4">
+        <div className="paper-panel rounded-3xl p-6 border border-terracotta-200/90 shadow-sm space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             <div className="md:col-span-6 relative">
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-lacquer-800/40" />
@@ -158,7 +158,7 @@ export default function CraftProductsPage() {
               return (
                 <div
                   key={product.id}
-                  className="bg-white rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+                  className="paper-panel rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
                 >
                   <div>
                     <Link href={`/san-pham/${product.id}`} className="block relative aspect-[4/3] overflow-hidden bg-gray-100">

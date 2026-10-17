@@ -433,3 +433,60 @@ duyệt người bán được mô tả ở mục 4.4 và mục 4.3.
 - Đăng nhập người bán giờ cập nhật luôn **danh tính hiển thị** trên thanh điều hướng theo tài khoản người
   bán (trước đó còn sót avatar/tên của tài khoản quản trị đã đăng nhập trước đó). Quyền hạn vẫn do phiên
   máy chủ quyết định — giá trị lưu ở trình duyệt chỉ để hiển thị.
+
+## 18. Đánh giá sau khi mua, hỏi đáp và kiểm duyệt nội dung
+
+### 18.1 Điều kiện đánh giá (không thể làm giả)
+
+- Bảng `product_reviews` lưu `order_id`, `seller_order_id`, `product_id`, `store_id`, `user_email` và có ràng buộc
+  `UNIQUE (product_id, order_id, user_email)`: mỗi khách chỉ có **một** đánh giá cho mỗi sản phẩm trong một đơn.
+- Chỉ được tạo/cập nhật đánh giá khi tồn tại **đơn con đã giao thành công** (`seller_orders.status = 'delivered'`,
+  hoặc đơn cha `delivered` với đơn một cửa hàng) của **chính email đang đăng nhập**. Điều kiện được kiểm tra bằng
+  truy vấn trong `lib/server/reviews.ts`, không dựa vào việc ẩn nút ở giao diện.
+- Khách được sửa/xoá đánh giá của mình. Người bán **không sửa, không xoá** đánh giá của khách — chỉ trả lời.
+  Quản trị viên chỉ **ẩn** nội dung vi phạm (`status = 'hidden'`), dữ liệu gốc vẫn còn và hành động được ghi vào
+  `moderation_actions`.
+- Điểm trung bình, số lượt và phân bố sao luôn tính từ bản ghi `status = 'published'`. Chưa có đánh giá thì API trả
+  `average = 0`, `count = 0` — giao diện hiện “Chưa có đánh giá”, không tự tạo sao.
+
+### 18.2 Hỏi đáp sản phẩm
+
+- `product_questions` / `product_answers`: khách phải đăng nhập mới gửi câu hỏi; câu trả lời công khai có nhãn
+  “Người bán”. Quyền trả lời kiểm tra bằng `store_id` của sản phẩm so với cửa hàng trong phiên, sai cửa hàng trả 404.
+
+### 18.3 Thông báo phát sinh
+
+| Sự kiện | Người nhận | Nơi xem |
+| --- | --- | --- |
+| Có đánh giá mới / khách sửa đánh giá | Người bán sở hữu sản phẩm | `/ban-hang/danh-gia` |
+| Có câu hỏi mới | Người bán sở hữu sản phẩm | `/ban-hang/danh-gia` |
+| Người bán phản hồi đánh giá / trả lời câu hỏi | Khách đã viết nội dung | chuông thông báo + trang sản phẩm |
+| Có báo cáo nội dung vi phạm | Quản trị viên sàn | `/admin/kiem-duyet` |
+
+Thông báo trong website được lưu ở bảng `notifications`. Email/Web Push vẫn chỉ hoạt động khi đã cấu hình
+`RESEND_API_KEY` / VAPID — không có thông báo nào được tuyên bố là “đã gửi” khi thiếu cấu hình.
+
+### 18.4 API mới
+
+| Phương thức | Đường dẫn | Quyền |
+| --- | --- | --- |
+| GET | `/api/products/[id]/reviews` | công khai (kèm `eligibility` nếu đã đăng nhập) |
+| POST | `/api/products/[id]/reviews` | khách đã nhận hàng |
+| DELETE | `/api/reviews/[id]` | chủ đánh giá |
+| GET/POST | `/api/products/[id]/questions` | đọc công khai, gửi cần đăng nhập |
+| GET | `/api/seller/reviews` · `/api/seller/questions` | người bán (đúng cửa hàng) |
+| POST | `/api/seller/reviews/[id]/reply` · `/api/seller/questions/[id]/answers` | người bán (đúng cửa hàng) |
+| POST | `/api/reports` | người dùng đã đăng nhập |
+| GET/POST | `/api/admin/moderation` | quản trị viên |
+
+### 18.5 Kiểm thử luồng đánh giá
+
+```bash
+# Server dev đang chạy (mặc định script gọi http://127.0.0.1:3011)
+node scripts/e2e-reviews.mjs
+```
+
+Script tạo dữ liệu thử có tiền tố `e2e` (email, cửa hàng, sản phẩm, đơn đã giao) trên CSDL local rồi chạy 21 phép
+kiểm tra qua HTTP: đủ điều kiện đánh giá, chống nhân bản đánh giá, điểm trung bình thật, phạm vi cửa hàng của người
+bán, phản hồi + thông báo, hỏi đáp, báo cáo, chặn quyền quản trị và chặn tài khoản chưa mua. Lần chạy gần nhất:
+**21/21 PASS**.

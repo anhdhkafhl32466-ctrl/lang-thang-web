@@ -285,7 +285,7 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-screen texture-paper texture-paper--silk py-14">
         <div className="max-w-2xl mx-auto px-4 space-y-5">
-          <div className="bg-white rounded-3xl border border-emerald-200 p-8 text-center space-y-4 shadow-xl">
+          <div className="paper-panel rounded-3xl border border-emerald-200 p-8 text-center space-y-4 shadow-xl">
             <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-8 h-8" />
             </div>
@@ -326,7 +326,7 @@ export default function CheckoutPage() {
                         <Store className="w-3.5 h-3.5 text-terracotta-600 shrink-0" />
                         <span className="truncate">{child.storeName}</span>
                       </span>
-                      <span className="font-mono text-[10px] px-2 py-0.5 rounded-md bg-white border border-terracotta-200 text-terracotta-700 font-semibold">
+                      <span className="font-mono text-[10px] px-2 py-0.5 rounded-md paper-panel border border-terracotta-200 text-terracotta-700 font-semibold">
                         {child.code}
                       </span>
                     </div>
@@ -401,7 +401,7 @@ export default function CheckoutPage() {
               </button>
               <Link
                 href="/san-pham"
-                className="inline-flex items-center gap-1.5 px-5 py-3 rounded-xl bg-white border border-terracotta-200 text-lacquer-900 text-sm font-bold"
+                className="inline-flex items-center gap-1.5 px-5 py-3 rounded-xl paper-panel border border-terracotta-200 text-lacquer-900 text-sm font-bold"
               >
                 <span>Tiếp tục mua sắm</span>
               </Link>
@@ -425,7 +425,7 @@ export default function CheckoutPage() {
         </div>
 
         {cart.lines.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
             <p className="text-sm text-lacquer-800/70">Giỏ hàng đang trống nên chưa thể đặt hàng.</p>
             <Link
               href="/san-pham"
@@ -440,7 +440,7 @@ export default function CheckoutPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Sổ địa chỉ đã lưu (Nhiệm vụ 3.A) */}
               {savedAddresses.length > 0 && (
-                <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-3 shadow-sm">
+                <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-3 shadow-sm">
                   <div className="flex items-center justify-between">
                     <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
                       <Bookmark className="w-4 h-4 text-terracotta-600" />
@@ -466,7 +466,7 @@ export default function CheckoutPage() {
                           className={`p-3.5 rounded-2xl border text-xs cursor-pointer transition-all ${
                             isSelected
                               ? 'border-terracotta-500 bg-terracotta-50/50 shadow-sm ring-1 ring-terracotta-400'
-                              : 'border-terracotta-200 bg-white hover:border-terracotta-300'
+                              : 'border-terracotta-200 paper-panel hover:border-terracotta-300'
                           }`}
                         >
                           <div className="flex items-center justify-between gap-2 mb-1">
@@ -500,7 +500,7 @@ export default function CheckoutPage() {
               )}
 
               {/* Thông tin người nhận */}
-              <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 shadow-sm">
+              <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 shadow-sm">
                 <h2 className="font-serif text-lg font-bold text-lacquer-900">1. Thông tin người nhận</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <label className="space-y-1.5 text-xs">
@@ -545,7 +545,7 @@ export default function CheckoutPage() {
               </section>
 
               {/* Xác nhận địa chỉ nhận hàng trên bản đồ */}
-              <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 shadow-sm">
+              <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 shadow-sm">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <h2 className="font-serif text-lg font-bold text-lacquer-900">
@@ -603,7 +603,7 @@ export default function CheckoutPage() {
                         <select
                           value={addressLabel}
                           onChange={(e) => setAddressLabel(e.target.value)}
-                          className="px-2.5 py-1 rounded-lg border border-terracotta-200 bg-white text-xs font-semibold focus:outline-none"
+                          className="px-2.5 py-1 rounded-lg border border-terracotta-200 paper-panel text-xs font-semibold focus:outline-none"
                         >
                           <option value="Nhà riêng">Nhà riêng</option>
                           <option value="Trường học">Trường học</option>
@@ -620,7 +620,7 @@ export default function CheckoutPage() {
 
             {/* Sidebar tóm tắt đơn hàng & phí vận chuyển */}
             <div className="lg:col-span-1">
-              <div className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28 shadow-sm">
+              <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28 shadow-sm">
                 <h2 className="font-serif text-lg font-bold text-lacquer-900">3. Đơn hàng & vận chuyển</h2>
 
                 {/* Danh sách sản phẩm theo cửa hàng */}

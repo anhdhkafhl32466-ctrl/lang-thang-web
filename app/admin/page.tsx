@@ -106,7 +106,7 @@ export default function AdminDashboardPage() {
     return (
       <div className="min-h-screen texture-paper texture-paper--moon py-16">
         <div className="max-w-xl mx-auto px-4">
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
             <div className="w-14 h-14 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -175,6 +175,13 @@ export default function AdminDashboardPage() {
               <ShoppingCart className="w-3.5 h-3.5" />
               <span>Quản trị đơn hàng</span>
             </Link>
+            <Link
+              href="/admin/kiem-duyet"
+              className="text-xs bg-lacquer-800 hover:bg-lacquer-900 text-white font-bold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>Kiểm duyệt nội dung</span>
+            </Link>
             <span className="text-xs bg-bamboo-100 text-bamboo-800 font-bold px-3 py-1.5 rounded-xl flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-bamboo-600 animate-pulse" />
               Hệ thống hoạt động ổn định
@@ -221,7 +228,7 @@ export default function AdminDashboardPage() {
               className={`px-4 py-2 text-xs sm:text-sm font-bold rounded-xl whitespace-nowrap transition-all ${
                 activeTab === tab.id
                   ? 'bg-terracotta-500 text-white shadow'
-                  : 'bg-white text-lacquer-800/70 hover:bg-terracotta-50 border border-terracotta-200'
+                  : 'paper-panel text-lacquer-800/70 hover:bg-terracotta-50 border border-terracotta-200'
               }`}
             >
               {tab.label}
@@ -234,7 +241,7 @@ export default function AdminDashboardPage() {
           <div className="space-y-8">
             {/* Metric Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 bg-white rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
+              <div className="p-6 paper-panel rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-lacquer-800/60 uppercase">
                     Lượt khách truy cập
@@ -251,7 +258,7 @@ export default function AdminDashboardPage() {
                 </span>
               </div>
 
-              <div className="p-6 bg-white rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
+              <div className="p-6 paper-panel rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-lacquer-800/60 uppercase">
                     Lượt chơi mini-game
@@ -268,7 +275,7 @@ export default function AdminDashboardPage() {
                 </span>
               </div>
 
-              <div className="p-6 bg-white rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
+              <div className="p-6 paper-panel rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-lacquer-800/60 uppercase">
                     Lượt giữ chỗ tour/workshop
@@ -285,7 +292,7 @@ export default function AdminDashboardPage() {
                 </span>
               </div>
 
-              <div className="p-6 bg-white rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
+              <div className="p-6 paper-panel rounded-3xl border border-terracotta-200 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-xs font-bold text-lacquer-800/60 uppercase">
                     Làng nghề số hóa
@@ -304,7 +311,7 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Platform Revenue Flow & Mission */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-sm space-y-4">
+            <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-sm space-y-4">
               <h3 className="font-serif text-lg font-bold text-lacquer-900">
                 Mô hình kinh tế chia sẻ giá trị cho làng nghề (Flywheel)
               </h3>
@@ -317,7 +324,7 @@ export default function AdminDashboardPage() {
 
         {/* TAB 2: SUBMISSIONS */}
         {activeTab === 'submissions' && (
-          <div className="bg-white rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm">
             <div className="p-4 bg-dopaper-100 border-b border-terracotta-200 flex items-center justify-between">
               <h3 className="font-serif text-base font-bold text-lacquer-900">
                 Danh sách làng nghề được gửi từ nghệ nhân & người dân
@@ -385,7 +392,7 @@ export default function AdminDashboardPage() {
 
         {/* TAB 3: CRAFT VILLAGES LIST */}
         {activeTab === 'villages' && (
-          <div className="bg-white rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm">
             <div className="p-4 bg-dopaper-100 border-b border-terracotta-200 flex items-center justify-between">
               <h3 className="font-serif text-base font-bold text-lacquer-900">
                 Danh sách làng nghề hiện đang hiển thị trên nền tảng ({CRAFT_VILLAGES.length})
@@ -422,7 +429,7 @@ export default function AdminDashboardPage() {
         {/* TAB 4: PRODUCTS & TOURS */}
         {activeTab === 'products' && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-3xl border border-terracotta-200 p-6 shadow-sm space-y-4">
+            <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 shadow-sm space-y-4">
               <h3 className="font-serif text-base font-bold text-lacquer-900">
                 Sản phẩm thủ công kết nối ({PRODUCTS.length})
               </h3>
@@ -436,7 +443,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="bg-white rounded-3xl border border-terracotta-200 p-6 shadow-sm space-y-4">
+            <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 shadow-sm space-y-4">
               <h3 className="font-serif text-base font-bold text-lacquer-900">
                 Tour & Workshop trải nghiệm ({TOURS.length})
               </h3>

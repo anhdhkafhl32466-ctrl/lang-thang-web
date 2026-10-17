@@ -89,10 +89,14 @@ function viewerClause(viewer: 'admin' | 'customer' | 'seller'): { where: string;
       params: [],
     };
   }
-  // Người bán và khách chỉ thấy thông báo gửi ĐÍCH DANH tới email của mình.
+  //
+  // Khách và người bán chỉ thấy thông báo gửi ĐÍCH DANH tới email của mình — KHÔNG lọc theo audience:
+  // một tài khoản có thể vừa mua hàng vừa bán hàng, nên nếu chỉ hiện đúng một audience thì người dùng
+  // sẽ mất thông báo của vai trò còn lại (ví dụ người bán không thấy phản hồi cho đơn mua của chính mình).
+  // Thông báo quảng bá của quản trị (audience='admin', user_email NULL) vẫn không bao giờ lọt vào đây.
   return {
-    where: `user_email = ? AND audience = ?`,
-    params: [viewer],
+    where: `user_email = ? AND audience <> 'admin'`,
+    params: [],
   };
 }
 
@@ -164,8 +168,8 @@ export async function markAllNotificationsRead(
     );
   } else if (normalized) {
     await execute(
-      `UPDATE notifications SET read_at = ? WHERE read_at IS NULL AND user_email = ? AND audience = ?`,
-      [now, normalized, viewer]
+      `UPDATE notifications SET read_at = ? WHERE read_at IS NULL AND user_email = ? AND audience <> 'admin'`,
+      [now, normalized]
     );
   }
   return 0;

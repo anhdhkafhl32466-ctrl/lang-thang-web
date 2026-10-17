@@ -148,7 +148,7 @@ export default function AdminOrdersPage() {
     return (
       <div className="min-h-screen texture-paper texture-paper--moon py-16">
         <div className="max-w-xl mx-auto px-4">
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center space-y-4">
             <div className="w-14 h-14 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto">
               <Lock className="w-6 h-6" />
             </div>
@@ -210,7 +210,7 @@ export default function AdminOrdersPage() {
           </div>
           <button
             onClick={() => load()}
-            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-terracotta-200 bg-white text-xs font-semibold text-lacquer-800 hover:bg-dopaper-100 self-start"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-terracotta-200 paper-panel text-xs font-semibold text-lacquer-800 hover:bg-dopaper-100 self-start"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Làm mới</span>
@@ -230,19 +230,19 @@ export default function AdminOrdersPage() {
 
         {stats && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-4 bg-white rounded-2xl border border-terracotta-200">
+            <div className="p-4 paper-panel rounded-2xl border border-terracotta-200">
               <span className="text-[11px] text-lacquer-800/60">Tổng đơn</span>
               <strong className="block text-xl font-serif text-lacquer-900">{stats.total}</strong>
             </div>
-            <div className="p-4 bg-white rounded-2xl border border-terracotta-200">
+            <div className="p-4 paper-panel rounded-2xl border border-terracotta-200">
               <span className="text-[11px] text-lacquer-800/60">Chờ xác nhận</span>
               <strong className="block text-xl font-serif text-amber-600">{stats.byStatus.pending_confirmation || 0}</strong>
             </div>
-            <div className="p-4 bg-white rounded-2xl border border-terracotta-200">
+            <div className="p-4 paper-panel rounded-2xl border border-terracotta-200">
               <span className="text-[11px] text-lacquer-800/60">Đã giao</span>
               <strong className="block text-xl font-serif text-emerald-600">{stats.byStatus.delivered || 0}</strong>
             </div>
-            <div className="p-4 bg-white rounded-2xl border border-terracotta-200">
+            <div className="p-4 paper-panel rounded-2xl border border-terracotta-200">
               <span className="text-[11px] text-lacquer-800/60">Giá trị đơn (trừ huỷ)</span>
               <strong className="block text-base font-serif text-terracotta-600">{formatCurrencyVND(stats.revenue)}</strong>
             </div>
@@ -257,7 +257,7 @@ export default function AdminOrdersPage() {
               className={`px-3 py-1.5 rounded-xl text-[11px] font-bold border transition-colors ${
                 statusFilter === status
                   ? 'bg-terracotta-500 text-white border-terracotta-500'
-                  : 'bg-white text-lacquer-800/70 border-terracotta-200 hover:bg-dopaper-100'
+                  : 'paper-panel text-lacquer-800/70 border-terracotta-200 hover:bg-dopaper-100'
               }`}
             >
               {status === 'all' ? `Tất cả (${orders.length})` : `${ORDER_STATUS_META[status as OrderStatus].label} (${stats?.byStatus[status] || 0})`}
@@ -268,7 +268,7 @@ export default function AdminOrdersPage() {
         {error && <p className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs">{error}</p>}
 
         {filtered.length === 0 ? (
-          <p className="p-10 text-center text-xs text-lacquer-800/60 bg-white rounded-3xl border border-terracotta-200">
+          <p className="p-10 text-center text-xs text-lacquer-800/60 paper-panel rounded-3xl border border-terracotta-200">
             Không có đơn hàng nào ở trạng thái này.
           </p>
         ) : (
@@ -283,7 +283,7 @@ export default function AdminOrdersPage() {
                 <div
                   key={order.id}
                   id={order.id}
-                  className={`bg-white rounded-3xl border p-5 space-y-4 ${
+                  className={`paper-panel rounded-3xl border p-5 space-y-4 ${
                     isHighlighted ? 'border-terracotta-500 ring-2 ring-terracotta-200' : 'border-terracotta-200'
                   }`}
                 >
@@ -402,7 +402,7 @@ export default function AdminOrdersPage() {
                         {(order.sellerOrders || []).map((child) => {
                           const childMeta = ORDER_STATUS_META[child.status];
                           return (
-                            <div key={child.id} className="p-2.5 rounded-xl bg-white border border-terracotta-100 text-[11px] space-y-1">
+                            <div key={child.id} className="p-2.5 rounded-xl paper-panel border border-terracotta-100 text-[11px] space-y-1">
                               <div className="flex items-center justify-between gap-2">
                                 <span className="font-bold text-lacquer-900 truncate">{child.storeName}</span>
                                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${TONE_CLASS[childMeta.tone]}`}>

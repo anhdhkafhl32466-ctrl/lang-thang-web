@@ -174,7 +174,7 @@ export default function OrderTrackingPage() {
           <span>Danh sách đơn hàng</span>
         </Link>
 
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-5">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-5">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <span className="text-[11px] text-lacquer-800/60">Mã đơn hàng</span>
@@ -190,7 +190,7 @@ export default function OrderTrackingPage() {
               </span>
               <button
                 onClick={() => loadOrder(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-terracotta-200 bg-white text-[11px] font-bold text-lacquer-800 hover:bg-dopaper-100"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-terracotta-200 paper-panel text-[11px] font-bold text-lacquer-800 hover:bg-dopaper-100"
               >
                 <RefreshCw className="w-3 h-3" />
                 <span>Làm mới</span>
@@ -209,7 +209,7 @@ export default function OrderTrackingPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
                 <PackageCheck className="w-5 h-5 text-terracotta-600" />
                 <span>Sản phẩm trong đơn</span>
@@ -241,7 +241,7 @@ export default function OrderTrackingPage() {
               Trạng thái hiển thị ở đây là của đơn con do chính người bán cập nhật (không suy diễn ở trình duyệt).
             */}
             {(order.sellerOrders || []).length > 0 && (
-              <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+              <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
                 <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
                   <Store className="w-5 h-5 text-terracotta-600" />
                   <span>
@@ -339,7 +339,7 @@ export default function OrderTrackingPage() {
               </section>
             )}
 
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4">
               <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-terracotta-600" />
                 <span>Địa chỉ nhận hàng & tuyến đường từ kho</span>
@@ -384,7 +384,7 @@ export default function OrderTrackingPage() {
           </div>
 
           <div className="lg:col-span-1">
-            <section className="bg-white rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28">
+            <section className="paper-panel rounded-3xl border border-terracotta-200 p-6 space-y-4 lg:sticky lg:top-28">
               <h2 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
                 <History className="w-5 h-5 text-gold-600" />
                 <span>Lịch sử trạng thái</span>

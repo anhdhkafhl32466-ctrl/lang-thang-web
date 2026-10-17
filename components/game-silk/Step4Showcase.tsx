@@ -448,7 +448,7 @@ export default function Step4Showcase({
               className={`w-full py-3 px-6 rounded-2xl border font-bold text-sm transition-all flex items-center justify-center gap-2 ${
                 isSavedToPassport
                   ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                  : 'bg-white hover:bg-gold-50 text-lacquer-900 border-gold-400/80 shadow-sm'
+                  : 'paper-panel hover:bg-gold-50 text-lacquer-900 border-gold-400/80 shadow-sm'
               }`}
             >
               {isSavedToPassport ? (

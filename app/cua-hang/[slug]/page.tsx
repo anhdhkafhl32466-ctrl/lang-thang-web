@@ -184,10 +184,10 @@ export default function StoreFrontPage() {
 
       {/* Thông tin hồ sơ gian hàng */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 sm:-mt-24 relative z-10 space-y-8">
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-6 sm:p-8 shadow-md space-y-6">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-6 sm:p-8 shadow-md space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6">
             <div className="flex items-start sm:items-end gap-4 sm:gap-6">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-white border-4 border-white shadow-xl overflow-hidden shrink-0">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl paper-panel border-4 border-white shadow-xl overflow-hidden shrink-0">
                 {store.logoUrl ? (
                   <img src={store.logoUrl} alt={store.name} className="w-full h-full object-cover" />
                 ) : (
@@ -312,7 +312,7 @@ export default function StoreFrontPage() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Tìm sản phẩm của xưởng..."
-                className="w-full pl-9 pr-3 py-2 rounded-xl border border-terracotta-200 text-xs focus:outline-none focus:border-terracotta-500 bg-white"
+                className="w-full pl-9 pr-3 py-2 rounded-xl border border-terracotta-200 text-xs focus:outline-none focus:border-terracotta-500 paper-panel"
               />
             </div>
           </div>
@@ -325,7 +325,7 @@ export default function StoreFrontPage() {
                 className={`px-3 py-1 rounded-full text-xs font-semibold shrink-0 transition-all ${
                   selectedCat === 'all'
                     ? 'bg-terracotta-600 text-white shadow-sm'
-                    : 'bg-white text-lacquer-800/70 hover:bg-dopaper-100 border border-terracotta-200'
+                    : 'paper-panel text-lacquer-800/70 hover:bg-dopaper-100 border border-terracotta-200'
                 }`}
               >
                 Tất cả ({products.length})
@@ -337,7 +337,7 @@ export default function StoreFrontPage() {
                   className={`px-3 py-1 rounded-full text-xs font-semibold shrink-0 transition-all ${
                     selectedCat.toLowerCase() === cat.toLowerCase()
                       ? 'bg-terracotta-600 text-white shadow-sm'
-                      : 'bg-white text-lacquer-800/70 hover:bg-dopaper-100 border border-terracotta-200'
+                      : 'paper-panel text-lacquer-800/70 hover:bg-dopaper-100 border border-terracotta-200'
                   }`}
                 >
                   {cat}
@@ -348,7 +348,7 @@ export default function StoreFrontPage() {
 
           {/* Lưới sản phẩm */}
           {filteredProducts.length === 0 ? (
-            <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
+            <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-3">
               <Package className="w-10 h-10 text-lacquer-800/40 mx-auto" />
               <p className="text-xs text-lacquer-800/70">
                 Chưa có sản phẩm nào khớp với tìm kiếm trong cửa hàng này.
@@ -362,7 +362,7 @@ export default function StoreFrontPage() {
                   <Link
                     key={p.id}
                     href={`/san-pham/${p.id}`}
-                    className="group bg-white rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+                    className="group paper-panel rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
                   >
                     <div>
                       <div className="relative aspect-square w-full bg-gray-100 overflow-hidden">

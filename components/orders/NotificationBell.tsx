@@ -158,7 +158,7 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
           setOpen(!open);
           if (!open) load();
         }}
-        className="relative flex items-center justify-center w-9 h-9 rounded-full bg-white border border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50 shadow-sm transition-colors"
+        className="relative flex items-center justify-center w-9 h-9 rounded-full paper-panel border border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50 shadow-sm transition-colors"
         title="Thông báo đơn hàng"
         aria-label={`Thông báo, ${unread} chưa đọc`}
       >
@@ -171,7 +171,7 @@ export default function NotificationBell({ userEmail }: { userEmail: string | nu
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-2xl border border-terracotta-200 shadow-2xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-80 sm:w-96 paper-panel rounded-2xl border border-terracotta-200 shadow-2xl z-50 overflow-hidden">
           <div className="px-4 py-3 border-b border-terracotta-100 flex items-center justify-between">
             <span className="text-xs font-bold text-lacquer-900 flex items-center gap-1.5">
               Thông báo {loading && <Loader2 className="w-3 h-3 animate-spin" />}

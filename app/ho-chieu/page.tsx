@@ -131,7 +131,7 @@ export default function PassportPage() {
 
       {/* Toast notification */}
       {toastMessage && (
-        <div className="fixed top-24 right-4 z-50 bg-white border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">
+        <div className="fixed top-24 right-4 z-50 paper-panel border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">
           <div className="w-10 h-10 rounded-xl bg-gold-400 flex items-center justify-center text-xl shadow shrink-0">
             🏮
           </div>
@@ -224,7 +224,7 @@ export default function PassportPage() {
       {/* Main Container */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6">
         {/* Navigation Tabs Bar */}
-        <div className="bg-white rounded-2xl p-1.5 shadow-md border border-terracotta-200/80 flex items-center gap-1 overflow-x-auto no-scrollbar">
+        <div className="paper-panel rounded-2xl p-1.5 shadow-md border border-terracotta-200/80 flex items-center gap-1 overflow-x-auto no-scrollbar">
           <button
             onClick={() => setActiveTab('photos')}
             className={`flex-1 min-w-[140px] py-3 px-4 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 ${
@@ -279,7 +279,7 @@ export default function PassportPage() {
           {/* TAB 1: SOUVENIR PHOTOS (PHÂN LOẠI THEO TỪNG LÀNG NGHỀ) */}
           {activeTab === 'photos' && (
             <div className="space-y-6">
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
+              <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
                 <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-100 text-gold-900 text-xs font-bold uppercase tracking-wider mb-2 border border-gold-300">
                     <Camera className="w-3.5 h-3.5 text-gold-600" />
@@ -356,7 +356,7 @@ export default function PassportPage() {
                           return (
                             <div
                               key={v.slug}
-                              className="rounded-3xl border border-terracotta-200/90 bg-white p-6 shadow-sm space-y-4"
+                              className="rounded-3xl border border-terracotta-200/90 paper-panel p-6 shadow-sm space-y-4"
                             >
                               {/* Header for this village */}
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-terracotta-100 pb-3">
@@ -465,7 +465,7 @@ export default function PassportPage() {
 
           {/* TAB 2: VILLAGES CHECK-IN (DẤU ẤN 16 LÀNG NGHỀ) */}
           {activeTab === 'villages' && (
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
+            <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-terracotta-100 pb-4">
                 <div>
                   <h2 className="font-serif text-2xl font-bold text-lacquer-900">
@@ -565,7 +565,7 @@ export default function PassportPage() {
 
           {/* TAB 3: BADGES (HUY HIỆU DI SẢN) */}
           {activeTab === 'badges' && (
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
+            <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
               <div className="border-b border-terracotta-100 pb-4">
                 <h2 className="font-serif text-2xl font-bold text-lacquer-900">
                   Hệ thống 8 Huy hiệu Di sản Văn hóa
@@ -585,7 +585,7 @@ export default function PassportPage() {
                       key={badge.id}
                       className={`p-4 rounded-2xl border transition-all flex items-start gap-3.5 ${
                         isUnlocked
-                          ? 'bg-white border-terracotta-400 shadow-sm'
+                          ? 'paper-panel border-terracotta-400 shadow-sm'
                           : 'bg-dopaper-100/50 border-terracotta-200/50 opacity-60'
                       }`}
                     >
@@ -630,7 +630,7 @@ export default function PassportPage() {
 
           {/* TAB 4: VIRTUAL CREATIONS (TÁC PHẨM ẢO) */}
           {activeTab === 'creations' && (
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
+            <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200/80 shadow-sm space-y-6">
               <div className="border-b border-terracotta-100 pb-4">
                 <h2 className="font-serif text-2xl font-bold text-lacquer-900">
                   Tác phẩm thủ công nghệ thuật ảo
@@ -664,7 +664,7 @@ export default function PassportPage() {
                   {passport.creations.map((c) => (
                     <div
                       key={c.id}
-                      className="p-4 bg-white rounded-2xl border border-terracotta-200 shadow-sm flex items-center gap-3.5"
+                      className="p-4 paper-panel rounded-2xl border border-terracotta-200 shadow-sm flex items-center gap-3.5"
                     >
                       <div className="w-12 h-12 rounded-xl bg-terracotta-50 flex items-center justify-center text-2xl shrink-0">
                         {c.type === 'pottery' ? '🏺' : c.type === 'silk' ? '🧵' : '👒'}

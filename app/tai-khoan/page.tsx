@@ -141,7 +141,7 @@ export default function AccountPage() {
 
         {/* NOT LOGGED IN BANNER */}
         {!user ? (
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-terracotta-200 text-center space-y-6 shadow-xl">
+          <div className="paper-panel rounded-3xl p-8 sm:p-12 border border-terracotta-200 text-center space-y-6 shadow-xl">
             <div className="w-20 h-20 rounded-full bg-gold-400/20 text-gold-600 flex items-center justify-center mx-auto border-2 border-gold-300">
               <User className="w-10 h-10" />
             </div>
@@ -173,7 +173,7 @@ export default function AccountPage() {
           /* LOGGED IN USER PROFILE & STATS */
           <div className="space-y-8 animate-fadeIn">
             {/* User Profile Card */}
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200/90 shadow-xl relative overflow-hidden">
+            <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200/90 shadow-xl relative overflow-hidden">
               <div className="absolute top-0 right-0 w-48 h-48 bg-gradient-to-br from-gold-400/20 to-terracotta-500/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 relative">
@@ -259,7 +259,7 @@ export default function AccountPage() {
                 onClick={() => setActiveTab('history')}
                 className={`px-5 py-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
                   activeTab === 'history'
-                    ? 'border-terracotta-500 text-terracotta-600 bg-white rounded-t-2xl shadow-sm'
+                    ? 'border-terracotta-500 text-terracotta-600 paper-panel rounded-t-2xl shadow-sm'
                     : 'border-transparent text-lacquer-800/70 hover:text-lacquer-900'
                 }`}
               >
@@ -270,7 +270,7 @@ export default function AccountPage() {
                 onClick={() => setActiveTab('profile')}
                 className={`px-5 py-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
                   activeTab === 'profile'
-                    ? 'border-terracotta-500 text-terracotta-600 bg-white rounded-t-2xl shadow-sm'
+                    ? 'border-terracotta-500 text-terracotta-600 paper-panel rounded-t-2xl shadow-sm'
                     : 'border-transparent text-lacquer-800/70 hover:text-lacquer-900'
                 }`}
               >
@@ -281,7 +281,7 @@ export default function AccountPage() {
                 onClick={() => setActiveTab('addresses')}
                 className={`px-5 py-3 text-xs sm:text-sm font-bold border-b-2 transition-all flex items-center gap-2 ${
                   activeTab === 'addresses'
-                    ? 'border-terracotta-500 text-terracotta-600 bg-white rounded-t-2xl shadow-sm'
+                    ? 'border-terracotta-500 text-terracotta-600 paper-panel rounded-t-2xl shadow-sm'
                     : 'border-transparent text-lacquer-800/70 hover:text-lacquer-900'
                 }`}
               >
@@ -292,7 +292,7 @@ export default function AccountPage() {
 
             {/* TAB CONTENT 1: LOGIN HISTORY */}
             {activeTab === 'history' && (
-              <div className="bg-white rounded-3xl p-6 border border-terracotta-200 shadow-md space-y-4">
+              <div className="paper-panel rounded-3xl p-6 border border-terracotta-200 shadow-md space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-terracotta-100">
                   <div>
                     <h3 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -398,7 +398,7 @@ export default function AccountPage() {
 
             {/* TAB CONTENT 2: PROFILE EDIT */}
             {activeTab === 'profile' && (
-              <div className="bg-white rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-md space-y-6">
+              <div className="paper-panel rounded-3xl p-6 sm:p-8 border border-terracotta-200 shadow-md space-y-6">
                 <div className="flex items-center justify-between pb-3 border-b border-terracotta-100">
                   <h3 className="font-serif text-lg font-bold text-lacquer-900">
                     Cập nhật thông tin tài khoản
@@ -449,7 +449,7 @@ export default function AccountPage() {
                       onChange={(e) => setEditName(e.target.value)}
                       className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm text-lacquer-900 border ${
                         isEditing
-                          ? 'bg-white border-terracotta-500 focus:outline-none'
+                          ? 'paper-panel border-terracotta-500 focus:outline-none'
                           : 'bg-dopaper-50 border-terracotta-200'
                       }`}
                     />
@@ -465,7 +465,7 @@ export default function AccountPage() {
                       placeholder="09xx xxx xxx"
                       className={`w-full px-3.5 py-2.5 rounded-xl text-xs sm:text-sm text-lacquer-900 border ${
                         isEditing
-                          ? 'bg-white border-terracotta-500 focus:outline-none'
+                          ? 'paper-panel border-terracotta-500 focus:outline-none'
                           : 'bg-dopaper-50 border-terracotta-200'
                       }`}
                     />
@@ -481,7 +481,7 @@ export default function AccountPage() {
                       placeholder="Chia sẻ đôi nét về niềm đam mê văn hóa làng nghề của bạn..."
                       className={`w-full p-3 rounded-xl text-xs sm:text-sm text-lacquer-900 border ${
                         isEditing
-                          ? 'bg-white border-terracotta-500 focus:outline-none'
+                          ? 'paper-panel border-terracotta-500 focus:outline-none'
                           : 'bg-dopaper-50 border-terracotta-200'
                       }`}
                     />

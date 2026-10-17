@@ -187,7 +187,7 @@ function ProductForm() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+      <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
         <Loader2 className="w-4 h-4 animate-spin" />
         Đang tải sản phẩm...
       </div>
@@ -216,7 +216,7 @@ function ProductForm() {
 
       <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 space-y-5">
-          <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+          <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
             <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
               <PackagePlus className="w-4 h-4 text-terracotta-600" />
               {editingId ? 'Sửa sản phẩm' : 'Đăng sản phẩm mới'}
@@ -322,7 +322,7 @@ function ProductForm() {
               <select
                 value={form.warehouseId}
                 onChange={(event) => setForm({ ...form, warehouseId: event.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 bg-white"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 paper-panel"
               >
                 <option value="">Sử dụng kho mặc định của cửa hàng</option>
                 {warehouses.map((wh) => (
@@ -401,7 +401,7 @@ function ProductForm() {
         </div>
 
         <div className="space-y-5">
-          <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+          <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
             <h2 className="font-serif text-base font-bold text-lacquer-900 flex items-center gap-2">
               <ImagePlus className="w-4 h-4 text-terracotta-600" />
               Ảnh sản phẩm
@@ -447,7 +447,7 @@ function ProductForm() {
             </p>
           </section>
 
-          <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+          <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
             {error && (
               <p className="p-3 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-[11px] flex items-start gap-2">
                 <AlertTriangle className="w-3.5 h-3.5 mt-0.5" />
@@ -475,7 +475,7 @@ function ProductForm() {
             </p>
           </section>
 
-          <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-2">
+          <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-2">
             <h3 className="text-xs font-bold text-lacquer-900 flex items-center gap-1.5">
               <Upload className="w-3.5 h-3.5 text-terracotta-600" />
               Gợi ý ảnh đạt yêu cầu
@@ -496,7 +496,7 @@ export default function SellerProductFormPage() {
   return (
     <Suspense
       fallback={
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
           <Loader2 className="w-4 h-4 animate-spin" />
           Đang tải...
         </div>

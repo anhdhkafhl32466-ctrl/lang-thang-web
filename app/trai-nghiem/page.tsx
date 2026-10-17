@@ -90,7 +90,7 @@ export default function ExperienceHubPage() {
     <div className="min-h-screen texture-paper texture-paper--bamboo py-10 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
-        <div className="relative rounded-3xl bg-cultural-silk bg-cover bg-left border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
+        <div className="relative rounded-3xl heritage-hero heritage-hero--left bg-cultural-silk bg-cover bg-left border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center max-w-4xl mx-auto">
           <div className="relative z-10 max-w-3xl mx-auto space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
               <Sparkles className="w-3.5 h-3.5 text-gold-600" />
@@ -138,7 +138,7 @@ export default function ExperienceHubPage() {
           {experiences.map((exp) => (
             <div
               key={exp.id}
-              className="bg-white rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
+              className="paper-panel rounded-3xl border border-terracotta-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden group"
             >
               <div>
                 {/* Visual */}

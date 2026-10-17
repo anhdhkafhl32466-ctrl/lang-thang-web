@@ -68,7 +68,7 @@ export default function SellerLoginPage() {
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-10">
-      <div className="max-w-md w-full bg-white rounded-3xl border border-terracotta-200 p-7 space-y-5 shadow-sm">
+      <div className="max-w-md w-full paper-panel rounded-3xl border border-terracotta-200 p-7 space-y-5 shadow-sm">
         <div className="text-center space-y-2">
           <div className="w-14 h-14 rounded-2xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center mx-auto">
             <LockKeyhole className="w-7 h-7" />

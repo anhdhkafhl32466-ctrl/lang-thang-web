@@ -57,7 +57,7 @@ function OrderRow({ order, onChanged }: { order: SellerOrderView; onChanged: () 
   };
 
   return (
-    <li className="bg-white rounded-3xl border border-terracotta-200 p-4 space-y-3">
+    <li className="paper-panel rounded-3xl border border-terracotta-200 p-4 space-y-3">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0 space-y-1">
           <div className="flex flex-wrap items-center gap-2">
@@ -156,7 +156,7 @@ function SellerOrdersContent() {
 
   return (
     <div className="space-y-5">
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-4">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -182,7 +182,7 @@ function SellerOrdersContent() {
               className={`px-3 py-1.5 rounded-xl border text-[11px] font-bold transition-colors ${
                 filter === item.key
                   ? 'bg-terracotta-50 border-terracotta-300 text-terracotta-700'
-                  : 'bg-white border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50'
+                  : 'paper-panel border-terracotta-200 text-lacquer-900 hover:bg-dopaper-50'
               }`}
             >
               {item.label}
@@ -241,12 +241,12 @@ function SellerOrdersContent() {
       )}
 
       {loading ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
           <Loader2 className="w-4 h-4 animate-spin" />
           Đang tải đơn hàng...
         </div>
       ) : data && data.orders.length === 0 ? (
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 text-center space-y-2">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 text-center space-y-2">
           <p className="text-sm text-lacquer-800/70">Không có đơn hàng nào trong mục này.</p>
           <p className="text-[11px] text-lacquer-800/50">
             Đơn mới sẽ xuất hiện ở đây ngay khi khách đặt sản phẩm của cửa hàng bạn.
@@ -267,7 +267,7 @@ export default function SellerOrdersPage() {
   return (
     <Suspense
       fallback={
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
           <Loader2 className="w-4 h-4 animate-spin" />
           Đang tải...
         </div>

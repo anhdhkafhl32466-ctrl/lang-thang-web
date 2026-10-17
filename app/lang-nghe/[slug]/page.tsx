@@ -141,7 +141,7 @@ export default function CraftVillageDetailPage() {
     <div className="min-h-screen texture-paper texture-paper--village pb-20">
       {/* Stamp Notification Popup */}
       {stampNotification && (
-        <div className="fixed top-24 right-4 z-50 bg-white border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">
+        <div className="fixed top-24 right-4 z-50 paper-panel border-2 border-gold-400 p-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce max-w-sm">
           <div className="w-10 h-10 rounded-xl bg-gold-400 flex items-center justify-center text-xl shadow shrink-0">
             🏮
           </div>
@@ -293,19 +293,19 @@ export default function CraftVillageDetailPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 space-y-16">
         {/* Quick Info Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="p-4 bg-white rounded-2xl border border-terracotta-200 shadow-sm">
+          <div className="p-4 paper-panel rounded-2xl border border-terracotta-200 shadow-sm">
             <span className="text-xs text-lacquer-800/60 block">Thời gian tham quan tốt nhất</span>
             <span className="text-sm font-bold text-lacquer-900 mt-1 block">
               {village.bestTimeToVisit}
             </span>
           </div>
-          <div className="p-4 bg-white rounded-2xl border border-terracotta-200 shadow-sm">
+          <div className="p-4 paper-panel rounded-2xl border border-terracotta-200 shadow-sm">
             <span className="text-xs text-lacquer-800/60 block">Giờ mở cửa</span>
             <span className="text-sm font-bold text-lacquer-900 mt-1 block">
               {village.openingHours}
             </span>
           </div>
-          <div className="p-4 bg-white rounded-2xl border border-terracotta-200 shadow-sm">
+          <div className="p-4 paper-panel rounded-2xl border border-terracotta-200 shadow-sm">
             <span className="text-xs text-lacquer-800/60 block">Chi phí tham khảo</span>
             <span className="text-sm font-bold text-lacquer-900 mt-1 block">
               {village.ticketPrice}
@@ -356,7 +356,7 @@ export default function CraftVillageDetailPage() {
         )}
 
         {/* 2.2 Mục Ảnh Lưu Niệm Cá Nhân Hóa (Phân loại theo làng nghề này) */}
-        <section className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-terracotta-200/90 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-8 border-2 border-terracotta-200/90 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-terracotta-100 pb-4">
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-100 text-gold-900 text-xs font-bold uppercase tracking-wider mb-2 border border-gold-300">
@@ -514,7 +514,7 @@ export default function CraftVillageDetailPage() {
         </section>
 
         {/* 3. Lịch sử & Dòng thời gian */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
           <div className="border-b border-terracotta-100 pb-4">
             <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
               <Compass className="w-4 h-4" />
@@ -568,7 +568,7 @@ export default function CraftVillageDetailPage() {
 
         {/* 3.1 Đặc điểm nổi bật của làng nghề */}
         {village.specialHighlights && village.specialHighlights.length > 0 && (
-          <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+          <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
                 <Sparkles className="w-4 h-4" />
@@ -615,7 +615,7 @@ export default function CraftVillageDetailPage() {
 
         {/* 3.2 Bảng 4 dòng sản phẩm gốm sứ đặc trưng kèm hình ảnh */}
         {village.productCategoriesTable && village.productCategoriesTable.length > 0 && (
-          <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+          <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
                 <Award className="w-4 h-4" />
@@ -722,7 +722,7 @@ export default function CraftVillageDetailPage() {
         )}
 
         {/* 4. Quy trình làm nghề (Step-by-step Interactive) */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-terracotta-100 pb-4 gap-2">
             <div>
               <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
@@ -846,7 +846,7 @@ export default function CraftVillageDetailPage() {
         </section>
 
         {/* 6. Nghệ nhân tiêu biểu */}
-        <section className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
+        <section className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/80 shadow-sm space-y-6">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-terracotta-600 uppercase tracking-wider mb-1">
               <Award className="w-4 h-4" />
@@ -910,7 +910,7 @@ export default function CraftVillageDetailPage() {
               {villageProducts.map((prod) => (
                 <div
                   key={prod.id}
-                  className="bg-white rounded-3xl border border-terracotta-200 shadow-sm hover:shadow-lg transition-all p-5 flex flex-col justify-between"
+                  className="paper-panel rounded-3xl border border-terracotta-200 shadow-sm hover:shadow-lg transition-all p-5 flex flex-col justify-between"
                 >
                   <div className="space-y-3">
                     <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-gray-100">

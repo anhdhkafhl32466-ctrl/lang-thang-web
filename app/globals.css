@@ -31,10 +31,23 @@
   --paper-50: #FDFBF7;   /* Giấy dó thanh tao (nền trang) */
   --paper-100: #F9F5EC;  /* Giấy dó ngà (dải nội dung) */
   --paper-200: #F0E8D7;  /* Giấy dó đậm (dải trang trí) */
-  --paper-veil-rgb: 253, 251, 247; /* Màu màng giấy phủ trên họa tiết */
-  --paper-veil-subtle: 0.92; /* Nền trang dài, nhiều chữ */
-  --paper-veil-medium: 0.84; /* Khối nội dung lớn */
-  --paper-veil-vivid: 0.72;  /* Hero / dải trang trí */
+
+  /* ------------------------------------------------------------------
+     3. BỀN MẶT GIẤY — "nền trắng" nay là giấy bán trong suốt
+     ------------------------------------------------------------------
+     Trước đây mọi khối nội dung dùng nền ĐỤC (#FDFBF7, #FAF5ED…) nên họa tiết
+     văn hoá chỉ còn lộ ra ở khe hở giữa các khối — nhìn như một dải tranh bị
+     chôn dưới tờ giấy trắng. Ba mức dưới đây thay thế toàn bộ nền đục đó:
+       page    → vỏ trang, nhiều chữ trên nền minh hoạ
+       section → dải nội dung lớn
+       card    → thẻ nhỏ, viền, cần tương phản cao nhất
+     Độ đục cộng dồn khi lồng nhau vẫn đủ cho chữ 4.5:1, nhưng họa tiết vẫn
+     xuyên qua mọi tầng thay vì bị chặn ở tầng đầu tiên.
+     ------------------------------------------------------------------ */
+  --surface-page: rgba(253, 251, 247, 0.38);
+  --surface-section: rgba(250, 245, 236, 0.5);
+  --surface-card: rgba(252, 249, 243, 0.66);
+  --surface-chip: rgba(250, 246, 238, 0.8);
 }
 
 /* ==========================================================================
@@ -42,19 +55,25 @@
    --------------------------------------------------------------------------
    A. .bg-cultural-*   → lớp họa tiết TRANG TRÍ phủ lên một khối màu
                           (độ hiện do Tailwind opacity-* + mix-blend-*)   
-   B. .texture-paper    → NỀN GIẤY có họa tiết, dùng cho nền trắng/giấy
-                          của trang & section. 1 lớp phủ giấy bán trong suốt
-                          giữ độ tương phản chữ, ảnh chỉ góp phần tạo chất.
+   B. .texture-paper    → NỀN GIẤY bán trong suốt của trang & section
+   C. .heritage-hero    → dải tranh tiêu đề + màng giấy bảo đảm tương phản
+   D. .craft-backdrop   → tờ giấy minh hoạ phủ kín khung nhìn (xem cuối file)
    --------------------------------------------------------------------------
    Cách dùng:
-     <div className="texture-paper texture-paper--village">            nền trang
-     <section className="texture-paper texture-paper--lotus
-                         texture-paper--medium texture-paper--tint-100">
-/* --- A. Họa tiết trang trí văn hóa tự nhiên (không phóng to kéo giãn, giữ đúng tỷ lệ sắc nét) --- */
+     <div className="texture-paper" />                     nền trang (giấy trong suốt)
+     <div className="bg-cultural-lotus opacity-30" />       họa tiết trang trí
+   -------------------------------------------------------------------------- */
+
+/* --- A. Họa tiết trang trí văn hóa ---
+ * Mỗi ảnh là một dải tranh 742×196 có viền khung vẽ sẵn, nên KHÔNG bao giờ lặp lại (repeat-y sẽ tạo
+ * đường nối ngang cắt ngang chữ). Mặc định dùng cover + neo phải để giữ phần họa tiết ở mép phải,
+ * giống đúng ý đồ thiết kế của từng khối trang trí.
+ */
 [class*='bg-cultural-'] {
-  background-size: 100% auto;
-  background-position: center top;
-  background-repeat: repeat-y;
+  background-color: #F4EBDC;
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
 }
 
 .bg-cultural-cover {
@@ -74,26 +93,75 @@
 .bg-cultural-river    { background-image: var(--bg-misty-river); }
 .bg-cultural-plum     { background-image: var(--bg-plum-blossom); }
 
-/* --- B. Nền giấy cổ trang hiển thị hoa văn trực tiếp sắc nét (100% auto, repeat-y, không nhòe) --- */
-.texture-paper {
-  background-color: #F5EFE6;
-  background-image: var(--paper-image, var(--bg-heritage-village));
-  background-size: 100% auto;
-  background-position: top center;
-  background-repeat: repeat-y;
+/* --------------------------------------------------------------------------
+   Dải tranh tiêu đề (hero masthead)
+   --------------------------------------------------------------------------
+   Mỗi trang mở đầu bằng một dải tranh vẽ tay. Chữ phải đọc được trên mọi khổ
+   màn hình, nhưng hoạ tiết thì phải còn nhìn thấy — hai yêu cầu này xung đột khi
+   màn hình hẹp, vì `cover` phải phóng ảnh 742×196 lên rất lớn và chỉ còn lại một
+   lát cắt ngang (dễ thành vệt màu đậm chạy qua chữ).
+
+   Giải pháp: một màng giấy duy nhất dạng gradient — đặc ở phía đặt chữ, loãng
+   dần về phía hoạ tiết; trên màn hình hẹp thì chuyển thành màng dọc đều hơn.
+   Khai báo một lần ở đây thay vì rải gradient riêng từng trang.
+   -------------------------------------------------------------------------- */
+.heritage-hero {
+  position: relative;
+  /* Tạo ngữ cảnh xếp chồng riêng để màng giấy (z-index:-1) nằm trên ảnh nền
+     của khối nhưng dưới mọi nội dung — nhờ vậy KHÔNG cần đụng vào
+     position của các phần tử con (nhiều chỗ đang absolute). */
+  isolation: isolate;
 }
 
-/* B1. Hình nền theo từng họa tiết truyền thống */
-.texture-paper--village { --paper-image: var(--bg-heritage-village); }
-.texture-paper--moon    { --paper-image: var(--bg-tranquil-moon); }
-.texture-paper--silk    { --paper-image: var(--bg-silk-loom); }
-.texture-paper--lotus   { --paper-image: var(--bg-lotus-pond); }
-.texture-paper--pottery { --paper-image: var(--bg-terracotta-pottery); }
-.texture-paper--bamboo  { --paper-image: var(--bg-bamboo-pavilion); }
-.texture-paper--lantern { --paper-image: var(--bg-lantern-lacquer); }
-.texture-paper--brocade { --paper-image: var(--bg-brocade-curve); }
-.texture-paper--river   { --paper-image: var(--bg-misty-river); }
-.texture-paper--plum    { --paper-image: var(--bg-plum-blossom); }
+.heritage-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(251, 246, 236, 0.95) 0%, rgba(251, 246, 236, 0.74) 54%, rgba(251, 246, 236, 0.22) 100%);
+}
+
+/* Hoạ tiết neo bên trái (khung cửi Vạn Phúc) → dồn màng giấy về bên phải. */
+.heritage-hero--left::before {
+  background: linear-gradient(270deg, rgba(251, 246, 236, 0.95) 0%, rgba(251, 246, 236, 0.74) 54%, rgba(251, 246, 236, 0.22) 100%);
+}
+
+@media (max-width: 640px) {
+  .heritage-hero::before,
+  .heritage-hero--left::before {
+    background: linear-gradient(180deg, rgba(251, 246, 236, 0.92) 0%, rgba(251, 246, 236, 0.76) 60%, rgba(251, 246, 236, 0.66) 100%);
+  }
+}
+
+/* --- B. Nền giấy cổ trang — giấy bán trong suốt, họa tiết do CraftBackdrop lo --- */
+/*
+ * KHÔNG đặt ảnh ở đây nữa. Ảnh minh hoạ 742×196 nếu đặt vào từng khối sẽ bị
+ * kéo giãn thành một dải mỏng ở mép trên rồi hết — đúng lỗi "nền trắng đè lên
+ * họa tiết". Nay toàn bộ minh hoạ do <CraftBackdrop /> phủ kín khung nhìn, còn
+ * các khối chỉ là giấy bán trong suốt để họa tiết xuyên qua.
+ */
+.texture-paper {
+  background-color: var(--surface-section);
+}
+
+/*
+ * MẶT GIẤY BÁN TRONG SUỐT — thay cho bg-white.
+ * bg-white là khối đục che mất họa tiết; paper-panel giữ độ tương phản chữ nhưng cho họa tiết
+ * xuyên qua, nhờ vậy nền văn hoá phủ TOÀN trang thay vì chỉ nằm dưới các khối trắng.
+ */
+.paper-panel {
+  background-color: rgba(252, 248, 240, 0.78);
+  -webkit-backdrop-filter: blur(3px) saturate(1.02);
+  backdrop-filter: blur(3px) saturate(1.02);
+}
+
+/* Khối cần chữ cực rõ: menu, hộp thoại, bảng biểu */
+.paper-panel-strong {
+  background-color: rgba(252, 248, 240, 0.93);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
 
 /* B2. Seamless Section Blending & Isolation */
 .section-isolated {
@@ -108,7 +176,7 @@
   left: 0;
   right: 0;
   height: 56px;
-  background: linear-gradient(to bottom, #F5EFE6 0%, rgba(245, 239, 230, 0) 100%);
+  background: linear-gradient(to bottom, rgba(245, 239, 230, 0.42) 0%, rgba(245, 239, 230, 0) 100%);
   pointer-events: none;
   z-index: 5;
 }
@@ -119,7 +187,7 @@
   left: 0;
   right: 0;
   height: 56px;
-  background: linear-gradient(to top, #F5EFE6 0%, rgba(245, 239, 230, 0) 100%);
+  background: linear-gradient(to top, rgba(245, 239, 230, 0.42) 0%, rgba(245, 239, 230, 0) 100%);
   pointer-events: none;
   z-index: 5;
 }
@@ -140,8 +208,9 @@
   box-shadow: inset 0 0 0 3px #FAF5ED, inset 0 0 0 4px rgba(184, 155, 120, 0.35);
 }
 
+/* Mặt giấy dùng cho menu, hộp thoại, bảng biểu: cần chữ rõ tuyệt đối. */
 .bg-paper-card {
-  background-color: #FAF5ED;
+  background-color: var(--surface-chip);
 }
 
 /* B3. Micro-interactions & Card Sheen Effects */
@@ -197,11 +266,8 @@
 
 body {
   color: var(--foreground);
-  background-color: #F5EFE6;
-  background-image: var(--bg-heritage-village);
-  background-size: 100% auto;
-  background-position: top center;
-  background-repeat: repeat-y;
+  /* Nền dự phòng khi lớp minh hoạ chưa kịp dựng; màu giấy dó đậm, không phải trắng. */
+  background-color: #EFE6D5;
   font-family: var(--font-sans), 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
 }
@@ -315,4 +381,121 @@ body, button, input, select, textarea {
   background-size: 30px 30px;
   background-image: linear-gradient(to right, rgba(200, 90, 50, 0.05) 1px, transparent 1px),
                     linear-gradient(to bottom, rgba(200, 90, 50, 0.05) 1px, transparent 1px);
+}
+
+/* ==========================================================================
+   LỚP NỀN VĂN HOÁ TOÀN CỤC  (components/layout/CraftBackdrop.tsx)
+   --------------------------------------------------------------------------
+   Một tờ giấy dó minh hoạ phủ kín khung nhìn, đứng sau mọi nội dung và đứng
+   yên khi cuộn. Mỗi nhóm trang được gán một bức khác nhau (xem BACKDROPS).
+   ========================================================================== */
+.craft-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: #E9DFCB;
+}
+
+.craft-backdrop__art {
+  position: absolute;
+  inset: -1px;
+  /*
+   * Ảnh nguồn là dải tranh 742×196. Khi phóng `cover` theo chiều cao khung nhìn,
+   * phần nhìn thấy là MÉP PHẢI của dải tranh — đúng nơi các hoạ tiết (nhà cổ, thuyền,
+   * sen, trúc…) được vẽ, còn giữa tranh là giấy trống. Neo phải giữ hoạ tiết hiển thị
+   * thay vì cắt vào khoảng trống ở giữa.
+   */
+  background-size: cover;
+  background-position: right center;
+  transform: scale(1.015);
+  animation: backdrop-settle 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Dải tranh có hoạ tiết ở nửa trái (khung cửi, đèn lồng) thì neo trái mới thấy. */
+.craft-backdrop__art--left {
+  background-position: left center;
+}
+
+@keyframes backdrop-settle {
+  from { opacity: 0; transform: scale(1.05); }
+  to   { opacity: 1; transform: scale(1.015); }
+}
+
+/* Màng giấy: giữ họa tiết hiện rõ nhưng không tranh độ tương phản với chữ. */
+.craft-backdrop__veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(252, 248, 240, 0.05) 0%, rgba(250, 244, 233, 0.12) 50%, rgba(247, 240, 227, 0.22) 100%);
+}
+
+/*
+ * Màn hình hẹp: `cover` phải phóng dải tranh 742×196 lên rất lớn, chỉ còn một lát
+ * cắt ngang nên có thể lộ thành một vệt màu đậm chạy ngang qua chữ. Lúc đó hạ
+ * minh hoạ xuống mức chìm (vẫn thấy rõ là giấy vẽ, không phải nền trắng) để
+ * nhường độ tương phản cho nội dung.
+ */
+@media (max-width: 640px) {
+  .craft-backdrop__veil {
+    background:
+      linear-gradient(180deg, rgba(252, 248, 240, 0.5) 0%, rgba(250, 244, 233, 0.66) 45%, rgba(247, 240, 227, 0.78) 100%);
+  }
+}
+
+/* Vệt tối góc: tạo chiều sâu như tờ giấy đặt trên bàn gỗ. */
+.craft-backdrop__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(120% 90% at 50% 40%, rgba(31, 22, 16, 0) 45%, rgba(31, 22, 16, 0.09) 100%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .craft-backdrop__art { animation: none; }
+}
+
+/* ==========================================================================
+   THAY THẾ NỀN TRẮNG ĐỤC BẰNG GIẤY BÁN TRONG SUỐT
+   --------------------------------------------------------------------------
+   Toàn bộ "nền trắng/giấy" của site được khai báo bằng một trong các tiện ích
+   dưới đây (bg-dopaper-*, bg-[#FAF5ED], bg-white…). Thay vì sửa hàng trăm chỗ
+   trong JSX, ta đổi nghĩa của chính các tiện ích đó tại một nơi: mỗi nền đục
+   trở thành một tầng giấy mỏng, nhờ vậy họa tiết văn hoá xuyên qua toàn trang.
+
+   Thứ tự rất quan trọng: các biến thể độ mờ (/50, /70, /95…) được khai báo SAU
+   bản gốc để ý đồ thiết kế ban đầu vẫn được tôn trọng.
+   ========================================================================== */
+
+/* --- Bề mặt chính --- */
+.bg-dopaper-50 { background-color: var(--surface-page); }
+.bg-dopaper-100 { background-color: var(--surface-section); }
+.bg-dopaper-200 { background-color: var(--surface-card); }
+.bg-dopaper-300 { background-color: rgba(228, 214, 190, 0.6); }
+
+.bg-\[\#FAF5ED\] { background-color: var(--surface-card); }
+.bg-\[\#FFFCF6\] { background-color: var(--surface-page); }
+.bg-\[\#FDFBF7\] { background-color: var(--surface-page); }
+.bg-\[\#F2EAE0\] { background-color: var(--surface-section); }
+.bg-\[\#F4EEDF\] { background-color: var(--surface-section); }
+.bg-\[\#F4ECE0\] { background-color: var(--surface-card); }
+.bg-\[\#F0E8D7\] { background-color: var(--surface-section); }
+.bg-\[\#EAE0C8\] { background-color: var(--surface-card); }
+
+/* --- Biến thể độ mờ đã dùng trong mã (khai báo sau để thắng bản gốc) --- */
+.bg-dopaper-50\/50 { background-color: rgba(253, 251, 247, 0.32); }
+.bg-dopaper-50\/70 { background-color: rgba(253, 251, 247, 0.44); }
+.bg-dopaper-50\/80 { background-color: rgba(253, 251, 247, 0.5); }
+.bg-dopaper-100\/50 { background-color: rgba(250, 245, 236, 0.4); }
+.bg-dopaper-100\/60 { background-color: rgba(250, 245, 236, 0.48); }
+.bg-dopaper-100\/70 { background-color: rgba(250, 245, 236, 0.52); }
+.bg-dopaper-100\/80 { background-color: rgba(250, 245, 236, 0.58); }
+.bg-dopaper-200\/60 { background-color: rgba(252, 249, 243, 0.5); }
+.bg-\[\#FAF5ED\]\/95 { background-color: rgba(250, 245, 237, 0.92); }
+.bg-\[\#FAF5ED\]\/98 { background-color: rgba(250, 245, 237, 0.96); }
+
+/* Ô nhập liệu: nền giấy sáng hơn để thấy rõ vùng nhập. */
+input.bg-dopaper-50, textarea.bg-dopaper-50, select.bg-dopaper-50,
+input.bg-dopaper-100, textarea.bg-dopaper-100, select.bg-dopaper-100 {
+  background-color: var(--surface-chip);
 }

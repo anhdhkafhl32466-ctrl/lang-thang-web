@@ -224,7 +224,7 @@ export default function CustomerAddressBook() {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-terracotta-200 shadow-md space-y-5">
+    <div className="paper-panel rounded-3xl p-6 border border-terracotta-200 shadow-md space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-terracotta-100">
         <div>
           <h3 className="font-serif text-lg font-bold text-lacquer-900 flex items-center gap-2">
@@ -279,7 +279,7 @@ export default function CustomerAddressBook() {
                   value={recipientName}
                   onChange={(e) => setRecipientName(e.target.value)}
                   placeholder="Nguyễn Văn A"
-                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs bg-white focus:outline-none focus:border-terracotta-500"
+                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs paper-panel focus:outline-none focus:border-terracotta-500"
                 />
               </label>
 
@@ -290,7 +290,7 @@ export default function CustomerAddressBook() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="0912345678"
-                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs bg-white focus:outline-none focus:border-terracotta-500"
+                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs paper-panel focus:outline-none focus:border-terracotta-500"
                 />
               </label>
             </div>
@@ -302,7 +302,7 @@ export default function CustomerAddressBook() {
                 value={addressText}
                 onChange={(e) => setAddressText(e.target.value)}
                 placeholder="Số nhà, ngõ, ngách, tên đường, phường/xã, quận/huyện, Hà Nội"
-                className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs bg-white focus:outline-none focus:border-terracotta-500"
+                className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs paper-panel focus:outline-none focus:border-terracotta-500"
               />
             </label>
 
@@ -312,7 +312,7 @@ export default function CustomerAddressBook() {
                 <select
                   value={label}
                   onChange={(e) => setLabel(e.target.value)}
-                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs bg-white focus:outline-none focus:border-terracotta-500"
+                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs paper-panel focus:outline-none focus:border-terracotta-500"
                 >
                   {LABELS.map((l) => (
                     <option key={l} value={l}>
@@ -328,12 +328,12 @@ export default function CustomerAddressBook() {
                   value={addressNote}
                   onChange={(e) => setAddressNote(e.target.value)}
                   placeholder="VD: Gọi trước khi giao, gửi bảo vệ tòa nhà..."
-                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs bg-white focus:outline-none focus:border-terracotta-500"
+                  className="w-full px-3 py-2 rounded-xl border border-terracotta-200 text-xs paper-panel focus:outline-none focus:border-terracotta-500"
                 />
               </label>
             </div>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-2.5 rounded-xl bg-white border border-terracotta-100 text-xs">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 p-2.5 rounded-xl paper-panel border border-terracotta-100 text-xs">
               <span className="text-[11px] text-lacquer-800/70">
                 {lat && lng ? `Tọa độ GPS: ${lat}, ${lng}` : 'Chưa lưu tọa độ GPS'}
               </span>
@@ -396,7 +396,7 @@ export default function CustomerAddressBook() {
           {addresses.map((addr) => (
             <div
               key={addr.id}
-              className={`p-4 rounded-2xl border bg-white space-y-2.5 transition-all relative ${
+              className={`p-4 rounded-2xl border paper-panel space-y-2.5 transition-all relative ${
                 addr.isDefault ? 'border-terracotta-400 ring-1 ring-terracotta-300' : 'border-terracotta-200'
               }`}
             >

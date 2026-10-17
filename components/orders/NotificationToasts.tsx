@@ -144,7 +144,7 @@ export default function NotificationToasts({
       {items.map((item) => (
         <div
           key={item.id}
-          className="pointer-events-auto bg-white rounded-2xl border border-terracotta-200 shadow-2xl p-3.5 flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out]"
+          className="pointer-events-auto paper-panel rounded-2xl border border-terracotta-200 shadow-2xl p-3.5 flex items-start gap-2.5 animate-[fadeIn_0.2s_ease-out]"
         >
           <span className="w-8 h-8 rounded-xl bg-terracotta-50 text-terracotta-600 flex items-center justify-center shrink-0">
             <Bell className="w-4 h-4" />

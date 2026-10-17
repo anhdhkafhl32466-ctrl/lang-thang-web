@@ -240,6 +240,99 @@ export const SCHEMA_STATEMENTS: string[] = [
     updated_at TEXT NOT NULL
   )`,
 
+  /*
+   * ĐÁNH GIÁ SẢN PHẨM SAU KHI MUA (phần 5A).
+   *
+   * `order_id` + `user_email` là BẰNG CHỨNG đã mua: chỉ bản ghi sinh ra từ một đơn con đã giao
+   * thành công của chính tài khoản này mới được tạo (kiểm tra ở lib/server/reviews.ts).
+   * Mỗi khách chỉ có MỘT đánh giá cho mỗi sản phẩm trong một đơn — ràng buộc UNIQUE ở tầng DB,
+   * không dựa vào việc ẩn nút trên giao diện. Khách được sửa đánh giá của mình (policy), người bán
+   * và quản trị KHÔNG sửa nội dung của khách: quản trị chỉ ẩn nội dung vi phạm (`status='hidden'`)
+   * và mọi hành động kiểm duyệt được ghi vào moderation_actions.
+   */
+  `CREATE TABLE IF NOT EXISTS product_reviews (
+    id TEXT PRIMARY KEY,
+    order_id TEXT NOT NULL,
+    seller_order_id TEXT,
+    product_id TEXT NOT NULL,
+    store_id TEXT NOT NULL,
+    user_email TEXT NOT NULL,
+    author_name TEXT NOT NULL,
+    rating INTEGER NOT NULL,
+    comment TEXT,
+    packaging_rating INTEGER,
+    delivery_rating INTEGER,
+    images TEXT,
+    verified_purchase INTEGER NOT NULL DEFAULT 1,
+    status TEXT NOT NULL DEFAULT 'published',
+    reply_body TEXT,
+    reply_by TEXT,
+    reply_at TEXT,
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL,
+    UNIQUE (product_id, order_id, user_email)
+  )`,
+
+  /*
+   * HỎI ĐÁP TRƯỚC KHI MUA (phần 5B): khách hỏi, người bán của đúng cửa hàng sở hữu sản phẩm trả lời.
+   * Quyền trả lời được kiểm tra ở tầng API bằng store_id của sản phẩm, không dựa vào giao diện.
+   */
+  `CREATE TABLE IF NOT EXISTS product_questions (
+    id TEXT PRIMARY KEY,
+    product_id TEXT NOT NULL,
+    store_id TEXT NOT NULL,
+    user_email TEXT NOT NULL,
+    author_name TEXT NOT NULL,
+    body TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'published',
+    created_at TEXT NOT NULL,
+    updated_at TEXT NOT NULL
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS product_answers (
+    id TEXT PRIMARY KEY,
+    question_id TEXT NOT NULL,
+    product_id TEXT NOT NULL,
+    store_id TEXT NOT NULL,
+    user_email TEXT NOT NULL,
+    author_name TEXT NOT NULL,
+    body TEXT NOT NULL,
+    is_seller INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'published',
+    created_at TEXT NOT NULL
+  )`,
+
+  /*
+   * BÁO CÁO NỘI DUNG VI PHẠM + NHẬT KÝ KIỂM DUYỆT (phần 5C, 7).
+   * Mọi thay đổi trạng thái nội dung do quản trị viên thực hiện đều để lại dấu vết ở
+   * moderation_actions: ai làm, khi nào, lý do gì — không xoá cứng nội dung của khách.
+   */
+  `CREATE TABLE IF NOT EXISTS content_reports (
+    id TEXT PRIMARY KEY,
+    target_type TEXT NOT NULL,
+    target_id TEXT NOT NULL,
+    product_id TEXT,
+    store_id TEXT,
+    reporter_email TEXT,
+    reason TEXT NOT NULL,
+    detail TEXT,
+    status TEXT NOT NULL DEFAULT 'open',
+    resolution_note TEXT,
+    resolved_by TEXT,
+    resolved_at TEXT,
+    created_at TEXT NOT NULL
+  )`,
+
+  `CREATE TABLE IF NOT EXISTS moderation_actions (
+    id TEXT PRIMARY KEY,
+    target_type TEXT NOT NULL,
+    target_id TEXT NOT NULL,
+    action TEXT NOT NULL,
+    actor_email TEXT NOT NULL,
+    note TEXT,
+    created_at TEXT NOT NULL
+  )`,
+
   `CREATE INDEX IF NOT EXISTS idx_orders_status ON orders (status)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_created ON orders (created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_orders_customer_email ON orders (customer_email)`,
@@ -255,7 +348,6 @@ export const SCHEMA_STATEMENTS: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_seller_orders_status ON seller_orders (status)`,
   `CREATE INDEX IF NOT EXISTS idx_warehouses_store ON warehouses (store_id)`,
   `CREATE INDEX IF NOT EXISTS idx_customer_addresses_email ON customer_addresses (user_email)`,
-
   /*
    * YÊU CẦU ĐẶT LÀM ĐỘC BẢN (đồng sáng tạo cùng AI).
    * Khách và AI cùng phác hoa văn trên một phôi (gốm, lụa, nón lá, tranh khắc gỗ), rồi gửi bản thiết kế
@@ -303,6 +395,17 @@ export const SCHEMA_STATEMENTS: string[] = [
   `CREATE INDEX IF NOT EXISTS idx_bespoke_store ON bespoke_requests (store_id, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_bespoke_customer ON bespoke_requests (customer_email, created_at)`,
   `CREATE INDEX IF NOT EXISTS idx_bespoke_status ON bespoke_requests (status)`,
+
+  `CREATE INDEX IF NOT EXISTS idx_reviews_product ON product_reviews (product_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_reviews_store ON product_reviews (store_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_reviews_order ON product_reviews (order_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_reviews_email ON product_reviews (user_email)`,
+  `CREATE INDEX IF NOT EXISTS idx_questions_product ON product_questions (product_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_questions_store ON product_questions (store_id, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_answers_question ON product_answers (question_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_reports_status ON content_reports (status, created_at)`,
+  `CREATE INDEX IF NOT EXISTS idx_reports_target ON content_reports (target_type, target_id)`,
+  `CREATE INDEX IF NOT EXISTS idx_moderation_target ON moderation_actions (target_type, target_id)`,
 ];
 
 /**

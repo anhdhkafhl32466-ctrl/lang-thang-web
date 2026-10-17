@@ -774,7 +774,7 @@ export default function Step2DesignStudio({
               }}
               className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'motifs'
-                  ? 'bg-white text-lacquer-950 shadow-md'
+                  ? 'paper-panel text-lacquer-950 shadow-md'
                   : 'text-lacquer-800/70 hover:text-lacquer-900'
               }`}
             >
@@ -788,7 +788,7 @@ export default function Step2DesignStudio({
               }}
               className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
                 activeTab === 'colors'
-                  ? 'bg-white text-lacquer-950 shadow-md'
+                  ? 'paper-panel text-lacquer-950 shadow-md'
                   : 'text-lacquer-800/70 hover:text-lacquer-900'
               }`}
             >

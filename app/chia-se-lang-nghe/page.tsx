@@ -54,7 +54,7 @@ export default function SubmitVillagePage() {
     <div className="min-h-screen py-10 sm:py-16 texture-paper texture-paper--plum">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Header */}
-        <div className="relative rounded-3xl bg-cultural-lotus bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center space-y-3">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-lotus bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-10 overflow-hidden shadow-md text-center space-y-3">
           <div className="relative z-10 space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold">
               <Sparkles className="w-3.5 h-3.5" />
@@ -70,7 +70,7 @@ export default function SubmitVillagePage() {
         </div>
 
         {submitted ? (
-          <div className="bg-white rounded-3xl p-8 sm:p-12 border border-terracotta-200 text-center shadow-xl space-y-4 animate-fadeIn">
+          <div className="paper-panel rounded-3xl p-8 sm:p-12 border border-terracotta-200 text-center shadow-xl space-y-4 animate-fadeIn">
             <div className="w-16 h-16 rounded-full bg-bamboo-100 text-bamboo-600 flex items-center justify-center mx-auto text-3xl">
               ✓
             </div>
@@ -111,7 +111,7 @@ export default function SubmitVillagePage() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="bg-white rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl space-y-8"
+            className="paper-panel rounded-3xl p-6 sm:p-10 border border-terracotta-200/90 shadow-xl space-y-8"
           >
             {/* Section 1: Thông tin người gửi */}
             <div className="space-y-4">

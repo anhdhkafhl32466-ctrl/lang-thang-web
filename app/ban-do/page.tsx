@@ -88,7 +88,7 @@ export default function CraftMapPage() {
     <div className="min-h-screen texture-paper texture-paper--village py-6 sm:py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="relative rounded-3xl bg-cultural-river bg-cover bg-right border-2 border-terracotta-300 p-6 sm:p-7 overflow-hidden shadow-md mb-6">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-river bg-cover bg-right border-2 border-terracotta-300 p-6 sm:p-7 overflow-hidden shadow-md mb-6">
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-terracotta-100 text-terracotta-700 text-xs font-bold mb-1">
@@ -111,7 +111,7 @@ export default function CraftMapPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Tìm kiếm làng nghề hoặc quận huyện..."
-                className="w-full bg-white text-lacquer-900 pl-10 pr-4 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 shadow-sm"
+                className="w-full paper-panel text-lacquer-900 pl-10 pr-4 py-2.5 rounded-xl border border-terracotta-200 text-xs sm:text-sm focus:outline-none focus:border-terracotta-500 shadow-sm"
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function CraftMapPage() {
               className={`px-3.5 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all ${
                 selectedCategory === cat.id
                   ? 'bg-terracotta-500 text-white shadow-sm'
-                  : 'bg-white text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200/80'
+                  : 'paper-panel text-lacquer-800/80 hover:bg-terracotta-50 border border-terracotta-200/80'
               }`}
             >
               {cat.name}
@@ -137,7 +137,7 @@ export default function CraftMapPage() {
         {/* Map & Sidebar Split Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-[72vh] min-h-[600px]">
           {/* Sidebar Village List (Hidden on mobile or drawer) */}
-          <div className="lg:col-span-4 bg-white rounded-3xl border border-terracotta-200/90 shadow-sm overflow-hidden flex flex-col h-full">
+          <div className="lg:col-span-4 paper-panel rounded-3xl border border-terracotta-200/90 shadow-sm overflow-hidden flex flex-col h-full">
             <div className="p-4 bg-dopaper-100/70 border-b border-terracotta-200/80 flex items-center justify-between">
               <span className="text-xs font-bold text-lacquer-900">
                 Tìm thấy {filteredVillages.length} làng nghề
@@ -157,7 +157,7 @@ export default function CraftMapPage() {
                     className={`p-3.5 rounded-2xl border cursor-pointer transition-all flex items-start gap-3 ${
                       isSelected
                         ? 'bg-terracotta-50/90 border-terracotta-400 shadow-sm'
-                        : 'bg-white border-terracotta-100 hover:border-terracotta-300 hover:bg-dopaper-50'
+                        : 'paper-panel border-terracotta-100 hover:border-terracotta-300 hover:bg-dopaper-50'
                     }`}
                   >
                     <img

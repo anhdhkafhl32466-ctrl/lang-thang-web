@@ -38,7 +38,7 @@ export default function SellerOverviewPage() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
+      <div className="paper-panel rounded-3xl border border-terracotta-200 p-10 flex items-center justify-center gap-2 text-sm text-lacquer-800/70">
         <Loader2 className="w-4 h-4 animate-spin" />
         Đang tải số liệu cửa hàng...
       </div>
@@ -47,7 +47,7 @@ export default function SellerOverviewPage() {
 
   if (error || !summary) {
     return (
-      <div className="bg-white rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
+      <div className="paper-panel rounded-3xl border border-rose-200 p-8 space-y-3 text-center">
         <AlertTriangle className="w-6 h-6 text-rose-600 mx-auto" />
         <p className="text-sm text-lacquer-800/80">{error || 'Không có dữ liệu.'}</p>
         <button
@@ -108,7 +108,7 @@ export default function SellerOverviewPage() {
             <Link
               key={card.label}
               href={card.href}
-              className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-2 hover:shadow-md transition-shadow"
+              className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-2 hover:shadow-md transition-shadow"
             >
               <div className={`w-9 h-9 rounded-xl border flex items-center justify-center ${card.tone}`}>
                 <Icon className="w-4 h-4" />
@@ -122,7 +122,7 @@ export default function SellerOverviewPage() {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+        <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
           <div className="flex items-center justify-between">
             <h2 className="font-serif text-base font-bold text-lacquer-900">Đơn mới nhất của cửa hàng</h2>
             <Link href="/ban-hang/don-hang" className="text-[11px] font-bold text-terracotta-600 inline-flex items-center gap-1">
@@ -163,7 +163,7 @@ export default function SellerOverviewPage() {
           )}
         </section>
 
-        <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-3">
+        <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-3">
           <h2 className="font-serif text-base font-bold text-lacquer-900">Hoàn thiện hồ sơ cửa hàng</h2>
           <p className="text-[11px] text-lacquer-800/60 leading-relaxed">
             Các mục dưới đây giúp đơn hàng chạy trơn tru và khách tin tưởng cửa hàng hơn. Việc hoàn thiện
@@ -214,7 +214,7 @@ export default function SellerOverviewPage() {
         </section>
       </div>
 
-      <section className="bg-white rounded-3xl border border-terracotta-200 p-5 space-y-2">
+      <section className="paper-panel rounded-3xl border border-terracotta-200 p-5 space-y-2">
         <h2 className="font-serif text-base font-bold text-lacquer-900">Cách đơn hàng đến với cửa hàng bạn</h2>
         <ol className="text-[11px] text-lacquer-800/75 leading-relaxed space-y-1 list-decimal list-inside">
           <li>Khách đặt hàng trên sàn. Nếu giỏ có sản phẩm của nhiều cửa hàng, hệ thống tách thành nhiều đơn con.</li>

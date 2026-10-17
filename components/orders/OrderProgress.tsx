@@ -60,7 +60,7 @@ export default function OrderProgress({ status, hasCarrierEvent = false }: Order
               key={step.status}
               className={`p-3 rounded-xl border text-center space-y-1.5 ${
                 done
-                  ? 'border-terracotta-300 bg-white'
+                  ? 'border-terracotta-300 paper-panel'
                   : 'border-terracotta-100 bg-dopaper-50/60 opacity-70'
               }`}
             >

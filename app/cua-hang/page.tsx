@@ -87,7 +87,7 @@ export default function CraftShopsDirectoryPage() {
     <div className="min-h-screen texture-paper texture-paper--bamboo py-10 sm:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Banner tiêu đề phong cách văn hoá làng nghề — Vietnamese Cultural Editorial Masthead */}
-        <div className="relative rounded-3xl bg-cultural-lantern bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-12 overflow-hidden shadow-md">
+        <div className="relative rounded-3xl heritage-hero bg-cultural-lantern bg-cover bg-right border-2 border-terracotta-300 p-8 sm:p-12 overflow-hidden shadow-md">
           <div className="relative z-10 max-w-3xl space-y-4">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-400/20 text-gold-900 border border-gold-400/30 text-xs font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-gold-600" />
@@ -114,7 +114,7 @@ export default function CraftShopsDirectoryPage() {
         </div>
 
         {/* Thanh tìm kiếm & lọc danh mục */}
-        <div className="bg-white rounded-3xl border border-terracotta-200 p-4 sm:p-6 shadow-sm space-y-4">
+        <div className="paper-panel rounded-3xl border border-terracotta-200 p-4 sm:p-6 shadow-sm space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 items-center justify-between">
             <div className="relative w-full sm:w-96">
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-lacquer-800/50" />
@@ -172,7 +172,7 @@ export default function CraftShopsDirectoryPage() {
             <span>Đang tải danh sách cửa hàng di sản...</span>
           </div>
         ) : filteredShops.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
+          <div className="paper-panel rounded-3xl border border-terracotta-200 p-12 text-center space-y-4">
             <div className="w-16 h-16 rounded-full bg-amber-50 text-amber-600 flex items-center justify-center mx-auto">
               <StoreIcon className="w-8 h-8" />
             </div>
@@ -186,7 +186,7 @@ export default function CraftShopsDirectoryPage() {
             {filteredShops.map((shop) => (
               <div
                 key={shop.id}
-                className="group bg-white rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+                className="group paper-panel rounded-3xl border border-terracotta-200 overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
               >
                 {/* Banner & Logo */}
                 <div>
@@ -208,7 +208,7 @@ export default function CraftShopsDirectoryPage() {
                   <div className="p-5 pt-0 relative space-y-3">
                     {/* Avatar nổi lên trên banner */}
                     <div className="flex items-end justify-between -mt-10 mb-2">
-                      <div className="w-20 h-20 rounded-2xl bg-white border-2 border-white shadow-md overflow-hidden shrink-0">
+                      <div className="w-20 h-20 rounded-2xl paper-panel border-2 border-white shadow-md overflow-hidden shrink-0">
                         {shop.logoUrl ? (
                           <img src={shop.logoUrl} alt={shop.name} className="w-full h-full object-cover" />
                         ) : (

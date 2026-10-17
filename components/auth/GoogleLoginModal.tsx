@@ -334,7 +334,7 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-[460px] bg-white rounded-3xl shadow-2xl border border-gray-200 overflow-hidden font-sans">
+      <div className="relative w-full max-w-[460px] paper-panel rounded-3xl shadow-2xl border border-gray-200 overflow-hidden font-sans">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -383,7 +383,7 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
               onClick={() => { setActiveTab('google_oauth'); setError(''); }}
               className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
                 activeTab === 'google_oauth'
-                  ? 'bg-white text-[#1a73e8] shadow-sm'
+                  ? 'paper-panel text-[#1a73e8] shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -394,7 +394,7 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
               onClick={() => { setActiveTab('email_verify'); setError(''); }}
               className={`flex-1 py-2 rounded-lg text-xs font-bold transition-all ${
                 activeTab === 'email_verify'
-                  ? 'bg-white text-emerald-700 shadow-sm'
+                  ? 'paper-panel text-emerald-700 shadow-sm'
                   : 'text-gray-600 hover:text-gray-900'
               }`}
             >
@@ -491,7 +491,7 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
                         value={customClientIdInput}
                         onChange={(e) => setCustomClientIdInput(e.target.value)}
                         placeholder="...apps.googleusercontent.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] outline-none text-xs font-mono text-gray-900 bg-white"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:border-[#1a73e8] focus:ring-1 focus:ring-[#1a73e8] outline-none text-xs font-mono text-gray-900 paper-panel"
                       />
                     </div>
 
@@ -543,7 +543,7 @@ export default function GoogleLoginModal({ isOpen, onClose, onSuccess }: GoogleL
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="ví dụ: yourname@gmail.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none text-xs sm:text-sm text-gray-900 bg-white"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 outline-none text-xs sm:text-sm text-gray-900 paper-panel"
                   />
                 </div>
 
