@@ -463,16 +463,10 @@ body, button, input, select, textarea {
 
 .craft-backdrop__art {
   position: absolute;
-  inset: -1px;
-  /*
-   * Ảnh nguồn là dải tranh 742×196. Khi phóng `cover` theo chiều cao khung nhìn,
-   * phần nhìn thấy là MÉP PHẢI của dải tranh — đúng nơi các hoạ tiết (nhà cổ, thuyền,
-   * sen, trúc…) được vẽ, còn giữa tranh là giấy trống. Neo phải giữ hoạ tiết hiển thị
-   * thay vì cắt vào khoảng trống ở giữa.
-   */
+  inset: 0;
   background-size: cover;
-  background-position: right center;
-  transform: scale(1.015);
+  background-position: center center;
+  background-repeat: no-repeat;
   animation: backdrop-settle 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -482,8 +476,8 @@ body, button, input, select, textarea {
 }
 
 @keyframes backdrop-settle {
-  from { opacity: 0; transform: scale(1.05); }
-  to   { opacity: 1; transform: scale(1.015); }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* Màng giấy: giữ họa tiết hiện rõ nhưng không tranh độ tương phản với chữ. */
