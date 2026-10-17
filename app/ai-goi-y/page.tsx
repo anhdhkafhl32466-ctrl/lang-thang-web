@@ -7,12 +7,13 @@ import { unlockBadge } from '@/lib/passportStorage';
 import confetti from 'canvas-confetti';
 import {
   Sparkles, CheckCircle2, ArrowRight, RotateCcw, Clock, Compass,
-  MapPin, Heart, Calendar, Utensils, Star, Award, MessageSquare, Send, Tag, Lightbulb, Info
+  MapPin, Heart, Calendar, Utensils, Star, Award, MessageSquare, Send, Tag, Lightbulb, Info, ShieldCheck
 } from 'lucide-react';
 import OneTouchTourPlanner from '@/components/ai/OneTouchTourPlanner';
+import HybridAiRecommendationStudio from '@/components/ai/HybridAiRecommendationStudio';
 
 export default function AiRecommendationPage() {
-  const [activeMode, setActiveMode] = useState<'one-touch-tour' | 'quiz-discovery'>('one-touch-tour');
+  const [activeMode, setActiveMode] = useState<'hybrid-xai' | 'one-touch-tour' | 'quiz-discovery'>('hybrid-xai');
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<QuizAnswers>({
     interests: [],
@@ -163,55 +164,69 @@ export default function AiRecommendationPage() {
 
   return (
     <div className="min-h-screen py-10 sm:py-16 texture-paper texture-paper--lotus">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-gold-400/30 text-lacquer-950 text-xs font-bold border border-gold-400/40">
-            <Sparkles className="w-3.5 h-3.5 text-gold-600" />
-            <span>Trợ Lý Du Lịch Làng Nghề Thông Minh 2.0</span>
+            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <span>Trợ Lý Trí Tuệ Nhân Tạo &amp; Giải Trình Căn Cứ Làng Nghề Hà Nội</span>
           </div>
           <h1 className="font-serif text-3xl sm:text-5xl font-bold text-lacquer-900 tracking-tight">
-            Lập Tour 1-Chạm & Gợi Ý Làng Nghề Bằng AI
+            AI Gợi Ý &amp; Lập Kế Hoạch Di Sản Hà Nội
           </h1>
-          <p className="text-xs sm:text-sm text-lacquer-800/70 max-w-xl mx-auto leading-relaxed">
-            Chỉ với 1 chạm: Nhập ngân sách, thời gian và sở thích để AI tự động vạch lộ trình di chuyển tối ưu, đặt trước chỗ tại workshop và dự toán chi phí minh bạch.
+          <p className="text-xs sm:text-sm text-lacquer-800/70 max-w-2xl mx-auto leading-relaxed">
+            Kết hợp mô hình AI thông minh với <strong>Bộ lọc hậu kiểm toán học (Haversine 30km/h)</strong> và <strong>Dữ liệu thực tế 327 Làng nghề</strong> để mang đến chuyến đi đúng giờ, khớp ngân sách và có căn cứ minh bạch.
           </p>
         </div>
 
         {/* Mode Switcher Tabs */}
         <div className="flex justify-center">
-          <div className="bg-white/90 p-1.5 rounded-2xl border border-terracotta-200/90 shadow-md inline-flex gap-1.5 backdrop-blur-sm">
+          <div className="bg-white/95 p-1.5 rounded-2xl border border-terracotta-200/90 shadow-md inline-flex flex-wrap justify-center gap-1.5 backdrop-blur-sm">
+            <button
+              type="button"
+              onClick={() => setActiveMode('hybrid-xai')}
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                activeMode === 'hybrid-xai'
+                  ? 'bg-gradient-to-r from-terracotta-500 to-amber-600 text-white shadow-md'
+                  : 'text-lacquer-800/80 hover:bg-dopaper-100 hover:text-lacquer-950'
+              }`}
+            >
+              <ShieldCheck className="w-4 h-4 text-emerald-200" />
+              <span>🛡️ HYBRID AI &amp; HẬU KIỂM (XAI)</span>
+              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-emerald-400 text-emerald-950 font-bold ml-1 hidden sm:inline-block">
+                Khuyên Dùng
+              </span>
+            </button>
             <button
               type="button"
               onClick={() => setActiveMode('one-touch-tour')}
-              className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
                 activeMode === 'one-touch-tour'
                   ? 'bg-gradient-to-r from-terracotta-500 to-amber-600 text-white shadow-md'
                   : 'text-lacquer-800/80 hover:bg-dopaper-100 hover:text-lacquer-950'
               }`}
             >
               <Sparkles className="w-4 h-4 fill-current text-gold-300" />
-              <span>⚡ LẬP TOUR 1-CHẠM (AI TOUR)</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-gold-400 text-lacquer-950 font-bold ml-1 hidden sm:inline-block">
-                Mới
-              </span>
+              <span>⚡ LẬP TOUR 1-CHẠM</span>
             </button>
             <button
               type="button"
               onClick={() => setActiveMode('quiz-discovery')}
-              className={`px-4 sm:px-6 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+              className={`px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
                 activeMode === 'quiz-discovery'
                   ? 'bg-gradient-to-r from-terracotta-500 to-amber-600 text-white shadow-md'
                   : 'text-lacquer-800/80 hover:bg-dopaper-100 hover:text-lacquer-950'
               }`}
             >
               <Compass className="w-4 h-4" />
-              <span>🧭 KHẢO SÁT & TÌM LÀNG NGHỀ</span>
+              <span>🧭 KHẢO SÁT TÌM LÀNG NGHỀ</span>
             </button>
           </div>
         </div>
 
-        {activeMode === 'one-touch-tour' ? (
+        {activeMode === 'hybrid-xai' ? (
+          <HybridAiRecommendationStudio />
+        ) : activeMode === 'one-touch-tour' ? (
           <OneTouchTourPlanner />
         ) : (
           <div className="space-y-10">

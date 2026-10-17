@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { CRAFT_VILLAGES, CATEGORIES, CraftVillage } from '@/data/craftVillages';
 import { VILLAGE_BOUNDARIES } from '@/data/villageBoundaries';
+import { formatCoords, googleMapsUrl } from '@/lib/geo';
 import {
   HANOI_CRAFT_OVERVIEW,
   RECOGNIZED_CRAFT_DIRECTORY,
@@ -357,15 +358,48 @@ export default function CraftVillagesDirectoryPage() {
                       {hoveredVillage.shortDescription}
                     </p>
 
-                    <div className="pt-2 border-t border-[#d6c4ac]/60 flex items-center justify-between">
-                      <span className="text-[11px] text-lacquer-800/60 flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {hoveredVillage.location.travelTime.split('bằng')[0]}
-                      </span>
-                      <span className="text-xs font-bold text-terracotta-600 hover:text-terracotta-700 flex items-center gap-1">
-                        <span>Nhấp để mở hồ sơ 360°</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </span>
+                    <div className="pt-2 border-t border-[#d6c4ac]/60 space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[11px] text-lacquer-800/60 flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {hoveredVillage.location.travelTime.split('bằng')[0]}
+                        </span>
+                        <span className="text-xs font-bold text-terracotta-600 hover:text-terracotta-700 flex items-center gap-1">
+                          <span>Nhấp để mở hồ sơ 360°</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </span>
+                      </div>
+
+                      {/*
+                        Đối chiếu toạ độ: bản đồ trong ứng dụng dùng dữ liệu OpenStreetMap nên hiển thị
+                        toạ độ thật của ghim và mở thẳng sang Google Maps để người dùng tự kiểm tra.
+                        Bấm vào liên kết không được mở luôn hồ sơ 360° (thẻ cha cũng có onClick).
+                      */}
+                      <a
+                        href={googleMapsUrl(
+                          {
+                            lat: hoveredVillage.location.coordinates[0],
+                            lng: hoveredVillage.location.coordinates[1],
+                          },
+                          hoveredVillage.name
+                        )}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(event) => event.stopPropagation()}
+                        className="flex items-center justify-between gap-2 rounded-xl bg-emerald-50 border border-emerald-200 px-2.5 py-1.5 text-[11px] font-bold text-emerald-800 hover:bg-emerald-100 transition-colors"
+                        title="Mở đúng toạ độ của ghim này trên Google Maps để đối chiếu vị trí"
+                      >
+                        <span className="flex items-center gap-1">
+                          <ExternalLink className="w-3 h-3" />
+                          Đối chiếu trên Google Maps
+                        </span>
+                        <span className="font-mono font-medium text-emerald-700/80">
+                          {formatCoords({
+                            lat: hoveredVillage.location.coordinates[0],
+                            lng: hoveredVillage.location.coordinates[1],
+                          })}
+                        </span>
+                      </a>
                     </div>
                   </div>
                 </div>

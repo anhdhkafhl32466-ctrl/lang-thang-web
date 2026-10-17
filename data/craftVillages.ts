@@ -569,7 +569,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Phú Nghĩa, Huyện Chương Mỹ',
       district: 'Huyện Chương Mỹ',
       city: 'Hà Nội',
-      coordinates: [20.8931, 105.6798],
+      // Đối chiếu bản đồ mở: điểm dân cư "Phú Vinh" của xã Phú Nghĩa.
+      coordinates: [20.93647, 105.6476],
       distanceFromCenter: 'Khoảng 27 km về phía Tây Nam theo Quốc lộ 6',
       travelTime: '50 - 60 phút bằng ô tô hoặc xe buýt 57, 72'
     },
@@ -724,7 +725,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Phương Trung, Huyện Thanh Oai',
       district: 'Huyện Thanh Oai',
       city: 'Hà Nội',
-      coordinates: [20.8524, 105.7489],
+      // Đối chiếu bản đồ mở: "Làng nón Chuông", xã Thanh Oai.
+      coordinates: [20.83197, 105.76065],
       distanceFromCenter: 'Khoảng 30 km về phía Tây Nam',
       travelTime: '55 phút theo Quốc lộ 21B'
     },
@@ -1014,7 +1016,11 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Thụy Lâm, Huyện Đông Anh',
       district: 'Huyện Đông Anh',
       city: 'Hà Nội',
-      coordinates: [21.1895, 105.9084],
+      // Đối chiếu: điểm dân cư "Đào Thục" trên Google Maps (khu Hà Lâm, xã Thư Lâm) và
+      // giải mã ngược OpenStreetMap tại đúng toạ độ này trả về "Hà Lâm 1, Xã Thư Lâm" —
+      // tức nằm trong khu dân cư của làng. Toạ độ cũ (21.1895, 105.9084) rơi xuống mặt đê
+      // Hữu sông Cà Lồ, cách làng gần 2,7 km nên đã được thay.
+      coordinates: [21.184755, 105.8826107],
       distanceFromCenter: 'Khoảng 28 km về phía Bắc',
       travelTime: '50 phút qua cầu Nhật Tân hoặc cầu Đông Trù'
     },
@@ -1160,7 +1166,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Phường Tây Tựu, Quận Bắc Từ Liêm',
       district: 'Quận Bắc Từ Liêm',
       city: 'Hà Nội',
-      coordinates: [21.0583, 105.7289],
+      // Đối chiếu bản đồ mở: điểm dân cư "Tây Tựu" (không phải cụm công nghiệp Lai Xá).
+      coordinates: [21.07205, 105.72892],
       distanceFromCenter: 'Khoảng 15 km về phía Tây Bắc',
       travelTime: '30 phút theo tuyến đường Hồ Tùng Mậu - Cầu Diễn'
     },
@@ -1290,7 +1297,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Phượng Dực, Huyện Phú Xuyên',
       district: 'Huyện Phú Xuyên',
       city: 'Hà Nội',
-      coordinates: [20.7325, 105.8234],
+      // Đối chiếu bản đồ mở: điểm dân cư "Xuân La", xã Phượng Dực.
+      coordinates: [20.78399, 105.86714],
       distanceFromCenter: 'Khoảng 40 km về phía Nam theo Quốc lộ 1A',
       travelTime: '60 phút bằng ô tô hoặc xe buýt'
     },
@@ -1427,7 +1435,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Quảng Phú Cầu, Huyện Ứng Hòa',
       district: 'Huyện Ứng Hòa',
       city: 'Hà Nội',
-      coordinates: [20.7850, 105.7900],
+      // Đối chiếu bản đồ mở: "Làng làm hương thẻ Quảng Phú Cầu".
+      coordinates: [20.77962, 105.78483],
       distanceFromCenter: 'Khoảng 35 km về phía Tây Nam',
       travelTime: '50 - 60 phút theo trục QL21B hoặc xe buýt số 91'
     },
@@ -1590,7 +1599,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Làng Chuôn Ngọ, Xã Chuyên Mỹ, Huyện Phú Xuyên',
       district: 'Huyện Phú Xuyên',
       city: 'Hà Nội',
-      coordinates: [20.7020, 105.8820],
+      // Đối chiếu: cổng làng Chuôn Ngọ trên Google Maps (20.7355324, 105.8701739), cùng cụm
+      // với đình Chuôn Ngọ (20.7336453, 105.8725631) và xưởng khảm trai truyền thống
+      // (20.7323361, 105.8738271). Toạ độ cũ nằm ngoài cụm dân cư này gần 700 m.
+      coordinates: [20.7355324, 105.8701739],
       distanceFromCenter: 'Khoảng 40 km về phía Nam',
       travelTime: '60 phút theo cao tốc Pháp Vân - Cầu Giẽ'
     },
@@ -1747,7 +1759,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Duyên Thái, Huyện Thường Tín',
       district: 'Huyện Thường Tín',
       city: 'Hà Nội',
-      coordinates: [20.9080, 105.8650],
+      // Đối chiếu bản đồ mở: "Làng sơn mài Hạ Thái", xã Duyên Thái cũ.
+      coordinates: [20.90332, 105.8667],
       distanceFromCenter: 'Khoảng 17 km về phía Nam',
       travelTime: '30 - 35 phút theo Quốc lộ 1A'
     },
@@ -1891,7 +1904,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Sơn Đồng, Huyện Hoài Đức',
       district: 'Huyện Hoài Đức',
       city: 'Hà Nội',
-      coordinates: [21.0250, 105.7150],
+      // Đối chiếu bản đồ mở: điểm dân cư "Sơn Đồng", xã Sơn Đồng.
+      coordinates: [21.04407, 105.70065],
       distanceFromCenter: 'Khoảng 18 km về phía Tây',
       travelTime: '30 - 40 phút theo Đại lộ Thăng Long hoặc đường 32'
     },
@@ -2039,7 +2053,10 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Thôn Trạch Xá, Xã Hòa Lâm, Huyện Ứng Hòa',
       district: 'Huyện Ứng Hòa',
       city: 'Hà Nội',
-      coordinates: [20.7380, 105.7600],
+      // Đối chiếu: Google Maps có hẳn địa điểm tên "Trạch Xá" (Ứng Hòa, Hà Nội) tại
+      // 20.6914445, 105.7989432 — đúng thôn Trạch Xá thuộc xã Hòa Lâm (nay là xã Ứng Hòa),
+      // không phải khu Vân Đình. Toạ độ cũ lệch gần 850 m về phía đông.
+      coordinates: [20.6914445, 105.7989432],
       distanceFromCenter: 'Khoảng 45 km về phía Nam',
       travelTime: '60 - 70 phút theo QL21B'
     },
@@ -2183,7 +2200,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Thạch Xá, Huyện Thạch Thất',
       district: 'Huyện Thạch Thất',
       city: 'Hà Nội',
-      coordinates: [21.0180, 105.6280],
+      // Đối chiếu bản đồ mở: điểm dân cư "Thạch Xá", xã Tây Phương.
+      coordinates: [21.03209, 105.60297],
       distanceFromCenter: 'Khoảng 30 km về phía Tây',
       travelTime: '40 phút theo Đại lộ Thăng Long'
     },
@@ -2326,7 +2344,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Xã Chàng Sơn, Huyện Thạch Thất',
       district: 'Huyện Thạch Thất',
       city: 'Hà Nội',
-      coordinates: [21.0380, 105.6400],
+      // Đối chiếu bản đồ mở: điểm dân cư "Chàng Sơn" (nguồn Wikidata Q10748154).
+      coordinates: [21.03972, 105.60472],
       distanceFromCenter: 'Khoảng 32 km về phía Tây',
       travelTime: '45 phút theo Đại lộ Thăng Long'
     },
@@ -2474,7 +2493,8 @@ export const CRAFT_VILLAGES: CraftVillage[] = [
       address: 'Phường Mễ Trì, Quận Nam Từ Liêm',
       district: 'Quận Nam Từ Liêm',
       city: 'Hà Nội',
-      coordinates: [21.0120, 105.7880],
+      // Đối chiếu bản đồ mở: điểm dân cư "Mễ Trì Hạ" — làng cốm, phường Từ Liêm.
+      coordinates: [21.01168, 105.78027],
       distanceFromCenter: 'Khoảng 8 km về phía Tây',
       travelTime: '20 phút từ trung tâm Hoàn Kiếm'
     },

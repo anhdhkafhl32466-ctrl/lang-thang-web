@@ -11,9 +11,9 @@ Nền tảng trải nghiệm văn hóa du lịch số và xúc tiến thương m
 | Tuyến đường (Route) | Mô tả tính năng |
 | :--- | :--- |
 | `/` | **Trang chủ:** Hero cinematic, Flash Cards tương tác, Storytelling 8 bước (Đất → Đôi tay → Nghệ nhân → Tác phẩm → Văn hóa → Trải nghiệm → Du lịch → Thương mại), Bản đồ thu nhỏ, Hệ sinh thái startup và Hộ chiếu làng nghề |
-| `/lang-nghe` | **Danh mục làng nghề:** Tìm kiếm thông minh, bộ lọc danh mục (Gốm sứ, Lụa, Mây tre, Nón lá, Dát vàng, Dân gian...) |
+| `/lang-nghe` | **Danh mục làng nghề:** Tìm kiếm thông minh, bộ lọc danh mục (Gốm sứ, Lụa, Mây tre, Nón lá, Dát vàng, Dân gian...), tab bản đồ với 2 kiểu nền (OpenStreetMap — địa giới mới nhất, và Vệ tinh) cùng nút đối chiếu sang Google Maps |
 | `/lang-nghe/[slug]` | **Chi tiết làng nghề:** Lịch sử & timeline, Quy trình chế tác step-by-step, Nghệ nhân tiêu biểu, Bộ sưu tập ảnh & Lightbox, Sản phẩm tinh hoa, Tour liên quan |
-| `/ban-do` | **Bản đồ số Leaflet + OpenStreetMap:** Tọa độ vệ tinh chính xác 8 làng nghề tiêu biểu, marker phân loại tùy biến, popup preview, điều hướng trực tiếp |
+| `/ban-do` | **Bản đồ số Leaflet + OpenStreetMap:** Tọa độ đã đối chiếu bản đồ cho 16 làng nghề tiêu biểu, marker phân loại tùy biến, popup preview, điều hướng trực tiếp và nút mở sang Google Maps |
 | `/trai-nghiem` | **Trung tâm xưởng nghề ảo:** Danh sách các workshop trực tuyến tương tác 2D & Canvas |
 | `/trai-nghiem/gom` | **Mini-game Làm gốm Bát Tràng:** Chọn đất sét, vuốt dáng bình gốm trên bàn xoay chuyển động, phủ men lam / men ngọc celadon, nung lò 1.250°C, nhận tác phẩm ảo & huy hiệu |
 | `/trai-nghiem/dan-non` | **Mini-game Đan nón làng Chuông:** Ủi phẳng lá lụi, xếp 16 vành tre, lồng bài thơ lục bát xứ Đoài, khâu từng mũi cước viền nón |
@@ -148,7 +148,54 @@ Dự án được thiết kế với **Kiến trúc 2 tầng (Two-layer architec
 
 ---
 
-## 6. HƯỚNG DẪN TRIỂN KHAI PRODUCTION (DEPLOYMENT)
+## 6. TOẠ ĐỘ LÀNG NGHỀ TRÊN BẢN ĐỒ: NGUỒN DỮ LIỆU VÀ CÁCH KIỂM TRA LẠI
+
+Ghim trên bản đồ chỉ đúng khi toạ độ `location.coordinates` đúng. Vì vậy mọi toạ độ của 16 làng nghề
+đều được đối chiếu với **dữ liệu địa lý OpenStreetMap** (cùng nguồn dữ liệu mà Google Maps hiển thị), chứ
+không ước lượng bằng mắt.
+
+Ưu tiên nguồn, theo thứ tự:
+1. **Điểm dân cư** trong OpenStreetMap (`place=village|hamlet|neighbourhood`) — ví dụ "Bát Tràng", "Sơn Đồng".
+2. **Điểm du lịch của chính làng nghề** trên OpenStreetMap — ví dụ "Làng nón Chuông", "Làng mây tre đan Phú Vinh".
+3. **Wikidata** khi OpenStreetMap chưa có gì — ví dụ "Chàng Sơn" (Q10748154).
+
+Chạy lệnh sau để kiểm tra lại toàn bộ (script giải mã ngược từng toạ độ và so với địa danh mong đợi):
+
+```bash
+npm run test:coords
+```
+
+Kết quả đúng phải là `16/16 ghim nằm đúng địa danh mong đợi`. Script thoát với mã lỗi 1 nếu có ghim sai.
+
+**Đối chiếu sang Google Maps.** Người dùng thường kiểm tra vị trí bằng Google Maps, nên mọi ghim đều có
+thể mở sang Google Maps để so bằng mắt:
+
+- nút **🌐 Đối chiếu Google Maps** ở góc dưới-trái bản đồ mở đúng khung nhìn đang xem (cùng tâm, cùng
+  mức zoom) trên Google Maps — không cần khoá API;
+- thẻ thông tin và popup của từng làng có liên kết mở riêng toạ độ của làng đó.
+
+Ngoài ra còn một script sàng lọc (chỉ là tín hiệu, không phải máy geocode — đọc phần giới hạn trong đầu file):
+
+```bash
+npm run test:google
+```
+
+**Ba toạ độ đã được chỉnh theo Google Maps** sau khi đối chiếu (đều nằm trong khu dân cư của làng theo cả
+Google Maps lẫn giải mã ngược OpenStreetMap): **Đào Thục** (21.184755, 105.8826107 — điểm "Đào Thục" tại
+khu Hà Lâm, xã Thư Lâm), **Chuôn Ngọ** (20.7355324, 105.8701739 — cổng làng Chuôn Ngọ) và **Trạch Xá**
+(20.6914445, 105.7989432 — địa điểm "Trạch Xá" thuộc xã Hòa Lâm cũ). Toạ độ cũ của Đào Thục nằm tận mặt
+đê sông Cà Lồ, cách làng gần 2,7 km.
+
+**Vì sao ghim khớp toạ độ tới từng mét:** Leaflet đặt góc trên-trái của hộp icon tại `toạ độ − iconAnchor`,
+nên ghim được neo bằng `iconSize: [64, 64]` và `iconAnchor: [32, 18]` (tâm vòng tròn icon rơi đúng vào
+toạ độ). Khi thu nhỏ icon ở mức zoom thấp, phần bù `translateY` trong `.village-pin-inner` giữ nguyên mốc neo
+đó — không dùng `transform: translate(-50%, -50%)` vì cách này đẩy ghim lệch khoảng 30 × 28 px (hơn 7 km
+ở mức zoom 10). Nhãn tên làng cũng do script tự đặt quanh ghim và tự tránh nhau, giống cách Google Maps
+giảm chồng chữ.
+
+---
+
+## 7. HƯỚNG DẪN TRIỂN KHAI PRODUCTION (DEPLOYMENT)
 
 ### Triển khai lên Vercel (Khuyến nghị hàng đầu)
 

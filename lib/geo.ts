@@ -166,6 +166,18 @@ export function formatCoords(p: LatLng): string {
   return `${p.lat.toFixed(5)}, ${p.lng.toFixed(5)}`;
 }
 
+/**
+ * Liên kết mở một toạ độ trên Google Maps.
+ *
+ * Vì sao cần: bản đồ trong ứng dụng dùng dữ liệu OpenStreetMap, nên người dùng cần một cách
+ * tự đối chiếu từng điểm với bản đồ Google Maps quen thuộc. Liên kết này dùng giao thức
+ * Google Maps URLs chính thức nên không cần khoá API.
+ */
+export function googleMapsUrl(point: LatLng, label?: string): string {
+  const query = label ? `${label} ` : '';
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${query}${formatCoords(point)}`)}`;
+}
+
 const CARDINALS = [
   'Bắc',
   'Đông Bắc',

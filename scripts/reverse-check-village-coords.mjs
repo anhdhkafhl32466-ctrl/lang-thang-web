@@ -16,23 +16,29 @@ const ROOT = path.resolve(process.cwd());
 const DATA_FILE = path.join(ROOT, 'data', 'craftVillages.ts');
 const UA = 'LangThang-HanoiCraftVillages/1.0 (reverse coordinate check; contact: admin@langthang.local)';
 
-/** Từ khoá phải xuất hiện trong địa chỉ giải mã ngược thì ghim mới coi là đúng chỗ. */
+/**
+ * Địa danh mà ghim PHẢI nằm trong đó.
+ *
+ * Sau cuộc sáp nhập đơn vị hành chính năm 2025, nhiều xã/phường mang tên mới, nên mỗi
+ * làng nhận cả tên cũ (để đối chiếu với dữ liệu của dự án) lẫn tên đơn vị hành chính mới
+ * (để đối chiếu với bản đồ đang hiển thị cho người dùng).
+ * Không đưa tên một địa danh khác vào đây chỉ để cho bài kiểm tra đạt. */
 const EXPECT = {
   'bat-trang': ['bát tràng'],
-  'van-phuc': ['vạn phúc'],
+  'van-phuc': ['vạn phúc', 'hà đông'],
   'phu-vinh': ['phú vinh', 'phú nghĩa'],
-  'chuong': ['chuông', 'phương trung'],
-  'kieu-ky': ['kiêu kỵ'],
-  'dao-thuc': ['đào thục', 'thụy lâm'],
+  'chuong': ['chuông', 'thanh oai'],
+  'kieu-ky': ['kiêu kỵ', 'gia lâm'],
+  'dao-thuc': ['đào thục', 'thụy lâm', 'thư lâm'],
   'tay-tuu': ['tây tựu'],
   'xuan-la': ['xuân la', 'phượng dực'],
-  'quang-phu-cau': ['quảng phú cầu'],
+  'quang-phu-cau': ['quảng phú cầu', 'ứng thiên'],
   'chuyen-my': ['chuôn ngọ', 'chuyên mỹ'],
-  'ha-thai': ['hạ thái', 'duyên thái'],
+  'ha-thai': ['hạ thái', 'duyên thái', 'nam phù', 'hồng vân'],
   'son-dong': ['sơn đồng'],
-  'trach-xa': ['trạch xá', 'hòa lâm'],
-  'thach-xa': ['thạch xá'],
-  'chang-son': ['chàng sơn'],
+  'trach-xa': ['trạch xá', 'hòa lâm', 'hoà lâm', 'ứng hòa', 'ứng hoà'],
+  'thach-xa': ['thạch xá', 'tây phương'],
+  'chang-son': ['chàng sơn', 'tây phương', 'thạch thất'],
   'me-tri': ['mễ trì'],
 };
 
@@ -58,13 +64,21 @@ function parseVillages(source) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-async function reverse(lat, lng) {
+async function reverse(lat, lng, attempt = 1) {
   const url =
     `https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=16&addressdetails=1&lat=${lat}&lon=${lng}`;
-  const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
-  const data = await res.json();
-  return data && data.display_name ? { label: data.display_name, address: data.address ?? {} } : null;
+  try {
+    const res = await fetch(url, { headers: { 'User-Agent': UA, Accept: 'application/json' } });
+    if (!res.ok) throw new Error(`Nominatim HTTP ${res.status}`);
+    const data = await res.json();
+    return data && data.display_name ? { label: data.display_name, address: data.address ?? {} } : null;
+  } catch (error) {
+    if (attempt < 4) {
+      await sleep(5000 * attempt);
+      return reverse(lat, lng, attempt + 1);
+    }
+    throw error;
+  }
 }
 
 async function main() {

@@ -2,7 +2,7 @@
 
 import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { CraftVillage } from '@/data/craftVillages';
-import { LatLng } from '@/lib/geo';
+import { LatLng, googleMapsUrl } from '@/lib/geo';
 
 export interface CraftMapHandle {
   /** Di chuyển bản đồ tới vị trí GPS hiện tại (nếu đã có vị trí thật). */
@@ -53,8 +53,9 @@ function getEmoji(categorySlug: string): string {
   }
 }
 
-/** Popup của marker làng nghề: giữ nguyên thiết kế cũ, bổ sung nút Chỉ đường. */
+/** Popup của marker làng nghề: giữ thiết kế cũ, bổ sung nút Chỉ đường và nút đối chiếu Google Maps. */
 function buildPopupContent(v: CraftVillage): string {
+  const mapsUrl = googleMapsUrl({ lat: v.location.coordinates[0], lng: v.location.coordinates[1] }, v.name);
   return `
     <div style="min-width: 220px; max-width: 260px; font-family: inherit; padding: 0;">
       <div style="height: 110px; width: 100%; overflow: hidden; position: relative;">
@@ -75,6 +76,9 @@ function buildPopupContent(v: CraftVillage): string {
           <span style="display: inline-flex; gap: 6px;">
             <a href="/ban-do?to=${v.slug}" style="background: #1E293B; color: white; text-decoration: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">
               Chỉ đường
+            </a>
+            <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="background: #0F766E; color: white; text-decoration: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">
+              Google Maps
             </a>
             <a href="/lang-nghe/${v.slug}" style="background: #C85A32; color: white; text-decoration: none; padding: 4px 8px; border-radius: 6px; font-size: 11px; font-weight: bold;">
               Khám phá →
